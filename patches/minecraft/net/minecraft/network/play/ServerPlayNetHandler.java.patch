@@ -1,6 +1,16 @@
 --- a/net/minecraft/network/play/ServerPlayNetHandler.java
 +++ b/net/minecraft/network/play/ServerPlayNetHandler.java
-@@ -336,9 +336,11 @@
+@@ -221,7 +221,8 @@
+ 
+       this.field_147367_d.func_213185_aS().func_76320_a("keepAlive");
+       long i = Util.func_211177_b();
+-      if (i - this.field_194402_f >= 15000L) {
++
++      if (i - this.field_194402_f >= 30000L /* ModcraftForge - default value 15000L*/) {
+          if (this.field_194403_g) {
+             this.func_194028_b(new TranslationTextComponent("disconnect.timeout"));
+          } else {
+@@ -336,9 +337,11 @@
              }
  
              entity.func_70080_a(d3, d4, d5, f, f1);
@@ -12,7 +22,28 @@
                 this.field_147371_a.func_179290_a(new SMoveVehiclePacket(entity));
                 return;
              }
-@@ -845,7 +847,9 @@
+@@ -713,11 +716,18 @@
+ 
+                      if (!this.field_147369_b.func_184850_K() && (!this.field_147369_b.func_71121_q().func_82736_K().func_223586_b(GameRules.field_223615_r) || !this.field_147369_b.func_184613_cA())) {
+                         float f2 = this.field_147369_b.func_184613_cA() ? 300.0F : 100.0F;
++
++                        /*ModcraftForge start
++
++
+                         if (d11 - d10 > (double)(f2 * (float)i) && !this.func_217264_d()) {
+-                           field_147370_c.warn("{} moved too quickly! {},{},{}", this.field_147369_b.func_200200_C_().getString(), d7, d8, d9);
+-                           this.func_147364_a(this.field_147369_b.func_226277_ct_(), this.field_147369_b.func_226278_cu_(), this.field_147369_b.func_226281_cx_(), this.field_147369_b.field_70177_z, this.field_147369_b.field_70125_A);
++                           LOGGER.warn("{} moved too quickly! {},{},{}", this.player.getName().getString(), d7, d8, d9);
++                           this.setPlayerLocation(this.player.getPosX(), this.player.getPosY(), this.player.getPosZ(), this.player.rotationYaw, this.player.rotationPitch);
+                            return;
+                         }
++
++                       ModcraftForge end
++                         */
+                      }
+ 
+                      boolean flag2 = this.func_223133_a(serverworld);
+@@ -845,7 +855,9 @@
        Direction direction = blockraytraceresult.func_216354_b();
        this.field_147369_b.func_143004_u();
        if (blockpos.func_177956_o() < this.field_147367_d.func_71207_Z() - 1 || direction != Direction.UP && blockpos.func_177956_o() < this.field_147367_d.func_71207_Z()) {
@@ -23,7 +54,7 @@
              ActionResultType actionresulttype = this.field_147369_b.field_71134_c.func_219441_a(this.field_147369_b, serverworld, itemstack, hand, blockraytraceresult);
              if (actionresulttype.func_226247_b_()) {
                 this.field_147369_b.func_226292_a_(hand, true);
-@@ -968,7 +972,9 @@
+@@ -968,7 +980,9 @@
           if (s.startsWith("/")) {
              this.func_147361_d(s);
           } else {
@@ -34,7 +65,7 @@
              this.field_147367_d.func_184103_al().func_148544_a(itextcomponent, false);
           }
  
-@@ -1061,6 +1067,7 @@
+@@ -1061,6 +1075,7 @@
                 this.field_147369_b.func_190775_a(entity, hand);
              } else if (p_147340_1_.func_149565_c() == CUseEntityPacket.Action.INTERACT_AT) {
                 Hand hand1 = p_147340_1_.func_186994_b();
@@ -42,7 +73,7 @@
                 ActionResultType actionresulttype = entity.func_184199_a(this.field_147369_b, p_147340_1_.func_179712_b(), hand1);
                 if (actionresulttype.func_226247_b_()) {
                    this.field_147369_b.func_226292_a_(hand1, true);
-@@ -1094,7 +1101,7 @@
+@@ -1094,7 +1109,7 @@
                 return;
              }
  
@@ -51,7 +82,7 @@
              if (this.field_147367_d.func_71199_h()) {
                 this.field_147369_b.func_71033_a(GameType.SPECTATOR);
                 this.field_147369_b.func_71121_q().func_82736_K().func_223585_a(GameRules.field_223613_p).func_223570_a(false, this.field_147367_d);
-@@ -1268,6 +1275,8 @@
+@@ -1268,6 +1283,8 @@
     }
  
     public void func_147349_a(CCustomPayloadPacket p_147349_1_) {
