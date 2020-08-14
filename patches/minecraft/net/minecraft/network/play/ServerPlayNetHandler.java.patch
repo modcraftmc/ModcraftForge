@@ -6,7 +6,7 @@
        long i = Util.func_211177_b();
 -      if (i - this.field_194402_f >= 15000L) {
 +
-+      if (i - this.field_194402_f >= 30000L /* ModcraftForge - default value 15000L*/) {
++      if (i - this.field_194402_f >= 15000L /* ModcraftForge - default value 15000L*/) {
           if (this.field_194403_g) {
              this.func_194028_b(new TranslationTextComponent("disconnect.timeout"));
           } else {

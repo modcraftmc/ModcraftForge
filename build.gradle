@@ -183,7 +183,7 @@ project(':forge') {
         BINPATCH_TOOL = 'net.minecraftforge:binarypatcher:1.0.12:fatjar'
     }
 
-    version = '1.15.2-31.2.0'
+    version = '1.15.2-31.3.0'
     println('Forge Version: ' + version)
 
     patcher {
