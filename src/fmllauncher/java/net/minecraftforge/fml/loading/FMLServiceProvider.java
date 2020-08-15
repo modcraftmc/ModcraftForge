@@ -28,6 +28,7 @@ import joptsimple.OptionSpecBuilder;
 import net.minecraftforge.fml.loading.moddiscovery.ModFile;
 import net.minecraftforge.forgespi.Environment;
 import net.minecraftforge.forgespi.locating.IModFile;
+import net.minecraftforge.modcraftforge.common.ModcraftConfig;
 import net.minecraftforge.modcraftforge.common.ModcraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -80,6 +81,7 @@ public class FMLServiceProvider implements ITransformationService
         FMLPaths.setup(environment);
         LOGGER.debug(CORE, "Loading configuration");
         FMLConfig.load();
+        ModcraftConfig.load();
         LOGGER.debug(CORE, "Preparing ModFile");
         environment.computePropertyIfAbsent(Environment.Keys.MODFILEFACTORY.get(), k->ModFile.buildFactory());
         arguments = new HashMap<>();

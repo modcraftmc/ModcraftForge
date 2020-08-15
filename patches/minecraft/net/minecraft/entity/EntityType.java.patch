@@ -1,9 +1,10 @@
 --- a/net/minecraft/entity/EntityType.java
 +++ b/net/minecraft/entity/EntityType.java
-@@ -132,10 +132,11 @@
+@@ -132,10 +132,12 @@
  import net.minecraft.world.World;
  import net.minecraftforge.api.distmarker.Dist;
  import net.minecraftforge.api.distmarker.OnlyIn;
++import net.minecraftforge.modcraftforge.common.ModcraftConfig;
 +import net.minecraftforge.modcraftforge.common.ModcraftForge;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
@@ -13,7 +14,7 @@
     private static final Logger field_200731_aJ = LogManager.getLogger();
     public static final EntityType<AreaEffectCloudEntity> field_200788_b = func_200712_a("area_effect_cloud", EntityType.Builder.<AreaEffectCloudEntity>func_220322_a(AreaEffectCloudEntity::new, EntityClassification.MISC).func_220320_c().func_220321_a(6.0F, 0.5F));
     public static final EntityType<ArmorStandEntity> field_200789_c = func_200712_a("armor_stand", EntityType.Builder.<ArmorStandEntity>func_220322_a(ArmorStandEntity::new, EntityClassification.MISC).func_220321_a(0.5F, 1.975F));
-@@ -254,6 +255,12 @@
+@@ -254,6 +256,12 @@
     private ResourceLocation field_220358_bg;
     private final EntitySize field_220359_bi;
  
@@ -26,7 +27,7 @@
     private static <T extends Entity> EntityType<T> func_200712_a(String p_200712_0_, EntityType.Builder<T> p_200712_1_) {
        return Registry.func_218325_a(Registry.field_212629_r, p_200712_0_, p_200712_1_.func_206830_a(p_200712_0_));
     }
-@@ -266,7 +273,11 @@
+@@ -266,7 +274,11 @@
        return Registry.field_212629_r.func_218349_b(ResourceLocation.func_208304_a(p_220327_0_));
     }
  
@@ -38,7 +39,7 @@
        this.field_200732_aK = p_i51559_1_;
        this.field_220355_ba = p_i51559_2_;
        this.field_225438_be = p_i51559_6_;
-@@ -274,6 +285,10 @@
+@@ -274,6 +286,10 @@
        this.field_200734_aM = p_i51559_4_;
        this.field_220357_bd = p_i51559_5_;
        this.field_220359_bi = p_i51559_7_;
@@ -49,7 +50,7 @@
     }
  
     @Nullable
-@@ -284,6 +299,7 @@
+@@ -284,6 +300,7 @@
     @Nullable
     public T func_220342_a(World p_220342_1_, @Nullable CompoundNBT p_220342_2_, @Nullable ITextComponent p_220342_3_, @Nullable PlayerEntity p_220342_4_, BlockPos p_220342_5_, SpawnReason p_220342_6_, boolean p_220342_7_, boolean p_220342_8_) {
        T t = this.func_220349_b(p_220342_1_, p_220342_2_, p_220342_3_, p_220342_4_, p_220342_5_, p_220342_6_, p_220342_7_, p_220342_8_);
@@ -57,7 +58,7 @@
        p_220342_1_.func_217376_c(t);
        return t;
     }
-@@ -466,6 +482,9 @@
+@@ -466,6 +483,9 @@
     }
  
     public int func_220345_k() {
@@ -67,7 +68,7 @@
        if (this == field_200729_aH) {
           return 32;
        } else if (this == field_200801_o) {
-@@ -478,6 +497,9 @@
+@@ -478,6 +498,9 @@
     }
  
     public int func_220332_l() {
@@ -77,7 +78,7 @@
        if (this != field_200729_aH && this != field_200805_s) {
           if (this == field_200808_v) {
              return 4;
-@@ -498,6 +520,9 @@
+@@ -498,6 +521,9 @@
     }
  
     public boolean func_220340_m() {
@@ -87,7 +88,7 @@
        return this != field_200729_aH && this != field_200770_J && this != field_200760_az && this != field_200791_e && this != field_200766_F && this != field_200768_H && this != field_200782_V && this != field_200801_o && this != field_200805_s;
     }
  
-@@ -505,12 +530,30 @@
+@@ -505,12 +531,30 @@
        return p_220341_1_.func_199685_a_(this);
     }
  
@@ -118,7 +119,7 @@
        private boolean field_225436_f;
        private EntitySize field_220326_f = EntitySize.func_220314_b(0.6F, 1.8F);
  
-@@ -555,20 +598,46 @@
+@@ -555,20 +599,46 @@
           return this;
        }
  
@@ -157,8 +158,8 @@
                 }
  
 -               EntityType.field_200731_aJ.warn("No data fixer registered for entity {}", (Object)p_206830_1_);
-+               //ModcraftForge allow to disable this log this -DDataFixerLog=false
-+               if (ModcraftForge.get().log_data_fixer)
++               //ModcraftForge allow to disable this log with modcraftforge.toml
++               if (!ModcraftConfig.logDataFixer())
 +                  ModcraftForge.LOGGER.warn("No data fixer registered for entity {}", (Object)p_206830_1_);
              }
           }

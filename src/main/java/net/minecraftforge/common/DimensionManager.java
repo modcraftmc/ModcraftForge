@@ -107,7 +107,6 @@ public class DimensionManager
      * @param type ModDimension type data
      * @param data Extra data for the ModDimension
      * @param hasSkyLight does this dimension have a skylight?
-     * @param magnifier The biome generation processor
      * @return the DimensionType for the dimension.
      */
     public static DimensionType registerOrGetDimension(ResourceLocation name, ModDimension type, PacketBuffer data, boolean hasSkyLight)
@@ -124,7 +123,6 @@ public class DimensionManager
      * @param type Dimension Type.
      * @param data Configuration data for this dimension, passed into
      * @param hasSkyLight skylight for this dimension
-     * @param magnifier The biome generation processor
      * @return the DimensionType for the dimension.
      */
     public static DimensionType registerDimension(ResourceLocation name, ModDimension type, PacketBuffer data, boolean hasSkyLight)
@@ -286,6 +284,11 @@ public class DimensionManager
         server.forgeGetWorldMap().put(dim, world);
         server.markWorldsDirty();
 
+        if (ModcraftConfig.logDimension())
+            LOGGER.info(DIMMGR,"loading dimension {} ", dim.getRegistryName());
+        else
+            LOGGER.debug(DIMMGR,"Queueing dimension {} to unload", dim.getRegistryName());
+
         MinecraftForge.EVENT_BUS.post(new WorldEvent.Load(world));
 
         return world;
@@ -369,7 +372,12 @@ public class DimensionManager
             finally
             {
                 MinecraftForge.EVENT_BUS.post(new WorldEvent.Unload(w));
-                LOGGER.debug(DIMMGR, "Unloading dimension {}", id);
+
+                //ModcraftForge
+                if (ModcraftConfig.logDimension())
+                    LOGGER.info(DIMMGR, "Unloading dimension {}", id);
+                else
+                    LOGGER.debug(DIMMGR, "Unloading dimension {}", id);
                 try {
                     w.close();
                 } catch (IOException e) {
