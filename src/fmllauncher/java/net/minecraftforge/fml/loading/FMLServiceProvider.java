@@ -28,6 +28,7 @@ import joptsimple.OptionSpecBuilder;
 import net.minecraftforge.fml.loading.moddiscovery.ModFile;
 import net.minecraftforge.forgespi.Environment;
 import net.minecraftforge.forgespi.locating.IModFile;
+import net.minecraftforge.modcraftforge.common.ModcraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -94,6 +95,7 @@ public class FMLServiceProvider implements ITransformationService
         FMLLoader.setupLaunchHandler(environment, arguments);
         FMLEnvironment.setupInteropEnvironment(environment);
         Environment.build(environment);
+        new ModcraftForge();
     }
 
     @Override

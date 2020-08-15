@@ -310,7 +310,9 @@ public class DimensionManager
 
         int id = world.getDimension().getType().getId();
         if (unloadQueue.add(id))
-            LOGGER.debug(DIMMGR,"Queueing dimension {} to unload", id);
+
+            //ModcraftForge debug -> info
+            LOGGER.info(DIMMGR,"Queueing dimension {} to unload", id);
     }
 
     @SuppressWarnings("deprecation")
@@ -344,7 +346,9 @@ public class DimensionManager
             // Don't unload the world if the status changed
             if (w == null || !canUnloadWorld(w))
             {
-                LOGGER.debug(DIMMGR,"Aborting unload for dimension {} as status changed", id);
+
+                //ModcraftForge debug -> info
+                LOGGER.info(DIMMGR,"Aborting unload for dimension {} as status changed", id);
                 continue;
             }
             try

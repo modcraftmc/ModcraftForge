@@ -108,7 +108,7 @@ public class ForgeMod implements WorldPersistenceHooks.WorldPersistenceHook
         modEventBus.register(ForgeConfig.class);
         // Forge does not display problems when the remote is not matching.
         ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, ()-> Pair.of(()->"ANY", (remote, isServer)-> true));
-        StartupMessageManager.addModMessage("Forge version "+ForgeVersion.getVersion());
+        StartupMessageManager.addModMessage("ModcraftForge version "+ForgeVersion.getVersion());
     }
 
     public void preInit(FMLCommonSetupEvent evt)
@@ -121,7 +121,9 @@ public class ForgeMod implements WorldPersistenceHooks.WorldPersistenceHook
         MinecraftForge.EVENT_BUS.register(MinecraftForge.INTERNAL_HANDLER);
         MinecraftForge.EVENT_BUS.register(this);
 
-        VersionChecker.startVersionCheck();
+        //ModcraftForge start
+        //VersionChecker.startVersionCheck();
+        //ModcraftForge end
 
         /*
          * We can't actually add any of these, because vanilla clients will choke on unknown argument types
