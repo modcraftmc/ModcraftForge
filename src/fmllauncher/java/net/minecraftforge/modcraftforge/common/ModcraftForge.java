@@ -13,22 +13,9 @@ public class ModcraftForge {
     public static final Logger LOGGER = LogManager.getLogger("ModcraftForge");
     private static ModcraftForge instance;
 
-    //config
-    public boolean log_data_fixer = true;
-
 
     public ModcraftForge() {
         instance = this;
-
-        RuntimeMXBean runtimeMxBean = ManagementFactory.getRuntimeMXBean();
-        List<String> arguments = runtimeMxBean.getInputArguments();
-
-        System.out.println(arguments);
-
-        if (System.getProperties().contains("DataFixerLog"))
-            if (System.getProperty("DataFixerLog").equalsIgnoreCase("false"))
-                LOGGER.info("Disabling DataFixer log");
-                log_data_fixer = false;
 
 
         LOGGER.info("");

@@ -1,0 +1,5 @@
+#Allow to desable DataFixer logs
+LogDataFixer = true
+
+#Allow to log Dimentions load/unload - bebug -> info
+LogDimsLoading = false

@@ -69,6 +69,7 @@ import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.StartupQuery;
 import net.minecraftforge.fml.server.ServerModLoader;
+import net.minecraftforge.modcraftforge.common.ModcraftConfig;
 import net.minecraftforge.registries.ClearableRegistry;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -311,8 +312,11 @@ public class DimensionManager
         int id = world.getDimension().getType().getId();
         if (unloadQueue.add(id))
 
-            //ModcraftForge debug -> info
-            LOGGER.info(DIMMGR,"Queueing dimension {} to unload", id);
+            //ModcraftForge allow to change debug to info
+            if (ModcraftConfig.logDimension())
+                LOGGER.info(DIMMGR,"Queueing dimension {} to unload", id);
+            else
+                LOGGER.debug(DIMMGR,"Queueing dimension {} to unload", id);
     }
 
     @SuppressWarnings("deprecation")
@@ -347,8 +351,11 @@ public class DimensionManager
             if (w == null || !canUnloadWorld(w))
             {
 
-                //ModcraftForge debug -> info
-                LOGGER.info(DIMMGR,"Aborting unload for dimension {} as status changed", id);
+                //ModcraftForge
+                if (ModcraftConfig.logDimension())
+                    LOGGER.info(DIMMGR,"Aborting unload for dimension {} as status changed", id);
+                else
+                    LOGGER.debug(DIMMGR,"Aborting unload for dimension {} as status changed", id);
                 continue;
             }
             try
