@@ -19,6 +19,10 @@ public class ModcraftConfig {
 
         configSpec.define("LogDataFixer", Boolean.TRUE);
         configSpec.define("LogDimsLoading", Boolean.FALSE);
+        configSpec.define("CustomtabList", Boolean.FALSE);
+
+        configSpec.define("customHeader", "DEFAULT HEADER");
+        configSpec.define("customFooter", "DEFAULT FOOTER");
     }
 
     private CommentedFileConfig configData;
@@ -52,5 +56,17 @@ public class ModcraftConfig {
 
     public static boolean logDimension() {
         return INSTANCE.configData.<Boolean>getOptional("LogDimsLoading").orElse(Boolean.TRUE);
+    }
+
+    public static boolean useCustomTabList() {
+        return INSTANCE.configData.<Boolean>getOptional("CustomtabList").orElse(Boolean.FALSE);
+    }
+
+    public static String getCustomheader() {
+        return INSTANCE.configData.<String>getOptional("customHeader").orElse("NO VALUE SET!");
+    }
+
+    public static String getCustomFooter() {
+        return INSTANCE.configData.<String>getOptional("customFooter").orElse("NO VALUE SET!");
     }
 }

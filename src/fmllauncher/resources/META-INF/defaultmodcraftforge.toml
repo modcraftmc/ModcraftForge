@@ -3,3 +3,12 @@ LogDataFixer = true
 
 #Allow to log Dimentions load/unload - bebug -> info
 LogDimsLoading = false
+
+#Allow to use custom tablist
+CustomtabList = false
+
+#custom header
+customTabHeader = ""
+
+#custom footer
+customTabFooter = ""

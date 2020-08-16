@@ -1,0 +1,41 @@
+--- /dev/null
++++ b/fr/modcraftmc/modcraftforge/tab/TabManager.java
+@@ -0,0 +1,38 @@
++package fr.modcraftmc.modcraftforge.tab;
++
++import net.minecraft.entity.player.ServerPlayerEntity;
++import net.minecraft.network.play.server.SPlayerListHeaderFooterPacket;
++import net.minecraft.server.management.PlayerList;
++import net.minecraft.util.text.StringTextComponent;
++import net.minecraftforge.modcraftforge.common.ModcraftConfig;
++
++public class TabManager {
++
++    private PlayerList playerList;
++
++    private StringTextComponent header;
++    private StringTextComponent footer;
++
++
++    public TabManager(PlayerList playerList) {
++
++        this.playerList = playerList;
++        if (ModcraftConfig.useCustomTabList()) {
++            header = new StringTextComponent(ModcraftConfig.getCustomheader());
++            footer = new StringTextComponent(ModcraftConfig.getCustomFooter());
++        }
++
++    }
++
++    public void sendInitalPacketToPlayer(ServerPlayerEntity entity) {
++
++        entity.field_71135_a.func_147359_a(new SPlayerListHeaderFooterPacket(header, footer));
++
++    }
++
++    public void refresh() {
++
++        playerList.func_148540_a(new SPlayerListHeaderFooterPacket(header, footer));
++    }
++
++}
