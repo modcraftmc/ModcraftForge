@@ -1,0 +1,27 @@
+--- a/net/minecraft/network/play/server/SPlayerListHeaderFooterPacket.java
++++ b/net/minecraft/network/play/server/SPlayerListHeaderFooterPacket.java
+@@ -5,6 +5,7 @@
+ import net.minecraft.network.IPacket;
+ import net.minecraft.network.PacketBuffer;
+ import net.minecraft.util.text.ITextComponent;
++import net.minecraft.util.text.StringTextComponent;
+ import net.minecraftforge.api.distmarker.Dist;
+ import net.minecraftforge.api.distmarker.OnlyIn;
+ 
+@@ -12,6 +13,16 @@
+    private ITextComponent field_179703_a;
+    private ITextComponent field_179702_b;
+ 
++   public SPlayerListHeaderFooterPacket(StringTextComponent header, StringTextComponent footer) {
++      this.field_179703_a = header;
++      this.field_179702_b = footer;
++
++   }
++
++   public SPlayerListHeaderFooterPacket() {
++
++   }
++
+    public void func_148837_a(PacketBuffer p_148837_1_) throws IOException {
+       this.field_179703_a = p_148837_1_.func_179258_d();
+       this.field_179702_b = p_148837_1_.func_179258_d();
