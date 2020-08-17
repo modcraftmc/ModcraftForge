@@ -47,12 +47,13 @@
  import net.minecraft.world.GameRules;
  import net.minecraft.world.GameType;
  import net.minecraft.world.IWorld;
-@@ -94,12 +74,17 @@
+@@ -94,12 +74,18 @@
     private GameType field_72410_m;
     private boolean field_72407_n;
     private int field_72408_o;
 +   private final List<ServerPlayerEntity> playersView = java.util.Collections.unmodifiableList(field_72404_b);
  
++   //ModcraftForge
 +   private TabManager tabManager;
 +
 +
@@ -65,7 +66,7 @@
     }
  
     public void func_72355_a(NetworkManager p_72355_1_, ServerPlayerEntity p_72355_2_) {
-@@ -109,7 +94,15 @@
+@@ -109,7 +95,15 @@
        String s = gameprofile1 == null ? gameprofile.getName() : gameprofile1.getName();
        playerprofilecache.func_152649_a(gameprofile);
        CompoundNBT compoundnbt = this.func_72380_a(p_72355_2_);
@@ -82,7 +83,7 @@
        p_72355_2_.func_70029_a(serverworld);
        p_72355_2_.field_71134_c.func_73080_a((ServerWorld)p_72355_2_.field_70170_p);
        String s1 = "local";
-@@ -121,6 +114,8 @@
+@@ -121,6 +115,8 @@
        WorldInfo worldinfo = serverworld.func_72912_H();
        this.func_72381_a(p_72355_2_, (ServerPlayerEntity)null, serverworld);
        ServerPlayNetHandler serverplaynethandler = new ServerPlayNetHandler(this.field_72400_f, p_72355_1_, p_72355_2_);
@@ -91,12 +92,11 @@
        GameRules gamerules = serverworld.func_82736_K();
        boolean flag = gamerules.func_223586_b(GameRules.field_226683_z_);
        boolean flag1 = gamerules.func_223586_b(GameRules.field_223612_o);
-@@ -131,6 +126,9 @@
+@@ -131,6 +127,8 @@
        serverplaynethandler.func_147359_a(new SHeldItemChangePacket(p_72355_2_.field_71071_by.field_70461_c));
        serverplaynethandler.func_147359_a(new SUpdateRecipesPacket(this.field_72400_f.func_199529_aN().func_199510_b()));
        serverplaynethandler.func_147359_a(new STagsListPacket(this.field_72400_f.func_199731_aO()));
 +
-+      tabManager.sendInitalPacketToPlayer(p_72355_2_);
 +
        this.func_187243_f(p_72355_2_);
        p_72355_2_.func_147099_x().func_150877_d();
@@ -231,13 +231,11 @@
        return serverplayerentity;
     }
  
-@@ -430,11 +445,14 @@
+@@ -430,11 +445,12 @@
     }
  
     public void func_72374_b() {
-+      if (++this.field_72408_o > 40) {
 +         tabManager.refresh();
-+      }
 +
        if (++this.field_72408_o > 600) {
           this.func_148540_a(new SPlayerListItemPacket(SPlayerListItemPacket.Action.UPDATE_LATENCY, this.field_72404_b));
@@ -247,7 +245,7 @@
     }
  
     public void func_148540_a(IPacket<?> p_148540_1_) {
-@@ -739,7 +757,7 @@
+@@ -739,7 +755,7 @@
     }
  
     public List<ServerPlayerEntity> func_181057_v() {
@@ -256,7 +254,7 @@
     }
  
     @Nullable
-@@ -769,4 +787,20 @@
+@@ -769,4 +785,20 @@
     public boolean func_206257_x() {
        return this.field_72407_n;
     }

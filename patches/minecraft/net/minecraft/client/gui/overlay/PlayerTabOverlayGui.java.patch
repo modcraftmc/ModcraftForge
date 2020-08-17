@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/overlay/PlayerTabOverlayGui.java
++++ b/net/minecraft/client/gui/overlay/PlayerTabOverlayGui.java
+@@ -161,6 +161,9 @@
+                this.field_175250_f.field_71466_p.func_175063_a(TextFormatting.ITALIC + s4, (float)k2, (float)l2, -1862270977);
+             } else {
+                this.field_175250_f.field_71466_p.func_175063_a(s4, (float)k2, (float)l2, -1);
++               
++               k2 += 9;
++               this.field_175250_f.field_71466_p.func_175063_a(String.valueOf(networkplayerinfo1.func_178853_c()), (float)k2, (float)l2, -1);
+             }
+ 
+             if (p_175249_3_ != null && networkplayerinfo1.func_178848_b() != GameType.SPECTATOR) {

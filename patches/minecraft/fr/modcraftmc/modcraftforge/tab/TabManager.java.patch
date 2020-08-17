@@ -1,6 +1,6 @@
 --- /dev/null
 +++ b/fr/modcraftmc/modcraftforge/tab/TabManager.java
-@@ -0,0 +1,38 @@
+@@ -0,0 +1,56 @@
 +package fr.modcraftmc.modcraftforge.tab;
 +
 +import net.minecraft.entity.player.ServerPlayerEntity;
@@ -8,6 +8,7 @@
 +import net.minecraft.server.management.PlayerList;
 +import net.minecraft.util.text.StringTextComponent;
 +import net.minecraftforge.modcraftforge.common.ModcraftConfig;
++import java.text.DecimalFormat;
 +
 +public class TabManager {
 +
@@ -16,26 +17,43 @@
 +    private StringTextComponent header;
 +    private StringTextComponent footer;
 +
++    private static final DecimalFormat TIME_FORMATTER = new DecimalFormat("########0.000");
++
++    private int tickCount = 0;
++
 +
 +    public TabManager(PlayerList playerList) {
 +
 +        this.playerList = playerList;
-+        if (ModcraftConfig.useCustomTabList()) {
-+            header = new StringTextComponent(ModcraftConfig.getCustomheader());
-+            footer = new StringTextComponent(ModcraftConfig.getCustomFooter());
-+        }
-+
 +    }
 +
-+    public void sendInitalPacketToPlayer(ServerPlayerEntity entity) {
-+
-+        entity.field_71135_a.func_147359_a(new SPlayerListHeaderFooterPacket(header, footer));
-+
-+    }
 +
 +    public void refresh() {
++        if (++tickCount > 50) {
++            tickCount = 0;
 +
-+        playerList.func_148540_a(new SPlayerListHeaderFooterPacket(header, footer));
++            double meanTickTime = mean(playerList.func_72365_p().field_71311_j) * 1.0E-6D;
++            double meanTPS = Math.min(1000.0/meanTickTime, 20);
++
++
++            header = new StringTextComponent(ModcraftConfig.getCustomheader()
++                    .replaceAll("%TPS%", TIME_FORMATTER.format(meanTPS))
++                    .replaceAll("%TICKTIME%", TIME_FORMATTER.format(meanTickTime) + "MS"));
++
++            footer = new StringTextComponent(ModcraftConfig.getCustomFooter()
++                    .replaceAll("%TPS%", TIME_FORMATTER.format(meanTPS))
++                    .replaceAll("%TICKTIME%", TIME_FORMATTER.format(meanTickTime) + "MS"));
++
++            playerList.func_148540_a(new SPlayerListHeaderFooterPacket(header, footer));
++
++        }
 +    }
 +
++    private static long mean(long[] values)
++    {
++        long sum = 0L;
++        for (long v : values)
++            sum += v;
++        return sum / values.length;
++    }
 +}
