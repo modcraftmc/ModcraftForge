@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/lighting/LightEngine.java
 +++ b/net/minecraft/world/lighting/LightEngine.java
+@@ -141,7 +141,7 @@
+       return 0;
+    }
+ 
+-   public boolean func_215619_a() {
++   public boolean needUpdate() {
+       return this.func_215481_b() || this.field_215627_c.func_215481_b() || this.field_215627_c.func_215527_a();
+    }
+ 
 @@ -215,4 +215,8 @@
        long i = SectionPos.func_218169_f(SectionPos.func_218166_b(p_223129_1_.field_77276_a, 0, p_223129_1_.field_77275_b));
        this.field_215627_c.func_223113_c(i, p_223129_2_);

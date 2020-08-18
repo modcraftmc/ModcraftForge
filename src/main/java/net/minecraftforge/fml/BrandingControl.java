@@ -82,11 +82,11 @@ public class BrandingControl
     }
 
     public static String getClientBranding() {
-        return "forge";
+        return "ModcraftForge";
     }
 
     public static String getServerBranding() {
-        return "forge";
+        return "ModcraftForge";
     }
 
     public static IResourceManagerReloadListener resourceManagerReloadListener() {

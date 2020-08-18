@@ -1,0 +1,36 @@
+--- a/net/minecraft/world/GameRules.java
++++ b/net/minecraft/world/GameRules.java
+@@ -29,19 +29,19 @@
+    private static final Map<GameRules.RuleKey<?>, GameRules.RuleType<?>> field_223623_z = Maps.newTreeMap(Comparator.comparing((p_223597_0_) -> {
+       return p_223597_0_.field_223578_a;
+    }));
+-   public static final GameRules.RuleKey<GameRules.BooleanValue> field_223598_a = func_223595_a("doFireTick", GameRules.BooleanValue.func_223568_b(true));
++   public static final GameRules.RuleKey<GameRules.BooleanValue> field_223598_a = func_223595_a("doFireTick", GameRules.BooleanValue.func_223568_b(false));
+    public static final GameRules.RuleKey<GameRules.BooleanValue> field_223599_b = func_223595_a("mobGriefing", GameRules.BooleanValue.func_223568_b(true));
+    public static final GameRules.RuleKey<GameRules.BooleanValue> field_223600_c = func_223595_a("keepInventory", GameRules.BooleanValue.func_223568_b(false));
+    public static final GameRules.RuleKey<GameRules.BooleanValue> field_223601_d = func_223595_a("doMobSpawning", GameRules.BooleanValue.func_223568_b(true));
+    public static final GameRules.RuleKey<GameRules.BooleanValue> field_223602_e = func_223595_a("doMobLoot", GameRules.BooleanValue.func_223568_b(true));
+    public static final GameRules.RuleKey<GameRules.BooleanValue> field_223603_f = func_223595_a("doTileDrops", GameRules.BooleanValue.func_223568_b(true));
+    public static final GameRules.RuleKey<GameRules.BooleanValue> field_223604_g = func_223595_a("doEntityDrops", GameRules.BooleanValue.func_223568_b(true));
+-   public static final GameRules.RuleKey<GameRules.BooleanValue> field_223605_h = func_223595_a("commandBlockOutput", GameRules.BooleanValue.func_223568_b(true));
++   public static final GameRules.RuleKey<GameRules.BooleanValue> field_223605_h = func_223595_a("commandBlockOutput", GameRules.BooleanValue.func_223568_b(false));
+    public static final GameRules.RuleKey<GameRules.BooleanValue> field_223606_i = func_223595_a("naturalRegeneration", GameRules.BooleanValue.func_223568_b(true));
+    public static final GameRules.RuleKey<GameRules.BooleanValue> field_223607_j = func_223595_a("doDaylightCycle", GameRules.BooleanValue.func_223568_b(true));
+    public static final GameRules.RuleKey<GameRules.BooleanValue> field_223608_k = func_223595_a("logAdminCommands", GameRules.BooleanValue.func_223568_b(true));
+    public static final GameRules.RuleKey<GameRules.BooleanValue> field_223609_l = func_223595_a("showDeathMessages", GameRules.BooleanValue.func_223568_b(true));
+-   public static final GameRules.RuleKey<GameRules.IntegerValue> field_223610_m = func_223595_a("randomTickSpeed", GameRules.IntegerValue.func_223559_b(3));
++   public static final GameRules.RuleKey<GameRules.IntegerValue> field_223610_m = func_223595_a("randomTickSpeed", GameRules.IntegerValue.func_223559_b(2)); //Modcraftforge - default value = 3
+    public static final GameRules.RuleKey<GameRules.BooleanValue> field_223611_n = func_223595_a("sendCommandFeedback", GameRules.BooleanValue.func_223568_b(true));
+    public static final GameRules.RuleKey<GameRules.BooleanValue> field_223612_o = func_223595_a("reducedDebugInfo", GameRules.BooleanValue.func_223567_b(false, (p_223589_0_, p_223589_1_) -> {
+       byte b0 = (byte)(p_223589_1_.func_223572_a() ? 22 : 23);
+@@ -53,8 +53,8 @@
+    }));
+    public static final GameRules.RuleKey<GameRules.BooleanValue> field_223613_p = func_223595_a("spectatorsGenerateChunks", GameRules.BooleanValue.func_223568_b(true));
+    public static final GameRules.RuleKey<GameRules.IntegerValue> field_223614_q = func_223595_a("spawnRadius", GameRules.IntegerValue.func_223559_b(10));
+-   public static final GameRules.RuleKey<GameRules.BooleanValue> field_223615_r = func_223595_a("disableElytraMovementCheck", GameRules.BooleanValue.func_223568_b(false));
+-   public static final GameRules.RuleKey<GameRules.IntegerValue> field_223616_s = func_223595_a("maxEntityCramming", GameRules.IntegerValue.func_223559_b(24));
++   public static final GameRules.RuleKey<GameRules.BooleanValue> field_223615_r = func_223595_a("disableElytraMovementCheck", GameRules.BooleanValue.func_223568_b(true));
++   public static final GameRules.RuleKey<GameRules.IntegerValue> field_223616_s = func_223595_a("maxEntityCramming", GameRules.IntegerValue.func_223559_b(10));
+    public static final GameRules.RuleKey<GameRules.BooleanValue> field_223617_t = func_223595_a("doWeatherCycle", GameRules.BooleanValue.func_223568_b(true));
+    public static final GameRules.RuleKey<GameRules.BooleanValue> field_223618_u = func_223595_a("doLimitedCrafting", GameRules.BooleanValue.func_223568_b(false));
+    public static final GameRules.RuleKey<GameRules.IntegerValue> field_223619_v = func_223595_a("maxCommandChainLength", GameRules.IntegerValue.func_223559_b(65536));

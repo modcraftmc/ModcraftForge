@@ -1,0 +1,55 @@
+--- a/net/minecraft/world/server/ServerWorldLightManager.java
++++ b/net/minecraft/world/server/ServerWorldLightManager.java
+@@ -26,8 +26,8 @@
+ 
+ public class ServerWorldLightManager extends WorldLightManager implements AutoCloseable {
+    private static final Logger field_215604_a = LogManager.getLogger();
+-   private final DelegatedTaskExecutor<Runnable> field_215605_b;
+-   private final ObjectList<Pair<ServerWorldLightManager.Phase, Runnable>> field_215606_c = new ObjectArrayList<>();
++   private final DelegatedTaskExecutor<Runnable> executor; //ModcraftForge field_215605_b -> executor
++   private final ObjectList<Pair<ServerWorldLightManager.Phase, Runnable>> runnableList = new ObjectArrayList<>(); //MOdcraftForge field_215606_c -> runnableList
+    private final ChunkManager field_215607_d;
+    private final ITaskExecutor<ChunkTaskPriorityQueueSorter.FunctionEntry<Runnable>> field_215608_e;
+    private volatile int field_215609_f = 5;
+@@ -37,7 +37,7 @@
+       super(p_i50701_1_, true, p_i50701_3_);
+       this.field_215607_d = p_i50701_2_;
+       this.field_215608_e = p_i50701_5_;
+-      this.field_215605_b = p_i50701_4_;
++      this.executor = p_i50701_4_;
+    }
+ 
+    public void close() {
+@@ -115,8 +115,8 @@
+ 
+    private void func_215600_a(int p_215600_1_, int p_215600_2_, IntSupplier p_215600_3_, ServerWorldLightManager.Phase p_215600_4_, Runnable p_215600_5_) {
+       this.field_215608_e.func_212871_a_(ChunkTaskPriorityQueueSorter.func_219069_a(() -> {
+-         this.field_215606_c.add(Pair.of(p_215600_4_, p_215600_5_));
+-         if (this.field_215606_c.size() >= this.field_215609_f) {
++         this.runnableList.add(Pair.of(p_215600_4_, p_215600_5_));
++         if (this.runnableList.size() >= this.field_215609_f) {
+             this.func_215603_b();
+          }
+ 
+@@ -167,8 +167,8 @@
+    }
+ 
+    public void func_215588_z_() {
+-      if ((!this.field_215606_c.isEmpty() || super.func_215570_a()) && this.field_215610_g.compareAndSet(false, true)) {
+-         this.field_215605_b.func_212871_a_(() -> {
++      if ((!this.runnableList.isEmpty() || super.func_215570_a()) && this.field_215610_g.compareAndSet(false, true)) {
++         this.executor.func_212871_a_(() -> {
+             this.func_215603_b();
+             this.field_215610_g.set(false);
+          });
+@@ -177,8 +177,8 @@
+    }
+ 
+    private void func_215603_b() {
+-      int i = Math.min(this.field_215606_c.size(), this.field_215609_f);
+-      ObjectListIterator<Pair<ServerWorldLightManager.Phase, Runnable>> objectlistiterator = this.field_215606_c.iterator();
++      int i = Math.min(this.runnableList.size(), this.field_215609_f);
++      ObjectListIterator<Pair<ServerWorldLightManager.Phase, Runnable>> objectlistiterator = this.runnableList.iterator();
+ 
+       int j;
+       for(j = 0; objectlistiterator.hasNext() && j < i; ++j) {

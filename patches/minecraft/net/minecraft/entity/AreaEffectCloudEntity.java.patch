@@ -1,0 +1,12 @@
+--- a/net/minecraft/entity/AreaEffectCloudEntity.java
++++ b/net/minecraft/entity/AreaEffectCloudEntity.java
+@@ -51,7 +51,8 @@
+    private LivingEntity field_184512_ay;
+    private UUID field_184513_az;
+ 
+-   public AreaEffectCloudEntity(EntityType<? extends AreaEffectCloudEntity> p_i50389_1_, World p_i50389_2_) {
++
++   public AreaEffectCloudEntity(EntityType p_i50389_1_, World p_i50389_2_) {
+       super(p_i50389_1_, p_i50389_2_);
+       this.field_70145_X = true;
+       this.func_184483_a(3.0F);

@@ -1,0 +1,27 @@
+--- a/net/minecraft/world/lighting/WorldLightManager.java
++++ b/net/minecraft/world/lighting/WorldLightManager.java
+@@ -40,10 +40,10 @@
+    }
+ 
+    public boolean func_215570_a() {
+-      if (this.field_215577_b != null && this.field_215577_b.func_215619_a()) {
++      if (this.field_215577_b != null && this.field_215577_b.needUpdate()) {
+          return true;
+       } else {
+-         return this.field_215576_a != null && this.field_215576_a.func_215619_a();
++         return this.field_215576_a != null && this.field_215576_a.needUpdate();
+       }
+    }
+ 
+@@ -85,9 +85,9 @@
+ 
+    public IWorldLightListener func_215569_a(LightType p_215569_1_) {
+       if (p_215569_1_ == LightType.BLOCK) {
+-         return (IWorldLightListener)(this.field_215576_a == null ? IWorldLightListener.Dummy.INSTANCE : this.field_215576_a);
++         return this.field_215576_a == null ? IWorldLightListener.Dummy.INSTANCE : this.field_215576_a;
+       } else {
+-         return (IWorldLightListener)(this.field_215577_b == null ? IWorldLightListener.Dummy.INSTANCE : this.field_215577_b);
++         return this.field_215577_b == null ? IWorldLightListener.Dummy.INSTANCE : this.field_215577_b;
+       }
+    }
+ 

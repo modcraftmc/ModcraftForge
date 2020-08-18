@@ -1,0 +1,66 @@
+--- a/net/minecraft/world/chunk/NibbleArray.java
++++ b/net/minecraft/world/chunk/NibbleArray.java
+@@ -34,26 +34,57 @@
+    }
+ 
+    private int func_177480_a(int p_177480_1_) {
++
+       if (this.field_76585_a == null) {
+          return 0;
++      }
++
++      int nibbleIdx = p_177480_1_ & 1;
++      int byteIdx = p_177480_1_ >> 1;
++      int shift = nibbleIdx << 2;
++
++      return (this.field_76585_a[byteIdx] >>> shift) & 15;
++
++      /* original code
++      if (this.data == null) {
++         return 0;
+       } else {
+-         int i = this.func_177478_c(p_177480_1_);
+-         return this.func_177479_b(p_177480_1_) ? this.field_76585_a[i] & 15 : this.field_76585_a[i] >> 4 & 15;
++         int i = this.getNibbleIndex(index);
++         return this.isLowerNibble(index) ? this.data[i] & 15 : this.data[i] >> 4 & 15;
+       }
++
++       */
+    }
+ 
+    private void func_177482_a(int p_177482_1_, int p_177482_2_) {
++
+       if (this.field_76585_a == null) {
+          this.field_76585_a = new byte[2048];
+       }
+ 
+-      int i = this.func_177478_c(p_177482_1_);
+-      if (this.func_177479_b(p_177482_1_)) {
+-         this.field_76585_a[i] = (byte)(this.field_76585_a[i] & 240 | p_177482_2_ & 15);
++      int nibbleIdx = p_177482_1_ & 1;
++      int byteIdx = p_177482_1_ >> 1;
++      int shift = nibbleIdx << 2;
++
++      int b = this.field_76585_a[byteIdx];
++      int ret = (b & ~(15 << shift)) | (p_177482_2_ & 15) << shift;
++
++      this.field_76585_a[byteIdx] = (byte) ret;
++
++      /* original
++      if (this.data == null) {
++         this.data = new byte[2048];
++      }
++
++      int i = this.getNibbleIndex(index);
++      if (this.isLowerNibble(index)) {
++         this.data[i] = (byte)(this.data[i] & 240 | value & 15);
+       } else {
+-         this.field_76585_a[i] = (byte)(this.field_76585_a[i] & 15 | (p_177482_2_ & 15) << 4);
++         this.data[i] = (byte)(this.data[i] & 15 | (value & 15) << 4);
+       }
+ 
++       */
++
+    }
+ 
+    private boolean func_177479_b(int p_177479_1_) {
