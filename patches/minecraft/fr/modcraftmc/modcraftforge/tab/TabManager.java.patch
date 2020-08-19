@@ -1,6 +1,6 @@
 --- /dev/null
 +++ b/fr/modcraftmc/modcraftforge/tab/TabManager.java
-@@ -0,0 +1,56 @@
+@@ -0,0 +1,60 @@
 +package fr.modcraftmc.modcraftforge.tab;
 +
 +import net.minecraft.entity.player.ServerPlayerEntity;
@@ -38,11 +38,15 @@
 +
 +            header = new StringTextComponent(ModcraftConfig.getCustomheader()
 +                    .replaceAll("%TPS%", TIME_FORMATTER.format(meanTPS))
-+                    .replaceAll("%TICKTIME%", TIME_FORMATTER.format(meanTickTime) + "MS"));
++                    .replaceAll("%TICKTIME%", TIME_FORMATTER.format(meanTickTime) + "MS")
++                    .replaceAll("%ONLINE%", String.valueOf(playerList.func_72394_k()))
++                    .replaceAll("%MAX%", String.valueOf(playerList.func_72352_l())));
 +
 +            footer = new StringTextComponent(ModcraftConfig.getCustomFooter()
 +                    .replaceAll("%TPS%", TIME_FORMATTER.format(meanTPS))
-+                    .replaceAll("%TICKTIME%", TIME_FORMATTER.format(meanTickTime) + "MS"));
++                    .replaceAll("%TICKTIME%", TIME_FORMATTER.format(meanTickTime) + "MS")
++                    .replaceAll("%ONLINE%", String.valueOf(playerList.func_72394_k()))
++                    .replaceAll("%MAX%", String.valueOf(playerList.func_72352_l())));
 +
 +            playerList.func_148540_a(new SPlayerListHeaderFooterPacket(header, footer));
 +
