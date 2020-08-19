@@ -1,0 +1,28 @@
+--- a/net/minecraft/command/impl/StopCommand.java
++++ b/net/minecraft/command/impl/StopCommand.java
+@@ -3,7 +3,11 @@
+ import com.mojang.brigadier.CommandDispatcher;
+ import net.minecraft.command.CommandSource;
+ import net.minecraft.command.Commands;
++import net.minecraft.entity.player.ServerPlayerEntity;
++import net.minecraft.util.text.StringTextComponent;
+ import net.minecraft.util.text.TranslationTextComponent;
++import net.minecraftforge.fml.server.ServerLifecycleHooks;
++import org.lwjgl.system.CallbackI;
+ 
+ public class StopCommand {
+    public static void func_198725_a(CommandDispatcher<CommandSource> p_198725_0_) {
+@@ -11,6 +15,13 @@
+          return p_198727_0_.func_197034_c(4);
+       }).executes((p_198726_0_) -> {
+          p_198726_0_.getSource().func_197030_a(new TranslationTextComponent("commands.stop.stopping"), true);
++         try {
++            for (ServerPlayerEntity player : ServerLifecycleHooks.getCurrentServer().func_184103_al().func_181057_v()) {
++               player.field_71135_a.func_194028_b(new StringTextComponent("Server restarting !"));
++            }
++         } catch (Exception e) {
++            e.printStackTrace();
++         }
+          p_198726_0_.getSource().func_197028_i().func_71263_m(false);
+          return 1;
+       }));

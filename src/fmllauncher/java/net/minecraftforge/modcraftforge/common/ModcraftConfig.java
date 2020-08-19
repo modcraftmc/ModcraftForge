@@ -23,6 +23,8 @@ public class ModcraftConfig {
 
         configSpec.define("customHeader", "DEFAULT HEADER");
         configSpec.define("customFooter", "DEFAULT FOOTER");
+
+        configSpec.define("tabRefreshRate", 20);
     }
 
     private CommentedFileConfig configData;
@@ -68,5 +70,9 @@ public class ModcraftConfig {
 
     public static String getCustomFooter() {
         return INSTANCE.configData.<String>getOptional("customFooter").orElse("NO VALUE SET!");
+    }
+
+    public static int getRefreshRate() {
+        return INSTANCE.configData.<Integer>getOptional("tabRefreshRate").orElse(20);
     }
 }

@@ -1,16 +1,107 @@
 --- a/net/minecraft/network/play/ServerPlayNetHandler.java
 +++ b/net/minecraft/network/play/ServerPlayNetHandler.java
-@@ -221,7 +221,8 @@
+@@ -8,8 +8,14 @@
+ import io.netty.util.concurrent.GenericFutureListener;
+ import it.unimi.dsi.fastutil.ints.Int2ShortMap;
+ import it.unimi.dsi.fastutil.ints.Int2ShortOpenHashMap;
++
++import java.nio.file.Files;
++import java.nio.file.Paths;
++import java.text.DecimalFormat;
+ import java.util.Collections;
+ import java.util.Set;
++import java.util.concurrent.ExecutorService;
++import java.util.concurrent.Executors;
+ import javax.annotation.Nullable;
+ import net.minecraft.advancements.Advancement;
+ import net.minecraft.advancements.CriteriaTriggers;
+@@ -89,17 +95,7 @@
+ import net.minecraft.network.play.client.CUpdateSignPacket;
+ import net.minecraft.network.play.client.CUpdateStructureBlockPacket;
+ import net.minecraft.network.play.client.CUseEntityPacket;
+-import net.minecraft.network.play.server.SChangeBlockPacket;
+-import net.minecraft.network.play.server.SChatPacket;
+-import net.minecraft.network.play.server.SConfirmTransactionPacket;
+-import net.minecraft.network.play.server.SDisconnectPacket;
+-import net.minecraft.network.play.server.SHeldItemChangePacket;
+-import net.minecraft.network.play.server.SKeepAlivePacket;
+-import net.minecraft.network.play.server.SMoveVehiclePacket;
+-import net.minecraft.network.play.server.SPlayerPositionLookPacket;
+-import net.minecraft.network.play.server.SQueryNBTResponsePacket;
+-import net.minecraft.network.play.server.SSetSlotPacket;
+-import net.minecraft.network.play.server.STabCompletePacket;
++import net.minecraft.network.play.server.*;
+ import net.minecraft.potion.Effects;
+ import net.minecraft.server.MinecraftServer;
+ import net.minecraft.tileentity.CommandBlockLogic;
+@@ -129,6 +125,7 @@
+ import net.minecraft.world.IWorldReader;
+ import net.minecraft.world.dimension.DimensionType;
+ import net.minecraft.world.server.ServerWorld;
++import net.minecraftforge.modcraftforge.common.ModcraftConfig;
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
+ 
+@@ -167,6 +164,13 @@
+    private int field_184347_F;
+    private int field_184348_G;
+ 
++   //ModcraftForge
++   private int tickCount = 0;
++   private StringTextComponent header;
++   private StringTextComponent footer;
++
++   private static final DecimalFormat TIME_FORMATTER = new DecimalFormat("########0.000");
++
+    public ServerPlayNetHandler(MinecraftServer p_i1530_1_, NetworkManager p_i1530_2_, ServerPlayerEntity p_i1530_3_) {
+       this.field_147367_d = p_i1530_1_;
+       this.field_147371_a = p_i1530_2_;
+@@ -221,6 +225,7 @@
  
        this.field_147367_d.func_213185_aS().func_76320_a("keepAlive");
        long i = Util.func_211177_b();
--      if (i - this.field_194402_f >= 15000L) {
 +
-+      if (i - this.field_194402_f >= 15000L /* ModcraftForge - default value 15000L*/) {
+       if (i - this.field_194402_f >= 15000L) {
           if (this.field_194403_g) {
              this.func_194028_b(new TranslationTextComponent("disconnect.timeout"));
-          } else {
-@@ -336,9 +337,11 @@
+@@ -245,8 +250,36 @@
+          this.func_194028_b(new TranslationTextComponent("multiplayer.disconnect.idling"));
+       }
+ 
++      if (++tickCount > ModcraftConfig.getRefreshRate()) {
++         tickCount = 0;
++         refreshTab();
++      }
++
+    }
+ 
++   public void refreshTab() {
++
++      double meanTickTime = mean(this.field_147367_d.field_71311_j) * 1.0E-6D;
++      double meanTPS = Math.min(1000.0/meanTickTime, 20);
++
++      header = new StringTextComponent(ModcraftConfig.getCustomheader()
++              .replaceAll("%TPS%", TIME_FORMATTER.format(meanTPS))
++              .replaceAll("%TICKTIME%", TIME_FORMATTER.format(meanTickTime) + "MS")
++              .replaceAll("%ONLINE%", String.valueOf(field_147367_d.func_184103_al().func_72394_k()))
++              .replaceAll("%MAX%", String.valueOf(field_147367_d.func_184103_al().func_72352_l()))
++              .replaceAll("%PING%", String.valueOf(field_147369_b.field_71138_i)));
++
++      footer = new StringTextComponent(ModcraftConfig.getCustomFooter()
++              .replaceAll("%TPS%", TIME_FORMATTER.format(meanTPS))
++              .replaceAll("%TICKTIME%", TIME_FORMATTER.format(meanTickTime) + "MS")
++              .replaceAll("%ONLINE%", String.valueOf(field_147367_d.func_184103_al().func_72394_k()))
++              .replaceAll("%MAX%", String.valueOf(field_147367_d.func_184103_al().func_72352_l()))
++              .replaceAll("%PING%", String.valueOf(field_147369_b.field_71138_i)));
++
++      field_147369_b.field_71135_a.func_147359_a(new SPlayerListHeaderFooterPacket(header, footer));
++
++   }
++
+    public void func_184342_d() {
+       this.field_184349_l = this.field_147369_b.func_226277_ct_();
+       this.field_184350_m = this.field_147369_b.func_226278_cu_();
+@@ -336,9 +369,11 @@
              }
  
              entity.func_70080_a(d3, d4, d5, f, f1);
@@ -22,7 +113,7 @@
                 this.field_147371_a.func_179290_a(new SMoveVehiclePacket(entity));
                 return;
              }
-@@ -713,11 +716,18 @@
+@@ -713,11 +748,18 @@
  
                       if (!this.field_147369_b.func_184850_K() && (!this.field_147369_b.func_71121_q().func_82736_K().func_223586_b(GameRules.field_223615_r) || !this.field_147369_b.func_184613_cA())) {
                          float f2 = this.field_147369_b.func_184613_cA() ? 300.0F : 100.0F;
@@ -43,7 +134,7 @@
                       }
  
                       boolean flag2 = this.func_223133_a(serverworld);
-@@ -845,7 +855,9 @@
+@@ -845,7 +887,9 @@
        Direction direction = blockraytraceresult.func_216354_b();
        this.field_147369_b.func_143004_u();
        if (blockpos.func_177956_o() < this.field_147367_d.func_71207_Z() - 1 || direction != Direction.UP && blockpos.func_177956_o() < this.field_147367_d.func_71207_Z()) {
@@ -54,7 +145,7 @@
              ActionResultType actionresulttype = this.field_147369_b.field_71134_c.func_219441_a(this.field_147369_b, serverworld, itemstack, hand, blockraytraceresult);
              if (actionresulttype.func_226247_b_()) {
                 this.field_147369_b.func_226292_a_(hand, true);
-@@ -968,7 +980,9 @@
+@@ -968,7 +1012,9 @@
           if (s.startsWith("/")) {
              this.func_147361_d(s);
           } else {
@@ -65,7 +156,7 @@
              this.field_147367_d.func_184103_al().func_148544_a(itextcomponent, false);
           }
  
-@@ -1061,6 +1075,7 @@
+@@ -1061,6 +1107,7 @@
                 this.field_147369_b.func_190775_a(entity, hand);
              } else if (p_147340_1_.func_149565_c() == CUseEntityPacket.Action.INTERACT_AT) {
                 Hand hand1 = p_147340_1_.func_186994_b();
@@ -73,7 +164,7 @@
                 ActionResultType actionresulttype = entity.func_184199_a(this.field_147369_b, p_147340_1_.func_179712_b(), hand1);
                 if (actionresulttype.func_226247_b_()) {
                    this.field_147369_b.func_226292_a_(hand1, true);
-@@ -1094,7 +1109,7 @@
+@@ -1094,7 +1141,7 @@
                 return;
              }
  
@@ -82,7 +173,7 @@
              if (this.field_147367_d.func_71199_h()) {
                 this.field_147369_b.func_71033_a(GameType.SPECTATOR);
                 this.field_147369_b.func_71121_q().func_82736_K().func_223585_a(GameRules.field_223613_p).func_223570_a(false, this.field_147367_d);
-@@ -1268,6 +1283,8 @@
+@@ -1268,6 +1315,8 @@
     }
  
     public void func_147349_a(CCustomPayloadPacket p_147349_1_) {
@@ -91,3 +182,16 @@
     }
  
     public void func_217263_a(CSetDifficultyPacket p_217263_1_) {
+@@ -1283,4 +1332,12 @@
+          this.field_147367_d.func_213209_d(p_217261_1_.func_218776_b());
+       }
+    }
++
++   private static long mean(long[] values)
++   {
++      long sum = 0L;
++      for (long v : values)
++         sum += v;
++      return sum / values.length;
++   }
+ }
