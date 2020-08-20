@@ -25,6 +25,10 @@ public class ModcraftConfig {
         configSpec.define("customFooter", "DEFAULT FOOTER");
 
         configSpec.define("tabRefreshRate", 20);
+
+        configSpec.define("useCustomloginLogout", Boolean.FALSE);
+        configSpec.define("customLoginMessage", "%s joined.");
+        configSpec.define("customLogoutMessage", "%s leave.");
     }
 
     private CommentedFileConfig configData;
@@ -60,6 +64,7 @@ public class ModcraftConfig {
         return INSTANCE.configData.<Boolean>getOptional("LogDimsLoading").orElse(Boolean.TRUE);
     }
 
+
     public static boolean useCustomTabList() {
         return INSTANCE.configData.<Boolean>getOptional("CustomtabList").orElse(Boolean.FALSE);
     }
@@ -74,5 +79,18 @@ public class ModcraftConfig {
 
     public static int getRefreshRate() {
         return INSTANCE.configData.<Integer>getOptional("tabRefreshRate").orElse(20);
+    }
+
+
+    public static boolean useCustomLoginLogout() {
+        return INSTANCE.configData.<Boolean>getOptional("useCustomloginLogout").orElse(Boolean.FALSE);
+    }
+
+    public static String getCustomLoginMessage() {
+        return INSTANCE.configData.<String>getOptional("customLoginMessage").orElse("NO VALUE SET!");
+    }
+
+    public static String getCustomLogoutMessage() {
+        return INSTANCE.configData.<String>getOptional("customLogoutMessage").orElse("NO VALUE SET!");
     }
 }
