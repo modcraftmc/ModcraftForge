@@ -44,11 +44,3 @@
           }
        }
  
-@@ -207,6 +208,7 @@
-          j = 4;
-       }
- 
-+      this.drawRightAlignedString(Minecraft.func_71410_x().field_71466_p, String.valueOf(p_175245_4_.func_178853_c()), p_175245_1_, p_175245_2_, p_175245_3_);
-       this.setBlitOffset(this.getBlitOffset() + 100);
-       this.blit(p_175245_2_ + p_175245_1_ - 11, p_175245_3_, 0, 176 + j * 8, 10, 8);
-       this.setBlitOffset(this.getBlitOffset() - 100);
