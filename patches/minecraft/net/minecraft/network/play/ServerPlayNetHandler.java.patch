@@ -64,7 +64,7 @@
        if (i - this.field_194402_f >= 15000L) {
           if (this.field_194403_g) {
              this.func_194028_b(new TranslationTextComponent("disconnect.timeout"));
-@@ -245,8 +250,58 @@
+@@ -245,8 +250,72 @@
           this.func_194028_b(new TranslationTextComponent("multiplayer.disconnect.idling"));
        }
  
@@ -77,6 +77,8 @@
  
 +   public void refreshTab() {
 +
++      long start = System.nanoTime();
++
 +      double meanTickTime = mean(this.field_147367_d.field_71311_j) * 1.0E-6D;
 +      double meanTPS = Math.min(1000.0/meanTickTime, 20);
 +
@@ -87,6 +89,15 @@
 +              .replaceAll("%MAX%", String.valueOf(field_147367_d.func_184103_al().func_72352_l()))
 +              .replaceAll("%PING%", String.valueOf(field_147369_b.field_71138_i)));
 +
++      /*
++            String headerString = replaceAll(ModcraftConfig.getCustomheader(), "%TPS%", TIME_FORMATTER.format(meanTPS));
++      headerString = replaceAll(headerString, "%TICKTIME%", TIME_FORMATTER.format(meanTickTime) + "MS");
++      headerString = replaceAll(headerString, "%ONLINE%", String.valueOf(server.getPlayerList().getCurrentPlayerCount()));
++      headerString = replaceAll(headerString, "%MAX%", String.valueOf(server.getPlayerList().getMaxPlayers()));
++      headerString = replaceAll(headerString, "%PING%", String.valueOf(player.ping));
++       */
++
++
 +      footer = new StringTextComponent(ModcraftConfig.getCustomFooter()
 +              .replaceAll("%TPS%", TIME_FORMATTER.format(meanTPS))
 +              .replaceAll("%TICKTIME%", TIME_FORMATTER.format(meanTickTime) + "MS")
@@ -96,6 +107,9 @@
 +
 +      field_147369_b.field_71135_a.func_147359_a(new SPlayerListHeaderFooterPacket(header, footer));
 +
++      long end = System.nanoTime();
++
++      System.out.println((end-start) + "MS");
 +
 +   }
 +
@@ -123,7 +137,7 @@
     public void func_184342_d() {
        this.field_184349_l = this.field_147369_b.func_226277_ct_();
        this.field_184350_m = this.field_147369_b.func_226278_cu_();
-@@ -336,9 +391,11 @@
+@@ -336,9 +405,11 @@
              }
  
              entity.func_70080_a(d3, d4, d5, f, f1);
@@ -135,7 +149,7 @@
                 this.field_147371_a.func_179290_a(new SMoveVehiclePacket(entity));
                 return;
              }
-@@ -713,11 +770,18 @@
+@@ -713,11 +784,18 @@
  
                       if (!this.field_147369_b.func_184850_K() && (!this.field_147369_b.func_71121_q().func_82736_K().func_223586_b(GameRules.field_223615_r) || !this.field_147369_b.func_184613_cA())) {
                          float f2 = this.field_147369_b.func_184613_cA() ? 300.0F : 100.0F;
@@ -156,7 +170,7 @@
                       }
  
                       boolean flag2 = this.func_223133_a(serverworld);
-@@ -845,7 +909,9 @@
+@@ -845,7 +923,9 @@
        Direction direction = blockraytraceresult.func_216354_b();
        this.field_147369_b.func_143004_u();
        if (blockpos.func_177956_o() < this.field_147367_d.func_71207_Z() - 1 || direction != Direction.UP && blockpos.func_177956_o() < this.field_147367_d.func_71207_Z()) {
@@ -167,7 +181,7 @@
              ActionResultType actionresulttype = this.field_147369_b.field_71134_c.func_219441_a(this.field_147369_b, serverworld, itemstack, hand, blockraytraceresult);
              if (actionresulttype.func_226247_b_()) {
                 this.field_147369_b.func_226292_a_(hand, true);
-@@ -900,7 +966,20 @@
+@@ -900,7 +980,20 @@
     public void func_147231_a(ITextComponent p_147231_1_) {
        field_147370_c.info("{} lost connection: {}", this.field_147369_b.func_200200_C_().getString(), p_147231_1_.getString());
        this.field_147367_d.func_147132_au();
@@ -189,7 +203,7 @@
        this.field_147369_b.func_71123_m();
        this.field_147367_d.func_184103_al().func_72367_e(this.field_147369_b);
        if (this.func_217264_d()) {
-@@ -968,7 +1047,9 @@
+@@ -968,7 +1061,9 @@
           if (s.startsWith("/")) {
              this.func_147361_d(s);
           } else {
@@ -200,7 +214,7 @@
              this.field_147367_d.func_184103_al().func_148544_a(itextcomponent, false);
           }
  
-@@ -1061,6 +1142,7 @@
+@@ -1061,6 +1156,7 @@
                 this.field_147369_b.func_190775_a(entity, hand);
              } else if (p_147340_1_.func_149565_c() == CUseEntityPacket.Action.INTERACT_AT) {
                 Hand hand1 = p_147340_1_.func_186994_b();
@@ -208,7 +222,7 @@
                 ActionResultType actionresulttype = entity.func_184199_a(this.field_147369_b, p_147340_1_.func_179712_b(), hand1);
                 if (actionresulttype.func_226247_b_()) {
                    this.field_147369_b.func_226292_a_(hand1, true);
-@@ -1094,7 +1176,7 @@
+@@ -1094,7 +1190,7 @@
                 return;
              }
  
@@ -217,7 +231,7 @@
              if (this.field_147367_d.func_71199_h()) {
                 this.field_147369_b.func_71033_a(GameType.SPECTATOR);
                 this.field_147369_b.func_71121_q().func_82736_K().func_223585_a(GameRules.field_223613_p).func_223570_a(false, this.field_147367_d);
-@@ -1268,6 +1350,8 @@
+@@ -1268,6 +1364,8 @@
     }
  
     public void func_147349_a(CCustomPayloadPacket p_147349_1_) {
@@ -226,7 +240,7 @@
     }
  
     public void func_217263_a(CSetDifficultyPacket p_217263_1_) {
-@@ -1283,4 +1367,12 @@
+@@ -1283,4 +1381,12 @@
           this.field_147367_d.func_213209_d(p_217261_1_.func_218776_b());
        }
     }

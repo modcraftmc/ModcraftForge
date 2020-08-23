@@ -1,6 +1,15 @@
 --- a/net/minecraft/client/gui/screen/Screen.java
 +++ b/net/minecraft/client/gui/screen/Screen.java
-@@ -111,7 +111,10 @@
+@@ -74,6 +74,8 @@
+    }
+ 
+    public void render(int p_render_1_, int p_render_2_, float p_render_3_) {
++
++      RenderSystem.clearColor(0.18f, 0.18f, 0.18f, 1.0f);
+       for(int i = 0; i < this.buttons.size(); ++i) {
+          this.buttons.get(i).render(p_render_1_, p_render_2_, p_render_3_);
+       }
+@@ -111,7 +113,10 @@
     }
  
     protected void renderTooltip(ItemStack p_renderTooltip_1_, int p_renderTooltip_2_, int p_renderTooltip_3_) {
@@ -12,7 +21,7 @@
     }
  
     public List<String> getTooltipFromItem(ItemStack p_getTooltipFromItem_1_) {
-@@ -130,7 +133,11 @@
+@@ -130,7 +135,11 @@
     }
  
     public void renderTooltip(List<String> p_renderTooltip_1_, int p_renderTooltip_2_, int p_renderTooltip_3_) {
@@ -25,7 +34,7 @@
           RenderSystem.disableRescaleNormal();
           RenderSystem.disableDepthTest();
           int i = 0;
-@@ -308,9 +315,12 @@
+@@ -308,9 +317,12 @@
     }
  
     public void sendMessage(String p_sendMessage_1_, boolean p_sendMessage_2_) {
@@ -38,7 +47,7 @@
  
        this.minecraft.field_71439_g.func_71165_d(p_sendMessage_1_);
     }
-@@ -321,10 +331,14 @@
+@@ -321,10 +333,14 @@
        this.font = p_init_1_.field_71466_p;
        this.width = p_init_2_;
        this.height = p_init_3_;
@@ -53,7 +62,7 @@
     }
  
     public void setSize(int p_setSize_1_, int p_setSize_2_) {
-@@ -352,6 +366,7 @@
+@@ -352,6 +368,7 @@
     public void renderBackground(int p_renderBackground_1_) {
        if (this.minecraft.field_71441_e != null) {
           this.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
@@ -61,7 +70,7 @@
        } else {
           this.renderDirtBackground(p_renderBackground_1_);
        }
-@@ -370,6 +385,7 @@
+@@ -370,6 +387,7 @@
        bufferbuilder.func_225582_a_((double)this.width, 0.0D, 0.0D).func_225583_a_((float)this.width / 32.0F, (float)p_renderDirtBackground_1_).func_225586_a_(64, 64, 64, 255).func_181675_d();
        bufferbuilder.func_225582_a_(0.0D, 0.0D, 0.0D).func_225583_a_(0.0F, (float)p_renderDirtBackground_1_).func_225586_a_(64, 64, 64, 255).func_181675_d();
        tessellator.func_78381_a();
@@ -69,7 +78,7 @@
     }
  
     public boolean isPauseScreen() {
-@@ -453,4 +469,8 @@
+@@ -453,4 +471,8 @@
     public boolean isMouseOver(double p_isMouseOver_1_, double p_isMouseOver_3_) {
        return true;
     }

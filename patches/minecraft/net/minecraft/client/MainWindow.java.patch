@@ -1,6 +1,15 @@
 --- a/net/minecraft/client/MainWindow.java
 +++ b/net/minecraft/client/MainWindow.java
-@@ -86,7 +86,7 @@
+@@ -33,6 +33,8 @@
+ import org.lwjgl.system.MemoryUtil;
+ import org.lwjgl.util.tinyfd.TinyFileDialogs;
+ 
++import static org.lwjgl.opengl.GL11.glClearColor;
++
+ @OnlyIn(Dist.CLIENT)
+ public final class MainWindow implements AutoCloseable {
+    private static final Logger field_198114_a = LogManager.getLogger();
+@@ -86,7 +88,7 @@
        GLFW.glfwWindowHint(139266, 2);
        GLFW.glfwWindowHint(139267, 0);
        GLFW.glfwWindowHint(139272, 0);
@@ -9,3 +18,12 @@
        if (monitor != null) {
           VideoMode videomode = monitor.func_197992_a(this.field_198125_l ? this.field_198124_k : Optional.empty());
           this.field_198120_g = this.field_198127_n = monitor.func_197989_c() + videomode.func_198064_a() / 2 - this.field_198129_p / 2;
+@@ -107,6 +109,8 @@
+       GLFW.glfwSetWindowPosCallback(this.field_198119_f, this::func_198080_a);
+       GLFW.glfwSetWindowSizeCallback(this.field_198119_f, this::func_198089_c);
+       GLFW.glfwSetWindowFocusCallback(this.field_198119_f, this::func_198095_a);
++
++
+    }
+ 
+    public int func_227798_a_() {
