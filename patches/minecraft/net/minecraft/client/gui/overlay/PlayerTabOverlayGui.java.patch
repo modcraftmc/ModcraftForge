@@ -1,12 +1,54 @@
 --- a/net/minecraft/client/gui/overlay/PlayerTabOverlayGui.java
 +++ b/net/minecraft/client/gui/overlay/PlayerTabOverlayGui.java
-@@ -161,6 +161,9 @@
+@@ -78,7 +78,7 @@
+          ++k4;
+       }
+ 
+-      boolean flag = this.field_175250_f.func_71387_A() || this.field_175250_f.func_147114_u().func_147298_b().func_179292_f();
++      boolean encryped = this.field_175250_f.func_71387_A() || this.field_175250_f.func_147114_u().func_147298_b().func_179292_f();
+       int l;
+       if (p_175249_3_ != null) {
+          if (p_175249_3_.func_199865_f() == ScoreCriteria.RenderType.HEARTS) {
+@@ -90,7 +90,7 @@
+          l = 0;
+       }
+ 
+-      int i1 = Math.min(k4 * ((flag ? 9 : 0) + i + l + 13), p_175249_1_ - 50) / k4;
++      int i1 = Math.min(k4 * ((encryped ? 9 : 0) + i + l + 13), p_175249_1_ - 50) / k4;
+       int j1 = p_175249_1_ / 2 - (i1 * k4 + (k4 - 1) * 5) / 2;
+       int k1 = 10;
+       int l1 = i1 * k4 + (k4 - 1) * 5;
+@@ -140,7 +140,7 @@
+          if (i5 < list.size()) {
+             NetworkPlayerInfo networkplayerinfo1 = list.get(i5);
+             GameProfile gameprofile = networkplayerinfo1.func_178845_a();
+-            if (flag) {
++            if (encryped) {
+                PlayerEntity playerentity = this.field_175250_f.field_71441_e.func_217371_b(gameprofile.getId());
+                boolean flag1 = playerentity != null && playerentity.func_175148_a(PlayerModelPart.CAPE) && ("Dinnerbone".equals(gameprofile.getName()) || "Grumm".equals(gameprofile.getName()));
+                this.field_175250_f.func_110434_K().func_110577_a(networkplayerinfo1.func_178837_g());
+@@ -161,6 +161,7 @@
                 this.field_175250_f.field_71466_p.func_175063_a(TextFormatting.ITALIC + s4, (float)k2, (float)l2, -1862270977);
              } else {
                 this.field_175250_f.field_71466_p.func_175063_a(s4, (float)k2, (float)l2, -1);
-+               
-+               k2 += 9;
-+               this.field_175250_f.field_71466_p.func_175063_a(String.valueOf(networkplayerinfo1.func_178853_c()), (float)k2, (float)l2, -1);
++
              }
  
              if (p_175249_3_ != null && networkplayerinfo1.func_178848_b() != GameType.SPECTATOR) {
+@@ -171,7 +172,7 @@
+                }
+             }
+ 
+-            this.func_175245_a(i1, k2 - (flag ? 9 : 0), l2, networkplayerinfo1);
++            this.func_175245_a(i1, k2 - (encryped ? 9 : 0), l2, networkplayerinfo1);
+          }
+       }
+ 
+@@ -207,6 +208,7 @@
+          j = 4;
+       }
+ 
++      this.drawRightAlignedString(Minecraft.func_71410_x().field_71466_p, String.valueOf(p_175245_4_.func_178853_c()), p_175245_1_, p_175245_2_, p_175245_3_);
+       this.setBlitOffset(this.getBlitOffset() + 100);
+       this.blit(p_175245_2_ + p_175245_1_ - 11, p_175245_3_, 0, 176 + j * 8, 10, 8);
+       this.setBlitOffset(this.getBlitOffset() - 100);
