@@ -1,0 +1,17 @@
+--- a/net/minecraft/client/gui/AbstractGui.java
++++ b/net/minecraft/client/gui/AbstractGui.java
+@@ -39,10 +39,12 @@
+       fill(p_vLine_1_, p_vLine_2_ + 1, p_vLine_1_ + 1, p_vLine_3_, p_vLine_4_);
+    }
+ 
+-   public static void fill(int p_fill_0_, int p_fill_1_, int p_fill_2_, int p_fill_3_, int p_fill_4_) {
+-      fill(TransformationMatrix.func_227983_a_().func_227988_c_(), p_fill_0_, p_fill_1_, p_fill_2_, p_fill_3_, p_fill_4_);
++   public static void fill(int p_fill_0_, int p_fill_1_, int p_fill_2_, int p_fill_3_, int color) {
++      fill(TransformationMatrix.func_227983_a_().func_227988_c_(), p_fill_0_, p_fill_1_, p_fill_2_, p_fill_3_, color);
+    }
+ 
++
++
+    public static void fill(Matrix4f p_fill_0_, int p_fill_1_, int p_fill_2_, int p_fill_3_, int p_fill_4_, int p_fill_5_) {
+       if (p_fill_1_ < p_fill_3_) {
+          int i = p_fill_1_;

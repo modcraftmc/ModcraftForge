@@ -37,7 +37,7 @@ public class ModcraftConfig {
     {
         configData = CommentedFileConfig.builder(configFile).sync().
                 defaultResource("/META-INF/defaultmodcraftforge.toml").
-                autosave().autoreload().
+                autosave().
                 writingMode(WritingMode.REPLACE).
                 build();
         configData.load();
