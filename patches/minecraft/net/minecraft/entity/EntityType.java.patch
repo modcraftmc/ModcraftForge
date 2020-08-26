@@ -159,7 +159,7 @@
  
 -               EntityType.field_200731_aJ.warn("No data fixer registered for entity {}", (Object)p_206830_1_);
 +               //ModcraftForge allow to disable this log with modcraftforge.toml
-+               if (!ModcraftConfig.logDataFixer())
++               if (!ModcraftConfig.removeDataFixerLogs())
 +                  ModcraftForge.LOGGER.warn("No data fixer registered for entity {}", (Object)p_206830_1_);
              }
           }

@@ -57,7 +57,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.registry.MutableRegistry;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.IBiomeMagnifier;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.listener.IChunkStatusListener;
 import net.minecraft.world.server.ServerMultiWorld;
@@ -285,7 +284,7 @@ public class DimensionManager
         server.forgeGetWorldMap().put(dim, world);
         server.markWorldsDirty();
 
-        if (ModcraftConfig.logDimension())
+        if (ModcraftConfig.showDimensionLogs())
             ModcraftForge.LOGGER.info(DIMMGR,"loading dimension {} ", dim.getRegistryName());
         else
             LOGGER.debug(DIMMGR,"Queueing dimension {} to unload", dim.getRegistryName());
@@ -317,7 +316,7 @@ public class DimensionManager
         if (unloadQueue.add(id))
 
             //ModcraftForge allow to change debug to info
-            if (ModcraftConfig.logDimension())
+            if (ModcraftConfig.showDimensionLogs())
                 ModcraftForge.LOGGER.info(DIMMGR,"Queueing dimension {} to unload", id);
             else
                 LOGGER.debug(DIMMGR,"Queueing dimension {} to unload", id);
@@ -356,7 +355,7 @@ public class DimensionManager
             {
 
                 //ModcraftForge
-                if (ModcraftConfig.logDimension())
+                if (ModcraftConfig.showDimensionLogs())
                     ModcraftForge.LOGGER.info(DIMMGR,"Aborting unload for dimension {} as status changed", id);
                 else
                     LOGGER.debug(DIMMGR,"Aborting unload for dimension {} as status changed", id);
@@ -375,7 +374,7 @@ public class DimensionManager
                 MinecraftForge.EVENT_BUS.post(new WorldEvent.Unload(w));
 
                 //ModcraftForge
-                if (ModcraftConfig.logDimension())
+                if (ModcraftConfig.showDimensionLogs())
                     ModcraftForge.LOGGER.info(DIMMGR, "Unloading dimension {}", id);
                 else
                     LOGGER.debug(DIMMGR, "Unloading dimension {}", id);

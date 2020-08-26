@@ -99,7 +99,7 @@
 -      if (p_72355_2_.func_146103_bH().getName().equalsIgnoreCase(s)) {
 -         itextcomponent = new TranslationTextComponent("multiplayer.player.joined", p_72355_2_.func_145748_c_());
 +
-+      if (ModcraftConfig.useCustomLoginLogout()) {
++      if (ModcraftConfig.enableCustomConnexionMessages()) {
 +            itextcomponent = new StringTextComponent(String.format(ModcraftConfig.getCustomLoginMessage(), p_72355_2_.func_145748_c_().func_150254_d()));
 +
        } else {

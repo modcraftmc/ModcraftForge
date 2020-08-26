@@ -24,24 +24,15 @@
        float f = this.field_212979_g > -1L ? (float)(k - this.field_212979_g) / 1000.0F : -1.0F;
        float f1 = this.field_212980_h > -1L ? (float)(k - this.field_212980_h) / 500.0F : -1.0F;
        float f2;
-@@ -66,10 +69,14 @@
-          }
+@@ -67,6 +70,7 @@
  
           int j1 = MathHelper.func_76143_f(MathHelper.func_151237_a((double)f1, 0.15D, 1.0D) * 255.0D);
--         fill(0, 0, i, j, 16777215 | j1 << 24);
-+         //fill(0, 0, i, j, 16777215 | j1 << 24);
+          fill(0, 0, i, j, 16777215 | j1 << 24);
 +
-+         fill(0, 0, i, j, 0xff121212);
           f2 = MathHelper.func_76131_a(f1, 0.0F, 1.0F);
        } else {
--         fill(0, 0, i, j, -1);
-+        // fill(0, 0, i, j, -1);
-+
-+        // fill(0, 0, i, j, parseColor("181818") | (16777215 | j1 << 24 &  0xff000000));
-          f2 = 1.0F;
-       }
- 
-@@ -81,7 +88,9 @@
+          fill(0, 0, i, j, -1);
+@@ -81,7 +85,9 @@
        this.blit(k1, i1, 0, 0, 256, 256);
        float f3 = this.field_212975_c.func_219555_b();
        this.field_212978_f = MathHelper.func_76131_a(this.field_212978_f * 0.95F + f3 * 0.050000012F, 0.0F, 1.0F);
@@ -51,7 +42,7 @@
           this.func_228181_a_(i / 2 - 150, j / 4 * 3, i / 2 + 150, j / 4 * 3 + 10, 1.0F - MathHelper.func_76131_a(f, 0.0F, 1.0F));
        }
  
-@@ -90,6 +99,7 @@
+@@ -90,6 +96,7 @@
        }
  
        if (this.field_212979_g == -1L && this.field_212975_c.func_219554_d() && (!this.field_212977_e || f1 >= 2.0F)) {
@@ -59,7 +50,7 @@
           try {
              this.field_212975_c.func_219556_e();
              this.field_212976_d.accept(Optional.empty());
-@@ -97,7 +107,6 @@
+@@ -97,7 +104,6 @@
              this.field_212976_d.accept(Optional.of(throwable));
           }
  
@@ -67,7 +58,7 @@
           if (this.field_212974_b.field_71462_r != null) {
              this.field_212974_b.field_71462_r.init(this.field_212974_b, this.field_212974_b.func_228018_at_().func_198107_o(), this.field_212974_b.func_228018_at_().func_198087_p());
           }
-@@ -105,11 +114,30 @@
+@@ -105,11 +111,30 @@
  
     }
  

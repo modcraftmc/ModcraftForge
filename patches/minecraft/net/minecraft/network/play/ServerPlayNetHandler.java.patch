@@ -1,21 +1,15 @@
 --- a/net/minecraft/network/play/ServerPlayNetHandler.java
 +++ b/net/minecraft/network/play/ServerPlayNetHandler.java
-@@ -8,8 +8,14 @@
+@@ -8,6 +8,8 @@
  import io.netty.util.concurrent.GenericFutureListener;
  import it.unimi.dsi.fastutil.ints.Int2ShortMap;
  import it.unimi.dsi.fastutil.ints.Int2ShortOpenHashMap;
 +
-+import java.nio.file.Files;
-+import java.nio.file.Paths;
 +import java.text.DecimalFormat;
  import java.util.Collections;
  import java.util.Set;
-+import java.util.concurrent.ExecutorService;
-+import java.util.concurrent.Executors;
  import javax.annotation.Nullable;
- import net.minecraft.advancements.Advancement;
- import net.minecraft.advancements.CriteriaTriggers;
-@@ -89,17 +95,7 @@
+@@ -89,17 +91,7 @@
  import net.minecraft.network.play.client.CUpdateSignPacket;
  import net.minecraft.network.play.client.CUpdateStructureBlockPacket;
  import net.minecraft.network.play.client.CUseEntityPacket;
@@ -34,7 +28,7 @@
  import net.minecraft.potion.Effects;
  import net.minecraft.server.MinecraftServer;
  import net.minecraft.tileentity.CommandBlockLogic;
-@@ -129,6 +125,8 @@
+@@ -129,6 +121,8 @@
  import net.minecraft.world.IWorldReader;
  import net.minecraft.world.dimension.DimensionType;
  import net.minecraft.world.server.ServerWorld;
@@ -43,7 +37,7 @@
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
  
-@@ -167,6 +165,13 @@
+@@ -167,6 +161,13 @@
     private int field_184347_F;
     private int field_184348_G;
  
@@ -57,7 +51,7 @@
     public ServerPlayNetHandler(MinecraftServer p_i1530_1_, NetworkManager p_i1530_2_, ServerPlayerEntity p_i1530_3_) {
        this.field_147367_d = p_i1530_1_;
        this.field_147371_a = p_i1530_2_;
-@@ -221,6 +226,7 @@
+@@ -221,6 +222,7 @@
  
        this.field_147367_d.func_213185_aS().func_76320_a("keepAlive");
        long i = Util.func_211177_b();
@@ -65,18 +59,20 @@
        if (i - this.field_194402_f >= 15000L) {
           if (this.field_194403_g) {
              this.func_194028_b(new TranslationTextComponent("disconnect.timeout"));
-@@ -245,8 +251,58 @@
+@@ -245,8 +247,39 @@
           this.func_194028_b(new TranslationTextComponent("multiplayer.disconnect.idling"));
        }
  
++      if (!ModcraftConfig.enableCustomTablist()) return;
++
 +      if (++tickCount > ModcraftConfig.getRefreshRate()) {
 +         tickCount = 0;
-+         refreshTab();
++         this.processTabUpdate();
 +      }
 +
     }
  
-+   public void refreshTab() {
++   public void processTabUpdate() {
 +
 +      double meanTickTime = mean(this.field_147367_d.field_71311_j) * 1.0E-6D;
 +      double meanTPS = Math.min(1000.0/meanTickTime, 20);
@@ -100,31 +96,10 @@
 +      field_147369_b.field_71135_a.func_147359_a(new SPlayerListHeaderFooterPacket(header, footer));
 +   }
 +
-+   static String replaceAll( String str, String target, String replacement ) {
-+      int targetLength = target.length();
-+      if( targetLength == 0 ) {
-+         return str;
-+      }
-+      int idx2 = str.indexOf( target );
-+      if( idx2 < 0 ) {
-+         return str;
-+      }
-+      StringBuilder buffer = new StringBuilder( targetLength > replacement.length() ? str.length() : str.length() * 2 );
-+      int idx1 = 0;
-+      do {
-+         buffer.append( str, idx1, idx2 );
-+         buffer.append( replacement );
-+         idx1 = idx2 + targetLength;
-+         idx2 = str.indexOf( target, idx1 );
-+      } while( idx2 > 0 );
-+      buffer.append( str, idx1, str.length() );
-+      return buffer.toString();
-+   }
-+
     public void func_184342_d() {
        this.field_184349_l = this.field_147369_b.func_226277_ct_();
        this.field_184350_m = this.field_147369_b.func_226278_cu_();
-@@ -336,9 +392,11 @@
+@@ -336,9 +369,11 @@
              }
  
              entity.func_70080_a(d3, d4, d5, f, f1);
@@ -136,7 +111,7 @@
                 this.field_147371_a.func_179290_a(new SMoveVehiclePacket(entity));
                 return;
              }
-@@ -713,11 +771,18 @@
+@@ -713,11 +748,18 @@
  
                       if (!this.field_147369_b.func_184850_K() && (!this.field_147369_b.func_71121_q().func_82736_K().func_223586_b(GameRules.field_223615_r) || !this.field_147369_b.func_184613_cA())) {
                          float f2 = this.field_147369_b.func_184613_cA() ? 300.0F : 100.0F;
@@ -157,7 +132,7 @@
                       }
  
                       boolean flag2 = this.func_223133_a(serverworld);
-@@ -845,7 +910,9 @@
+@@ -845,7 +887,9 @@
        Direction direction = blockraytraceresult.func_216354_b();
        this.field_147369_b.func_143004_u();
        if (blockpos.func_177956_o() < this.field_147367_d.func_71207_Z() - 1 || direction != Direction.UP && blockpos.func_177956_o() < this.field_147367_d.func_71207_Z()) {
@@ -168,7 +143,7 @@
              ActionResultType actionresulttype = this.field_147369_b.field_71134_c.func_219441_a(this.field_147369_b, serverworld, itemstack, hand, blockraytraceresult);
              if (actionresulttype.func_226247_b_()) {
                 this.field_147369_b.func_226292_a_(hand, true);
-@@ -900,7 +967,20 @@
+@@ -900,7 +944,20 @@
     public void func_147231_a(ITextComponent p_147231_1_) {
        field_147370_c.info("{} lost connection: {}", this.field_147369_b.func_200200_C_().getString(), p_147231_1_.getString());
        this.field_147367_d.func_147132_au();
@@ -176,7 +151,7 @@
 +
 +      ITextComponent component;
 +
-+      if (ModcraftConfig.useCustomLoginLogout()) {
++      if (ModcraftConfig.enableCustomConnexionMessages()) {
 +
 +         component = new StringTextComponent(String.format(ModcraftConfig.getCustomLogoutMessage(), this.field_147369_b.func_145748_c_().func_150254_d()));
 +
@@ -190,7 +165,7 @@
        this.field_147369_b.func_71123_m();
        this.field_147367_d.func_184103_al().func_72367_e(this.field_147369_b);
        if (this.func_217264_d()) {
-@@ -951,33 +1031,40 @@
+@@ -951,33 +1008,41 @@
  
     public void func_147354_a(CChatMessagePacket p_147354_1_) {
        PacketThreadUtil.func_218796_a(p_147354_1_, this, this.field_147369_b.func_71121_q());
@@ -217,25 +192,26 @@
 -            ITextComponent itextcomponent = new TranslationTextComponent("chat.type.text", this.field_147369_b.func_145748_c_(), s);
 -            this.field_147367_d.func_184103_al().func_148544_a(itextcomponent, false);
 -         }
-+            this.field_147369_b.func_143004_u();
-+            String s = p_147354_1_.func_149439_c();
-+            s = org.apache.commons.lang3.StringUtils.normalizeSpace(s);
  
 -         this.field_147374_l += 20;
 -         if (this.field_147374_l > 200 && !this.field_147367_d.func_184103_al().func_152596_g(this.field_147369_b.func_146103_bH())) {
 -            this.func_194028_b(new TranslationTextComponent("disconnect.spam"));
-+            for(int i = 0; i < s.length(); ++i) {
-+               if (!SharedConstants.func_71566_a(s.charAt(i))) {
++            this.field_147369_b.func_143004_u();
++            String message = p_147354_1_.func_149439_c();
++            message = org.apache.commons.lang3.StringUtils.normalizeSpace(message);
++
++            for (int i = 0; i < message.length(); ++i) {
++               if (!SharedConstants.func_71566_a(message.charAt(i))) {
 +                  this.func_194028_b(new TranslationTextComponent("multiplayer.disconnect.illegal_characters"));
 +                  return;
 +               }
 +            }
 +
-+            if (s.startsWith("/")) {
-+               this.func_147361_d(s);
++            if (message.startsWith("/")) {
++               this.func_147361_d(message);
 +            } else {
-+               ITextComponent itextcomponent = new TranslationTextComponent("chat.type.text", this.field_147369_b.func_145748_c_(), net.minecraftforge.common.ForgeHooks.newChatWithLinks(s));
-+               itextcomponent = net.minecraftforge.common.ForgeHooks.onServerChatEvent(this, s, itextcomponent);
++               ITextComponent itextcomponent = new TranslationTextComponent("chat.type.text", this.field_147369_b.func_145748_c_(), net.minecraftforge.common.ForgeHooks.newChatWithLinks(message));
++               itextcomponent = net.minecraftforge.common.ForgeHooks.onServerChatEvent(this, message, itextcomponent);
 +               if (itextcomponent == null) return;
 +               this.field_147367_d.func_184103_al().func_148544_a(itextcomponent, false);
 +            }
@@ -252,7 +228,7 @@
     }
  
     private void func_147361_d(String p_147361_1_) {
-@@ -1061,6 +1148,7 @@
+@@ -1061,6 +1126,7 @@
                 this.field_147369_b.func_190775_a(entity, hand);
              } else if (p_147340_1_.func_149565_c() == CUseEntityPacket.Action.INTERACT_AT) {
                 Hand hand1 = p_147340_1_.func_186994_b();
@@ -260,7 +236,7 @@
                 ActionResultType actionresulttype = entity.func_184199_a(this.field_147369_b, p_147340_1_.func_179712_b(), hand1);
                 if (actionresulttype.func_226247_b_()) {
                    this.field_147369_b.func_226292_a_(hand1, true);
-@@ -1094,7 +1182,7 @@
+@@ -1094,7 +1160,7 @@
                 return;
              }
  
@@ -269,7 +245,7 @@
              if (this.field_147367_d.func_71199_h()) {
                 this.field_147369_b.func_71033_a(GameType.SPECTATOR);
                 this.field_147369_b.func_71121_q().func_82736_K().func_223585_a(GameRules.field_223613_p).func_223570_a(false, this.field_147367_d);
-@@ -1268,6 +1356,8 @@
+@@ -1268,6 +1334,8 @@
     }
  
     public void func_147349_a(CCustomPayloadPacket p_147349_1_) {
@@ -278,7 +254,7 @@
     }
  
     public void func_217263_a(CSetDifficultyPacket p_217263_1_) {
-@@ -1283,4 +1373,12 @@
+@@ -1283,4 +1351,12 @@
           this.field_147367_d.func_213209_d(p_217261_1_.func_218776_b());
        }
     }

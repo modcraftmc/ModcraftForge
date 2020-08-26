@@ -1,15 +1,16 @@
-#Allow to desable DataFixer logs
-LogDataFixer = true
+# ModcraftForge configuration file
+# if need specific options, please create issue on github https://github.com/modcraftmc/ModcraftForge/issues
 
-#Allow to log Dimentions load/unload - bebug -> info
-LogDimsLoading = false
+# Allow to modify display of logs
+removeDataFixerlogs=false
+showDimensionLogs=false
 
-#Allow to use custom tablist
-CustomtabList = false
+# Allow to modify custom tablist options
+enableCustomTablist=false
 
-#custom header
-customTabHeader = ""
+# custom message for tablist, you can use '/n' to create new line. color are supported
+customHeader="DEFAULT HEADER"
+customFooter="DEFAULT FOOTER"
 
-#custom footer
-customTabFooter = ""
-
+# Tab refresh rate in tick (20tick = 1 second)
+tabRefreshRate=20
