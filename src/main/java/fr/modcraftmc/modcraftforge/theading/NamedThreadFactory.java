@@ -1,4 +1,4 @@
-package net.minecraftforge.modcraftforge.common.theading;
+package fr.modcraftmc.modcraftforge.theading;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -14,7 +14,7 @@ public class NamedThreadFactory implements ThreadFactory {
 
     @Override
     public Thread newThread(@NotNull Runnable r) {
-        Thread thread = new ModcraftThreadBox.AssignableThread(r);
+        Thread thread = new ModcraftThreadFactory.AssignableThread(r);
         thread.setName(name);
         return thread;
     }

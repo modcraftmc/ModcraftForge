@@ -4,8 +4,8 @@
  import net.minecraft.world.World;
  import net.minecraftforge.api.distmarker.Dist;
  import net.minecraftforge.api.distmarker.OnlyIn;
-+import net.minecraftforge.modcraftforge.common.ModcraftConfig;
-+import net.minecraftforge.modcraftforge.common.ModcraftForge;
++import fr.modcraftmc.modcraftforge.ModcraftConfig;
++import fr.modcraftmc.modcraftforge.ModcraftForge;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
  
@@ -58,6 +58,27 @@
        p_220342_1_.func_217376_c(t);
        return t;
     }
+@@ -438,14 +455,14 @@
+       return Registry.field_212629_r.func_218349_b(new ResourceLocation(p_220347_0_.func_74779_i("id")));
+    }
+ 
+-   @Nullable
+-   public static Entity func_220335_a(CompoundNBT p_220335_0_, World p_220335_1_, Function<Entity, Entity> p_220335_2_) {
+-      return func_220343_b(p_220335_0_, p_220335_1_).map(p_220335_2_).map((p_220346_3_) -> {
+-         if (p_220335_0_.func_150297_b("Passengers", 9)) {
+-            ListNBT listnbt = p_220335_0_.func_150295_c("Passengers", 10);
++   @Nullable //func_220335_a
++   public static Entity getPassenger(CompoundNBT compound, World worldIn, Function<Entity, Entity> p_220335_2_) {
++      return func_220343_b(compound, worldIn).map(p_220335_2_).map((p_220346_3_) -> {
++         if (compound.func_150297_b("Passengers", 9)) {
++            ListNBT listnbt = compound.func_150295_c("Passengers", 10);
+ 
+             for(int i = 0; i < listnbt.size(); ++i) {
+-               Entity entity = func_220335_a(listnbt.func_150305_b(i), p_220335_1_, p_220335_2_);
++               Entity entity = getPassenger(listnbt.func_150305_b(i), worldIn, p_220335_2_);
+                if (entity != null) {
+                   entity.func_184205_a(p_220346_3_, true);
+                }
 @@ -466,6 +483,9 @@
     }
  

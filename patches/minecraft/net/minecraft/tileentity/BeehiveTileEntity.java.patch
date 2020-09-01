@@ -1,0 +1,11 @@
+--- a/net/minecraft/tileentity/BeehiveTileEntity.java
++++ b/net/minecraft/tileentity/BeehiveTileEntity.java
+@@ -146,7 +146,7 @@
+          if (flag && p_226967_4_ != BeehiveTileEntity.State.EMERGENCY) {
+             return false;
+          } else {
+-            Entity entity = EntityType.func_220335_a(p_226967_2_, this.field_145850_b, (p_226960_0_) -> {
++            Entity entity = EntityType.getPassenger(p_226967_2_, this.field_145850_b, (p_226960_0_) -> {
+                return p_226960_0_;
+             });
+             if (entity != null) {

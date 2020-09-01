@@ -23,25 +23,19 @@ import cpw.mods.modlauncher.api.IEnvironment;
 import cpw.mods.modlauncher.api.ITransformationService;
 import cpw.mods.modlauncher.api.ITransformer;
 import cpw.mods.modlauncher.api.IncompatibleEnvironmentException;
+import fr.modcraftmc.modcraftforge.ModcraftConfig;
+import fr.modcraftmc.modcraftforge.ModcraftForge;
 import joptsimple.ArgumentAcceptingOptionSpec;
 import joptsimple.OptionSpecBuilder;
 import net.minecraftforge.fml.loading.moddiscovery.ModFile;
 import net.minecraftforge.forgespi.Environment;
 import net.minecraftforge.forgespi.locating.IModFile;
-import net.minecraftforge.modcraftforge.common.ModcraftConfig;
-import net.minecraftforge.modcraftforge.common.ModcraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import java.nio.file.Path;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
@@ -97,7 +91,7 @@ public class FMLServiceProvider implements ITransformationService
         FMLLoader.setupLaunchHandler(environment, arguments);
         FMLEnvironment.setupInteropEnvironment(environment);
         Environment.build(environment);
-        new ModcraftForge();
+        ModcraftForge.setup();
     }
 
     @Override

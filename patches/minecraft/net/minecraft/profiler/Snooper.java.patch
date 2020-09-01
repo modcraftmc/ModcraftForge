@@ -1,0 +1,20 @@
+--- a/net/minecraft/profiler/Snooper.java
++++ b/net/minecraft/profiler/Snooper.java
+@@ -15,7 +15,7 @@
+    private final String field_76480_b = UUID.randomUUID().toString();
+    private final URL field_76481_c;
+    private final ISnooperInfo field_76478_d;
+-   private final Timer field_76479_e = new Timer("Snooper Timer", true);
++   //private final Timer timer = new Timer("Snooper Timer", false);
+    private final Object field_76476_f = new Object();
+    private final long field_98224_g;
+    private boolean field_76477_g;
+@@ -63,7 +63,7 @@
+    }
+ 
+    public void func_76470_e() {
+-      this.field_76479_e.cancel();
++      //this.timer.cancel();
+    }
+ 
+    @OnlyIn(Dist.CLIENT)

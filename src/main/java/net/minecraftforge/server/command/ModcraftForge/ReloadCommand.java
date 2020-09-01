@@ -1,10 +1,10 @@
 package net.minecraftforge.server.command.ModcraftForge;
 
 import com.mojang.brigadier.builder.ArgumentBuilder;
+import fr.modcraftmc.modcraftforge.ModcraftConfig;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraftforge.modcraftforge.common.ModcraftConfig;
 
 public class ReloadCommand {
 

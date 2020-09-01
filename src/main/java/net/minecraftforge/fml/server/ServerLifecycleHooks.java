@@ -19,21 +19,6 @@
 
 package net.minecraftforge.fml.server;
 
-import static net.minecraftforge.fml.Logging.CORE;
-
-import java.nio.file.Path;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.BiConsumer;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.Marker;
-import org.apache.logging.log4j.MarkerManager;
-
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.ProtocolType;
 import net.minecraft.network.handshake.client.CHandshakePacket;
@@ -43,18 +28,10 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.LogicalSidedProvider;
-import net.minecraftforge.fml.ModLoader;
-import net.minecraftforge.fml.ModLoadingStage;
-import net.minecraftforge.fml.ModLoadingWarning;
+import net.minecraftforge.fml.*;
 import net.minecraftforge.fml.config.ConfigTracker;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
-import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
-import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
+import net.minecraftforge.fml.event.server.*;
 import net.minecraftforge.fml.loading.FileUtils;
 import net.minecraftforge.fml.loading.moddiscovery.ModFile;
 import net.minecraftforge.fml.network.ConnectionType;
@@ -65,6 +42,21 @@ import net.minecraftforge.fml.packs.ModFileResourcePack;
 import net.minecraftforge.fml.packs.ResourcePackLoader;
 import net.minecraftforge.forgespi.language.IModInfo;
 import net.minecraftforge.registries.GameData;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
+
+import java.nio.file.Path;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiConsumer;
+
+import static net.minecraftforge.fml.Logging.CORE;
 
 public class ServerLifecycleHooks
 {
@@ -114,6 +106,7 @@ public class ServerLifecycleHooks
 
     public static void handleServerStopped(final MinecraftServer server)
     {
+        LOGGER.info("stopping!");
         if (!server.isDedicatedServer()) GameData.revertToFrozen();
         MinecraftForge.EVENT_BUS.post(new FMLServerStoppedEvent(server));
         currentServer = null;
@@ -126,6 +119,7 @@ public class ServerLifecycleHooks
             exitLatch = null;
         }
         ConfigTracker.INSTANCE.unloadConfigs(ModConfig.Type.SERVER, getServerConfigPath(server));
+        LOGGER.info("stopped!");
     }
 
     public static MinecraftServer getCurrentServer()
@@ -176,7 +170,7 @@ public class ServerLifecycleHooks
 
     public static void handleExit(int retVal)
     {
-/*
+
         CountDownLatch latch = exitLatch;
 
         if (latch != null)
@@ -199,7 +193,7 @@ public class ServerLifecycleHooks
             }
         }
 
-*/
+
         System.exit(retVal);
     }
 

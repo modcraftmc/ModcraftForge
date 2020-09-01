@@ -453,10 +453,21 @@
 -      ITextComponent itextcomponent = ScorePlayerTeam.func_200541_a(this.func_96124_cp(), this.func_200200_C_());
 +      if (this.displayname == null) this.displayname = net.minecraftforge.event.ForgeEventFactory.getPlayerDisplayName(this, this.func_200200_C_());
 +      ITextComponent itextcomponent = new StringTextComponent("");
-+      prefixes.forEach(e -> itextcomponent.func_150257_a(e));
++      prefixes.forEach(itextcomponent::func_150257_a);
 +      itextcomponent.func_150257_a(ScorePlayerTeam.func_200541_a(this.func_96124_cp(), this.displayname));
-+      suffixes.forEach(e -> itextcomponent.func_150257_a(e));
++      suffixes.forEach(itextcomponent::func_150257_a);
        return this.func_208016_c(itextcomponent);
+    }
+ 
+@@ -1799,8 +1928,8 @@
+ 
+    private ITextComponent func_208016_c(ITextComponent p_208016_1_) {
+       String s = this.func_146103_bH().getName();
+-      return p_208016_1_.func_211710_a((p_226561_2_) -> {
+-         p_226561_2_.func_150241_a(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tell " + s + " ")).func_150209_a(this.func_174823_aP()).func_179989_a(s);
++      return p_208016_1_.func_211710_a((component) -> {
++         component.func_150241_a(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tell " + s + " ")).func_150209_a(this.func_174823_aP()).func_179989_a(s);
+       });
     }
  
 @@ -2029,4 +2158,53 @@

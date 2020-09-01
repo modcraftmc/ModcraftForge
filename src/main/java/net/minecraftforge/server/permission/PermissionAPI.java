@@ -24,17 +24,17 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.server.permission.context.IContext;
 import net.minecraftforge.server.permission.context.PlayerContext;
-
-import javax.annotation.Nullable;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import javax.annotation.Nullable;
 
 public class PermissionAPI
 {
     private static final Logger LOGGER = LogManager.getLogger();
     
     private static IPermissionHandler permissionHandler = DefaultPermissionHandler.INSTANCE;
+
 
     /**
      * <b>Only use this in PreInit state!</b>

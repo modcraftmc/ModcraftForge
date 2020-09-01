@@ -1,22 +1,14 @@
-package net.minecraftforge.modcraftforge.common;
+package fr.modcraftmc.modcraftforge;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.RuntimeMXBean;
-import java.util.List;
-import java.util.Map;
-
 public class ModcraftForge {
 
     public static final Logger LOGGER = LogManager.getLogger("ModcraftForge");
-    private static ModcraftForge instance;
 
 
-    public ModcraftForge() {
-        instance = this;
-
+    public static void setup() {
 
         LOGGER.info("");
         LOGGER.info("  __  __           _                 __ _   _____                    ");
@@ -30,9 +22,5 @@ public class ModcraftForge {
         LOGGER.info("            please test on Forge server before reporting.");
         LOGGER.info("");
 
-    }
-
-    public static ModcraftForge get() {
-        return instance;
     }
 }

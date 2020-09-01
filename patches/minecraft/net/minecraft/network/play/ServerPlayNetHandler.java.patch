@@ -1,6 +1,12 @@
 --- a/net/minecraft/network/play/ServerPlayNetHandler.java
 +++ b/net/minecraft/network/play/ServerPlayNetHandler.java
-@@ -8,6 +8,8 @@
+@@ -4,10 +4,14 @@
+ import com.google.common.primitives.Floats;
+ import com.mojang.brigadier.ParseResults;
+ import com.mojang.brigadier.StringReader;
++import fr.modcraftmc.modcraftforge.theading.ModcraftThreadFactory;
++import fr.modcraftmc.modcraftforge.utils.Utils;
+ import io.netty.util.concurrent.Future;
  import io.netty.util.concurrent.GenericFutureListener;
  import it.unimi.dsi.fastutil.ints.Int2ShortMap;
  import it.unimi.dsi.fastutil.ints.Int2ShortOpenHashMap;
@@ -9,7 +15,20 @@
  import java.util.Collections;
  import java.util.Set;
  import javax.annotation.Nullable;
-@@ -89,17 +91,7 @@
+@@ -31,11 +35,7 @@
+ import net.minecraft.entity.player.PlayerInventory;
+ import net.minecraft.entity.player.ServerPlayerEntity;
+ import net.minecraft.entity.projectile.AbstractArrowEntity;
+-import net.minecraft.inventory.container.BeaconContainer;
+-import net.minecraft.inventory.container.Container;
+-import net.minecraft.inventory.container.MerchantContainer;
+-import net.minecraft.inventory.container.RecipeBookContainer;
+-import net.minecraft.inventory.container.RepairContainer;
++import net.minecraft.inventory.container.*;
+ import net.minecraft.item.ItemStack;
+ import net.minecraft.item.Items;
+ import net.minecraft.item.WritableBookItem;
+@@ -89,17 +89,7 @@
  import net.minecraft.network.play.client.CUpdateSignPacket;
  import net.minecraft.network.play.client.CUpdateStructureBlockPacket;
  import net.minecraft.network.play.client.CUseEntityPacket;
@@ -28,16 +47,15 @@
  import net.minecraft.potion.Effects;
  import net.minecraft.server.MinecraftServer;
  import net.minecraft.tileentity.CommandBlockLogic;
-@@ -129,6 +121,8 @@
+@@ -129,6 +119,7 @@
  import net.minecraft.world.IWorldReader;
  import net.minecraft.world.dimension.DimensionType;
  import net.minecraft.world.server.ServerWorld;
-+import net.minecraftforge.modcraftforge.common.ModcraftConfig;
-+import net.minecraftforge.modcraftforge.common.theading.ModcraftThreadBox;
++import fr.modcraftmc.modcraftforge.ModcraftConfig;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
  
-@@ -167,6 +161,13 @@
+@@ -167,6 +158,13 @@
     private int field_184347_F;
     private int field_184348_G;
  
@@ -51,7 +69,7 @@
     public ServerPlayNetHandler(MinecraftServer p_i1530_1_, NetworkManager p_i1530_2_, ServerPlayerEntity p_i1530_3_) {
        this.field_147367_d = p_i1530_1_;
        this.field_147371_a = p_i1530_2_;
-@@ -221,6 +222,7 @@
+@@ -221,6 +219,7 @@
  
        this.field_147367_d.func_213185_aS().func_76320_a("keepAlive");
        long i = Util.func_211177_b();
@@ -59,7 +77,7 @@
        if (i - this.field_194402_f >= 15000L) {
           if (this.field_194403_g) {
              this.func_194028_b(new TranslationTextComponent("disconnect.timeout"));
-@@ -245,8 +247,39 @@
+@@ -245,8 +244,38 @@
           this.func_194028_b(new TranslationTextComponent("multiplayer.disconnect.idling"));
        }
  
@@ -74,7 +92,7 @@
  
 +   public void processTabUpdate() {
 +
-+      double meanTickTime = mean(this.field_147367_d.field_71311_j) * 1.0E-6D;
++      double meanTickTime = Utils.mean(this.field_147367_d.field_71311_j) * 1.0E-6D;
 +      double meanTPS = Math.min(1000.0/meanTickTime, 20);
 +
 +      header = new StringTextComponent(ModcraftConfig.getCustomheader()
@@ -83,7 +101,6 @@
 +              .replaceAll("%ONLINE%", String.valueOf(field_147367_d.func_184103_al().func_72394_k()))
 +              .replaceAll("%MAX%", String.valueOf(field_147367_d.func_184103_al().func_72352_l()))
 +              .replaceAll("%PING%", String.valueOf(field_147369_b.field_71138_i)));
-+
 +
 +
 +      footer = new StringTextComponent(ModcraftConfig.getCustomFooter()
@@ -99,7 +116,7 @@
     public void func_184342_d() {
        this.field_184349_l = this.field_147369_b.func_226277_ct_();
        this.field_184350_m = this.field_147369_b.func_226278_cu_();
-@@ -336,9 +369,11 @@
+@@ -336,9 +365,11 @@
              }
  
              entity.func_70080_a(d3, d4, d5, f, f1);
@@ -111,7 +128,7 @@
                 this.field_147371_a.func_179290_a(new SMoveVehiclePacket(entity));
                 return;
              }
-@@ -713,11 +748,18 @@
+@@ -713,11 +744,18 @@
  
                       if (!this.field_147369_b.func_184850_K() && (!this.field_147369_b.func_71121_q().func_82736_K().func_223586_b(GameRules.field_223615_r) || !this.field_147369_b.func_184613_cA())) {
                          float f2 = this.field_147369_b.func_184613_cA() ? 300.0F : 100.0F;
@@ -132,7 +149,7 @@
                       }
  
                       boolean flag2 = this.func_223133_a(serverworld);
-@@ -845,7 +887,9 @@
+@@ -845,7 +883,9 @@
        Direction direction = blockraytraceresult.func_216354_b();
        this.field_147369_b.func_143004_u();
        if (blockpos.func_177956_o() < this.field_147367_d.func_71207_Z() - 1 || direction != Direction.UP && blockpos.func_177956_o() < this.field_147367_d.func_71207_Z()) {
@@ -143,7 +160,7 @@
              ActionResultType actionresulttype = this.field_147369_b.field_71134_c.func_219441_a(this.field_147369_b, serverworld, itemstack, hand, blockraytraceresult);
              if (actionresulttype.func_226247_b_()) {
                 this.field_147369_b.func_226292_a_(hand, true);
-@@ -900,7 +944,20 @@
+@@ -900,7 +940,19 @@
     public void func_147231_a(ITextComponent p_147231_1_) {
        field_147370_c.info("{} lost connection: {}", this.field_147369_b.func_200200_C_().getString(), p_147231_1_.getString());
        this.field_147367_d.func_147132_au();
@@ -152,7 +169,6 @@
 +      ITextComponent component;
 +
 +      if (ModcraftConfig.enableCustomConnexionMessages()) {
-+
 +         component = new StringTextComponent(String.format(ModcraftConfig.getCustomLogoutMessage(), this.field_147369_b.func_145748_c_().func_150254_d()));
 +
 +      } else {
@@ -165,7 +181,23 @@
        this.field_147369_b.func_71123_m();
        this.field_147367_d.func_184103_al().func_72367_e(this.field_147369_b);
        if (this.func_217264_d()) {
-@@ -951,33 +1008,41 @@
+@@ -911,7 +963,7 @@
+    }
+ 
+    public void func_147359_a(IPacket<?> p_147359_1_) {
+-      this.func_211148_a(p_147359_1_, (GenericFutureListener<? extends Future<? super Void>>)null);
++      this.func_211148_a(p_147359_1_, null);
+    }
+ 
+    public void func_211148_a(IPacket<?> p_211148_1_, @Nullable GenericFutureListener<? extends Future<? super Void>> p_211148_2_) {
+@@ -945,39 +997,51 @@
+          this.field_147369_b.field_71071_by.field_70461_c = p_147355_1_.func_149614_c();
+          this.field_147369_b.func_143004_u();
+       } else {
+-         field_147370_c.warn("{} tried to set an invalid carried item", (Object)this.field_147369_b.func_200200_C_().getString());
++         field_147370_c.warn("{} tried to set an invalid carried item", this.field_147369_b.func_200200_C_().getString());
+       }
+    }
  
     public void func_147354_a(CChatMessagePacket p_147354_1_) {
        PacketThreadUtil.func_218796_a(p_147354_1_, this, this.field_147369_b.func_71121_q());
@@ -182,10 +214,11 @@
 -               return;
 -            }
 -         }
-+      ModcraftThreadBox.CHAT_THREAD.submit(() -> {
  
 -         if (s.startsWith("/")) {
 -            this.func_147361_d(s);
++      ModcraftThreadFactory.CHAT_THREAD.submit(() -> {
++
 +         if (this.field_147369_b.func_147096_v() == ChatVisibility.HIDDEN) {
 +            this.func_147359_a(new SChatPacket((new TranslationTextComponent("chat.cannotSend")).func_211708_a(TextFormatting.RED)));
           } else {
@@ -207,8 +240,11 @@
 +               }
 +            }
 +
++
 +            if (message.startsWith("/")) {
-+               this.func_147361_d(message);
++               String finalMessage = message;
++               //run command into the server thread
++               field_147367_d.func_213167_f(()-> this.func_147361_d(finalMessage));
 +            } else {
 +               ITextComponent itextcomponent = new TranslationTextComponent("chat.type.text", this.field_147369_b.func_145748_c_(), net.minecraftforge.common.ForgeHooks.newChatWithLinks(message));
 +               itextcomponent = net.minecraftforge.common.ForgeHooks.onServerChatEvent(this, message, itextcomponent);
@@ -228,7 +264,7 @@
     }
  
     private void func_147361_d(String p_147361_1_) {
-@@ -1061,6 +1126,7 @@
+@@ -1061,6 +1125,7 @@
                 this.field_147369_b.func_190775_a(entity, hand);
              } else if (p_147340_1_.func_149565_c() == CUseEntityPacket.Action.INTERACT_AT) {
                 Hand hand1 = p_147340_1_.func_186994_b();
@@ -236,7 +272,7 @@
                 ActionResultType actionresulttype = entity.func_184199_a(this.field_147369_b, p_147340_1_.func_179712_b(), hand1);
                 if (actionresulttype.func_226247_b_()) {
                    this.field_147369_b.func_226292_a_(hand1, true);
-@@ -1094,7 +1160,7 @@
+@@ -1094,7 +1159,7 @@
                 return;
              }
  
@@ -245,7 +281,49 @@
              if (this.field_147367_d.func_71199_h()) {
                 this.field_147369_b.func_71033_a(GameType.SPECTATOR);
                 this.field_147369_b.func_71121_q().func_82736_K().func_223585_a(GameRules.field_223613_p).func_223570_a(false, this.field_147367_d);
-@@ -1268,6 +1334,8 @@
+@@ -1119,10 +1184,17 @@
+          if (this.field_147369_b.func_175149_v()) {
+             NonNullList<ItemStack> nonnulllist = NonNullList.func_191196_a();
+ 
+-            for(int i = 0; i < this.field_147369_b.field_71070_bA.field_75151_b.size(); ++i) {
+-               nonnulllist.add(this.field_147369_b.field_71070_bA.field_75151_b.get(i).func_75211_c());
++
++            /*
++            for(int i = 0; i < this.player.openContainer.inventorySlots.size(); ++i) {
++               nonnulllist.add(this.player.openContainer.inventorySlots.get(i).getStack());
+             }
++             */
+ 
++            for (Slot slot : this.field_147369_b.field_71070_bA.field_75151_b) {
++               nonnulllist.add(slot.func_75211_c());
++            }
++
+             this.field_147369_b.func_71110_a(this.field_147369_b.field_71070_bA, nonnulllist);
+          } else {
+             ItemStack itemstack1 = this.field_147369_b.field_71070_bA.func_184996_a(p_147351_1_.func_149544_d(), p_147351_1_.func_149543_e(), p_147351_1_.func_186993_f(), this.field_147369_b);
+@@ -1138,11 +1210,18 @@
+                this.field_147369_b.field_71070_bA.func_75128_a(this.field_147369_b, false);
+                NonNullList<ItemStack> nonnulllist1 = NonNullList.func_191196_a();
+ 
+-               for(int j = 0; j < this.field_147369_b.field_71070_bA.field_75151_b.size(); ++j) {
+-                  ItemStack itemstack = this.field_147369_b.field_71070_bA.field_75151_b.get(j).func_75211_c();
+-                  nonnulllist1.add(itemstack.func_190926_b() ? ItemStack.field_190927_a : itemstack);
++               /*
++                for(int j = 0; j < this.player.openContainer.inventorySlots.size(); ++j) {
++                  ItemStack itemstack = this.player.openContainer.inventorySlots.get(j).getStack();
++                  nonnulllist1.add(itemstack.isEmpty() ? ItemStack.EMPTY : itemstack);
+                }
++                */
+ 
++               for (Slot inventorySlot : this.field_147369_b.field_71070_bA.field_75151_b) {
++                  ItemStack stack = inventorySlot.func_75211_c();
++                  nonnulllist1.add(stack.func_190926_b() ? ItemStack.field_190927_a : stack);
++               }
++
+                this.field_147369_b.func_71110_a(this.field_147369_b.field_71070_bA, nonnulllist1);
+             }
+          }
+@@ -1268,6 +1347,8 @@
     }
  
     public void func_147349_a(CCustomPayloadPacket p_147349_1_) {
@@ -254,16 +332,9 @@
     }
  
     public void func_217263_a(CSetDifficultyPacket p_217263_1_) {
-@@ -1283,4 +1351,12 @@
+@@ -1283,4 +1364,5 @@
           this.field_147367_d.func_213209_d(p_217261_1_.func_218776_b());
        }
     }
 +
-+   private static long mean(long[] values)
-+   {
-+      long sum = 0L;
-+      for (long v : values)
-+         sum += v;
-+      return sum / values.length;
-+   }
  }

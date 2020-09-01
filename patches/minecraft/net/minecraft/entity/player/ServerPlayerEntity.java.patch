@@ -133,6 +133,19 @@
     }
  
     protected void func_70670_a(EffectInstance p_70670_1_) {
+@@ -1073,9 +1097,9 @@
+    }
+ 
+    public void func_195395_a(ITextComponent p_195395_1_, ChatType p_195395_2_) {
+-      this.field_71135_a.func_211148_a(new SChatPacket(p_195395_1_, p_195395_2_), (p_211144_3_) -> {
+-         if (!p_211144_3_.isSuccess() && (p_195395_2_ == ChatType.GAME_INFO || p_195395_2_ == ChatType.SYSTEM)) {
+-            int i = 256;
++      this.field_71135_a.func_211148_a(new SChatPacket(p_195395_1_, p_195395_2_), (future) -> {
++         if (!future.isSuccess() && (p_195395_2_ == ChatType.GAME_INFO || p_195395_2_ == ChatType.SYSTEM)) {
++           // int i = 256;
+             String s = p_195395_1_.func_212636_a(256);
+             ITextComponent itextcomponent = (new StringTextComponent(s)).func_211708_a(TextFormatting.YELLOW);
+             this.field_71135_a.func_147359_a(new SChatPacket((new TranslationTextComponent("multiplayer.message_not_delivered", itextcomponent)).func_211708_a(TextFormatting.RED), ChatType.SYSTEM));
 @@ -1207,15 +1231,17 @@
        this.func_184210_p();
        if (p_200619_1_ == this.field_70170_p) {
