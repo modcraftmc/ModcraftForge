@@ -52,17 +52,18 @@
        }
     }
  
-@@ -317,6 +324,9 @@
+@@ -317,6 +324,10 @@
           this.field_71342_m.func_219591_b();
        }
  
-+      System.out.println("halt!");
++      System.exit(0);
++
 +      Runtime.getRuntime().halt(0);
 +
     }
  
     public void func_71190_q(BooleanSupplier p_71190_1_) {
-@@ -547,4 +557,9 @@
+@@ -547,4 +558,9 @@
     public boolean func_213199_b(GameProfile p_213199_1_) {
        return false;
     }

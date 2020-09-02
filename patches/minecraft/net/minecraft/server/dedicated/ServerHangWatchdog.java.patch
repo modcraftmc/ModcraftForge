@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/dedicated/ServerHangWatchdog.java
 +++ b/net/minecraft/server/dedicated/ServerHangWatchdog.java
-@@ -36,7 +36,7 @@
+@@ -36,14 +36,14 @@
              ThreadMXBean threadmxbean = ManagementFactory.getThreadMXBean();
              ThreadInfo[] athreadinfo = threadmxbean.dumpAllThreads(true, true);
              StringBuilder stringbuilder = new StringBuilder();
@@ -9,3 +9,11 @@
  
              for(ThreadInfo threadinfo : athreadinfo) {
                 if (threadinfo.getThreadId() == this.field_180249_b.func_213170_ax().getId()) {
+                   error.setStackTrace(threadinfo.getStackTrace());
+                }
+ 
+-               stringbuilder.append((Object)threadinfo);
++               stringbuilder.append(threadinfo);
+                stringbuilder.append("\n");
+             }
+ 

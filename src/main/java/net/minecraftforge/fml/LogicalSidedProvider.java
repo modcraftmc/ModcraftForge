@@ -29,8 +29,8 @@ import java.util.function.Supplier;
 
 public enum LogicalSidedProvider
 {
-    WORKQUEUE((c)->c.get(), (s)->s.get()),
-    INSTANCE((c)->c.get(), (s)->s.get()),
+    WORKQUEUE(Supplier::get, Supplier::get),
+    INSTANCE(Supplier::get, Supplier::get),
     CLIENTWORLD((c)-> Optional.<World>of(c.get().world), (s)->Optional.<World>empty())
     ;
     private static Supplier<Minecraft> client;
