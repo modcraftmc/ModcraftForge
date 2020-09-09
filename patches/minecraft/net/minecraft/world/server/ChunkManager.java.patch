@@ -1,5 +1,16 @@
 --- a/net/minecraft/world/server/ChunkManager.java
 +++ b/net/minecraft/world/server/ChunkManager.java
+@@ -191,8 +191,8 @@
+    }
+ 
+    @OnlyIn(Dist.CLIENT)
+-   public String func_219170_a(ChunkPos p_219170_1_) {
+-      ChunkHolder chunkholder = this.func_219219_b(p_219170_1_.func_201841_a());
++   public String func_219170_a(ChunkPos pos) {
++      ChunkHolder chunkholder = this.func_219219_b(pos.func_201841_a());
+       if (chunkholder == null) {
+          return "null";
+       } else {
 @@ -368,6 +368,7 @@
        iprofiler.func_219895_b("chunk_unload");
        if (!this.field_219255_i.func_217402_u()) {
@@ -24,11 +35,49 @@
              }
  
              return chunk;
-@@ -679,6 +682,7 @@
+@@ -648,9 +651,9 @@
+       return this.field_219268_v.get();
+    }
+ 
+-   private boolean func_219229_a(IChunk p_219229_1_) {
+-      this.field_219260_n.func_219112_a(p_219229_1_.func_76632_l());
+-      if (!p_219229_1_.func_201593_f()) {
++   private boolean func_219229_a(IChunk chunkIn) {
++      this.field_219260_n.func_219112_a(chunkIn.func_76632_l());
++      if (!chunkIn.func_201593_f()) {
+          return false;
+       } else {
+          try {
+@@ -660,25 +663,26 @@
+             return false;
+          }
+ 
+-         p_219229_1_.func_177432_b(this.field_219255_i.func_82737_E());
+-         p_219229_1_.func_177427_f(false);
+-         ChunkPos chunkpos = p_219229_1_.func_76632_l();
++         chunkIn.func_177432_b(this.field_219255_i.func_82737_E());
++         chunkIn.func_177427_f(false);
++         ChunkPos chunkpos = chunkIn.func_76632_l();
+ 
+          try {
+-            ChunkStatus chunkstatus = p_219229_1_.func_201589_g();
++            ChunkStatus chunkstatus = chunkIn.func_201589_g();
+             if (chunkstatus.func_202129_d() != ChunkStatus.Type.LEVELCHUNK) {
+                CompoundNBT compoundnbt = this.func_219178_f(chunkpos);
+                if (compoundnbt != null && ChunkSerializer.func_222651_a(compoundnbt) == ChunkStatus.Type.LEVELCHUNK) {
+                   return false;
+                }
+ 
+-               if (chunkstatus == ChunkStatus.field_223226_a_ && p_219229_1_.func_201609_c().values().stream().noneMatch(StructureStart::func_75069_d)) {
++               if (chunkstatus == ChunkStatus.field_223226_a_ && chunkIn.func_201609_c().values().stream().noneMatch(StructureStart::func_75069_d)) {
+                   return false;
+                }
+             }
  
              this.field_219255_i.func_217381_Z().func_230035_c_("chunkSave");
-             CompoundNBT compoundnbt1 = ChunkSerializer.func_222645_a(this.field_219255_i, p_219229_1_);
-+            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.world.ChunkDataEvent.Save(p_219229_1_, p_219229_1_.getWorldForge() != null ? p_219229_1_.getWorldForge() : this.field_219255_i, compoundnbt1));
+-            CompoundNBT compoundnbt1 = ChunkSerializer.func_222645_a(this.field_219255_i, p_219229_1_);
++            CompoundNBT compoundnbt1 = ChunkSerializer.func_222645_a(this.field_219255_i, chunkIn);
++            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.world.ChunkDataEvent.Save(chunkIn, chunkIn.getWorldForge() != null ? chunkIn.getWorldForge() : this.field_219255_i, compoundnbt1));
              this.func_219100_a(chunkpos, compoundnbt1);
              return true;
           } catch (Exception exception) {
@@ -40,3 +89,14 @@
           if (p_219199_5_ && !p_219199_4_) {
              ChunkHolder chunkholder = this.func_219219_b(p_219199_2_.func_201841_a());
              if (chunkholder != null) {
+@@ -1168,8 +1173,8 @@
+       }
+ 
+       @Nullable
+-      protected ChunkHolder func_219335_b(long p_219335_1_) {
+-         return ChunkManager.this.func_219220_a(p_219335_1_);
++      protected ChunkHolder func_219335_b(long chunkPosIn) {
++         return ChunkManager.this.func_219220_a(chunkPosIn);
+       }
+ 
+       @Nullable

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/server/TicketManager.java
++++ b/net/minecraft/world/server/TicketManager.java
+@@ -84,7 +84,7 @@
+    protected abstract boolean func_219371_a(long p_219371_1_);
+ 
+    @Nullable
+-   protected abstract ChunkHolder func_219335_b(long p_219335_1_);
++   protected abstract ChunkHolder func_219335_b(long chunkPosIn);
+ 
+    @Nullable
+    protected abstract ChunkHolder func_219372_a(long p_219372_1_, int p_219372_3_, @Nullable ChunkHolder p_219372_4_, int p_219372_5_);

@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/gen/FlatChunkGenerator.java
++++ b/net/minecraft/world/gen/FlatChunkGenerator.java
+@@ -119,12 +119,12 @@
+ 
+    }
+ 
+-   public int func_222529_a(int p_222529_1_, int p_222529_2_, Heightmap.Type p_222529_3_) {
++   public int func_222529_a(int p_222529_1_, int p_222529_2_, Heightmap.Type heightmapType) {
+       BlockState[] ablockstate = this.field_222543_d.func_202233_q();
+ 
+       for(int i = ablockstate.length - 1; i >= 0; --i) {
+          BlockState blockstate = ablockstate[i];
+-         if (blockstate != null && p_222529_3_.func_222684_d().test(blockstate)) {
++         if (blockstate != null && heightmapType.func_222684_d().test(blockstate)) {
+             return i + 1;
+          }
+       }

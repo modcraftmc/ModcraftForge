@@ -1,0 +1,20 @@
+--- a/net/minecraft/client/audio/ALUtils.java
++++ b/net/minecraft/client/audio/ALUtils.java
+@@ -40,7 +40,7 @@
+       }
+    }
+ 
+-   private static String func_216480_b(int p_216480_0_) {
++   private static String initErrorMessage(int p_216480_0_) {
+       switch(p_216480_0_) {
+       case 40961:
+          return "Invalid device.";
+@@ -60,7 +60,7 @@
+    static boolean func_216481_a(long p_216481_0_, String p_216481_2_) {
+       int i = ALC10.alcGetError(p_216481_0_);
+       if (i != 0) {
+-         field_216484_a.error("{}{}: {}", p_216481_2_, p_216481_0_, func_216480_b(i));
++         field_216484_a.error("{}{}: {}", p_216481_2_, p_216481_0_, initErrorMessage(i));
+          return true;
+       } else {
+          return false;

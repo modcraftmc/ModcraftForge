@@ -138,11 +138,12 @@
        }
     }
  
-    protected boolean func_195363_d(int p_195363_1_, int p_195363_2_) {
+-   protected boolean func_195363_d(int p_195363_1_, int p_195363_2_) {
++   protected boolean func_195363_d(int keyCode, int scanCode) {
        if (this.minecraft.field_71439_g.field_71071_by.func_70445_o().func_190926_b() && this.field_147006_u != null) {
           for(int i = 0; i < 9; ++i) {
 -            if (this.minecraft.field_71474_y.field_151456_ac[i].func_197976_a(p_195363_1_, p_195363_2_)) {
-+            if (this.minecraft.field_71474_y.field_151456_ac[i].isActiveAndMatches(InputMappings.func_197954_a(p_195363_1_, p_195363_2_))) {
++            if (this.minecraft.field_71474_y.field_151456_ac[i].isActiveAndMatches(InputMappings.func_197954_a(keyCode, scanCode))) {
                 this.func_184098_a(this.field_147006_u, this.field_147006_u.field_75222_d, i, ClickType.SWAP);
                 return true;
              }

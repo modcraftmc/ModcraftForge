@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/Region.java
++++ b/net/minecraft/world/Region.java
+@@ -32,7 +32,7 @@
+ 
+       for(int k = this.field_72818_a; k <= i; ++k) {
+          for(int l = this.field_72816_b; l <= j; ++l) {
+-            this.field_72817_c[k - this.field_72818_a][l - this.field_72816_b] = abstractchunkprovider.func_225313_a(k, l);
++            this.field_72817_c[k - this.field_72818_a][l - this.field_72816_b] = abstractchunkprovider.getChunkWithoutLoading(k, l);
+          }
+       }
+ 

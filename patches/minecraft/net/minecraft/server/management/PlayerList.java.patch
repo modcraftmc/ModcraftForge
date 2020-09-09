@@ -139,7 +139,7 @@
 -            return !serverworld.func_217470_d(p_217885_1_) ? null : p_217885_1_;
 +         CompoundNBT vehicleNBT = compoundnbt.func_74775_l("RootVehicle");
 +         final ServerWorld worldf = serverworld;
-+         Entity passenger = EntityType.getPassenger(vehicleNBT.func_74775_l("Entity"), serverworld, (p_217885_1_) -> {
++         Entity passenger = EntityType.func_220335_a(vehicleNBT.func_74775_l("Entity"), serverworld, (p_217885_1_) -> {
 +            return !worldf.func_217470_d(p_217885_1_) ? null : p_217885_1_;
           });
 -         if (entity1 != null) {
@@ -172,7 +172,7 @@
        }
  
        p_72355_2_.func_71116_b();
-+      net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerLoggedIn( p_72355_2_ );
++      field_72400_f.func_213167_f(() -> net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerLoggedIn( p_72355_2_ ));
     }
  
     protected void func_96456_a(ServerScoreboard p_96456_1_, ServerPlayerEntity p_96456_2_) {
@@ -271,7 +271,7 @@
        return serverplayerentity;
     }
  
-@@ -430,11 +450,11 @@
+@@ -430,23 +450,22 @@
     }
  
     public void func_72374_b() {
@@ -284,7 +284,53 @@
     }
  
     public void func_148540_a(IPacket<?> p_148540_1_) {
-@@ -739,7 +759,7 @@
+-      for(int i = 0; i < this.field_72404_b.size(); ++i) {
+-         (this.field_72404_b.get(i)).field_71135_a.func_147359_a(p_148540_1_);
++      for (ServerPlayerEntity player : this.field_72404_b) {
++         player.field_71135_a.func_147359_a(p_148540_1_);
+       }
+ 
+    }
+ 
+    public void func_148537_a(IPacket<?> p_148537_1_, DimensionType p_148537_2_) {
+-      for(int i = 0; i < this.field_72404_b.size(); ++i) {
+-         ServerPlayerEntity serverplayerentity = this.field_72404_b.get(i);
++      for (ServerPlayerEntity serverplayerentity : this.field_72404_b) {
+          if (serverplayerentity.field_71093_bK == p_148537_2_) {
+             serverplayerentity.field_71135_a.func_147359_a(p_148537_1_);
+          }
+@@ -472,8 +491,7 @@
+       if (team == null) {
+          this.func_148539_a(p_177452_2_);
+       } else {
+-         for(int i = 0; i < this.field_72404_b.size(); ++i) {
+-            ServerPlayerEntity serverplayerentity = this.field_72404_b.get(i);
++         for (ServerPlayerEntity serverplayerentity : this.field_72404_b) {
+             if (serverplayerentity.func_96124_cp() != team) {
+                serverplayerentity.func_145747_a(p_177452_2_);
+             }
+@@ -555,8 +573,7 @@
+    }
+ 
+    public void func_148543_a(@Nullable PlayerEntity p_148543_1_, double p_148543_2_, double p_148543_4_, double p_148543_6_, double p_148543_8_, DimensionType p_148543_10_, IPacket<?> p_148543_11_) {
+-      for(int i = 0; i < this.field_72404_b.size(); ++i) {
+-         ServerPlayerEntity serverplayerentity = this.field_72404_b.get(i);
++      for (ServerPlayerEntity serverplayerentity : this.field_72404_b) {
+          if (serverplayerentity != p_148543_1_ && serverplayerentity.field_71093_bK == p_148543_10_) {
+             double d0 = p_148543_2_ - serverplayerentity.func_226277_ct_();
+             double d1 = p_148543_4_ - serverplayerentity.func_226278_cu_();
+@@ -570,8 +587,8 @@
+    }
+ 
+    public void func_72389_g() {
+-      for(int i = 0; i < this.field_72404_b.size(); ++i) {
+-         this.func_72391_b(this.field_72404_b.get(i));
++      for (ServerPlayerEntity player : this.field_72404_b) {
++         this.func_72391_b(player);
+       }
+ 
+    }
+@@ -739,7 +756,7 @@
     }
  
     public List<ServerPlayerEntity> func_181057_v() {
@@ -293,7 +339,7 @@
     }
  
     @Nullable
-@@ -769,4 +789,20 @@
+@@ -769,4 +786,20 @@
     public boolean func_206257_x() {
        return this.field_72407_n;
     }

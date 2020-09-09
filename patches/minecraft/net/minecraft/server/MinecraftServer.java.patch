@@ -44,16 +44,15 @@
     private final FrameTimer field_213215_ap = new FrameTimer();
     private boolean field_205745_an;
     private boolean field_212205_ao;
-@@ -230,6 +222,8 @@
+@@ -230,6 +222,7 @@
     @Nullable
     private String field_213218_av;
  
-+   private List<Runnable> worldsrunnable = new ArrayList<>();
 +
     public MinecraftServer(File p_i50590_1_, Proxy p_i50590_2_, DataFixer p_i50590_3_, Commands p_i50590_4_, YggdrasilAuthenticationService p_i50590_5_, MinecraftSessionService p_i50590_6_, GameProfileRepository p_i50590_7_, PlayerProfileCache p_i50590_8_, IChunkStatusListenerFactory p_i50590_9_, String p_i50590_10_) {
        super("Server");
        this.field_110456_c = p_i50590_2_;
-@@ -249,6 +243,7 @@
+@@ -249,6 +242,7 @@
        this.field_195576_ac.func_219534_a(this.field_200256_aj);
        this.field_195576_ac.func_219534_a(this.field_200258_al);
        this.field_195576_ac.func_219534_a(this.field_200257_ak);
@@ -61,7 +60,7 @@
        this.field_213217_au = Util.func_215072_e();
        this.field_71294_K = p_i50590_10_;
     }
-@@ -336,6 +331,8 @@
+@@ -336,6 +330,8 @@
        this.func_200245_b(new TranslationTextComponent("menu.loadingLevel"));
        SaveHandler savehandler = this.func_71254_M().func_197715_a(p_71247_1_, this);
        this.func_175584_a(this.func_71270_I(), savehandler);
@@ -70,7 +69,7 @@
        WorldInfo worldinfo = savehandler.func_75757_d();
        WorldSettings worldsettings;
        if (worldinfo == null) {
-@@ -357,13 +354,13 @@
+@@ -357,13 +353,13 @@
  
        worldinfo.func_230145_a_(this.getServerModName(), this.func_230045_q_().isPresent());
        this.func_195560_a(savehandler.func_75765_b(), worldinfo);
@@ -85,7 +84,7 @@
        if (this.func_71242_L()) {
           p_213194_2_.func_176127_a(field_213219_c);
        }
-@@ -407,6 +404,7 @@
+@@ -407,6 +403,7 @@
           if (dimensiontype != DimensionType.field_223227_a_) {
              this.field_71305_c.put(dimensiontype, new ServerMultiWorld(serverworld1, this, this.field_213217_au, p_213194_1_, dimensiontype, this.field_71304_b, p_213194_4_));
           }
@@ -93,7 +92,7 @@
        }
  
     }
-@@ -565,6 +563,7 @@
+@@ -565,6 +562,7 @@
        for(ServerWorld serverworld1 : this.func_212370_w()) {
           if (serverworld1 != null) {
              try {
@@ -101,7 +100,7 @@
                 serverworld1.close();
              } catch (IOException ioexception) {
                 field_147145_h.error("Exception closing the level", (Throwable)ioexception);
-@@ -605,6 +604,7 @@
+@@ -605,6 +603,7 @@
     public void run() {
        try {
           if (this.func_71197_b()) {
@@ -109,7 +108,7 @@
              this.field_211151_aa = Util.func_211177_b();
              this.field_147147_p.func_151315_a(new StringTextComponent(this.field_71286_C));
              this.field_147147_p.func_151321_a(new ServerStatusResponse.Version(SharedConstants.func_215069_a().getName(), SharedConstants.func_215069_a().getProtocolVersion()));
-@@ -636,9 +636,15 @@
+@@ -636,9 +635,15 @@
                 this.field_71304_b.func_219897_b();
                 this.field_71296_Q = true;
              }
@@ -125,7 +124,7 @@
        } catch (Throwable throwable1) {
           field_147145_h.error("Encountered an unexpected exception", throwable1);
           CrashReport crashreport;
-@@ -655,6 +661,7 @@
+@@ -655,6 +660,7 @@
              field_147145_h.error("We were unable to save this crash report to disk.");
           }
  
@@ -133,7 +132,7 @@
           this.func_71228_a(crashreport);
        } finally {
           try {
-@@ -663,6 +670,7 @@
+@@ -663,6 +669,7 @@
           } catch (Throwable throwable) {
              field_147145_h.error("Exception stopping the server", throwable);
           } finally {
@@ -141,7 +140,7 @@
              this.func_71240_o();
           }
  
-@@ -760,10 +768,12 @@
+@@ -760,10 +767,12 @@
     }
  
     protected void func_71240_o() {
@@ -154,7 +153,7 @@
        ++this.field_71315_w;
        this.func_71190_q(p_71217_1_);
        if (i - this.field_147142_T >= 5000000000L) {
-@@ -778,6 +788,7 @@
+@@ -778,6 +787,7 @@
  
           Collections.shuffle(Arrays.asList(agameprofile));
           this.field_147147_p.func_151318_b().func_151330_a(agameprofile);
@@ -162,7 +161,7 @@
        }
  
        if (this.field_71315_w % 6000 == 0) {
-@@ -789,15 +800,19 @@
+@@ -789,15 +799,19 @@
           field_147145_h.debug("Autosave finished");
        }
  
@@ -187,7 +186,7 @@
        this.field_71304_b.func_76319_b();
        this.field_71304_b.func_76320_a("tallying");
        long l = this.field_71311_j[this.field_71315_w % 100] = Util.func_211178_c() - i;
-@@ -805,6 +820,7 @@
+@@ -805,6 +819,7 @@
        long i1 = Util.func_211178_c();
        this.field_213215_ap.func_181747_a(i1 - i);
        this.field_71304_b.func_76319_b();
@@ -195,7 +194,7 @@
     }
  
     protected void func_71190_q(BooleanSupplier p_71190_1_) {
-@@ -812,18 +828,21 @@
+@@ -812,18 +827,21 @@
        this.func_193030_aL().func_73660_a();
        this.field_71304_b.func_219895_b("levels");
  
@@ -219,7 +218,7 @@
  
              try {
                 serverworld.func_72835_b(p_71190_1_);
-@@ -832,14 +851,23 @@
+@@ -832,14 +850,24 @@
                 serverworld.func_72914_a(crashreport);
                 throw new ReportedException(crashreport);
              }
@@ -229,6 +228,7 @@
              this.field_71304_b.func_76319_b();
           }
 +         this.perWorldTickTimes.computeIfAbsent(serverworld.func_201675_m().func_186058_p(), k -> new long[100])[this.field_71315_w % 100] = Util.func_211178_c() - tickStart;
++
        }
  
 +

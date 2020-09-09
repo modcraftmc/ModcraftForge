@@ -21,11 +21,11 @@ public class ModcraftThreadFactory {
         }
     }
 
-    public static void registerExecutor(String name, int thread) {
+    public static void registerExecutor(String name, int threads) {
 
         if (executors.containsKey(name)) throw new IllegalArgumentException("Cannot add two executor with the same name");
 
-        executors.put(name, Executors.newFixedThreadPool(thread, new NamedThreadFactory(name)));
+        executors.put(name, Executors.newFixedThreadPool(threads, new NamedThreadFactory(name)));
 
     }
 

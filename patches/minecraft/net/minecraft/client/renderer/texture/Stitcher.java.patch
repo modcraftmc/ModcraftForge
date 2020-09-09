@@ -22,6 +22,21 @@
              throw new StitcherException(stitcher$holder.field_229213_a_, list.stream().map((p_229212_0_) -> {
                 return p_229212_0_.field_229213_a_;
              }).collect(ImmutableList.toImmutableList()));
+@@ -64,12 +72,12 @@
+       this.field_94315_d = MathHelper.func_151236_b(this.field_94315_d);
+    }
+ 
+-   public void func_229209_a_(Stitcher.ISpriteLoader p_229209_1_) {
++   public void getStichSlots(Stitcher.ISpriteLoader spriteLoaderIn) {
+       for(Stitcher.Slot stitcher$slot : this.field_94317_b) {
+          stitcher$slot.func_217792_a((p_229210_2_) -> {
+             Stitcher.Holder stitcher$holder = p_229210_2_.func_94183_a();
+             TextureAtlasSprite.Info textureatlassprite$info = stitcher$holder.field_229213_a_;
+-            p_229209_1_.load(textureatlassprite$info, this.field_94318_c, this.field_94315_d, p_229210_2_.func_94186_b(), p_229210_2_.func_94185_c());
++            spriteLoaderIn.load(textureatlassprite$info, this.field_94318_c, this.field_94315_d, p_229210_2_.func_94186_b(), p_229210_2_.func_94185_c());
+          });
+       }
+ 
 @@ -103,7 +111,7 @@
           boolean flag4 = flag2 && j != l;
           boolean flag;

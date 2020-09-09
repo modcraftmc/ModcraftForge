@@ -66,6 +66,7 @@ public class ServerModLoader
         }
         MinecraftForge.EVENT_BUS.start();
         server.getServerStatusResponse().setForgeData(new FMLStatusPing()); //gathers NetworkRegistry data
+
     }
 
     public static boolean hasErrors() {

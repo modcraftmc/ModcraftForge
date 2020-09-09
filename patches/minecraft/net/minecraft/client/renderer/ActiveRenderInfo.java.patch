@@ -1,5 +1,31 @@
 --- a/net/minecraft/client/renderer/ActiveRenderInfo.java
 +++ b/net/minecraft/client/renderer/ActiveRenderInfo.java
+@@ -88,7 +88,7 @@
+       double d0 = (double)this.field_216794_f.func_195899_a() * p_216782_1_ + (double)this.field_216795_g.func_195899_a() * p_216782_3_ + (double)this.field_216796_h.func_195899_a() * p_216782_5_;
+       double d1 = (double)this.field_216794_f.func_195900_b() * p_216782_1_ + (double)this.field_216795_g.func_195900_b() * p_216782_3_ + (double)this.field_216796_h.func_195900_b() * p_216782_5_;
+       double d2 = (double)this.field_216794_f.func_195902_c() * p_216782_1_ + (double)this.field_216795_g.func_195902_c() * p_216782_3_ + (double)this.field_216796_h.func_195902_c() * p_216782_5_;
+-      this.func_216774_a(new Vec3d(this.field_216792_d.field_72450_a + d0, this.field_216792_d.field_72448_b + d1, this.field_216792_d.field_72449_c + d2));
++      this.setPostion(new Vec3d(this.field_216792_d.field_72450_a + d0, this.field_216792_d.field_72448_b + d1, this.field_216792_d.field_72449_c + d2));
+    }
+ 
+    protected void func_216776_a(float p_216776_1_, float p_216776_2_) {
+@@ -106,12 +106,12 @@
+    }
+ 
+    protected void func_216775_b(double p_216775_1_, double p_216775_3_, double p_216775_5_) {
+-      this.func_216774_a(new Vec3d(p_216775_1_, p_216775_3_, p_216775_5_));
++      this.setPostion(new Vec3d(p_216775_1_, p_216775_3_, p_216775_5_));
+    }
+ 
+-   protected void func_216774_a(Vec3d p_216774_1_) {
+-      this.field_216792_d = p_216774_1_;
+-      this.field_216793_e.func_189532_c(p_216774_1_.field_72450_a, p_216774_1_.field_72448_b, p_216774_1_.field_72449_c);
++   protected void setPostion(Vec3d posIn) {
++      this.field_216792_d = posIn;
++      this.field_216793_e.func_189532_c(posIn.field_72450_a, posIn.field_72448_b, posIn.field_72449_c);
+    }
+ 
+    public Vec3d func_216785_c() {
 @@ -168,4 +168,16 @@
        this.field_216791_c = null;
        this.field_216789_a = false;

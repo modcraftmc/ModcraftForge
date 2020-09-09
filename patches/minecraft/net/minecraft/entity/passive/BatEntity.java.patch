@@ -1,0 +1,10 @@
+--- a/net/minecraft/entity/passive/BatEntity.java
++++ b/net/minecraft/entity/passive/BatEntity.java
+@@ -116,6 +116,7 @@
+                this.func_82236_f(false);
+                this.field_70170_p.func_217378_a((PlayerEntity)null, 1025, blockpos, 0);
+             }
++
+          } else {
+             this.func_82236_f(false);
+             this.field_70170_p.func_217378_a((PlayerEntity)null, 1025, blockpos, 0);

@@ -1,6 +1,6 @@
 --- a/net/minecraft/item/crafting/RecipeManager.java
 +++ b/net/minecraft/item/crafting/RecipeManager.java
-@@ -50,9 +50,18 @@
+@@ -50,14 +50,23 @@
  
        for(Entry<ResourceLocation, JsonObject> entry : p_212853_1_.entrySet()) {
           ResourceLocation resourcelocation = entry.getKey();
@@ -19,3 +19,9 @@
              map.computeIfAbsent(irecipe.func_222127_g(), (p_223391_0_) -> {
                 return ImmutableMap.builder();
              }).put(resourcelocation, irecipe);
+          } catch (IllegalArgumentException | JsonParseException jsonparseexception) {
+-            field_199521_c.error("Parsing error loading recipe {}", resourcelocation, jsonparseexception);
++            field_199521_c.error("Parsing error loading recipe {}", resourcelocation/*, jsonparseexception */);
+          }
+       }
+ 

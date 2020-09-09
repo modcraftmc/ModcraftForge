@@ -26,3 +26,12 @@
        if (j1 < p_229220_4_) {
           field_147635_d.warn("{}: dropping miplevel from {} to {}, because of minimum power of two: {}", this.field_229214_j_, p_229220_4_, j1, i1);
           k1 = j1;
+@@ -175,7 +178,7 @@
+    private List<TextureAtlasSprite> func_229217_a_(IResourceManager p_229217_1_, Stitcher p_229217_2_, int p_229217_3_) {
+       ConcurrentLinkedQueue<TextureAtlasSprite> concurrentlinkedqueue = new ConcurrentLinkedQueue<>();
+       List<CompletableFuture<?>> list = Lists.newArrayList();
+-      p_229217_2_.func_229209_a_((p_229215_5_, p_229215_6_, p_229215_7_, p_229215_8_, p_229215_9_) -> {
++      p_229217_2_.getStichSlots((p_229215_5_, p_229215_6_, p_229215_7_, p_229215_8_, p_229215_9_) -> {
+          if (p_229215_5_ == MissingTextureSprite.func_229177_b_()) {
+             MissingTextureSprite missingtexturesprite = MissingTextureSprite.func_229176_a_(this, p_229217_3_, p_229215_6_, p_229215_7_, p_229215_8_, p_229215_9_);
+             concurrentlinkedqueue.add(missingtexturesprite);

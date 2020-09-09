@@ -71,6 +71,9 @@ public class FMLServiceProvider implements ITransformationService
 
     @Override
     public void initialize(IEnvironment environment) {
+
+        ModcraftForge.setup();
+
         LOGGER.debug(CORE, "Setting up basic FML game directories");
         FMLPaths.setup(environment);
         LOGGER.debug(CORE, "Loading configuration");
@@ -91,7 +94,6 @@ public class FMLServiceProvider implements ITransformationService
         FMLLoader.setupLaunchHandler(environment, arguments);
         FMLEnvironment.setupInteropEnvironment(environment);
         Environment.build(environment);
-        ModcraftForge.setup();
     }
 
     @Override

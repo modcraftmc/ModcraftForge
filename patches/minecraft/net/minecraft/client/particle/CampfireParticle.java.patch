@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/particle/CampfireParticle.java
++++ b/net/minecraft/client/particle/CampfireParticle.java
+@@ -9,7 +9,7 @@
+ public class CampfireParticle extends SpriteTexturedParticle {
+    private CampfireParticle(World p_i51046_1_, double p_i51046_2_, double p_i51046_4_, double p_i51046_6_, double p_i51046_8_, double p_i51046_10_, double p_i51046_12_, boolean p_i51046_14_) {
+       super(p_i51046_1_, p_i51046_2_, p_i51046_4_, p_i51046_6_);
+-      this.func_70541_f(3.0F);
++      this.multipleParticleScaleBy(3.0F);
+       this.func_187115_a(0.25F, 0.25F);
+       if (p_i51046_14_) {
+          this.field_70547_e = this.field_187136_p.nextInt(50) + 280;

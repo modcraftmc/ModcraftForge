@@ -1,0 +1,35 @@
+--- a/net/minecraft/client/audio/SoundSystem.java
++++ b/net/minecraft/client/audio/SoundSystem.java
+@@ -29,7 +29,7 @@
+          return null;
+       }
+ 
+-      public boolean func_216396_a(SoundSource p_216396_1_) {
++      public boolean func_216396_a(SoundSource source) {
+          return false;
+       }
+ 
+@@ -181,11 +181,11 @@
+          }
+       }
+ 
+-      public boolean func_216396_a(SoundSource p_216396_1_) {
+-         if (!this.field_216401_b.remove(p_216396_1_)) {
++      public boolean func_216396_a(SoundSource source) {
++         if (!this.field_216401_b.remove(source)) {
+             return false;
+          } else {
+-            p_216396_1_.func_216436_b();
++            source.func_216436_b();
+             return true;
+          }
+       }
+@@ -209,7 +209,7 @@
+       @Nullable
+       SoundSource func_216398_a();
+ 
+-      boolean func_216396_a(SoundSource p_216396_1_);
++      boolean func_216396_a(SoundSource source);
+ 
+       void func_216399_b();
+ 

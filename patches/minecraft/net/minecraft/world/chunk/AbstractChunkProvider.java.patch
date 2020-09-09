@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/chunk/AbstractChunkProvider.java
++++ b/net/minecraft/world/chunk/AbstractChunkProvider.java
+@@ -18,8 +18,8 @@
+    }
+ 
+    @Nullable
+-   public Chunk func_225313_a(int p_225313_1_, int p_225313_2_) {
+-      return this.func_217205_a(p_225313_1_, p_225313_2_, false);
++   public Chunk getChunkWithoutLoading(int chunkX, int chunkZ) {
++      return this.func_217205_a(chunkX, chunkZ, false);
+    }
+ 
+    @Nullable

@@ -68,6 +68,15 @@
           VoxelShape voxelshape = p_180533_2_.func_196954_c(this.field_78878_a, p_180533_1_);
           double d0 = 0.25D;
           voxelshape.func_197755_b((p_228348_3_, p_228348_5_, p_228348_7_, p_228348_9_, p_228348_11_, p_228348_13_) -> {
+@@ -415,7 +420,7 @@
+             d0 = (double)i + axisalignedbb.field_72336_d + (double)0.1F;
+          }
+ 
+-         this.func_78873_a((new DiggingParticle(this.field_78878_a, d0, d1, d2, 0.0D, 0.0D, 0.0D, blockstate)).func_174846_a(p_180532_1_).func_70543_e(0.2F).func_70541_f(0.6F));
++         this.func_78873_a((new DiggingParticle(this.field_78878_a, d0, d1, d2, 0.0D, 0.0D, 0.0D, blockstate)).func_174846_a(p_180532_1_).func_70543_e(0.2F).multipleParticleScaleBy(0.6F));
+       }
+    }
+ 
 @@ -423,6 +428,12 @@
        return String.valueOf(this.field_78876_b.values().stream().mapToInt(Collection::size).sum());
     }

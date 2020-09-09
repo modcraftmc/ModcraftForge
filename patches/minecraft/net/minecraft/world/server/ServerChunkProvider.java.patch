@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/server/ServerChunkProvider.java
++++ b/net/minecraft/world/server/ServerChunkProvider.java
+@@ -142,12 +142,12 @@
+    }
+ 
+    @Nullable
+-   public Chunk func_225313_a(int p_225313_1_, int p_225313_2_) {
++   public Chunk getChunkWithoutLoading(int chunkX, int chunkZ) {
+       if (Thread.currentThread() != this.field_217241_g) {
+          return null;
+       } else {
+          this.field_73251_h.func_217381_Z().func_230035_c_("getChunkNow");
+-         long i = ChunkPos.func_77272_a(p_225313_1_, p_225313_2_);
++         long i = ChunkPos.func_77272_a(chunkX, chunkZ);
+ 
+          for(int j = 0; j < 4; ++j) {
+             if (i == this.field_222875_n[j] && this.field_222876_o[j] == ChunkStatus.field_222617_m) {
+@@ -466,8 +466,8 @@
+    }
+ 
+    @OnlyIn(Dist.CLIENT)
+-   public String func_217208_a(ChunkPos p_217208_1_) {
+-      return this.field_217237_a.func_219170_a(p_217208_1_);
++   public String func_217208_a(ChunkPos chunkPosIn) {
++      return this.field_217237_a.func_219170_a(chunkPosIn);
+    }
+ 
+    public DimensionSavedDataManager func_217227_h() {

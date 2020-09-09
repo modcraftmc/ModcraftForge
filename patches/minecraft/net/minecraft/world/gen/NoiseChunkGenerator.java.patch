@@ -1,5 +1,23 @@
 --- a/net/minecraft/world/gen/NoiseChunkGenerator.java
 +++ b/net/minecraft/world/gen/NoiseChunkGenerator.java
+@@ -140,7 +140,7 @@
+       return 0.0D;
+    }
+ 
+-   public int func_222529_a(int p_222529_1_, int p_222529_2_, Heightmap.Type p_222529_3_) {
++   public int func_222529_a(int p_222529_1_, int p_222529_2_, Heightmap.Type heightmapType) {
+       int i = Math.floorDiv(p_222529_1_, this.field_222564_k);
+       int j = Math.floorDiv(p_222529_2_, this.field_222564_k);
+       int k = Math.floorMod(p_222529_1_, this.field_222564_k);
+@@ -172,7 +172,7 @@
+                   blockstate = this.field_222560_g;
+                }
+ 
+-               if (p_222529_3_.func_222684_d().test(blockstate)) {
++               if (heightmapType.func_222684_d().test(blockstate)) {
+                   return l1 + 1;
+                }
+             }
 @@ -378,8 +378,8 @@
                          }
  

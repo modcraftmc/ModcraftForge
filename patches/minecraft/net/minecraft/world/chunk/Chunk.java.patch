@@ -25,7 +25,7 @@
        this.field_76645_j = new ClassInheritanceMultiMap[16];
        this.field_76637_e = p_i225781_1_;
        this.field_212816_F = p_i225781_2_;
-@@ -118,14 +118,14 @@
+@@ -118,7 +118,7 @@
              field_150817_t.warn("Could not set level chunk sections, array length is {} instead of {}", p_i225781_9_.length, this.field_76652_q.length);
           }
        }
@@ -34,14 +34,6 @@
     }
  
     public Chunk(World p_i49947_1_, ChunkPrimer p_i49947_2_) {
-       this(p_i49947_1_, p_i49947_2_.func_76632_l(), p_i49947_2_.func_225549_i_(), p_i49947_2_.func_196966_y(), p_i49947_2_.func_205218_i_(), p_i49947_2_.func_212247_j(), p_i49947_2_.func_177416_w(), p_i49947_2_.func_76587_i(), (Consumer<Chunk>)null);
- 
-       for(CompoundNBT compoundnbt : p_i49947_2_.func_201652_l()) {
--         EntityType.func_220335_a(compoundnbt, p_i49947_1_, (p_217325_1_) -> {
-+         EntityType.getPassenger(compoundnbt, p_i49947_1_, (p_217325_1_) -> {
-             this.func_76612_a(p_217325_1_);
-             return p_217325_1_;
-          });
 @@ -263,14 +263,14 @@
  
           if (!this.field_76637_e.field_72995_K) {

@@ -19,31 +19,19 @@
 
 package net.minecraftforge.registries;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import net.minecraft.util.IntIdentityHashBiMap;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.MutableRegistry;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-
-import net.minecraft.util.IntIdentityHashBiMap;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.MutableRegistry;
+import javax.annotation.Nullable;
+import java.util.*;
 
 /**
  * A IRegistry implementation that allows for removing of objects. This is a internal helper

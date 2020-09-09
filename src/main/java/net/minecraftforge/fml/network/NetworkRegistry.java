@@ -30,18 +30,12 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The network registry. Tracks channels on behalf of mods.
@@ -182,9 +176,12 @@ public class NetworkRegistry
                 }).filter(p->!p.getRight()).collect(Collectors.toList());
 
         if (!results.isEmpty()) {
-            LOGGER.error(NETREGISTRY, "Channels [{}] rejected vanilla connections",
-                    results.stream().map(Pair::getLeft).map(Object::toString).collect(Collectors.joining(",")));
-            return results.stream().map(Pair::getLeft).map(Object::toString).collect(Collectors.toList());
+            //Modcraftforge simplify
+            Stream<String> map = results.stream().map(Pair::getLeft).map(Object::toString);
+
+            LOGGER.debug(NETREGISTRY, "Channels [{}] rejected vanilla connections",
+                    map.collect(Collectors.joining(",")));
+            return map.collect(Collectors.toList());
         }
         LOGGER.debug(NETREGISTRY, "Accepting channel list from vanilla");
         return Collections.emptyList();

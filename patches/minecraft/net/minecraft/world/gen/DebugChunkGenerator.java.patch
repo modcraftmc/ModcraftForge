@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/gen/DebugChunkGenerator.java
++++ b/net/minecraft/world/gen/DebugChunkGenerator.java
+@@ -58,7 +58,7 @@
+    public void func_222537_b(IWorld p_222537_1_, IChunk p_222537_2_) {
+    }
+ 
+-   public int func_222529_a(int p_222529_1_, int p_222529_2_, Heightmap.Type p_222529_3_) {
++   public int func_222529_a(int p_222529_1_, int p_222529_2_, Heightmap.Type heightmapType) {
+       return 0;
+    }
+ 

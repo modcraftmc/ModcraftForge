@@ -1,0 +1,15 @@
+--- a/net/minecraft/client/particle/TexturedParticle.java
++++ b/net/minecraft/client/particle/TexturedParticle.java
+@@ -63,9 +63,9 @@
+       return this.field_70544_f;
+    }
+ 
+-   public Particle func_70541_f(float p_70541_1_) {
+-      this.field_70544_f *= p_70541_1_;
+-      return super.func_70541_f(p_70541_1_);
++   public Particle multipleParticleScaleBy(float scale) {
++      this.field_70544_f *= scale;
++      return super.multipleParticleScaleBy(scale);
+    }
+ 
+    protected abstract float func_217563_c();

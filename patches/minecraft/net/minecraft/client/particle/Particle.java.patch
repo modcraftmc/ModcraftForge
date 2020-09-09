@@ -1,0 +1,13 @@
+--- a/net/minecraft/client/particle/Particle.java
++++ b/net/minecraft/client/particle/Particle.java
+@@ -76,8 +76,8 @@
+       return this;
+    }
+ 
+-   public Particle func_70541_f(float p_70541_1_) {
+-      this.func_187115_a(0.2F * p_70541_1_, 0.2F * p_70541_1_);
++   public Particle multipleParticleScaleBy(float scale) {
++      this.func_187115_a(0.2F * scale, 0.2F * scale);
+       return this;
+    }
+ 

@@ -68,14 +68,14 @@
 -         if (p_220335_0_.func_150297_b("Passengers", 9)) {
 -            ListNBT listnbt = p_220335_0_.func_150295_c("Passengers", 10);
 +   @Nullable //func_220335_a
-+   public static Entity getPassenger(CompoundNBT compound, World worldIn, Function<Entity, Entity> p_220335_2_) {
++   public static Entity func_220335_a(CompoundNBT compound, World worldIn, Function<Entity, Entity> p_220335_2_) {
 +      return func_220343_b(compound, worldIn).map(p_220335_2_).map((p_220346_3_) -> {
 +         if (compound.func_150297_b("Passengers", 9)) {
 +            ListNBT listnbt = compound.func_150295_c("Passengers", 10);
  
              for(int i = 0; i < listnbt.size(); ++i) {
 -               Entity entity = func_220335_a(listnbt.func_150305_b(i), p_220335_1_, p_220335_2_);
-+               Entity entity = getPassenger(listnbt.func_150305_b(i), worldIn, p_220335_2_);
++               Entity entity = func_220335_a(listnbt.func_150305_b(i), worldIn, p_220335_2_);
                 if (entity != null) {
                    entity.func_184205_a(p_220346_3_, true);
                 }
