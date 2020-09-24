@@ -168,6 +168,7 @@
        } else {
 +         if (captureDrops() != null) captureDrops().add(itementity);
 +         else
+\ No newline at end of file
           this.field_70170_p.func_217376_c(itementity);
           ItemStack itemstack = itementity.func_92059_d();
           if (p_146097_3_) {

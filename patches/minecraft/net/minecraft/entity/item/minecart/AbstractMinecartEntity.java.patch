@@ -252,6 +252,7 @@
 +      mc.func_213315_a(MoverType.SELF, new Vec3d(MathHelper.func_151237_a(d24 * vec3d1.field_72450_a, -d25, d25), 0.0D, MathHelper.func_151237_a(d24 * vec3d1.field_72449_c, -d25, d25)));
 +   }
 +
+\ No newline at end of file
     public static enum Type {
        RIDEABLE,
        CHEST,

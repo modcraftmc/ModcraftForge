@@ -15,6 +15,7 @@
  
 -            if (raytraceresult != null && !flag) {
 +            if (raytraceresult != null && raytraceresult.func_216346_c() != RayTraceResult.Type.MISS && !flag && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) {
+\ No newline at end of file
                 this.func_184549_a(raytraceresult);
                 this.field_70160_al = true;
              }

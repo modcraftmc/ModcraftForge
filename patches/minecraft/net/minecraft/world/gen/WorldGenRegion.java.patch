@@ -57,6 +57,7 @@
           }
 -      } else if (blockstate != null && blockstate.func_177230_c().func_149716_u()) {
 +      } else if (blockstate != null && blockstate.hasTileEntity()) {
+\ No newline at end of file
           ichunk.func_177425_e(p_180501_1_);
        }
  

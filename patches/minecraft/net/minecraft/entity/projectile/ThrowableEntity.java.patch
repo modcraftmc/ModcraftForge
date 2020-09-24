@@ -6,6 +6,7 @@
              this.func_181015_d(((BlockRayTraceResult)raytraceresult).func_216350_a());
 -         } else {
 +         } else if (!net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)){
+\ No newline at end of file
              this.func_70184_a(raytraceresult);
           }
        }

@@ -32,6 +32,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.progress.StartupMessageManager;
 import net.minecraftforge.server.command.ConfigCommand;
 import net.minecraftforge.server.command.ForgeCommand;
+import net.minecraftforge.server.command.modcraftforge.ModcraftCommand;
 import net.minecraftforge.versions.forge.ForgeVersion;
 import net.minecraftforge.versions.mcp.MCPVersion;
 
@@ -135,6 +136,7 @@ public class ForgeMod implements WorldPersistenceHooks.WorldPersistenceHook
     public void serverStarting(FMLServerStartingEvent evt)
     {
         new ForgeCommand(evt.getCommandDispatcher());
+        new ModcraftCommand(evt.getCommandDispatcher());
         ConfigCommand.register(evt.getCommandDispatcher());
     }
 

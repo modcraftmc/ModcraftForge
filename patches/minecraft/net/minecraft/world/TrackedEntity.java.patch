@@ -24,6 +24,7 @@
        this.field_219461_c.func_184178_b(p_219455_1_);
        p_219455_1_.func_184848_d(this.field_219461_c);
 +      net.minecraftforge.event.ForgeEventFactory.onStartEntityTracking(this.field_219461_c, p_219455_1_);
+\ No newline at end of file
     }
  
     public void func_219452_a(Consumer<IPacket<?>> p_219452_1_) {

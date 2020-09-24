@@ -62,6 +62,7 @@
              BlockPos blockpos = p_220066_3_.func_216350_a();
 -            func_196535_a(p_220066_1_, blockpos, entity instanceof LivingEntity ? (LivingEntity)entity : null);
 +            catchFire(p_220066_2_, p_220066_1_, blockpos, null, entity instanceof LivingEntity ? (LivingEntity)entity : null);
+\ No newline at end of file
              p_220066_1_.func_217377_a(blockpos, false);
           }
        }

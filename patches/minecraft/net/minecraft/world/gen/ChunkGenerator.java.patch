@@ -6,6 +6,7 @@
     public int func_222530_f() {
 -      return 63;
 +      return field_222540_a.func_201675_m().getSeaLevel();
+\ No newline at end of file
     }
  
     public abstract int func_222529_a(int p_222529_1_, int p_222529_2_, Heightmap.Type p_222529_3_);

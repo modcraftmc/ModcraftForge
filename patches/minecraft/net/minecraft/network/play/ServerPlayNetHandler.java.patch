@@ -1,6 +1,93 @@
 --- a/net/minecraft/network/play/ServerPlayNetHandler.java
 +++ b/net/minecraft/network/play/ServerPlayNetHandler.java
-@@ -336,9 +336,11 @@
+@@ -4,10 +4,14 @@
+ import com.google.common.primitives.Floats;
+ import com.mojang.brigadier.ParseResults;
+ import com.mojang.brigadier.StringReader;
++import fr.modcraftmc.modcraftforge.theading.ModcraftThreadFactory;
++import fr.modcraftmc.modcraftforge.utils.Utils;
+ import io.netty.util.concurrent.Future;
+ import io.netty.util.concurrent.GenericFutureListener;
+ import it.unimi.dsi.fastutil.ints.Int2ShortMap;
+ import it.unimi.dsi.fastutil.ints.Int2ShortOpenHashMap;
++
++import java.text.DecimalFormat;
+ import java.util.Collections;
+ import java.util.Set;
+ import javax.annotation.Nullable;
+@@ -89,17 +93,7 @@
+ import net.minecraft.network.play.client.CUpdateSignPacket;
+ import net.minecraft.network.play.client.CUpdateStructureBlockPacket;
+ import net.minecraft.network.play.client.CUseEntityPacket;
+-import net.minecraft.network.play.server.SChangeBlockPacket;
+-import net.minecraft.network.play.server.SChatPacket;
+-import net.minecraft.network.play.server.SConfirmTransactionPacket;
+-import net.minecraft.network.play.server.SDisconnectPacket;
+-import net.minecraft.network.play.server.SHeldItemChangePacket;
+-import net.minecraft.network.play.server.SKeepAlivePacket;
+-import net.minecraft.network.play.server.SMoveVehiclePacket;
+-import net.minecraft.network.play.server.SPlayerPositionLookPacket;
+-import net.minecraft.network.play.server.SQueryNBTResponsePacket;
+-import net.minecraft.network.play.server.SSetSlotPacket;
+-import net.minecraft.network.play.server.STabCompletePacket;
++import net.minecraft.network.play.server.*;
+ import net.minecraft.potion.Effects;
+ import net.minecraft.server.MinecraftServer;
+ import net.minecraft.tileentity.CommandBlockLogic;
+@@ -167,6 +161,12 @@
+    private int field_184347_F;
+    private int field_184348_G;
+ 
++   //ModcraftForge
++   private static final DecimalFormat TIME_FORMATTER = new DecimalFormat("########0.000");
++   private int tickCount = 0;
++   private StringTextComponent header;
++   private StringTextComponent footer;
++
+    public ServerPlayNetHandler(MinecraftServer p_i1530_1_, NetworkManager p_i1530_2_, ServerPlayerEntity p_i1530_3_) {
+       this.field_147367_d = p_i1530_1_;
+       this.field_147371_a = p_i1530_2_;
+@@ -245,8 +245,39 @@
+          this.func_194028_b(new TranslationTextComponent("multiplayer.disconnect.idling"));
+       }
+ 
++      if (!fr.modcraftforge.ModcraftConfig.enableCustomTablist()) return;
++
++      if (++tickCount > fr.modcraftforge.ModcraftConfig.getRefreshRate()) {
++         tickCount = 0;
++         this.processTabUpdate();
++      }
++
+    }
+ 
++   public void processTabUpdate() {
++
++      double meanTickTime = Utils.mean(this.field_147367_d.field_71311_j) * 1.0E-6D;
++      double meanTPS = Math.min(1000.0 / meanTickTime, 20);
++
++
++      header = new StringTextComponent(fr.modcraftforge.ModcraftConfig.getCustomheader()
++              .replaceAll("%TPS%", TIME_FORMATTER.format(meanTPS))
++              .replaceAll("%TICKTIME%", TIME_FORMATTER.format(meanTickTime) + "MS")
++              .replaceAll("%ONLINE%", String.valueOf(field_147367_d.func_184103_al().func_72394_k()))
++              .replaceAll("%MAX%", String.valueOf(field_147367_d.func_184103_al().func_72352_l()))
++              .replaceAll("%PING%", String.valueOf(field_147369_b.field_71138_i)));
++
++
++      footer = new StringTextComponent(fr.modcraftforge.ModcraftConfig.getCustomFooter()
++              .replaceAll("%TPS%", TIME_FORMATTER.format(meanTPS))
++              .replaceAll("%TICKTIME%", TIME_FORMATTER.format(meanTickTime) + "MS")
++              .replaceAll("%ONLINE%", String.valueOf(field_147367_d.func_184103_al().func_72394_k()))
++              .replaceAll("%MAX%", String.valueOf(field_147367_d.func_184103_al().func_72352_l()))
++              .replaceAll("%PING%", String.valueOf(field_147369_b.field_71138_i)));
++
++      field_147369_b.field_71135_a.func_147359_a(new SPlayerListHeaderFooterPacket(header, footer));
++   }
++
+    public void func_184342_d() {
+       this.field_184349_l = this.field_147369_b.func_226277_ct_();
+       this.field_184350_m = this.field_147369_b.func_226278_cu_();
+@@ -336,9 +367,11 @@
              }
  
              entity.func_70080_a(d3, d4, d5, f, f1);
@@ -12,7 +99,7 @@
                 this.field_147371_a.func_179290_a(new SMoveVehiclePacket(entity));
                 return;
              }
-@@ -845,7 +847,9 @@
+@@ -845,7 +878,9 @@
        Direction direction = blockraytraceresult.func_216354_b();
        this.field_147369_b.func_143004_u();
        if (blockpos.func_177956_o() < this.field_147367_d.func_71207_Z() - 1 || direction != Direction.UP && blockpos.func_177956_o() < this.field_147367_d.func_71207_Z()) {
@@ -23,7 +110,45 @@
              ActionResultType actionresulttype = this.field_147369_b.field_71134_c.func_219441_a(this.field_147369_b, serverworld, itemstack, hand, blockraytraceresult);
              if (actionresulttype.func_226247_b_()) {
                 this.field_147369_b.func_226292_a_(hand, true);
-@@ -968,7 +972,9 @@
+@@ -898,20 +933,26 @@
+    }
+ 
+    public void func_147231_a(ITextComponent p_147231_1_) {
+-      field_147370_c.info("{} lost connection: {}", this.field_147369_b.func_200200_C_().getString(), p_147231_1_.getString());
+-      this.field_147367_d.func_147132_au();
+-      this.field_147367_d.func_184103_al().func_148539_a((new TranslationTextComponent("multiplayer.player.left", this.field_147369_b.func_145748_c_())).func_211708_a(TextFormatting.YELLOW));
+-      this.field_147369_b.func_71123_m();
+-      this.field_147367_d.func_184103_al().func_72367_e(this.field_147369_b);
+-      if (this.func_217264_d()) {
+-         field_147370_c.info("Stopping singleplayer server as player logged out");
+-         this.field_147367_d.func_71263_m(false);
+-      }
+-
++      ModcraftThreadFactory.LOGIN_THREAD.submit(() -> { //ModcraftForge async logout
++         field_147370_c.info("{} lost connection: {}", this.field_147369_b.func_200200_C_().getString(), p_147231_1_.getString());
++         this.field_147367_d.func_147132_au();
++         ITextComponent component;
++         if (fr.modcraftforge.ModcraftConfig.enableCustomConnexionMessages())
++             component = new StringTextComponent(String.format(fr.modcraftforge.ModcraftConfig.getCustomLogoutMessage(), this.field_147369_b.func_145748_c_().func_150254_d()));
++         else
++            component = new TranslationTextComponent("multiplayer.player.left", this.field_147369_b.func_145748_c_()).func_211708_a(TextFormatting.YELLOW);
++         this.field_147367_d.func_184103_al().func_148539_a(component);
++         this.field_147369_b.func_71123_m();
++         this.field_147367_d.func_184103_al().func_72367_e(this.field_147369_b);
++         if (this.func_217264_d()) {
++            field_147370_c.info("Stopping singleplayer server as player logged out");
++            this.field_147367_d.func_71263_m(false);
++         }
++      });
+    }
+ 
+    public void func_147359_a(IPacket<?> p_147359_1_) {
+-      this.func_211148_a(p_147359_1_, (GenericFutureListener<? extends Future<? super Void>>)null);
++      this.func_211148_a(p_147359_1_, null);
+    }
+ 
+    public void func_211148_a(IPacket<?> p_211148_1_, @Nullable GenericFutureListener<? extends Future<? super Void>> p_211148_2_) {
+@@ -968,7 +1009,9 @@
           if (s.startsWith("/")) {
              this.func_147361_d(s);
           } else {
@@ -34,7 +159,7 @@
              this.field_147367_d.func_184103_al().func_148544_a(itextcomponent, false);
           }
  
-@@ -1061,6 +1067,7 @@
+@@ -1061,6 +1104,7 @@
                 this.field_147369_b.func_190775_a(entity, hand);
              } else if (p_147340_1_.func_149565_c() == CUseEntityPacket.Action.INTERACT_AT) {
                 Hand hand1 = p_147340_1_.func_186994_b();
@@ -42,7 +167,7 @@
                 ActionResultType actionresulttype = entity.func_184199_a(this.field_147369_b, p_147340_1_.func_179712_b(), hand1);
                 if (actionresulttype.func_226247_b_()) {
                    this.field_147369_b.func_226292_a_(hand1, true);
-@@ -1094,7 +1101,7 @@
+@@ -1094,7 +1138,7 @@
                 return;
              }
  
@@ -51,12 +176,13 @@
              if (this.field_147367_d.func_71199_h()) {
                 this.field_147369_b.func_71033_a(GameType.SPECTATOR);
                 this.field_147369_b.func_71121_q().func_82736_K().func_223585_a(GameRules.field_223613_p).func_223570_a(false, this.field_147367_d);
-@@ -1268,6 +1275,8 @@
+@@ -1268,6 +1312,8 @@
     }
  
     public void func_147349_a(CCustomPayloadPacket p_147349_1_) {
 +      PacketThreadUtil.func_218796_a(p_147349_1_, this, this.field_147369_b.func_71121_q());
 +      net.minecraftforge.fml.network.NetworkHooks.onCustomPayload(p_147349_1_, this.field_147371_a);
+\ No newline at end of file
     }
  
     public void func_217263_a(CSetDifficultyPacket p_217263_1_) {

@@ -8,6 +8,7 @@
 +         case NORTH_SOUTH:
 +         case EAST_WEST:
 +            return p_185499_1_;
+\ No newline at end of file
           }
        case COUNTERCLOCKWISE_90:
           switch((RailShape)p_185499_1_.func_177229_b(field_176565_b)) {

@@ -6,6 +6,7 @@
        if (entity instanceof LivingEntity) {
 -         int i = EnchantmentHelper.func_185283_h((LivingEntity)entity);
 +         int i = p_215859_2_.getLootingModifier();
+\ No newline at end of file
           if (i == 0) {
              return p_215859_1_;
           }

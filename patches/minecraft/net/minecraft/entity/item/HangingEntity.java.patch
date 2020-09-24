@@ -6,6 +6,7 @@
                 BlockState blockstate = this.field_70170_p.func_180495_p(blockpos$mutable);
 +               if (net.minecraft.block.Block.func_220055_a(this.field_70170_p, blockpos$mutable, this.field_174860_b))
 +                  continue;
+\ No newline at end of file
                 if (!blockstate.func_185904_a().func_76220_a() && !RedstoneDiodeBlock.func_185546_B(blockstate)) {
                    return false;
                 }

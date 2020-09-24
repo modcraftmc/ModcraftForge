@@ -5,6 +5,7 @@
                 IDispenseItemBehavior.func_218401_c();
                 ArgumentTypes.func_197483_a();
 +               if (false) // skip redirectOutputToLog, Forge already redirects stdout and stderr output to log so that they print with more context
+\ No newline at end of file
                 func_179868_d();
              }
           }

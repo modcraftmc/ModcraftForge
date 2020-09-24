@@ -81,6 +81,7 @@
 +   }
 +
 +   @Nullable
+\ No newline at end of file
     public static DimensionType func_193417_a(ResourceLocation p_193417_0_) {
        return Registry.field_212622_k.func_82594_a(p_193417_0_);
     }

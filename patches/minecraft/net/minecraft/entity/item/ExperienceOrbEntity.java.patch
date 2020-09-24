@@ -31,6 +31,7 @@
                 if (!itemstack.func_190926_b() && itemstack.func_77951_h()) {
 -                  int i = Math.min(this.func_184514_c(this.field_70530_e), itemstack.func_77952_i());
 +                  int i = Math.min((int)(this.field_70530_e * itemstack.getXpRepairRatio()), itemstack.func_77952_i());
+\ No newline at end of file
                    this.field_70530_e -= this.func_184515_b(i);
                    itemstack.func_196085_b(itemstack.func_77952_i() - i);
                 }

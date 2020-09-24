@@ -6,6 +6,7 @@
           TileEntity tileentity = this.field_70170_p.func_175625_s(this.field_226369_bI_);
 -         return tileentity != null && tileentity.func_200662_C() == TileEntityType.field_226985_G_;
 +         return tileentity instanceof BeehiveTileEntity;
+\ No newline at end of file
        }
     }
  

@@ -91,6 +91,7 @@
                       if (entity instanceof MobEntity) {
                          MobEntity mobentity = (MobEntity)entity;
 +                        if (net.minecraftforge.common.ForgeHooks.canEntitySpawn(mobentity, p_77191_0_, d0, blockpos.func_177956_o(), d1, null, SpawnReason.CHUNK_GENERATION) == -1) continue;
+\ No newline at end of file
                          if (mobentity.func_213380_a(p_77191_0_, SpawnReason.CHUNK_GENERATION) && mobentity.func_205019_a(p_77191_0_)) {
                             ilivingentitydata = mobentity.func_213386_a(p_77191_0_, p_77191_0_.func_175649_E(new BlockPos(mobentity)), SpawnReason.CHUNK_GENERATION, ilivingentitydata, (CompoundNBT)null);
                             p_77191_0_.func_217376_c(mobentity);

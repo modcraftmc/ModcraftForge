@@ -16,6 +16,7 @@
 -      return new TranslationTextComponent(this.func_200600_R().func_210760_d() + '.' + Registry.field_218370_L.func_177774_c(this.func_213700_eh().func_221130_b()).func_110623_a());
 +      net.minecraft.util.ResourceLocation profName = this.func_213700_eh().func_221130_b().getRegistryName();
 +      return new TranslationTextComponent(this.func_200600_R().func_210760_d() + '.' + (!"minecraft".equals(profName.func_110624_b()) ? profName.func_110624_b() + '.' : "") + profName.func_110623_a());
+\ No newline at end of file
     }
  
     @OnlyIn(Dist.CLIENT)

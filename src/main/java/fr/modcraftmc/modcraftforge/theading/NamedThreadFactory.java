@@ -14,7 +14,7 @@ public class NamedThreadFactory implements ThreadFactory {
 
     @Override
     public Thread newThread(@NotNull Runnable r) {
-        Thread thread = new ModcraftThreadFactory.AssignableThread(r);
+        Thread thread = new Thread(r);
         thread.setName(name);
         return thread;
     }

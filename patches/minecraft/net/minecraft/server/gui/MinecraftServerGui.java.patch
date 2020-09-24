@@ -18,6 +18,7 @@
 +      try {
 +         latch.await();
 +      } catch (InterruptedException e){} //Prevent logging until after constructor has ended.
+\ No newline at end of file
        if (!SwingUtilities.isEventDispatchThread()) {
           SwingUtilities.invokeLater(() -> {
              this.func_164247_a(p_164247_1_, p_164247_2_, p_164247_3_);

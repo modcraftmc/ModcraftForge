@@ -1,6 +1,18 @@
 --- a/net/minecraft/server/management/PlayerList.java
 +++ b/net/minecraft/server/management/PlayerList.java
-@@ -94,6 +94,7 @@
+@@ -53,10 +53,7 @@
+ import net.minecraft.stats.Stats;
+ import net.minecraft.util.math.BlockPos;
+ import net.minecraft.util.math.Vec3d;
+-import net.minecraft.util.text.ChatType;
+-import net.minecraft.util.text.ITextComponent;
+-import net.minecraft.util.text.TextFormatting;
+-import net.minecraft.util.text.TranslationTextComponent;
++import net.minecraft.util.text.*;
+ import net.minecraft.world.GameRules;
+ import net.minecraft.world.GameType;
+ import net.minecraft.world.IWorld;
+@@ -94,6 +91,7 @@
     private GameType field_72410_m;
     private boolean field_72407_n;
     private int field_72408_o;
@@ -8,7 +20,7 @@
  
     public PlayerList(MinecraftServer p_i50688_1_, int p_i50688_2_) {
        this.field_72400_f = p_i50688_1_;
-@@ -109,7 +110,15 @@
+@@ -109,7 +107,15 @@
        String s = gameprofile1 == null ? gameprofile.getName() : gameprofile1.getName();
        playerprofilecache.func_152649_a(gameprofile);
        CompoundNBT compoundnbt = this.func_72380_a(p_72355_2_);
@@ -25,7 +37,7 @@
        p_72355_2_.func_70029_a(serverworld);
        p_72355_2_.field_71134_c.func_73080_a((ServerWorld)p_72355_2_.field_70170_p);
        String s1 = "local";
-@@ -121,6 +130,8 @@
+@@ -121,6 +127,8 @@
        WorldInfo worldinfo = serverworld.func_72912_H();
        this.func_72381_a(p_72355_2_, (ServerPlayerEntity)null, serverworld);
        ServerPlayNetHandler serverplaynethandler = new ServerPlayNetHandler(this.field_72400_f, p_72355_1_, p_72355_2_);
@@ -34,9 +46,26 @@
        GameRules gamerules = serverworld.func_82736_K();
        boolean flag = gamerules.func_223586_b(GameRules.field_226683_z_);
        boolean flag1 = gamerules.func_223586_b(GameRules.field_223612_o);
-@@ -145,7 +156,7 @@
- 
-       this.func_148539_a(itextcomponent.func_211708_a(TextFormatting.YELLOW));
+@@ -137,15 +145,18 @@
+       this.func_96456_a(serverworld.func_96441_U(), p_72355_2_);
+       this.field_72400_f.func_147132_au();
+       ITextComponent itextcomponent;
+-      if (p_72355_2_.func_146103_bH().getName().equalsIgnoreCase(s)) {
+-         itextcomponent = new TranslationTextComponent("multiplayer.player.joined", p_72355_2_.func_145748_c_());
+-      } else {
+-         itextcomponent = new TranslationTextComponent("multiplayer.player.joined.renamed", p_72355_2_.func_145748_c_(), s);
++      if (fr.modcraftforge.ModcraftConfig.enableCustomConnexionMessages())
++         itextcomponent = new StringTextComponent(String.format(fr.modcraftforge.ModcraftConfig.getCustomLoginMessage(), p_72355_2_.func_145748_c_().func_150254_d()));
++      else {
++         if (p_72355_2_.func_146103_bH().getName().equalsIgnoreCase(s)) {
++            itextcomponent = new TranslationTextComponent("multiplayer.player.joined", p_72355_2_.func_145748_c_()).func_211708_a(TextFormatting.YELLOW);
++         } else {
++            itextcomponent = new TranslationTextComponent("multiplayer.player.joined.renamed", p_72355_2_.func_145748_c_(), s).func_211708_a(TextFormatting.YELLOW);
++         }
+       }
+-
+-      this.func_148539_a(itextcomponent.func_211708_a(TextFormatting.YELLOW));
++      this.func_148539_a(itextcomponent);
        serverplaynethandler.func_147364_a(p_72355_2_.func_226277_ct_(), p_72355_2_.func_226278_cu_(), p_72355_2_.func_226281_cx_(), p_72355_2_.field_70177_z, p_72355_2_.field_70125_A);
 -      this.field_72404_b.add(p_72355_2_);
 +      this.addPlayer(p_72355_2_);
@@ -58,7 +87,7 @@
        }
  
        p_72355_2_.func_71116_b();
-+      net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerLoggedIn( p_72355_2_ );
++      field_72400_f.func_213167_f(() -> net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerLoggedIn( p_72355_2_ )); //ModcraftForge run forge events in serverthread
     }
  
     protected void func_96456_a(ServerScoreboard p_96456_1_, ServerPlayerEntity p_96456_2_) {
@@ -82,7 +111,7 @@
     }
  
     public void func_72367_e(ServerPlayerEntity p_72367_1_) {
-+      net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerLoggedOut(p_72367_1_);
++      field_72400_f.func_213167_f(() -> net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerLoggedOut(p_72367_1_)); //ModcraftForge run forge events in serverthread
        ServerWorld serverworld = p_72367_1_.func_71121_q();
        p_72367_1_.func_195066_a(Stats.field_75947_j);
        this.func_72391_b(p_72367_1_);
@@ -178,4 +207,5 @@
 +   public boolean removePlayer(ServerPlayerEntity player) {
 +       return net.minecraftforge.common.DimensionManager.rebuildPlayerMap(this, this.field_72404_b.remove(player));
 +   }
+\ No newline at end of file
  }

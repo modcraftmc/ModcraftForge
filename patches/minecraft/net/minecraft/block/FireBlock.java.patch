@@ -188,6 +188,7 @@
 +      return world.func_180495_p(pos).isFlammable(world, pos, face);
 +   }
 +
+\ No newline at end of file
     public static void func_149843_e() {
        FireBlock fireblock = (FireBlock)Blocks.field_150480_ab;
        fireblock.func_180686_a(Blocks.field_196662_n, 5, 20);

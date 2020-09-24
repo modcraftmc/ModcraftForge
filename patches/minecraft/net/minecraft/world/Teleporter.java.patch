@@ -6,6 +6,7 @@
  
 -public class Teleporter {
 +public class Teleporter implements net.minecraftforge.common.util.ITeleporter {
+\ No newline at end of file
     protected final ServerWorld field_85192_a;
     protected final Random field_77187_a;
  

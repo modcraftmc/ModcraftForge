@@ -10,7 +10,6 @@ public class ModcraftForge {
 
 
     public static void initialize(IEnvironment environment) {
-
         LOGGER.info("");
         LOGGER.info("  __  __           _                 __ _   _____                    ");
         LOGGER.info(" |  \\/  | ___   __| | ___ _ __ __ _ / _| |_|  ___|__  _ __ __ _  ___ ");
@@ -22,7 +21,8 @@ public class ModcraftForge {
         LOGGER.info("            /--------------------------------------------------------------------------\\");
         LOGGER.info("            | This server is running ModcraftForge, if you have compatibility issues,   | ");
         LOGGER.info("            | please test on Forge server before reporting.                             |");
-        LOGGER.info("           \\---------------------------------------------------------------------------/");
+        LOGGER.info("            | https://github.com/modcraftmc/ModcraftForge/issues                        |");
+        LOGGER.info("            \\--------------------------------------------------------------------------/");
         LOGGER.info("");
 
     }

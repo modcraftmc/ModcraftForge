@@ -52,7 +52,16 @@
        }
     }
  
-@@ -547,4 +554,9 @@
+@@ -317,6 +324,8 @@
+          this.field_71342_m.func_219591_b();
+       }
+ 
++      Runtime.getRuntime().halt(0);
++
+    }
+ 
+    public void func_71190_q(BooleanSupplier p_71190_1_) {
+@@ -547,4 +556,9 @@
     public boolean func_213199_b(GameProfile p_213199_1_) {
        return false;
     }
@@ -61,4 +70,5 @@
 +   public void func_145747_a(net.minecraft.util.text.ITextComponent message) {
 +      field_155771_h.info(message.func_150254_d());
 +   }
+\ No newline at end of file
  }

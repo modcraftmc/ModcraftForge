@@ -40,5 +40,7 @@ changelog.txt
 *.7z
 /logs/
 
+/testserv/
+
 gradle.properties
 !/mdk/gradle.properties

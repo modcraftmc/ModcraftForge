@@ -69,6 +69,7 @@
 +      return this.customTileData;
 +   }
 +
+\ No newline at end of file
     public void func_222814_r() {
        if (!this.field_222816_g) {
           this.field_222816_g = true;

@@ -8,6 +8,7 @@
 +      this.field_177758_a.remove(listener);
 +   }
 +
+\ No newline at end of file
     public void func_177725_a(int p_177725_1_) {
        this.field_177762_h = p_177725_1_;
        this.field_212674_i.func_212652_j();

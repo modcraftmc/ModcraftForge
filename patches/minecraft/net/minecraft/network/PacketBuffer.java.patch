@@ -40,6 +40,7 @@
           ItemStack itemstack = new ItemStack(Item.func_150899_d(i), j);
 -         itemstack.func_77982_d(this.func_150793_b());
 +         itemstack.readShareTag(this.func_150793_b());
+\ No newline at end of file
           return itemstack;
        }
     }

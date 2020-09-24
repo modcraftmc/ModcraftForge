@@ -1,4 +1,4 @@
-package fr.modcraftmc.modcraftforge;
+package fr.modcraftforge;
 
 import com.electronwill.nightconfig.core.ConfigSpec;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;

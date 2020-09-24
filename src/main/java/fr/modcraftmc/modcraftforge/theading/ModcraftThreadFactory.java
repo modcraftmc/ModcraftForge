@@ -12,18 +12,11 @@ public class ModcraftThreadFactory {
 
     public static final ExecutorService CHAT_THREAD = Executors.newSingleThreadExecutor(new NamedThreadFactory("Chat thread"));
 
-
-
-
-    public static class AssignableThread extends Thread {
-        public AssignableThread(Runnable run) {
-            super(run);
-        }
-    }
+    public static final ExecutorService PACKETS_THREAD = Executors.newSingleThreadExecutor(new NamedThreadFactory("Packets thread"));
 
     public static void registerExecutor(String name, int threads) {
 
-        if (executors.containsKey(name)) throw new IllegalArgumentException("Cannot add two executor with the same name");
+        if (executors.containsKey(name)) throw new IllegalStateException("Cannot add two executor with the same name");
 
         executors.put(name, Executors.newFixedThreadPool(threads, new NamedThreadFactory(name)));
 
@@ -31,14 +24,14 @@ public class ModcraftThreadFactory {
 
     public static void unregisterExecutor(String name) {
 
-        if (!executors.containsKey(name)) throw new IllegalArgumentException("No executor with this name exist.");
+        if (!executors.containsKey(name)) throw new IllegalStateException("No executor with this name exist.");
 
         executors.remove(name);
     }
 
     public static ExecutorService get(String name) {
 
-        if (!executors.containsKey(name)) throw new IllegalArgumentException("No executor with this name exist.");
+        if (!executors.containsKey(name)) throw new IllegalStateException("No executor with this name exist.");
 
         return executors.get(name);
 

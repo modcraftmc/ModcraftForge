@@ -6,6 +6,7 @@
  
 -         if (this.field_70123_F && this.field_70170_p.func_82736_K().func_223586_b(GameRules.field_223599_b)) {
 +         if (this.field_70123_F && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.field_70170_p, this)) {
+\ No newline at end of file
              boolean flag = false;
              AxisAlignedBB axisalignedbb = this.func_174813_aQ().func_186662_g(0.2D);
  

@@ -51,6 +51,7 @@
 -            if (this.field_150867_a.func_180495_p(this.field_150861_f.func_177967_a(this.field_150866_c, j).func_177981_b(this.field_150862_g)).func_177230_c() != Blocks.field_150343_Z) {
 +            BlockPos framePos = this.field_150861_f.func_177967_a(this.field_150866_c, j).func_177981_b(this.field_150862_g);
 +            if (!this.field_150867_a.func_180495_p(framePos).isPortalFrame(this.field_150867_a, framePos)) {
+\ No newline at end of file
                 this.field_150862_g = 0;
                 break;
              }

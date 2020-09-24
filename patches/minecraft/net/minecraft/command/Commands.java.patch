@@ -1,10 +1,23 @@
 --- a/net/minecraft/command/Commands.java
 +++ b/net/minecraft/command/Commands.java
-@@ -194,7 +194,15 @@
+@@ -176,8 +176,9 @@
+          WhitelistCommand.func_198873_a(this.field_197062_b);
+       }
+ 
+-      this.field_197062_b.findAmbiguities((p_201302_1_, p_201302_2_, p_201302_3_, p_201302_4_) -> {
+-         field_197061_a.warn("Ambiguity between arguments {} and {} with inputs: {}", this.field_197062_b.getPath(p_201302_2_), this.field_197062_b.getPath(p_201302_3_), p_201302_4_);
++      this.field_197062_b.findAmbiguities((sourceCommandNode, p_201302_2_, p_201302_3_, p_201302_4_) -> {
++         //ModcraftForge: warn -> debug
++         field_197061_a.debug("Ambiguity between arguments {} and {} with inputs: {}", this.field_197062_b.getPath(p_201302_2_), this.field_197062_b.getPath(p_201302_3_), p_201302_4_);
+       });
+       this.field_197062_b.setConsumer((p_197058_0_, p_197058_1_, p_197058_2_) -> {
+          p_197058_0_.getSource().func_197038_a(p_197058_0_, p_197058_1_, p_197058_2_);
+@@ -194,12 +195,18 @@
  
        try {
           try {
 -            int lvt_4_3_ = this.field_197062_b.execute(stringreader, p_197059_1_);
+-            return lvt_4_3_;
 +            com.mojang.brigadier.ParseResults<CommandSource> parse = this.field_197062_b.parse(stringreader, p_197059_1_);
 +            net.minecraftforge.event.CommandEvent event = new net.minecraftforge.event.CommandEvent(parse);
 +            if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) {
@@ -13,7 +26,27 @@
 +               }
 +               return 1;
 +            }
-+            int lvt_4_3_ = this.field_197062_b.execute(event.getParseResults());
-             return lvt_4_3_;
++            return this.field_197062_b.execute(event.getParseResults());
           } catch (CommandException commandexception) {
              p_197059_1_.func_197021_a(commandexception.func_197003_a());
+-            byte b1 = 0;
+-            return b1;
++            return (byte) 0;
+          } catch (CommandSyntaxException commandsyntaxexception) {
+             p_197059_1_.func_197021_a(TextComponentUtils.func_202465_a(commandsyntaxexception.getRawMessage()));
+             if (commandsyntaxexception.getInput() != null && commandsyntaxexception.getCursor() >= 0) {
+@@ -213,11 +220,11 @@
+ 
+                itextcomponent1.func_150258_a(commandsyntaxexception.getInput().substring(Math.max(0, k - 10), k));
+                if (k < commandsyntaxexception.getInput().length()) {
+-                  ITextComponent itextcomponent2 = (new StringTextComponent(commandsyntaxexception.getInput().substring(k))).func_211709_a(new TextFormatting[]{TextFormatting.RED, TextFormatting.UNDERLINE});
++                  ITextComponent itextcomponent2 = (new StringTextComponent(commandsyntaxexception.getInput().substring(k))).func_211709_a(TextFormatting.RED, TextFormatting.UNDERLINE);
+                   itextcomponent1.func_150257_a(itextcomponent2);
+                }
+ 
+-               itextcomponent1.func_150257_a((new TranslationTextComponent("command.context.here")).func_211709_a(new TextFormatting[]{TextFormatting.RED, TextFormatting.ITALIC}));
++               itextcomponent1.func_150257_a((new TranslationTextComponent("command.context.here")).func_211709_a(TextFormatting.RED, TextFormatting.ITALIC));
+\ No newline at end of file
+                p_197059_1_.func_197021_a(itextcomponent1);
+             }
+          } catch (Exception exception) {

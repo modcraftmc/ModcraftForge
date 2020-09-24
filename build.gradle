@@ -64,7 +64,7 @@ ext {
         ]
     }
     MAPPING_CHANNEL = 'snapshot'
-    MAPPING_VERSION = '20200514-1.15.1'
+    MAPPING_VERSION = '20200924-1.15.1'
     MC_VERSION = '1.15.2'
     MCP_VERSION = '20200515.085601'
 }
@@ -136,6 +136,9 @@ project(':forge') {
     
     compileJava.sourceCompatibility = compileJava.targetCompatibility = sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
     group = 'net.minecraftforge'
+
+    compileJava.options.encoding = 'UTF-8'
+
 
     sourceSets {
         fmllauncher {
@@ -231,7 +234,9 @@ project(':forge') {
         return "${MC_VERSION}-${tag}.${offset}${t -> if (branch != null) t << '-' + branch}".toString() //Bake the response instead of making it dynamic
     }
 
-    version = getVersion()
+    //ModcraftForge
+   // version = getVersion()
+    version = "1.15.2-31.3.0"
     println('Forge Version: ' + version)
 
     patcher {
@@ -461,6 +466,11 @@ project(':forge') {
         testImplementation 'org.junit.vintage:junit-vintage-engine:5.+'
         testImplementation 'org.opentest4j:opentest4j:1.0.0' // needed for junit 5
         testImplementation 'org.hamcrest:hamcrest-all:1.3' // needs advanced matching for list order
+
+        //modcraftmc
+        installer 'org.jetbrains:annotations:19.0.0'
+        installer 'org.apache.commons:commons-collections4:4.1'
+        installer 'net.sf.trove4j:trove4j:3.0.3'
     }
     
     def extraTxts = [
@@ -1299,6 +1309,14 @@ def getArtifacts(project, config, classifiers) {
         def url = "https://libraries.minecraft.net/${path}"
         if (!checkExists(url)) {
             url = "https://files.minecraftforge.net/maven/${path}"
+
+            if (!checkExists(url)) {
+                url = "https://hub.spigotmc.org/nexus/content/groups/public/${path}"
+                if (!checkExists(url)) {
+                    url = "https://raw.githubusercontent.com/modcraftmc/ModcraftMaven/master/${path}"
+                }
+            }
+
         }
         //TODO remove when Mojang launcher is updated
         if (!classifiers && art.classifier != null) { //Mojang launcher doesn't currently support classifiers, so... move it to part of the version, and force the extension to 'jar'

@@ -114,6 +114,7 @@ public class ServerLifecycleHooks
 
     public static void handleServerStopped(final MinecraftServer server)
     {
+
         if (!server.isDedicatedServer()) GameData.revertToFrozen();
         MinecraftForge.EVENT_BUS.post(new FMLServerStoppedEvent(server));
         currentServer = null;
@@ -126,6 +127,8 @@ public class ServerLifecycleHooks
             exitLatch = null;
         }
         ConfigTracker.INSTANCE.unloadConfigs(ModConfig.Type.SERVER, getServerConfigPath(server));
+        LOGGER.info("stopped!");
+
     }
 
     public static MinecraftServer getCurrentServer()

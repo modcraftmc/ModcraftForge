@@ -53,6 +53,7 @@ public class ServerMain {
         String[] result = new String[args.length + defaultargs.length];
         System.arraycopy(defaultargs, 0, result, 0, defaultargs.length);
         System.arraycopy(args, 0, result, defaultargs.length, args.length);
+
         // separate class, so the exception can resolve
         new Runner().runLauncher(result);
     }
