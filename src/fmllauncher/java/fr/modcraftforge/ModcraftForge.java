@@ -8,6 +8,8 @@ public class ModcraftForge {
 
     public static final Logger LOGGER = LogManager.getLogger("ModcraftForge");
 
+    private static String version = "ModcraftForge@0.0.2";
+
 
     public static void initialize(IEnvironment environment) {
         LOGGER.info("");
@@ -25,5 +27,9 @@ public class ModcraftForge {
         LOGGER.info("            \\--------------------------------------------------------------------------/");
         LOGGER.info("");
 
+    }
+
+    public static String getVersionBrand() {
+        return version;
     }
 }

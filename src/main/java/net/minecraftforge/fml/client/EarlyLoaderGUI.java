@@ -22,6 +22,7 @@ package net.minecraftforge.fml.client;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import fr.modcraftmc.modcraftforge.darkloading.Hooks;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.MathHelper;
@@ -68,7 +69,11 @@ public class EarlyLoaderGUI {
         int guiScale = window.calcGuiScale(0, false);
         window.setGuiScale(guiScale);
 
-        RenderSystem.clearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        float r = (Hooks.backColor >> 16 & 0xff)/255f;
+        float g = (Hooks.backColor >> 8 & 0xff)/255f;
+        float b = (Hooks.backColor & 0xff)/255f;
+
+        RenderSystem.clearColor(r, g, b, 1.0f);
         RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
         RenderSystem.pushMatrix();
         setupMatrix();

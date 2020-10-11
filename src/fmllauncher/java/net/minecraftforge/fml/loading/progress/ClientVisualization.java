@@ -258,7 +258,14 @@ class ClientVisualization implements EarlyProgressVisualization.Visualization {
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
         GL.createCapabilities();
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+        int color = 2829099 | 0xff000000;
+
+        float r = (color >> 16 & 0xff)/255f;
+        float g = (color >> 8 & 0xff)/255f;
+        float b = (color & 0xff)/255f;
+
+        glClearColor(r, g, b, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         while (running) {
             renderProgress();
@@ -292,6 +299,9 @@ class ClientVisualization implements EarlyProgressVisualization.Visualization {
             glfwSetWindowMonitor(window, monitorSupplier.getAsLong(), 0, 0, width.getAsInt(), height.getAsInt(), GLFW_DONT_CARE);
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
+
+
+
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         renderProgress();
