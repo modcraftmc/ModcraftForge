@@ -29,7 +29,15 @@
  
 -               p_initChannel_1_.pipeline().addLast("timeout", new ReadTimeoutHandler(30)).addLast("legacy_query", new LegacyPingHandler(NetworkSystem.this)).addLast("splitter", new NettyVarint21FrameDecoder()).addLast("decoder", new NettyPacketDecoder(PacketDirection.SERVERBOUND)).addLast("prepender", new NettyVarint21FrameEncoder()).addLast("encoder", new NettyPacketEncoder(PacketDirection.CLIENTBOUND));
 +               p_initChannel_1_.pipeline().addLast("timeout", new ReadTimeoutHandler(READ_TIMEOUT)).addLast("legacy_query", new LegacyPingHandler(NetworkSystem.this)).addLast("splitter", new NettyVarint21FrameDecoder()).addLast("decoder", new NettyPacketDecoder(PacketDirection.SERVERBOUND)).addLast("prepender", new NettyVarint21FrameEncoder()).addLast("encoder", new NettyPacketEncoder(PacketDirection.CLIENTBOUND));
-\ No newline at end of file
                 NetworkManager networkmanager = new NetworkManager(PacketDirection.SERVERBOUND);
                 NetworkSystem.this.field_151272_f.add(networkmanager);
                 p_initChannel_1_.pipeline().addLast("packet_handler", networkmanager);
+@@ -123,6 +125,7 @@
+ 
+    public void func_151269_c() {
+       synchronized(this.field_151272_f) {
++
+\ No newline at end of file
+          Iterator<NetworkManager> iterator = this.field_151272_f.iterator();
+ 
+          while(iterator.hasNext()) {

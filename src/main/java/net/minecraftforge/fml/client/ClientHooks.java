@@ -88,9 +88,15 @@ public class ClientHooks
     public static void processForgeListPingData(ServerStatusResponse packet, ServerData target)
     {
         if (packet.getForgeData() != null) {
+
+
             final Map<String, String> mods = packet.getForgeData().getRemoteModData();
             final Map<ResourceLocation, Pair<String, Boolean>> remoteChannels = packet.getForgeData().getRemoteChannels();
             final int fmlver = packet.getForgeData().getFMLNetworkVersion();
+
+            if (target.serverIP.toLowerCase().contains("modraftmc.fr")) {
+                target.forgeData = new ExtendedServerListData("FML", true, mods.size(), "ModcraftForge server.");
+            }
 
             boolean fmlNetMatches = fmlver == FMLNetworkConstants.FMLNETVERSION;
             boolean channelsMatch = NetworkRegistry.checkListPingCompatibilityForClient(remoteChannels);
