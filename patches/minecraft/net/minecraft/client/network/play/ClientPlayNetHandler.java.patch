@@ -1,14 +1,35 @@
 --- a/net/minecraft/client/network/play/ClientPlayNetHandler.java
 +++ b/net/minecraft/client/network/play/ClientPlayNetHandler.java
-@@ -361,6 +361,7 @@
+@@ -19,6 +19,7 @@
+ import java.util.UUID;
+ import java.util.Map.Entry;
+ import java.util.concurrent.CompletableFuture;
++import java.util.concurrent.ExecutionException;
+ import javax.annotation.Nullable;
+ import net.minecraft.advancements.Advancement;
+ import net.minecraft.block.Block;
+@@ -349,8 +350,8 @@
+       PacketThreadUtil.func_218797_a(p_147282_1_, this, this.field_147299_f);
+       this.field_147299_f.field_71442_b = new PlayerController(this.field_147299_f, this);
+       this.field_217287_m = p_147282_1_.func_218728_h();
+-      this.field_147300_g = new ClientWorld(this, new WorldSettings(p_147282_1_.func_229742_c_(), p_147282_1_.func_149198_e(), false, p_147282_1_.func_149195_d(), p_147282_1_.func_149196_i()), p_147282_1_.func_212642_e(), this.field_217287_m, this.field_147299_f.func_213239_aq(), this.field_147299_f.field_71438_f);
+-      this.field_147299_f.func_71403_a(this.field_147300_g);
++         this.field_147300_g = new ClientWorld(this, new WorldSettings(p_147282_1_.func_229742_c_(), p_147282_1_.func_149198_e(), false, p_147282_1_.func_149195_d(), p_147282_1_.func_149196_i()), p_147282_1_.func_212642_e(), this.field_217287_m, this.field_147299_f.func_213239_aq(), this.field_147299_f.field_71438_f);
++         this.field_147299_f.func_71403_a(this.field_147300_g);
+       if (this.field_147299_f.field_71439_g == null) {
+          this.field_147299_f.field_71439_g = this.field_147299_f.field_71442_b.func_199681_a(this.field_147300_g, new StatisticsManager(), new ClientRecipeBook(this.field_147300_g.func_199532_z()));
+          this.field_147299_f.field_71439_g.field_70177_z = -180.0F;
+@@ -361,7 +362,9 @@
  
        this.field_147299_f.field_184132_p.func_217737_a();
        this.field_147299_f.field_71439_g.func_70065_x();
 +      net.minecraftforge.fml.client.ClientHooks.firePlayerLogin(this.field_147299_f.field_71442_b, this.field_147299_f.field_71439_g, this.field_147299_f.func_147114_u().func_147298_b());
        int i = p_147282_1_.func_149197_c();
++
        this.field_147300_g.func_217408_a(i, this.field_147299_f.field_71439_g);
        this.field_147299_f.field_71439_g.field_71158_b = new MovementInputFromOptions(this.field_147299_f.field_71474_y);
-@@ -372,6 +373,7 @@
+       this.field_147299_f.field_71442_b.func_78748_a(this.field_147299_f.field_71439_g);
+@@ -372,6 +375,7 @@
        this.field_147299_f.field_71439_g.func_175150_k(p_147282_1_.func_179744_h());
        this.field_147299_f.field_71439_g.func_228355_a_(p_147282_1_.func_229743_k_());
        this.field_147299_f.field_71442_b.func_78746_a(p_147282_1_.func_149198_e());
@@ -16,7 +37,7 @@
        this.field_147299_f.field_71474_y.func_82879_c();
        this.field_147302_e.func_179290_a(new CCustomPayloadPacket(CCustomPayloadPacket.field_210344_a, (new PacketBuffer(Unpooled.buffer())).func_180714_a(ClientBrandRetriever.getClientModName())));
        this.field_147299_f.func_213229_ar().func_216814_a();
-@@ -727,7 +729,7 @@
+@@ -727,7 +731,7 @@
           BlockPos blockpos = new BlockPos(compoundnbt.func_74762_e("x"), compoundnbt.func_74762_e("y"), compoundnbt.func_74762_e("z"));
           TileEntity tileentity = this.field_147300_g.func_175625_s(blockpos);
           if (tileentity != null) {
@@ -25,7 +46,7 @@
           }
        }
  
-@@ -803,7 +805,9 @@
+@@ -803,7 +807,9 @@
  
     public void func_147251_a(SChatPacket p_147251_1_) {
        PacketThreadUtil.func_218797_a(p_147251_1_, this, this.field_147299_f);
@@ -36,7 +57,7 @@
     }
  
     public void func_147279_a(SAnimateHandPacket p_147279_1_) {
-@@ -983,8 +987,10 @@
+@@ -983,8 +989,10 @@
        this.field_147299_f.field_175622_Z = clientplayerentity1;
        clientplayerentity1.func_184212_Q().func_187218_a(clientplayerentity.func_184212_Q().func_187231_c());
        clientplayerentity1.func_110140_aT().func_226303_a_(clientplayerentity.func_110140_aT());
@@ -47,7 +68,7 @@
        this.field_147300_g.func_217408_a(i, clientplayerentity1);
        clientplayerentity1.field_70177_z = -180.0F;
        clientplayerentity1.field_71158_b = new MovementInputFromOptions(this.field_147299_f.field_71474_y);
-@@ -1105,6 +1111,12 @@
+@@ -1105,6 +1113,12 @@
           boolean flag = i == 2 && tileentity instanceof CommandBlockTileEntity;
           if (i == 1 && tileentity instanceof MobSpawnerTileEntity || flag || i == 3 && tileentity instanceof BeaconTileEntity || i == 4 && tileentity instanceof SkullTileEntity || i == 6 && tileentity instanceof BannerTileEntity || i == 7 && tileentity instanceof StructureBlockTileEntity || i == 8 && tileentity instanceof EndGatewayTileEntity || i == 9 && tileentity instanceof SignTileEntity || i == 11 && tileentity instanceof BedTileEntity || i == 5 && tileentity instanceof ConduitTileEntity || i == 12 && tileentity instanceof JigsawTileEntity || i == 13 && tileentity instanceof CampfireTileEntity || i == 14 && tileentity instanceof BeehiveTileEntity) {
              tileentity.func_145839_a(p_147273_1_.func_148857_g());
@@ -60,7 +81,7 @@
           }
  
           if (flag && this.field_147299_f.field_71462_r instanceof CommandBlockScreen) {
-@@ -1276,6 +1288,7 @@
+@@ -1276,6 +1290,7 @@
        clientrecipebook.func_199644_c();
        clientrecipebook.func_199642_d().forEach(imutablesearchtree::func_217872_a);
        imutablesearchtree.func_194040_a();
@@ -68,7 +89,7 @@
     }
  
     public void func_200232_a(SPlayerLookPacket p_200232_1_) {
-@@ -1356,7 +1369,7 @@
+@@ -1356,7 +1371,7 @@
        PacketThreadUtil.func_218797_a(p_147260_1_, this, this.field_147299_f);
        Entity entity = this.field_147300_g.func_73045_a(p_147260_1_.func_149426_d());
        if (entity instanceof LivingEntity) {
@@ -77,7 +98,7 @@
           if (effect != null) {
              EffectInstance effectinstance = new EffectInstance(effect, p_147260_1_.func_180755_e(), p_147260_1_.func_149428_f(), p_147260_1_.func_186984_g(), p_147260_1_.func_179707_f(), p_147260_1_.func_205527_h());
              effectinstance.func_100012_b(p_147260_1_.func_149429_c());
-@@ -1376,6 +1389,7 @@
+@@ -1376,6 +1391,7 @@
        }
  
        this.field_147299_f.func_213253_a(SearchTreeManager.field_215360_b).func_194040_a();
@@ -85,7 +106,7 @@
     }
  
     public void func_175098_a(SCombatPacket p_175098_1_) {
-@@ -1851,10 +1865,12 @@
+@@ -1851,10 +1867,12 @@
              int l5 = packetbuffer.readInt();
              this.field_147299_f.field_184132_p.field_229018_q_.func_229022_a_(blockpos7, l3, s10, l5);
           } else {
@@ -99,7 +120,7 @@
              packetbuffer.release();
           }
  
-@@ -1994,7 +2010,7 @@
+@@ -1994,7 +2012,7 @@
              for(SEntityPropertiesPacket.Snapshot sentitypropertiespacket$snapshot : p_147290_1_.func_149441_d()) {
                 IAttributeInstance iattributeinstance = abstractattributemap.func_111152_a(sentitypropertiespacket$snapshot.func_151409_a());
                 if (iattributeinstance == null) {

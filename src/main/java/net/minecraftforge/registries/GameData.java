@@ -70,14 +70,13 @@ import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.MissingMappings;
-import net.minecraftforge.fml.LifecycleEventProvider;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.StartupQuery;
+import net.minecraftforge.fml.*;
 import net.minecraftforge.fml.common.EnhancedRuntimeException;
 import net.minecraftforge.fml.common.thread.EffectiveSide;
 import net.minecraftforge.fml.event.lifecycle.FMLModIdMappingEvent;
 import net.minecraftforge.fml.loading.AdvancedLogMessageAdapter;
 
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.progress.StartupMessageManager;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;

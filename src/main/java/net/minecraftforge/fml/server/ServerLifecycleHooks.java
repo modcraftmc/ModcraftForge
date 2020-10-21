@@ -164,7 +164,7 @@ public class ServerLifecycleHooks
 
         if (packet.getRequestedState() == ProtocolType.STATUS) return true;
 
-        NetworkHooks.registerServerLoginChannel(manager, packet);
+       NetworkHooks.registerServerLoginChannel(manager, packet);
         return true;
 
     }

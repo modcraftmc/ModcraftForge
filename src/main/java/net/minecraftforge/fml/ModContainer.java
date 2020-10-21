@@ -53,6 +53,7 @@ public abstract class ModContainer
     protected final String modId;
     protected final String namespace;
     protected final IModInfo modInfo;
+    public Object wrappedContainer;
     protected ModLoadingStage modLoadingStage;
     protected Supplier<?> contextExtension;
     protected final Map<ModLoadingStage, Consumer<LifecycleEventProvider.LifecycleEvent>> triggerMap;
