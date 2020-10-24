@@ -22,11 +22,10 @@ package net.minecraftforge.fml.event.lifecycle;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
+import com.google.common.collect.*;
+
+import fr.modcraftforge.ModcraftForge;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -70,6 +69,7 @@ public class FMLModIdMappingEvent extends ModLifecycleEvent
         this.remaps = Maps.newHashMap();
         remaps.forEach((name, rm) ->
         {
+            ModcraftForge.LOGGER.warn("remaping {}", name);
             List<ModRemapping> tmp = Lists.newArrayList();
             rm.forEach((key, value) -> tmp.add(new ModRemapping(name, key, value[0], value[1])));
             tmp.sort(Comparator.comparingInt(o -> o.newId));

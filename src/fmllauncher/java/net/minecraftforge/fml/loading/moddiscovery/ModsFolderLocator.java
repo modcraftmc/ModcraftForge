@@ -20,6 +20,7 @@
 package net.minecraftforge.fml.loading.moddiscovery;
 
 import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.fml.loading.FileUtils;
 import net.minecraftforge.fml.loading.ModDirTransformerDiscoverer;
 import net.minecraftforge.fml.loading.StringUtils;
 import net.minecraftforge.forgespi.locating.IModFile;
@@ -61,7 +62,7 @@ public class ModsFolderLocator extends AbstractJarFileLocator {
     public List<IModFile> scanMods() {
         LOGGER.debug(SCAN,"Scanning mods dir {} for mods", this.modFolder);
         List<Path> excluded = ModDirTransformerDiscoverer.allExcluded();
-        return uncheck(()-> Files.list(this.modFolder))
+        return uncheck(()-> Files.walk(this.modFolder))
                 .filter(p->!excluded.contains(p))
                 .sorted(Comparator.comparing(path-> StringUtils.toLowerCase(path.getFileName().toString())))
                 .filter(p->StringUtils.toLowerCase(p.getFileName().toString()).endsWith(SUFFIX))
