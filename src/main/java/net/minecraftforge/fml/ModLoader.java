@@ -21,7 +21,6 @@ package net.minecraftforge.fml;
 
 import com.google.common.collect.ImmutableList;
 import cpw.mods.modlauncher.TransformingClassLoader;
-import fr.modcraftforge.ModcraftForge;
 import net.minecraft.util.registry.Bootstrap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
@@ -63,7 +62,7 @@ import static net.minecraftforge.fml.Logging.LOADING;
 /**
  * Loads mods.
  *
- * Dispatch cycle is seen in {@link #loadMods()} and {@link #finishMods()}
+ * Dispatch cycle is seen in {@link #loadMods(Executor, Consumer, Consumer)} ()} and {@link #finishMods(Executor)} ()}
  *
  * Overall sequence for loadMods is:
  * <dl>
