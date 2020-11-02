@@ -54,7 +54,6 @@ public class ServerModLoader
 
     public static void end() {
         try {
-            ModcraftForge.LOGGER.error("finishmod");
             ModLoader.get().finishMods(Runnable::run);
         } catch (LoadingFailedException e) {
             ServerModLoader.hasErrors = true;

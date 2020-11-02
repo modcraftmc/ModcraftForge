@@ -271,12 +271,8 @@ public class ModLoader
         statusConsumer.ifPresent(c->c.accept("Mod setup: Final completion"));
         dispatchAndHandleError(LifecycleEventProvider.COMPLETE, mainThreadExecutor, null);
         statusConsumer.ifPresent(c->c.accept("Freezing data"));
-        ModcraftForge.LOGGER.error("freeshing");
-
         GameData.freezeData();
         NetworkRegistry.lock();
-        ModcraftForge.LOGGER.error("end");
-
         statusConsumer.ifPresent(c->c.accept(String.format("Mod loading complete - %d mods loaded", ModList.get().size())));
     }
 

@@ -1,6 +1,5 @@
 package fr.modcraftforge;
 
-import cpw.mods.modlauncher.api.IEnvironment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,7 +10,8 @@ public class ModcraftForge {
     private static String version = "ModcraftForge@0.0.2";
 
 
-    public static void initialize(IEnvironment environment) {
+    public static void initialize() {
+
         LOGGER.info("");
         LOGGER.info("  __  __           _                 __ _   _____                    ");
         LOGGER.info(" |  \\/  | ___   __| | ___ _ __ __ _ / _| |_|  ___|__  _ __ __ _  ___ ");

@@ -45,6 +45,7 @@ public class BrandingControl
         {
             ImmutableList.Builder<String> brd = ImmutableList.builder();
             brd.add("Forge " + ForgeVersion.getVersion());
+            brd.add("ModcraftForge " + ModcraftForge.getVersionBrand());
             brd.add("Minecraft " + MCPVersion.getMCVersion());
             brd.add("MCP " + MCPVersion.getMCPVersion());
             int tModCount = ModList.get().size();
