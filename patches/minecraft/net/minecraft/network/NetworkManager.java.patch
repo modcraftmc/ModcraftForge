@@ -46,7 +46,7 @@
  
     public void func_179290_a(IPacket<?> p_179290_1_) {
 -      this.func_201058_a(p_179290_1_, (GenericFutureListener<? extends Future<? super Void>>)null);
-+      ModcraftThreadFactory.PACKETS_THREAD.submit(() -> this.func_201058_a(p_179290_1_, null));
++      this.func_201058_a(p_179290_1_, null);
     }
  
     public void func_201058_a(IPacket<?> p_201058_1_, @Nullable GenericFutureListener<? extends Future<? super Void>> p_201058_2_) {

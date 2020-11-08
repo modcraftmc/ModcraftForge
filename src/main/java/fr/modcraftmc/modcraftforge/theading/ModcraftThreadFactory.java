@@ -12,7 +12,7 @@ public class ModcraftThreadFactory {
 
     public static final ExecutorService CHAT_THREAD = Executors.newSingleThreadExecutor(new NamedThreadFactory("Chat thread"));
 
-    public static final ExecutorService PACKETS_THREAD = Executors.newSingleThreadExecutor(new NamedThreadFactory("Packets thread"));
+    //public static final ExecutorService PACKETS_THREAD = Executors.newSingleThreadExecutor(new NamedThreadFactory("Packets thread"));
 
     public static void registerExecutor(String name, int threads) {
 

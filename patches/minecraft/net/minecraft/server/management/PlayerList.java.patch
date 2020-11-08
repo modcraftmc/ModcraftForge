@@ -111,7 +111,7 @@
     }
  
     public void func_72367_e(ServerPlayerEntity p_72367_1_) {
-+      field_72400_f.func_213167_f(() -> net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerLoggedOut(p_72367_1_)); //ModcraftForge run forge events in serverthread
++      net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerLoggedOut(p_72367_1_);
        ServerWorld serverworld = p_72367_1_.func_71121_q();
        p_72367_1_.func_195066_a(Stats.field_75947_j);
        this.func_72391_b(p_72367_1_);

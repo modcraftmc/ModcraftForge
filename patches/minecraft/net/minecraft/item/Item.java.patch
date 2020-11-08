@@ -11,15 +11,6 @@
     private static final IItemPropertyGetter field_185046_b = (p_210306_0_, p_210306_1_, p_210306_2_) -> {
        return p_210306_0_.func_77951_h() ? 1.0F : 0.0F;
     };
-@@ -59,7 +59,7 @@
-    };
-    protected static final UUID field_111210_e = UUID.fromString("CB3F55D3-645C-4F38-A497-9C13A33DB5CF");
-    protected static final UUID field_185050_h = UUID.fromString("FA233E1C-4180-4865-B01B-BCCE9785ACA3");
--   protected static final Random field_77697_d = new Random();
-+   protected static final Random field_77697_d = Entity.SHARED_RANDOM; // ModcraftForge
-    public final Map<ResourceLocation, IItemPropertyGetter> field_185051_m = Maps.newHashMap();
-    protected final ItemGroup field_77701_a;
-    private final Rarity field_208075_l;
 @@ -98,6 +98,10 @@
           this.func_185043_a(new ResourceLocation("damaged"), field_185046_b);
           this.func_185043_a(new ResourceLocation("damage"), field_185047_c);

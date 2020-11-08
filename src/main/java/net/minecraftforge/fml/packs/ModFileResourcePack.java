@@ -64,6 +64,7 @@ public class ModFileResourcePack extends DelegatableResourcePack
     {
         final Path path = modFile.getLocator().findPath(modFile, name);
         return Files.newInputStream(path, StandardOpenOption.READ);
+
     }
 
     @Override

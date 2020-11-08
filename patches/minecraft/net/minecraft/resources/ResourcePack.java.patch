@@ -1,0 +1,16 @@
+--- a/net/minecraft/resources/ResourcePack.java
++++ b/net/minecraft/resources/ResourcePack.java
+@@ -48,8 +48,11 @@
+       if (!p_195763_1_.contains("/") && !p_195763_1_.contains("\\")) {
+          return this.func_195766_a(p_195763_1_);
+       } else {
+-         throw new IllegalArgumentException("Root resources can only be filenames, not paths (no / allowed!)");
++         field_195772_b.error("Root resources can only be filenames, not paths (no / allowed!)");
++         //
++         //throw new IllegalArgumentException("Root resources can only be filenames, not paths (no / allowed!)");
+       }
++      return null;
+\ No newline at end of file
+    }
+ 
+    protected abstract boolean func_195768_c(String p_195768_1_);

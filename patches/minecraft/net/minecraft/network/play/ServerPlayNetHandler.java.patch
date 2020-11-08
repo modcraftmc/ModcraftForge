@@ -87,19 +87,68 @@
     public void func_184342_d() {
        this.field_184349_l = this.field_147369_b.func_226277_ct_();
        this.field_184350_m = this.field_147369_b.func_226278_cu_();
-@@ -336,9 +367,11 @@
+@@ -321,24 +352,28 @@
+             d7 = d4 - this.field_184360_w - 1.0E-6D;
+             d8 = d5 - this.field_184361_x;
+             entity.func_213315_a(MoverType.PLAYER, new Vec3d(d6, d7, d8));
+-            d6 = d3 - entity.func_226277_ct_();
++            //d6 = d3 - entity.getPosX();
+             d7 = d4 - entity.func_226278_cu_();
+             if (d7 > -0.5D || d7 < 0.5D) {
+                d7 = 0.0D;
              }
  
+-            d8 = d5 - entity.func_226281_cx_();
++            /*
++            d8 = d5 - entity.getPosZ();
+             d10 = d6 * d6 + d7 * d7 + d8 * d8;
+             boolean flag1 = false;
+             if (d10 > 0.0625D) {
+                flag1 = true;
+-               field_147370_c.warn("{} moved wrongly!", (Object)entity.func_200200_C_().getString());
++               LOGGER.warn("{} moved wrongly!", (Object)entity.getName().getString());
+             }
+ 
++             */
              entity.func_70080_a(d3, d4, d5, f, f1);
 +            this.field_147369_b.func_70080_a(d3, d4, d5, this.field_147369_b.field_70177_z, this.field_147369_b.field_70125_A); // Forge - Resync player position on vehicle moving
              boolean flag2 = serverworld.func_226665_a__(entity, entity.func_174813_aQ().func_186664_h(0.0625D));
-             if (flag && (flag1 || !flag2)) {
+-            if (flag && (flag1 || !flag2)) {
++            if (flag && !flag2) {
                 entity.func_70080_a(d0, d1, d2, f, f1);
 +               this.field_147369_b.func_70080_a(d3, d4, d5, this.field_147369_b.field_70177_z, this.field_147369_b.field_70125_A); // Forge - Resync player position on vehicle moving
                 this.field_147371_a.func_179290_a(new SMoveVehiclePacket(entity));
                 return;
              }
-@@ -845,7 +878,9 @@
+@@ -734,20 +769,22 @@
+ 
+                      this.field_147369_b.func_213315_a(MoverType.PLAYER, new Vec3d(d7, d8, d9));
+                      this.field_147369_b.field_70122_E = p_147347_1_.func_149465_i();
+-                     d7 = d4 - this.field_147369_b.func_226277_ct_();
++                     //d7 = d4 - this.player.getPosX();
+                      d8 = d5 - this.field_147369_b.func_226278_cu_();
+                      if (d8 > -0.5D || d8 < 0.5D) {
+                         d8 = 0.0D;
+                      }
+ 
+-                     d9 = d6 - this.field_147369_b.func_226281_cx_();
+-                     d11 = d7 * d7 + d8 * d8 + d9 * d9;
++                     //d9 = d6 - this.player.getPosZ();
++                     //d11 = d7 * d7 + d8 * d8 + d9 * d9;
+                      boolean flag = false;
+-                     if (!this.field_147369_b.func_184850_K() && d11 > 0.0625D && !this.field_147369_b.func_70608_bn() && !this.field_147369_b.field_71134_c.func_73083_d() && this.field_147369_b.field_71134_c.func_73081_b() != GameType.SPECTATOR) {
++                     /*
++                     if (!this.player.isInvulnerableDimensionChange() && d11 > 0.0625D && !this.player.isSleeping() && !this.player.interactionManager.isCreative() && this.player.interactionManager.getGameType() != GameType.SPECTATOR) {
+                         flag = true;
+-                        field_147370_c.warn("{} moved wrongly!", (Object)this.field_147369_b.func_200200_C_().getString());
++                        LOGGER.warn("{} moved wrongly!", (Object)this.player.getName().getString());
+                      }
+ 
++                      */
+                      this.field_147369_b.func_70080_a(d4, d5, d6, f, f1);
+                      this.field_147369_b.func_71000_j(this.field_147369_b.func_226277_ct_() - d0, this.field_147369_b.func_226278_cu_() - d1, this.field_147369_b.func_226281_cx_() - d2);
+                      if (!this.field_147369_b.field_70145_X && !this.field_147369_b.func_70608_bn()) {
+@@ -845,7 +882,9 @@
        Direction direction = blockraytraceresult.func_216354_b();
        this.field_147369_b.func_143004_u();
        if (blockpos.func_177956_o() < this.field_147367_d.func_71207_Z() - 1 || direction != Direction.UP && blockpos.func_177956_o() < this.field_147367_d.func_71207_Z()) {
@@ -110,7 +159,7 @@
              ActionResultType actionresulttype = this.field_147369_b.field_71134_c.func_219441_a(this.field_147369_b, serverworld, itemstack, hand, blockraytraceresult);
              if (actionresulttype.func_226247_b_()) {
                 this.field_147369_b.func_226292_a_(hand, true);
-@@ -898,20 +933,26 @@
+@@ -898,20 +937,25 @@
     }
  
     public void func_147231_a(ITextComponent p_147231_1_) {
@@ -123,8 +172,6 @@
 -         field_147370_c.info("Stopping singleplayer server as player logged out");
 -         this.field_147367_d.func_71263_m(false);
 -      }
--
-+      ModcraftThreadFactory.LOGIN_THREAD.submit(() -> { //ModcraftForge async logout
 +         field_147370_c.info("{} lost connection: {}", this.field_147369_b.func_200200_C_().getString(), p_147231_1_.getString());
 +         this.field_147367_d.func_147132_au();
 +         ITextComponent component;
@@ -139,7 +186,7 @@
 +            field_147370_c.info("Stopping singleplayer server as player logged out");
 +            this.field_147367_d.func_71263_m(false);
 +         }
-+      });
+ 
     }
  
     public void func_147359_a(IPacket<?> p_147359_1_) {
@@ -148,7 +195,7 @@
     }
  
     public void func_211148_a(IPacket<?> p_211148_1_, @Nullable GenericFutureListener<? extends Future<? super Void>> p_211148_2_) {
-@@ -968,7 +1009,9 @@
+@@ -968,7 +1012,9 @@
           if (s.startsWith("/")) {
              this.func_147361_d(s);
           } else {
@@ -159,7 +206,7 @@
              this.field_147367_d.func_184103_al().func_148544_a(itextcomponent, false);
           }
  
-@@ -1061,6 +1104,7 @@
+@@ -1061,6 +1107,7 @@
                 this.field_147369_b.func_190775_a(entity, hand);
              } else if (p_147340_1_.func_149565_c() == CUseEntityPacket.Action.INTERACT_AT) {
                 Hand hand1 = p_147340_1_.func_186994_b();
@@ -167,7 +214,7 @@
                 ActionResultType actionresulttype = entity.func_184199_a(this.field_147369_b, p_147340_1_.func_179712_b(), hand1);
                 if (actionresulttype.func_226247_b_()) {
                    this.field_147369_b.func_226292_a_(hand1, true);
-@@ -1094,7 +1138,7 @@
+@@ -1094,7 +1141,7 @@
                 return;
              }
  
@@ -176,7 +223,7 @@
              if (this.field_147367_d.func_71199_h()) {
                 this.field_147369_b.func_71033_a(GameType.SPECTATOR);
                 this.field_147369_b.func_71121_q().func_82736_K().func_223585_a(GameRules.field_223613_p).func_223570_a(false, this.field_147367_d);
-@@ -1268,6 +1312,8 @@
+@@ -1268,6 +1315,8 @@
     }
  
     public void func_147349_a(CCustomPayloadPacket p_147349_1_) {

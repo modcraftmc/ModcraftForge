@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/server/ServerChunkProvider.java
 +++ b/net/minecraft/world/server/ServerChunkProvider.java
+@@ -131,7 +131,7 @@
+             return p_222874_0_;
+          }, (p_222870_1_) -> {
+             if (p_212849_4_) {
+-               throw (IllegalStateException)Util.func_229757_c_(new IllegalStateException("Chunk not there when requested: " + p_222870_1_));
++               throw Util.func_229757_c_(new IllegalStateException("Chunk not there when requested: " + p_222870_1_));
+             } else {
+                return null;
+             }
 @@ -346,14 +346,14 @@
           EntityClassification[] aentityclassification = EntityClassification.values();
           Object2IntMap<EntityClassification> object2intmap = this.field_73251_h.func_217450_l();
