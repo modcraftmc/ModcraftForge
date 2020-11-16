@@ -309,7 +309,7 @@
 +   private ServerWorld[] getWorldArray() {
 +      if (worldArrayMarker == worldArrayLast && worldArray != null)
 +         return worldArray;
-+      worldArray = this.field_71305_c.values().stream().toArray(x -> new ServerWorld[x]);
++      worldArray = this.field_71305_c.values().toArray(new ServerWorld[0]);
 +      worldArrayLast = worldArrayMarker;
 +      return worldArray;
 +   }

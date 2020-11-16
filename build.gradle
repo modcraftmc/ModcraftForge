@@ -58,6 +58,7 @@ apply plugin: 'eclipse'
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version'))
 
+
 ext {
     JAR_SIGNER = null
     if (project.hasProperty('keystore')) {
@@ -68,7 +69,7 @@ ext {
         ]
     }
     MAPPING_CHANNEL = 'snapshot'
-    MAPPING_VERSION = '20201007-1.15.2'
+    MAPPING_VERSION = '20201111-1.15.1'
     MC_VERSION = '1.15.2'
     MCP_VERSION = '20200515.085601'
 }
@@ -98,7 +99,8 @@ project(':clean') {
             url 'https://raw.githubusercontent.com/modcraftmc/ModcraftMaven/master/'
         }
     }
-    
+
+
     dependencies {
         implementation 'net.minecraftforge:forgespi:3.0.+'
     }
@@ -146,6 +148,13 @@ project(':forge') {
     group = 'net.minecraftforge'
 
     compileJava.options.encoding = 'UTF-8'
+
+    jar {
+        from {
+            configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        }
+    }
+
 
 
     sourceSets {
@@ -250,6 +259,8 @@ project(':forge') {
    // version = getVersion()
     version = "1.15.2-31.3.0"
     println('Forge Version: ' + version)
+
+
 
     patcher {
         exc = file("$rootDir/src/main/resources/forge.exc")

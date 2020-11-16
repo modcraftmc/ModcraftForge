@@ -8,9 +8,9 @@ public class ModcraftThreadFactory {
 
     private static HashMap<String ,ExecutorService> executors = new HashMap<>();
 
-    public static final ExecutorService LOGIN_THREAD = Executors.newFixedThreadPool(2, new NamedThreadFactory("Player login thread"));
+    public static final ExecutorService LOGIN_THREAD = Executors.newCachedThreadPool(new NamedThreadFactory("Player login thread"));
 
-    public static final ExecutorService CHAT_THREAD = Executors.newSingleThreadExecutor(new NamedThreadFactory("Chat thread"));
+    public static final ExecutorService CHAT_THREAD = Executors.newCachedThreadPool(new NamedThreadFactory("Async Chat Thread"));
 
     //public static final ExecutorService PACKETS_THREAD = Executors.newSingleThreadExecutor(new NamedThreadFactory("Packets thread"));
 

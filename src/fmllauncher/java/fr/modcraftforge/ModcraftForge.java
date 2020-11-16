@@ -3,11 +3,15 @@ package fr.modcraftforge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ModcraftForge {
 
     public static final Logger LOGGER = LogManager.getLogger("ModcraftForge");
 
-    private static String version = "ModcraftForge@0.0.2";
+    private static String version = "ModcraftForge@0.0.6";
+    public static long startTime = System.currentTimeMillis();
 
 
     public static void initialize() {
@@ -27,6 +31,10 @@ public class ModcraftForge {
         LOGGER.info("            \\--------------------------------------------------------------------------/");
         LOGGER.info("");
 
+    }
+
+    public static String getFormatedStartTime() {
+        return  String.format("Loading ModcraftForge - %s time elasped", new SimpleDateFormat("mm:ss").format(new Date(startTime)));
     }
 
     public static String getVersionBrand() {

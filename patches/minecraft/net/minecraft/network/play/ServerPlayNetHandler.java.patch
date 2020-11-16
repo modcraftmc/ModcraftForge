@@ -87,7 +87,27 @@
     public void func_184342_d() {
        this.field_184349_l = this.field_147369_b.func_226277_ct_();
        this.field_184350_m = this.field_147369_b.func_226278_cu_();
-@@ -321,24 +352,28 @@
+@@ -308,37 +339,42 @@
+             double d6 = d3 - this.field_184356_s;
+             double d7 = d4 - this.field_184357_t;
+             double d8 = d5 - this.field_184358_u;
+-            double d9 = entity.func_213322_ci().func_189985_c();
+-            double d10 = d6 * d6 + d7 * d7 + d8 * d8;
+-            if (d10 - d9 > 100.0D && !this.func_217264_d()) {
+-               field_147370_c.warn("{} (vehicle of {}) moved too quickly! {},{},{}", entity.func_200200_C_().getString(), this.field_147369_b.func_200200_C_().getString(), d6, d7, d8);
+-               this.field_147371_a.func_179290_a(new SMoveVehiclePacket(entity));
++            //double d9 = entity.getMotion().lengthSquared();
++            //double d10 = d6 * d6 + d7 * d7 + d8 * d8;
++            /*
++            if (d10 - d9 > 100.0D && !this.isServerOwner()) {
++               LOGGER.warn("{} (vehicle of {}) moved too quickly! {},{},{}", entity.getName().getString(), this.player.getName().getString(), d6, d7, d8);
++               this.netManager.sendPacket(new SMoveVehiclePacket(entity));
+                return;
+             }
+-
++            */
+             boolean flag = serverworld.func_226665_a__(entity, entity.func_174813_aQ().func_186664_h(0.0625D));
+             d6 = d3 - this.field_184359_v;
              d7 = d4 - this.field_184360_w - 1.0E-6D;
              d8 = d5 - this.field_184361_x;
              entity.func_213315_a(MoverType.PLAYER, new Vec3d(d6, d7, d8));
@@ -120,7 +140,31 @@
                 this.field_147371_a.func_179290_a(new SMoveVehiclePacket(entity));
                 return;
              }
-@@ -734,20 +769,22 @@
+@@ -710,16 +746,16 @@
+                         field_147370_c.debug("{} is sending move packets too frequently ({} packets since last tick)", this.field_147369_b.func_200200_C_().getString(), i);
+                         i = 1;
+                      }
+-
+-                     if (!this.field_147369_b.func_184850_K() && (!this.field_147369_b.func_71121_q().func_82736_K().func_223586_b(GameRules.field_223615_r) || !this.field_147369_b.func_184613_cA())) {
+-                        float f2 = this.field_147369_b.func_184613_cA() ? 300.0F : 100.0F;
+-                        if (d11 - d10 > (double)(f2 * (float)i) && !this.func_217264_d()) {
+-                           field_147370_c.warn("{} moved too quickly! {},{},{}", this.field_147369_b.func_200200_C_().getString(), d7, d8, d9);
+-                           this.func_147364_a(this.field_147369_b.func_226277_ct_(), this.field_147369_b.func_226278_cu_(), this.field_147369_b.func_226281_cx_(), this.field_147369_b.field_70177_z, this.field_147369_b.field_70125_A);
++                     /*
++                     if (!this.player.isInvulnerableDimensionChange() && (!this.player.getServerWorld().getGameRules().getBoolean(GameRules.DISABLE_ELYTRA_MOVEMENT_CHECK) || !this.player.isElytraFlying())) {
++                        float f2 = this.player.isElytraFlying() ? 300.0F : 100.0F;
++                        if (d11 - d10 > (double)(f2 * (float)i) && !this.isServerOwner()) {
++                           LOGGER.warn("{} moved too quickly! {},{},{}", this.player.getName().getString(), d7, d8, d9);
++                           this.setPlayerLocation(this.player.getPosX(), this.player.getPosY(), this.player.getPosZ(), this.player.rotationYaw, this.player.rotationPitch);
+                            return;
+                         }
+                      }
+-
++                     */
+                      boolean flag2 = this.func_223133_a(serverworld);
+                      d7 = d4 - this.field_184352_o;
+                      d8 = d5 - this.field_184353_p;
+@@ -734,20 +770,22 @@
  
                       this.field_147369_b.func_213315_a(MoverType.PLAYER, new Vec3d(d7, d8, d9));
                       this.field_147369_b.field_70122_E = p_147347_1_.func_149465_i();
@@ -148,7 +192,7 @@
                       this.field_147369_b.func_70080_a(d4, d5, d6, f, f1);
                       this.field_147369_b.func_71000_j(this.field_147369_b.func_226277_ct_() - d0, this.field_147369_b.func_226278_cu_() - d1, this.field_147369_b.func_226281_cx_() - d2);
                       if (!this.field_147369_b.field_70145_X && !this.field_147369_b.func_70608_bn()) {
-@@ -845,7 +882,9 @@
+@@ -845,7 +883,9 @@
        Direction direction = blockraytraceresult.func_216354_b();
        this.field_147369_b.func_143004_u();
        if (blockpos.func_177956_o() < this.field_147367_d.func_71207_Z() - 1 || direction != Direction.UP && blockpos.func_177956_o() < this.field_147367_d.func_71207_Z()) {
@@ -159,7 +203,7 @@
              ActionResultType actionresulttype = this.field_147369_b.field_71134_c.func_219441_a(this.field_147369_b, serverworld, itemstack, hand, blockraytraceresult);
              if (actionresulttype.func_226247_b_()) {
                 this.field_147369_b.func_226292_a_(hand, true);
-@@ -898,20 +937,25 @@
+@@ -898,20 +938,25 @@
     }
  
     public void func_147231_a(ITextComponent p_147231_1_) {
@@ -195,7 +239,20 @@
     }
  
     public void func_211148_a(IPacket<?> p_211148_1_, @Nullable GenericFutureListener<? extends Future<? super Void>> p_211148_2_) {
-@@ -968,7 +1012,9 @@
+@@ -950,7 +995,11 @@
+    }
+ 
+    public void func_147354_a(CChatMessagePacket p_147354_1_) {
+-      PacketThreadUtil.func_218796_a(p_147354_1_, this, this.field_147369_b.func_71121_q());
++      //PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.player.getServerWorld()); async chat
++      if (p_147354_1_.func_149439_c().startsWith("/")) {
++         PacketThreadUtil.func_218796_a(p_147354_1_, this, this.field_147369_b.func_71121_q());
++      }
++
+       if (this.field_147369_b.func_147096_v() == ChatVisibility.HIDDEN) {
+          this.func_147359_a(new SChatPacket((new TranslationTextComponent("chat.cannotSend")).func_211708_a(TextFormatting.RED)));
+       } else {
+@@ -968,7 +1017,9 @@
           if (s.startsWith("/")) {
              this.func_147361_d(s);
           } else {
@@ -206,7 +263,7 @@
              this.field_147367_d.func_184103_al().func_148544_a(itextcomponent, false);
           }
  
-@@ -1061,6 +1107,7 @@
+@@ -1061,6 +1112,7 @@
                 this.field_147369_b.func_190775_a(entity, hand);
              } else if (p_147340_1_.func_149565_c() == CUseEntityPacket.Action.INTERACT_AT) {
                 Hand hand1 = p_147340_1_.func_186994_b();
@@ -214,7 +271,7 @@
                 ActionResultType actionresulttype = entity.func_184199_a(this.field_147369_b, p_147340_1_.func_179712_b(), hand1);
                 if (actionresulttype.func_226247_b_()) {
                    this.field_147369_b.func_226292_a_(hand1, true);
-@@ -1094,7 +1141,7 @@
+@@ -1094,7 +1146,7 @@
                 return;
              }
  
@@ -223,7 +280,7 @@
              if (this.field_147367_d.func_71199_h()) {
                 this.field_147369_b.func_71033_a(GameType.SPECTATOR);
                 this.field_147369_b.func_71121_q().func_82736_K().func_223585_a(GameRules.field_223613_p).func_223570_a(false, this.field_147367_d);
-@@ -1268,6 +1315,8 @@
+@@ -1268,6 +1320,8 @@
     }
  
     public void func_147349_a(CCustomPayloadPacket p_147349_1_) {

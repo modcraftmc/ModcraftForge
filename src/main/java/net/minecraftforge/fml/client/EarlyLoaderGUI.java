@@ -22,6 +22,7 @@ package net.minecraftforge.fml.client;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import fr.modcraftforge.ModcraftForge;
 import fr.modcraftmc.modcraftforge.darkloading.Hooks;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
@@ -36,7 +37,10 @@ import org.lwjgl.system.MemoryUtil;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryUsage;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class EarlyLoaderGUI {
     private final MainWindow window;
@@ -108,6 +112,7 @@ public class EarlyLoaderGUI {
         memorycolour[1] = ((i >> 8 ) & 0xFF) / 255.0f;
         memorycolour[0] = ((i >> 16 ) & 0xFF) / 255.0f;
         renderMessage(memory, memorycolour, 1, 1.0f);
+        renderMessage(ModcraftForge.getFormatedStartTime(), memorycolour, 2, 1.0f);
     }
 
     void renderMessage(final String message, final float[] colour, int line, float alpha) {
@@ -115,6 +120,7 @@ public class EarlyLoaderGUI {
         ByteBuffer charBuffer = MemoryUtil.memAlloc(message.length() * 270);
         int quads = STBEasyFont.stb_easy_font_print(0, 0, message, null, charBuffer);
         GL14.glVertexPointer(2, GL11.GL_FLOAT, 16, charBuffer);
+
 
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();

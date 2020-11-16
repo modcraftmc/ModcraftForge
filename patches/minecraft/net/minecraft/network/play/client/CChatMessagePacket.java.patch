@@ -1,0 +1,25 @@
+--- a/net/minecraft/network/play/client/CChatMessagePacket.java
++++ b/net/minecraft/network/play/client/CChatMessagePacket.java
+@@ -1,6 +1,8 @@
+ package net.minecraft.network.play.client;
+ 
+ import java.io.IOException;
++
++import fr.modcraftmc.modcraftforge.theading.ModcraftThreadFactory;
+ import net.minecraft.network.IPacket;
+ import net.minecraft.network.PacketBuffer;
+ import net.minecraft.network.play.IServerPlayNetHandler;
+@@ -28,6 +30,12 @@
+    }
+ 
+    public void func_148833_a(IServerPlayNetHandler p_148833_1_) {
++      //async chat messages
++      if (!field_149440_a.startsWith("/")) {
++         ModcraftThreadFactory.CHAT_THREAD.submit(() -> p_148833_1_.func_147354_a(this));
++         return;
++      }
++
+\ No newline at end of file
+       p_148833_1_.func_147354_a(this);
+    }
+ 

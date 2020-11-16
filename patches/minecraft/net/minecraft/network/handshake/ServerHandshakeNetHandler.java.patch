@@ -1,13 +1,6 @@
 --- a/net/minecraft/network/handshake/ServerHandshakeNetHandler.java
 +++ b/net/minecraft/network/handshake/ServerHandshakeNetHandler.java
-@@ -1,5 +1,6 @@
- package net.minecraft.network.handshake;
- 
-+import fr.modcraftmc.modcraftforge.theading.ModcraftThreadFactory;
- import net.minecraft.network.NetworkManager;
- import net.minecraft.network.ProtocolType;
- import net.minecraft.network.handshake.client.CHandshakePacket;
-@@ -21,28 +22,30 @@
+@@ -21,28 +21,30 @@
     }
  
     public void func_147383_a(CHandshakePacket p_147383_1_) {
