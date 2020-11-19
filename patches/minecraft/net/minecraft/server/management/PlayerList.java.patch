@@ -186,7 +186,18 @@
        return serverplayerentity;
     }
  
-@@ -739,7 +767,7 @@
+@@ -722,7 +750,9 @@
+          this.field_192055_p.put(uuid, playeradvancements);
+       }
+ 
+-      playeradvancements.func_192739_a(p_192054_1_);
++      // Forge: don't overwrite active player with a fake one.
++      if (!(p_192054_1_ instanceof net.minecraftforge.common.util.FakePlayer))
++         playeradvancements.func_192739_a(p_192054_1_);
+       return playeradvancements;
+    }
+ 
+@@ -739,7 +769,7 @@
     }
  
     public List<ServerPlayerEntity> func_181057_v() {
@@ -195,7 +206,7 @@
     }
  
     @Nullable
-@@ -769,4 +797,12 @@
+@@ -769,4 +799,12 @@
     public boolean func_206257_x() {
        return this.field_72407_n;
     }
