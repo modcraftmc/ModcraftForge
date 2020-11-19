@@ -238,7 +238,7 @@ public class ModLoader
                     modInfoMap.size(), modInfoMap.values().stream().map(IModInfo::getModId).sorted().collect(Collectors.toList()));
             loadingExceptions.add(new ModLoadingException(null, ModLoadingStage.CONSTRUCT, "fml.modloading.missingclasses", null, modFile.getFilePath()));
         }
-        return containers;
+        return containers.stream().filter(mc -> mc.modLoadingStage != ModLoadingStage.ERROR).collect(Collectors.toList());
     }
 
     private ModContainer buildModContainerFromTOML(final ModFile modFile, final TransformingClassLoader modClassLoader, final Map<String, IModInfo> modInfoMap, final Map.Entry<String, ? extends IModLanguageProvider.IModLanguageLoader> idToProviderEntry) {
@@ -252,7 +252,8 @@ public class ModLoader
         } catch (ModLoadingException mle) {
             // exceptions are caught and added to the error list for later handling. Null is returned here.
             loadingExceptions.add(mle);
-            return null;
+            // return an errored container instance here, because we tried and failed building a container.
+            return new ErroredModContainer();
         }
     }
 
@@ -303,5 +304,21 @@ public class ModLoader
 
     public Function<ModContainer, ModLifecycleEvent> getDataGeneratorEvent() {
         return mc -> new GatherDataEvent(mc, dataGeneratorConfig.makeGenerator(p->dataGeneratorConfig.isFlat() ? p : p.resolve(mc.getModId()), dataGeneratorConfig.getMods().contains(mc.getModId())), dataGeneratorConfig, existingFileHelper);
+    }
+
+    private static class ErroredModContainer extends ModContainer {
+        public ErroredModContainer() {
+            super();
+        }
+
+        @Override
+        public boolean matches(Object mod) {
+            return false;
+        }
+
+        @Override
+        public Object getMod() {
+            return null;
+        }
     }
 }

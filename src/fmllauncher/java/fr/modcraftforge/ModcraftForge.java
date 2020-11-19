@@ -29,7 +29,7 @@ public class ModcraftForge {
         LOGGER.info("            | This server is running ModcraftForge, if you have compatibility issues,   | ");
         LOGGER.info("            | please test on Forge server before reporting.                             |");
         LOGGER.info("            | https://github.com/modcraftmc/ModcraftForge/issues                        |");
-        LOGGER.info("            \\--------------------------------------------------------------------------/");
+        LOGGER.info("            \\--------------------è------------------------------------------------------/");
         LOGGER.info("");
 
     }
