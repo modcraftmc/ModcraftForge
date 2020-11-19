@@ -1031,7 +1031,7 @@ public class GameData
 
                 if (activeMod != null) {
 
-                    namespace = activeMod.getModId().toLowerCase(Locale.ROOT);
+                    namespace = activeMod.wrappedContainer instanceof FMLModContainer ? "minecraft" : activeMod.getModId().toLowerCase(Locale.ROOT);
                 }
             }
 

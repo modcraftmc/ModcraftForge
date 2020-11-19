@@ -1,0 +1,29 @@
+--- a/net/minecraft/resources/FallbackResourceManager.java
++++ b/net/minecraft/resources/FallbackResourceManager.java
+@@ -61,18 +61,22 @@
+    }
+ 
+    public boolean func_219533_b(ResourceLocation p_219533_1_) {
++      return this.field_199023_a.stream().anyMatch(pack -> pack.func_195764_b(ResourcePackType.CLIENT_RESOURCES, p_219533_1_)); //surge
++      /*
+       if (!this.func_219541_f(p_219533_1_)) {
+          return false;
+       } else {
+-         for(int i = this.field_199023_a.size() - 1; i >= 0; --i) {
+-            IResourcePack iresourcepack = this.field_199023_a.get(i);
+-            if (iresourcepack.func_195764_b(this.field_199025_c, p_219533_1_)) {
++         for(int i = this.resourcePacks.size() - 1; i >= 0; --i) {
++            IResourcePack iresourcepack = this.resourcePacks.get(i);
++            if (iresourcepack.resourceExists(this.type, p_219533_1_)) {
+                return true;
+             }
+          }
+ 
+          return false;
+       }
++
++       */
+\ No newline at end of file
+    }
+ 
+    protected InputStream func_199019_a(ResourceLocation p_199019_1_, IResourcePack p_199019_2_) throws IOException {
