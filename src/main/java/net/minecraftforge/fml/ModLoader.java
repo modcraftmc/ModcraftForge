@@ -227,8 +227,10 @@ public class ModLoader
         final Map<String, IModInfo> modInfoMap = modFile.getModFileInfo().getMods().stream().collect(Collectors.toMap(IModInfo::getModId, Function.identity()));
 
         LOGGER.debug(LOADING, "ModContainer is {}", ModContainer.class.getClassLoader());
-        final List<ModContainer> containers = modFile.getScanResult().getTargets().entrySet().stream().
-                map(e -> buildModContainerFromTOML(modFile, modClassLoader, modInfoMap, e))
+        final List<ModContainer> containers = modFile.getScanResult().getTargets()
+                .entrySet()
+                .stream()
+                .map(e -> buildModContainerFromTOML(modFile, modClassLoader, modInfoMap, e))
                 .filter(e -> e != null)
                 .collect(Collectors.toList());
         if (containers.size() != modInfoMap.size()) {
@@ -238,6 +240,7 @@ public class ModLoader
                     modInfoMap.size(), modInfoMap.values().stream().map(IModInfo::getModId).sorted().collect(Collectors.toList()));
             loadingExceptions.add(new ModLoadingException(null, ModLoadingStage.CONSTRUCT, "fml.modloading.missingclasses", null, modFile.getFilePath()));
         }
+        // remove errored mod containers
         return containers.stream().filter(mc -> mc.modLoadingStage != ModLoadingStage.ERROR).collect(Collectors.toList());
     }
 
