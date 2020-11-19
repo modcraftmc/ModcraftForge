@@ -19,19 +19,17 @@
 
 package net.minecraftforge.common.extensions;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.function.Function;
-
-import javax.annotation.Nonnull;
-
 import com.google.gson.JsonArray;
-
 import net.minecraft.tags.Tag;
 import net.minecraft.tags.TagCollection;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.data.IOptionalTagEntry;
+
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.function.Function;
 
 public interface IForgeTagBuilder<T>
 {

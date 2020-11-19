@@ -23,7 +23,6 @@ import com.google.common.base.Preconditions;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import net.minecraftforge.eventbus.api.Cancelable;
 
 import javax.annotation.Nonnegative;
 import java.util.List;

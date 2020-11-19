@@ -19,8 +19,6 @@
 
 package net.minecraftforge.client.event;
 
-import javax.annotation.Nullable;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -28,6 +26,8 @@ import net.minecraft.entity.Entity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.eventbus.api.Event;
+
+import javax.annotation.Nullable;
 
 /**
  * RenderNameplateEvent is fired whenever the entity renderer attempts to render a name plate/tag of an entity.

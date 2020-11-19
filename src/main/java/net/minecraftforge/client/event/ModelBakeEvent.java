@@ -19,14 +19,13 @@
 
 package net.minecraftforge.client.event;
 
-import java.util.Map;
-
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ModelManager;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.eventbus.api.Event;
+
+import java.util.Map;
 
 /**
  * Fired when the ModelManager is notified of the resource manager reloading.

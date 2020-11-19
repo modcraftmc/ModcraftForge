@@ -19,13 +19,12 @@
 
 package net.minecraftforge.fml.client.registry;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RenderingRegistry
 {

@@ -19,9 +19,8 @@
 
 package net.minecraftforge.common.util;
 
-import java.util.function.Consumer;
-
 import javax.annotation.Nonnull;
+import java.util.function.Consumer;
 
 /**
  * Equivalent to {@link Consumer}, except with nonnull contract.

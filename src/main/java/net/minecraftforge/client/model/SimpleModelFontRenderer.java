@@ -20,7 +20,6 @@
 package net.minecraftforge.client.model;
 
 import com.google.common.collect.ImmutableList;
-
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Matrix4f;
@@ -30,7 +29,6 @@ import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.renderer.vertex.VertexFormatElement;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;

@@ -19,8 +19,6 @@
 
 package net.minecraftforge.client.event;
 
-import net.minecraftforge.eventbus.api.Cancelable;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraft.client.gui.screen.Screen;
 
 /**

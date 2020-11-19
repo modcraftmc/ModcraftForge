@@ -11,10 +11,11 @@ public class ModcraftForge {
     public static final Logger LOGGER = LogManager.getLogger("ModcraftForge");
 
     private static String version = "ModcraftForge@0.0.6";
-    public static long startTime = System.currentTimeMillis();
+    public static long startTime;
 
 
     public static void initialize() {
+        startTime = System.currentTimeMillis();
 
         LOGGER.info("");
         LOGGER.info("  __  __           _                 __ _   _____                    ");
@@ -34,7 +35,7 @@ public class ModcraftForge {
     }
 
     public static String getFormatedStartTime() {
-        return  String.format("Loading ModcraftForge - %s time elasped", new SimpleDateFormat("mm:ss").format(new Date(startTime)));
+        return  String.format("Loading ModcraftForge - %s time elasped", new SimpleDateFormat("mm:ss").format(new Date(System.currentTimeMillis() - startTime)));
     }
 
     public static String getVersionBrand() {

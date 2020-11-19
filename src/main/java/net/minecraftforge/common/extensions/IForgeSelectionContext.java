@@ -19,9 +19,9 @@
 
 package net.minecraftforge.common.extensions;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.entity.Entity;
+
+import javax.annotation.Nullable;
 
 public interface IForgeSelectionContext
 {

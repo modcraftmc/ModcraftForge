@@ -20,7 +20,6 @@
 package net.minecraftforge.client.model.pipeline;
 
 import com.google.common.collect.ImmutableList;
-
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;

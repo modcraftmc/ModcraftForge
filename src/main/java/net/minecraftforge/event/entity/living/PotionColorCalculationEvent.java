@@ -19,10 +19,11 @@
 
 package net.minecraftforge.event.entity.living;
 
-import java.util.Collection;
-import java.util.Collections;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
+
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Fires after Potion Color Calculation.

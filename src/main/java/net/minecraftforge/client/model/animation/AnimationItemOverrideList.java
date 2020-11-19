@@ -19,11 +19,6 @@
 
 package net.minecraftforge.client.model.animation;
 
-import java.util.List;
-import java.util.function.Function;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -34,6 +29,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelTransformComposition;
 import net.minecraftforge.common.model.animation.CapabilityAnimation;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.function.Function;
 
 public final class AnimationItemOverrideList extends ItemOverrideList
 {

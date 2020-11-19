@@ -19,7 +19,6 @@
 
 package net.minecraftforge.fml.server;
 
-import fr.modcraftforge.ModcraftForge;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.*;

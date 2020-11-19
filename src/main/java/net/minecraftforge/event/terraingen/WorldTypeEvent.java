@@ -20,12 +20,9 @@
 package net.minecraftforge.event.terraingen;
 
 import net.minecraft.world.WorldType;
-import net.minecraft.world.biome.provider.BiomeProvider;
-import net.minecraft.world.gen.layer.Layer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.Event.HasResult;
 
 /**
  * WorldTypeEvent is fired when an event involving the world occurs.<br>

@@ -19,9 +19,6 @@
 
 package net.minecraftforge.event.world;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.profiler.Profiler;
@@ -34,6 +31,9 @@ import net.minecraft.world.WorldSettings;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * WorldEvent is fired when an event involving the world occurs.<br>

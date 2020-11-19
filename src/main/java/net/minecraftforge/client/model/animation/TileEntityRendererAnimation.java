@@ -19,10 +19,7 @@
 
 package net.minecraftforge.client.model.animation;
 
-import java.util.Random;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Atlases;
@@ -43,6 +40,8 @@ import net.minecraftforge.common.model.animation.CapabilityAnimation;
 import net.minecraftforge.common.model.animation.IAnimationStateMachine;
 import net.minecraftforge.common.property.Properties;
 import net.minecraftforge.common.util.LazyOptional;
+
+import java.util.Random;
 
 /**
  * Generic {@link TileGameRenderer} that works with the Forge model system and animations.

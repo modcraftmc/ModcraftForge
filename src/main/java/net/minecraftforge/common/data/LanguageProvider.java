@@ -19,20 +19,8 @@
 
 package net.minecraftforge.common.data;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Map;
-import java.util.Objects;
-import java.util.TreeMap;
-import java.util.function.Supplier;
-
-import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
@@ -43,6 +31,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Effect;
 import net.minecraft.world.biome.Biome;
+import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Map;
+import java.util.Objects;
+import java.util.TreeMap;
+import java.util.function.Supplier;
 
 @SuppressWarnings("deprecation")
 public abstract class LanguageProvider implements IDataProvider {

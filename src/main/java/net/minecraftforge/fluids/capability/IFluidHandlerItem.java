@@ -19,10 +19,9 @@
 
 package net.minecraftforge.fluids.capability;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.item.ItemStack;
+
+import javax.annotation.Nonnull;
 
 /**
  * ItemStacks handled by an {@link IFluidHandler} may change, so this class allows

@@ -19,12 +19,7 @@
 
 package net.minecraftforge.client.model;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.client.renderer.TransformationMatrix;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.Vector4f;
@@ -32,6 +27,10 @@ import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.renderer.vertex.VertexFormatElement;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class QuadTransformer
 {

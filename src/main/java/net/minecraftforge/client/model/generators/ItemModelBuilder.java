@@ -19,16 +19,15 @@
 
 package net.minecraftforge.client.model.generators;
 
+import com.google.common.base.Preconditions;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import net.minecraft.util.ResourceLocation;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.base.Preconditions;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import net.minecraft.util.ResourceLocation;
 
 /**
  * Builder for item models, adds the ability to build overrides via

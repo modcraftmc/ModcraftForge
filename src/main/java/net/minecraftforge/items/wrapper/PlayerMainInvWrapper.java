@@ -19,8 +19,8 @@
 
 package net.minecraftforge.items.wrapper;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;

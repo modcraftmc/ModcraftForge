@@ -24,7 +24,6 @@ import net.minecraft.client.util.InputMappings;
 import net.minecraft.util.Hand;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
-
 import org.lwjgl.glfw.GLFW;
 
 public class InputEvent extends Event

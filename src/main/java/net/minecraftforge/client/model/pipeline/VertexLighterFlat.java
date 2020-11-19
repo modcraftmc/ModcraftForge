@@ -19,13 +19,9 @@
 
 package net.minecraftforge.client.model.pipeline;
 
-import java.util.List;
-import java.util.Objects;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.Vector3f;
@@ -37,6 +33,9 @@ import net.minecraft.client.renderer.vertex.VertexFormatElement;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ILightReader;
+
+import java.util.List;
+import java.util.Objects;
 
 public class VertexLighterFlat extends QuadGatheringTransformer
 {

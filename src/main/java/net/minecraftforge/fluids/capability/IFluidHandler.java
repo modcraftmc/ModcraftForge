@@ -19,10 +19,10 @@
 
 package net.minecraftforge.fluids.capability;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidTank;
 
-import net.minecraftforge.fluids.*;
+import javax.annotation.Nonnull;
 
 /**
  * Implement this interface as a capability which should handle fluids, generally storing them in

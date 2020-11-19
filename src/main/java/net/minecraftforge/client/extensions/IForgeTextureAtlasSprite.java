@@ -19,14 +19,13 @@
 
 package net.minecraftforge.client.extensions;
 
-import java.util.Collection;
-import java.util.function.Function;
-
 import com.google.common.collect.ImmutableList;
-
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.Collection;
+import java.util.function.Function;
 
 public interface IForgeTextureAtlasSprite
 {

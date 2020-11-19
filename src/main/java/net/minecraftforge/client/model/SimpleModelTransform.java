@@ -19,10 +19,9 @@
 
 package net.minecraftforge.client.model;
 
+import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.renderer.TransformationMatrix;
 import net.minecraft.client.renderer.model.IModelTransform;
-
-import com.google.common.collect.ImmutableMap;
 
 /**
  * Simple implementation of IModelState via a map and a default value.

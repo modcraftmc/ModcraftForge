@@ -19,21 +19,19 @@
 
 package net.minecraftforge.common.capabilities;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.Lists;
-
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
+
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A high-speed implementation of a capability delegator.

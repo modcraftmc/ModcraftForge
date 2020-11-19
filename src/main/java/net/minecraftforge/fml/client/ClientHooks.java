@@ -19,33 +19,38 @@
 
 package net.minecraftforge.fml.client;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nullable;
-
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Sets;
-import com.google.common.collect.Table;
+import com.google.common.base.CharMatcher;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
+import com.google.common.collect.*;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.MultiplayerScreen;
 import net.minecraft.client.gui.screen.WorldSelectionScreen;
 import net.minecraft.client.multiplayer.PlayerController;
+import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.ServerStatusResponse;
+import net.minecraft.resources.FallbackResourceManager;
+import net.minecraft.resources.IResourcePack;
+import net.minecraft.resources.ResourcePack;
+import net.minecraft.resources.SimpleReloadableResourceManager;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.storage.WorldSummary;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ForgeI18n;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.StartupQuery;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.network.FMLNetworkConstants;
 import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.packs.ModFileResourcePack;
+import net.minecraftforge.forgespi.language.IModInfo;
+import net.minecraftforge.registries.GameData;
 import net.minecraftforge.versions.forge.ForgeVersion;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
@@ -53,26 +58,14 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
-import com.google.common.base.CharMatcher;
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.ServerStatusResponse;
-import net.minecraft.resources.ResourcePack;
-import net.minecraft.resources.FallbackResourceManager;
-import net.minecraft.resources.IResourcePack;
-import net.minecraft.resources.SimpleReloadableResourceManager;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.WorldSummary;
-import net.minecraftforge.fml.StartupQuery;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.forgespi.language.IModInfo;
-import net.minecraftforge.fml.packs.ModFileResourcePack;
-import net.minecraftforge.registries.GameData;
+import javax.annotation.Nullable;
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 public class ClientHooks
 {

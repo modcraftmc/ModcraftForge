@@ -19,30 +19,11 @@
 
 package net.minecraftforge.client;
 
-import java.io.IOException;
-import java.lang.ref.WeakReference;
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
-
-import javax.annotation.Nonnull;
-
-import net.minecraft.client.renderer.RenderType;
-import org.apache.commons.lang3.tuple.Pair;
-
-import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.chunk.ChunkRenderCache;
 import net.minecraft.client.renderer.texture.NativeImage;
 import net.minecraft.resources.IResource;
@@ -50,6 +31,15 @@ import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.tuple.Pair;
+
+import javax.annotation.Nonnull;
+import java.io.IOException;
+import java.util.BitSet;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 public class MinecraftForgeClient
 {

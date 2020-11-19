@@ -19,6 +19,7 @@
 
 package net.minecraftforge.fml.packs;
 
+import com.google.common.base.Joiner;
 import net.minecraft.resources.ResourcePackInfo;
 import net.minecraft.resources.ResourcePackType;
 import net.minecraft.util.ResourceLocation;
@@ -35,8 +36,6 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import com.google.common.base.Joiner;
 
 public class ModFileResourcePack extends DelegatableResourcePack
 {

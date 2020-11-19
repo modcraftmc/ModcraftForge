@@ -19,10 +19,10 @@
 
 package net.minecraftforge.common;
 
+import com.google.common.collect.Maps;
+
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import com.google.common.collect.Maps;
 
 public final class ToolType
 {

@@ -21,7 +21,6 @@ package net.minecraftforge.fml.client;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import fr.modcraftforge.ModcraftForge;
 import fr.modcraftmc.modcraftforge.darkloading.Hooks;
 import net.minecraft.client.MainWindow;
@@ -37,10 +36,7 @@ import org.lwjgl.system.MemoryUtil;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryUsage;
 import java.nio.ByteBuffer;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class EarlyLoaderGUI {
     private final MainWindow window;

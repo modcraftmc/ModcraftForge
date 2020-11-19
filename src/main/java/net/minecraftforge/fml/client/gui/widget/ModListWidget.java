@@ -19,18 +19,17 @@
 
 package net.minecraftforge.fml.client.gui.widget;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.list.ExtendedList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.gui.screen.ModListScreen;
-import net.minecraftforge.versions.forge.ForgeVersion;
 import net.minecraftforge.fml.MavenVersionStringHelper;
 import net.minecraftforge.fml.VersionChecker;
+import net.minecraftforge.fml.client.gui.screen.ModListScreen;
 import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
-
-import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraftforge.versions.forge.ForgeVersion;
 
 public class ModListWidget extends ExtendedList<ModListWidget.ModEntry>
 {

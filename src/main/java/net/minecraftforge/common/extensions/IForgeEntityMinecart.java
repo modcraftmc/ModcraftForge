@@ -20,8 +20,8 @@
 package net.minecraftforge.common.extensions;
 
 import net.minecraft.entity.item.minecart.AbstractMinecartEntity;
-import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;

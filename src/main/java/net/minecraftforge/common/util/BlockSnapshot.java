@@ -19,9 +19,6 @@
 
 package net.minecraftforge.common.util;
 
-import java.lang.ref.WeakReference;
-import java.util.Objects;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
@@ -34,6 +31,8 @@ import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
+import java.lang.ref.WeakReference;
+import java.util.Objects;
 
 /**
  * Represents a captured snapshot of a block which will not change

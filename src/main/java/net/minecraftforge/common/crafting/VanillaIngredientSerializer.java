@@ -19,13 +19,12 @@
 
 package net.minecraftforge.common.crafting;
 
-import java.util.stream.Stream;
-
 import com.google.gson.JsonObject;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
+
+import java.util.stream.Stream;
 
 public class VanillaIngredientSerializer implements IIngredientSerializer<Ingredient>
 {

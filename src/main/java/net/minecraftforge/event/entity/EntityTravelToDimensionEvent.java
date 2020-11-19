@@ -23,7 +23,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Cancelable;
-import net.minecraftforge.eventbus.api.Event.HasResult;
 
 /**
  * EntityTravelToDimensionEvent is fired before an Entity travels to a dimension.<br>

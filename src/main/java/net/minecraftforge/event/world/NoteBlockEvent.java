@@ -19,13 +19,12 @@
 
 package net.minecraftforge.event.world;
 
+import com.google.common.base.Preconditions;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.properties.NoteBlockInstrument;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.eventbus.api.Cancelable;
-
-import com.google.common.base.Preconditions;
 
 /**
  * Base class for Noteblock Events

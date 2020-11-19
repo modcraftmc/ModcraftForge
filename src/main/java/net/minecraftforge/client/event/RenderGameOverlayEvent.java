@@ -19,12 +19,12 @@
 
 package net.minecraftforge.client.event;
 
-import java.util.ArrayList;
-
-import net.minecraftforge.eventbus.api.Cancelable;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.gui.ClientBossInfo;
+import net.minecraftforge.eventbus.api.Cancelable;
+import net.minecraftforge.eventbus.api.Event;
+
+import java.util.ArrayList;
 
 @Cancelable
 public class RenderGameOverlayEvent extends Event

@@ -19,11 +19,7 @@
 
 package net.minecraftforge.common.util;
 
-import javax.annotation.Nullable;
-
 import com.mojang.authlib.GameProfile;
-
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.client.CClientSettingsPacket;
@@ -31,11 +27,12 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerInteractionManager;
 import net.minecraft.stats.Stat;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
+
+import javax.annotation.Nullable;
 
 //Preliminary, simple Fake Player class
 public class FakePlayer extends ServerPlayerEntity

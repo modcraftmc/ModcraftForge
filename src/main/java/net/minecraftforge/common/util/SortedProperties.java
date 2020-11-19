@@ -21,12 +21,7 @@ package net.minecraftforge.common.util;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * An Implementation of Properties that is sorted when iterating.

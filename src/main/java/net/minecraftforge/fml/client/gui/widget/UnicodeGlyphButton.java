@@ -20,7 +20,6 @@
 package net.minecraftforge.fml.client.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraftforge.fml.client.gui.GuiUtils;

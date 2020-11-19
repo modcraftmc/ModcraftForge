@@ -19,15 +19,14 @@
 
 package net.minecraftforge.client.event;
 
-import javax.annotation.Nonnull;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
-
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
+
+import javax.annotation.Nonnull;
 
 /**
  * This event is fired on the {@link net.minecraftforge.common.MinecraftForge#EVENT_BUS}

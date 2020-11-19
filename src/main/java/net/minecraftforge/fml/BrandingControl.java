@@ -21,16 +21,16 @@ package net.minecraftforge.fml;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.stream.IntStream;
-
 import fr.modcraftforge.ModcraftForge;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourceManagerReloadListener;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.versions.forge.ForgeVersion;
 import net.minecraftforge.versions.mcp.MCPVersion;
+
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.stream.IntStream;
 
 
 public class BrandingControl

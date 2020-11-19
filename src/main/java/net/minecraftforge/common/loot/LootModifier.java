@@ -19,15 +19,14 @@
 
 package net.minecraftforge.common.loot;
 
-import java.util.List;
-import java.util.function.Predicate;
-
-import javax.annotation.Nonnull;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.conditions.ILootCondition;
 import net.minecraft.world.storage.loot.conditions.LootConditionManager;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * A base implementation of a Global Loot Modifier for modders to extend.

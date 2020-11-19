@@ -19,9 +19,9 @@
 
 package net.minecraftforge.client.model.generators;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.data.DataGenerator;
+
+import javax.annotation.Nonnull;
 
 /**
  * Stub class to extend for block model data providers, eliminates some

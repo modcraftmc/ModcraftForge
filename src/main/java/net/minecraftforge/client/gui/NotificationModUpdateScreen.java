@@ -20,19 +20,18 @@
 package net.minecraftforge.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.loading.FMLConfig;
-import net.minecraftforge.versions.forge.ForgeVersion;
 import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.client.ClientModLoader;
-import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLConfig;
+import net.minecraftforge.versions.forge.ForgeVersion;
 
 @OnlyIn(Dist.CLIENT)
 public class NotificationModUpdateScreen extends Screen

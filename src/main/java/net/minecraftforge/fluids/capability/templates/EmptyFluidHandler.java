@@ -19,11 +19,10 @@
 
 package net.minecraftforge.fluids.capability.templates;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+
+import javax.annotation.Nonnull;
 
 public class EmptyFluidHandler implements IFluidHandler
 {

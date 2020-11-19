@@ -19,14 +19,16 @@
 
 package net.minecraftforge.fml.event.lifecycle;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import fr.modcraftforge.ModcraftForge;
+import net.minecraft.util.ResourceLocation;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.collect.*;
-
-import fr.modcraftforge.ModcraftForge;
-import net.minecraft.util.ResourceLocation;
 
 /**
  * Called whenever the ID mapping might have changed. If you register for this event, you

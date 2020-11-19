@@ -19,8 +19,6 @@
 
 package net.minecraftforge.common;
 
-import java.util.function.BiFunction;
-
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.ColumnFuzzedBiomeMagnifier;
@@ -28,6 +26,8 @@ import net.minecraft.world.biome.IBiomeMagnifier;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+
+import java.util.function.BiFunction;
 
 /**
  * In 1.13.2, Mojang made DimensionType as the unique holder/identifier for each Dimension.

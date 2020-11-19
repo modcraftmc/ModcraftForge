@@ -19,11 +19,11 @@
 
 package net.minecraftforge.fml.event.lifecycle;
 
-import java.io.File;
-import java.util.Set;
-
 import com.google.common.collect.ImmutableSet;
 import net.minecraftforge.fml.common.Mod;
+
+import java.io.File;
+import java.util.Set;
 
 
 /**
