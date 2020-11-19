@@ -1,0 +1,33 @@
+--- a/net/minecraft/world/IEntityReader.java
++++ b/net/minecraft/world/IEntityReader.java
+@@ -12,6 +12,7 @@
+ import net.minecraft.entity.EntityPredicate;
+ import net.minecraft.entity.LivingEntity;
+ import net.minecraft.entity.player.PlayerEntity;
++import net.minecraft.entity.player.ServerPlayerEntity;
+ import net.minecraft.util.EntityPredicates;
+ import net.minecraft.util.math.AxisAlignedBB;
+ import net.minecraft.util.math.shapes.IBooleanFunction;
+@@ -179,6 +180,21 @@
+       return list;
+    }
+ 
++   default List<Entity> getEntityRange(ServerPlayerEntity entity) {
++      List<Entity> list = Lists.newArrayList();
++
++      entity.func_71121_q().getEntities().forEach(entity1 -> {
++
++         if (entity.equals(entity1)) return;
++         if (entity.func_70068_e(entity1) <= 50) {
++            list.add(entity1);
++         }
++
++      });
++
++      return list;
++   }
++
+\ No newline at end of file
+    default <T extends LivingEntity> List<T> func_217374_a(Class<? extends T> p_217374_1_, EntityPredicate p_217374_2_, LivingEntity p_217374_3_, AxisAlignedBB p_217374_4_) {
+       List<T> list = this.func_175647_a(p_217374_1_, p_217374_4_, (Predicate<T>)null);
+       List<T> list1 = Lists.newArrayList();

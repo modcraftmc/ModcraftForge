@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/server/ChunkManager.java
 +++ b/net/minecraft/world/server/ChunkManager.java
+@@ -115,7 +115,7 @@
+    private final TemplateManager field_219269_w;
+    private final File field_219270_x;
+    private final PlayerGenerationTracker field_219271_y = new PlayerGenerationTracker();
+-   private final Int2ObjectMap<ChunkManager.EntityTracker> field_219272_z = new Int2ObjectOpenHashMap<>();
++   public final Int2ObjectMap<ChunkManager.EntityTracker> field_219272_z = new Int2ObjectOpenHashMap<>();
+    private final Queue<Runnable> field_223181_A = Queues.newConcurrentLinkedQueue();
+    private int field_219247_A;
+ 
 @@ -368,6 +368,7 @@
        iprofiler.func_219895_b("chunk_unload");
        if (!this.field_219255_i.func_217402_u()) {
@@ -37,7 +46,32 @@
     protected void func_219199_a(ServerPlayerEntity p_219199_1_, ChunkPos p_219199_2_, IPacket<?>[] p_219199_3_, boolean p_219199_4_, boolean p_219199_5_) {
        if (p_219199_1_.field_70170_p == this.field_219255_i) {
 +         net.minecraftforge.event.ForgeEventFactory.fireChunkWatch(p_219199_4_, p_219199_5_, p_219199_1_, p_219199_2_, this.field_219255_i);
-\ No newline at end of file
           if (p_219199_5_ && !p_219199_4_) {
              ChunkHolder chunkholder = this.func_219219_b(p_219199_2_.func_201841_a());
              if (chunkholder != null) {
+@@ -918,7 +923,7 @@
+       });
+    }
+ 
+-   protected void func_219210_a(Entity p_219210_1_) {
++   public void func_219210_a(Entity p_219210_1_) {
+       if (!(p_219210_1_ instanceof EnderDragonPartEntity)) {
+          if (!(p_219210_1_ instanceof LightningBoltEntity)) {
+             EntityType<?> entitytype = p_219210_1_.func_200600_R();
+@@ -1056,12 +1061,12 @@
+       });
+    }
+ 
+-   class EntityTracker {
++   public class EntityTracker {
+       private final TrackedEntity field_219402_b;
+-      private final Entity field_219403_c;
++      public final Entity field_219403_c;
+       private final int field_219404_d;
+       private SectionPos field_219405_e;
+-      private final Set<ServerPlayerEntity> field_219406_f = Sets.newHashSet();
++      public final Set<ServerPlayerEntity> field_219406_f = Sets.newHashSet();
+\ No newline at end of file
+ 
+       public EntityTracker(Entity p_i50468_2_, int p_i50468_3_, int p_i50468_4_, boolean p_i50468_5_) {
+          this.field_219402_b = new TrackedEntity(ChunkManager.this.field_219255_i, p_i50468_2_, p_i50468_4_, p_i50468_5_, this::func_219391_a);

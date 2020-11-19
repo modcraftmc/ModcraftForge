@@ -62,7 +62,7 @@ public class ModsFolderLocator extends AbstractJarFileLocator {
     public List<IModFile> scanMods() {
         LOGGER.debug(SCAN,"Scanning mods dir {} for mods", this.modFolder);
         List<Path> excluded = ModDirTransformerDiscoverer.allExcluded();
-        return uncheck(()-> Files.walk(this.modFolder))
+        return uncheck(()-> Files.list(this.modFolder))
                 .filter(p->!excluded.contains(p))
                 .sorted(Comparator.comparing(path-> StringUtils.toLowerCase(path.getFileName().toString())))
                 .filter(p->StringUtils.toLowerCase(p.getFileName().toString()).endsWith(SUFFIX))
