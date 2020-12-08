@@ -35,7 +35,7 @@ public class EntityUtils {
             if (eCache == null)
             {
                 String eConfigPath = sanitizeClassName(entity);
-                eCache = new EntityCache(entity.getClass(), world.getWorldInfo().getWorldName().toLowerCase(), eConfigPath, 1 /* configurable value*/);
+                eCache = new EntityCache(entity.getClass(), world.getWorldInfo().getWorldName().toLowerCase(), eConfigPath, EntitiesConfiguration.getTickinterval());
                 entityCache.put(entity.getClass(), eCache);
             }
 

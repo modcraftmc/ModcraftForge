@@ -18,18 +18,16 @@ public class CheckTask implements Runnable {
 
     private Marker LOG_CHECK = MarkerManager.getMarker("CHECKER");
 
-
     @Override
     public void run() {
 
         if (UntrackerTask.isRunning()) return;
 
-        if (! EntitiesConfiguration.isUseEntityChecker()) return;
+        if (!EntitiesConfiguration.isUseEntityChecker()) return;
 
         for (ServerWorld world : ServerLifecycleHooks.getCurrentServer().getWorlds()) {
             checkWorld(world.getDimension().getType());
         }
-
     }
 
     private void checkWorld(DimensionType type) {
@@ -45,7 +43,7 @@ public class CheckTask implements Runnable {
                     .forEach(entity -> {
                         if (!cps.chunkManager.entities.containsKey(entity.getEntityId()) &&  entity.isAlive()) {
                             trackAgain.add(entity);
-                            ModcraftForge.LOGGER.info(LOG_CHECK, entity.toString());
+                            ModcraftForge.LOGGER.debug(LOG_CHECK, entity.toString());
                         }
                     });
 
