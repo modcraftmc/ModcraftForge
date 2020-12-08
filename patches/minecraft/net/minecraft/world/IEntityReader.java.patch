@@ -1,6 +1,13 @@
 --- a/net/minecraft/world/IEntityReader.java
 +++ b/net/minecraft/world/IEntityReader.java
-@@ -12,6 +12,7 @@
+@@ -6,17 +6,20 @@
+ import java.util.Set;
+ import java.util.UUID;
+ import java.util.function.Predicate;
++import java.util.stream.Collectors;
+ import java.util.stream.Stream;
+ import javax.annotation.Nullable;
+ import net.minecraft.entity.Entity;
  import net.minecraft.entity.EntityPredicate;
  import net.minecraft.entity.LivingEntity;
  import net.minecraft.entity.player.PlayerEntity;
@@ -8,23 +15,32 @@
  import net.minecraft.util.EntityPredicates;
  import net.minecraft.util.math.AxisAlignedBB;
  import net.minecraft.util.math.shapes.IBooleanFunction;
-@@ -179,6 +180,21 @@
+ import net.minecraft.util.math.shapes.VoxelShape;
+ import net.minecraft.util.math.shapes.VoxelShapes;
++import net.minecraft.world.server.ServerWorld;
+ 
+ public interface IEntityReader {
+    List<Entity> func_175674_a(@Nullable Entity p_175674_1_, AxisAlignedBB p_175674_2_, @Nullable Predicate<? super Entity> p_175674_3_);
+@@ -179,6 +182,24 @@
        return list;
     }
  
-+   default List<Entity> getEntityRange(ServerPlayerEntity entity) {
-+      List<Entity> list = Lists.newArrayList();
++   default Stream<Entity> getEntitiesInRange(Entity player, ServerWorld world, int range) {
 +
-+      entity.func_71121_q().getEntities().forEach(entity1 -> {
++      return world.getEntities()
++              .filter(entity -> !entity.equals(player))
++              .filter(entity -> player.func_70032_d(entity) <= range);
 +
-+         if (entity.equals(entity1)) return;
-+         if (entity.func_70068_e(entity1) <= 50) {
-+            list.add(entity1);
-+         }
++     // return list;
++   }
 +
-+      });
++   default Stream<Entity> getParallelEntitiesInRange(Entity player, ServerWorld world, int range) {
 +
-+      return list;
++      return world.getEntities().parallel()
++              .filter(entity -> !entity.equals(player))
++              .filter(entity -> player.func_70032_d(entity) <= range);
++
++      // return list;
 +   }
 +
 \ No newline at end of file

@@ -102,7 +102,7 @@ public class ConfigTracker {
         if (config.getConfigData() != null) {
             LOGGER.trace(CONFIG, "Closing config file type {} at {} for {}", config.getType(), config.getFileName(), config.getModId());
             config.save();
-            config.getHandler().unload(configBasePath, config);
+           // config.getHandler().unload(configBasePath, config);
             config.setConfigData(null);
         }
     }

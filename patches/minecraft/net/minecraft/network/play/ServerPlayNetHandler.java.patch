@@ -1,9 +1,10 @@
 --- a/net/minecraft/network/play/ServerPlayNetHandler.java
 +++ b/net/minecraft/network/play/ServerPlayNetHandler.java
-@@ -4,10 +4,14 @@
+@@ -4,10 +4,15 @@
  import com.google.common.primitives.Floats;
  import com.mojang.brigadier.ParseResults;
  import com.mojang.brigadier.StringReader;
++import fr.modcraftmc.modcraftforge.api.ModcraftForgeAPI;
 +import fr.modcraftmc.modcraftforge.theading.ModcraftThreadFactory;
 +import fr.modcraftmc.modcraftforge.utils.Utils;
  import io.netty.util.concurrent.Future;
@@ -15,7 +16,7 @@
  import java.util.Collections;
  import java.util.Set;
  import javax.annotation.Nullable;
-@@ -89,17 +93,7 @@
+@@ -89,17 +94,7 @@
  import net.minecraft.network.play.client.CUpdateSignPacket;
  import net.minecraft.network.play.client.CUpdateStructureBlockPacket;
  import net.minecraft.network.play.client.CUseEntityPacket;
@@ -34,7 +35,7 @@
  import net.minecraft.potion.Effects;
  import net.minecraft.server.MinecraftServer;
  import net.minecraft.tileentity.CommandBlockLogic;
-@@ -167,6 +161,12 @@
+@@ -167,6 +162,12 @@
     private int field_184347_F;
     private int field_184348_G;
  
@@ -47,7 +48,7 @@
     public ServerPlayNetHandler(MinecraftServer p_i1530_1_, NetworkManager p_i1530_2_, ServerPlayerEntity p_i1530_3_) {
        this.field_147367_d = p_i1530_1_;
        this.field_147371_a = p_i1530_2_;
-@@ -245,8 +245,39 @@
+@@ -245,8 +246,39 @@
           this.func_194028_b(new TranslationTextComponent("multiplayer.disconnect.idling"));
        }
  
@@ -87,7 +88,16 @@
     public void func_184342_d() {
        this.field_184349_l = this.field_147369_b.func_226277_ct_();
        this.field_184350_m = this.field_147369_b.func_226278_cu_();
-@@ -308,37 +339,42 @@
+@@ -265,7 +297,7 @@
+    }
+ 
+    public void func_194028_b(ITextComponent p_194028_1_) {
+-      this.field_147371_a.func_201058_a(new SDisconnectPacket(p_194028_1_), (p_210161_2_) -> {
++      this.field_147371_a.func_201058_a(new SDisconnectPacket(ModcraftForgeAPI.getMessagePrefix().func_150257_a(p_194028_1_)), (p_210161_2_) -> {
+          this.field_147371_a.func_150718_a(p_194028_1_);
+       });
+       this.field_147371_a.func_150721_g();
+@@ -308,37 +340,42 @@
              double d6 = d3 - this.field_184356_s;
              double d7 = d4 - this.field_184357_t;
              double d8 = d5 - this.field_184358_u;
@@ -140,7 +150,7 @@
                 this.field_147371_a.func_179290_a(new SMoveVehiclePacket(entity));
                 return;
              }
-@@ -710,16 +746,16 @@
+@@ -710,16 +747,16 @@
                          field_147370_c.debug("{} is sending move packets too frequently ({} packets since last tick)", this.field_147369_b.func_200200_C_().getString(), i);
                          i = 1;
                       }
@@ -164,7 +174,7 @@
                       boolean flag2 = this.func_223133_a(serverworld);
                       d7 = d4 - this.field_184352_o;
                       d8 = d5 - this.field_184353_p;
-@@ -734,20 +770,22 @@
+@@ -734,20 +771,22 @@
  
                       this.field_147369_b.func_213315_a(MoverType.PLAYER, new Vec3d(d7, d8, d9));
                       this.field_147369_b.field_70122_E = p_147347_1_.func_149465_i();
@@ -192,7 +202,7 @@
                       this.field_147369_b.func_70080_a(d4, d5, d6, f, f1);
                       this.field_147369_b.func_71000_j(this.field_147369_b.func_226277_ct_() - d0, this.field_147369_b.func_226278_cu_() - d1, this.field_147369_b.func_226281_cx_() - d2);
                       if (!this.field_147369_b.field_70145_X && !this.field_147369_b.func_70608_bn()) {
-@@ -845,7 +883,9 @@
+@@ -845,7 +884,9 @@
        Direction direction = blockraytraceresult.func_216354_b();
        this.field_147369_b.func_143004_u();
        if (blockpos.func_177956_o() < this.field_147367_d.func_71207_Z() - 1 || direction != Direction.UP && blockpos.func_177956_o() < this.field_147367_d.func_71207_Z()) {
@@ -203,7 +213,7 @@
              ActionResultType actionresulttype = this.field_147369_b.field_71134_c.func_219441_a(this.field_147369_b, serverworld, itemstack, hand, blockraytraceresult);
              if (actionresulttype.func_226247_b_()) {
                 this.field_147369_b.func_226292_a_(hand, true);
-@@ -898,20 +938,25 @@
+@@ -898,20 +939,25 @@
     }
  
     public void func_147231_a(ITextComponent p_147231_1_) {
@@ -239,7 +249,7 @@
     }
  
     public void func_211148_a(IPacket<?> p_211148_1_, @Nullable GenericFutureListener<? extends Future<? super Void>> p_211148_2_) {
-@@ -950,7 +995,11 @@
+@@ -950,7 +996,11 @@
     }
  
     public void func_147354_a(CChatMessagePacket p_147354_1_) {
@@ -252,7 +262,7 @@
        if (this.field_147369_b.func_147096_v() == ChatVisibility.HIDDEN) {
           this.func_147359_a(new SChatPacket((new TranslationTextComponent("chat.cannotSend")).func_211708_a(TextFormatting.RED)));
        } else {
-@@ -968,7 +1017,9 @@
+@@ -968,7 +1018,9 @@
           if (s.startsWith("/")) {
              this.func_147361_d(s);
           } else {
@@ -263,7 +273,7 @@
              this.field_147367_d.func_184103_al().func_148544_a(itextcomponent, false);
           }
  
-@@ -1061,6 +1112,7 @@
+@@ -1061,6 +1113,7 @@
                 this.field_147369_b.func_190775_a(entity, hand);
              } else if (p_147340_1_.func_149565_c() == CUseEntityPacket.Action.INTERACT_AT) {
                 Hand hand1 = p_147340_1_.func_186994_b();
@@ -271,7 +281,7 @@
                 ActionResultType actionresulttype = entity.func_184199_a(this.field_147369_b, p_147340_1_.func_179712_b(), hand1);
                 if (actionresulttype.func_226247_b_()) {
                    this.field_147369_b.func_226292_a_(hand1, true);
-@@ -1094,7 +1146,7 @@
+@@ -1094,7 +1147,7 @@
                 return;
              }
  
@@ -280,7 +290,7 @@
              if (this.field_147367_d.func_71199_h()) {
                 this.field_147369_b.func_71033_a(GameType.SPECTATOR);
                 this.field_147369_b.func_71121_q().func_82736_K().func_223585_a(GameRules.field_223613_p).func_223570_a(false, this.field_147367_d);
-@@ -1268,6 +1320,8 @@
+@@ -1268,6 +1321,8 @@
     }
  
     public void func_147349_a(CCustomPayloadPacket p_147349_1_) {

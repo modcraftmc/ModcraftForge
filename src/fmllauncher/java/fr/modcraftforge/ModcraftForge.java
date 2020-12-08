@@ -10,7 +10,7 @@ public class ModcraftForge {
 
     public static final Logger LOGGER = LogManager.getLogger("ModcraftForge");
 
-    private static String version = "ModcraftForge@0.0.6";
+    private static String version = "0.0.8";
     public static long startTime;
 
 
@@ -29,13 +29,17 @@ public class ModcraftForge {
         LOGGER.info("            | This server is running ModcraftForge, if you have compatibility issues,   | ");
         LOGGER.info("            | please test on Forge server before reporting.                             |");
         LOGGER.info("            | https://github.com/modcraftmc/ModcraftForge/issues                        |");
-        LOGGER.info("            \\--------------------è------------------------------------------------------/");
+        LOGGER.info("            \\---------------------------------------------------------------------------/");
         LOGGER.info("");
 
     }
 
     public static String getFormatedStartTime() {
         return  String.format("Loading ModcraftForge - %s time elasped", new SimpleDateFormat("mm:ss").format(new Date(System.currentTimeMillis() - startTime)));
+    }
+
+    public static String getFullVersionBrand() {
+        return "ModcraftForge@" + version;
     }
 
     public static String getVersionBrand() {

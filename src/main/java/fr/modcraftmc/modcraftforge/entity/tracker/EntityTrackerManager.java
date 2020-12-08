@@ -1,4 +1,4 @@
-package fr.modcraftmc.modcraftforge.entity;
+package fr.modcraftmc.modcraftforge.entity.tracker;
 
 public class EntityTrackerManager {
 

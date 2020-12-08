@@ -12,13 +12,19 @@ public class ModcraftThreadFactory {
 
     public static final ExecutorService CHAT_THREAD = Executors.newCachedThreadPool(new NamedThreadFactory("Async Chat Thread"));
 
-    //public static final ExecutorService PACKETS_THREAD = Executors.newSingleThreadExecutor(new NamedThreadFactory("Packets thread"));
+    public static final ExecutorService MODCRAFTMC_ASYNC = Executors.newSingleThreadExecutor(new NamedThreadFactory("Modcraft Async Thread"));
 
-    public static void registerExecutor(String name, int threads) {
+    public static ExecutorService registerExecutor(ThreadSettings settings) {
 
-        if (executors.containsKey(name)) throw new IllegalStateException("Cannot add two executor with the same name");
+        if (executors.containsKey(settings.name)) throw new IllegalStateException("Cannot add two executor with the same name");
 
-        executors.put(name, Executors.newFixedThreadPool(threads, new NamedThreadFactory(name)));
+        switch (settings.type) {
+            case NORMAL:    executors.put(settings.name, Executors.newFixedThreadPool(settings.threads, new NamedThreadFactory(settings.name)));
+
+            case CACHED:    executors.put(settings.name, Executors.newCachedThreadPool(new NamedThreadFactory(settings.name)));
+        }
+
+        return get(settings.name);
 
     }
 
@@ -36,5 +42,4 @@ public class ModcraftThreadFactory {
         return executors.get(name);
 
     }
-
 }

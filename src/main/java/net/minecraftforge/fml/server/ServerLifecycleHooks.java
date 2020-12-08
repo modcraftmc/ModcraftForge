@@ -47,6 +47,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -66,9 +67,11 @@ public class ServerLifecycleHooks
 
     private static Path getServerConfigPath(final MinecraftServer server)
     {
-        final Path serverConfig = server.getActiveAnvilConverter().getFile(server.getFolderName(), "serverconfig").toPath();
-        FileUtils.getOrCreateDirectory(serverConfig, "serverconfig");
-        return serverConfig;
+        //final Path serverConfig = server.getActiveAnvilConverter().getFile(server.getFolderName(), "serverconfig").toPath();
+        File path = new File("serverconfig");
+        path.mkdirs();
+
+        return path.toPath();
     }
 
     public static boolean handleServerAboutToStart(final MinecraftServer server)
@@ -132,7 +135,9 @@ public class ServerLifecycleHooks
         if (!allowLogins.get())
         {
             StringTextComponent text = new StringTextComponent("Server is still starting! Please wait before reconnecting.");
-            LOGGER.info(SERVERHOOKS,"Disconnecting Player (server is still starting): {}", text.getUnformattedComponentText());
+            if (packet.getRequestedState().equals(ProtocolType.STATUS)) LOGGER.info(SERVERHOOKS,"Status ping (server is still starting): {}", text.getUnformattedComponentText());
+            else LOGGER.info(SERVERHOOKS,"Disconnecting Player (server is still starting): {}", text.getUnformattedComponentText());
+
             manager.sendPacket(new SDisconnectLoginPacket(text));
             manager.closeChannel(text);
             return false;

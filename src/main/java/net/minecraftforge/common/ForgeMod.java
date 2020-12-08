@@ -52,7 +52,7 @@ import net.minecraftforge.fml.loading.progress.StartupMessageManager;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.server.command.ConfigCommand;
 import net.minecraftforge.server.command.ForgeCommand;
-import net.minecraftforge.server.command.modcraftforge.ModcraftCommand;
+import fr.modcraftmc.modcraftforge.command.ModcraftCommand;
 import net.minecraftforge.versions.forge.ForgeVersion;
 import net.minecraftforge.versions.mcp.MCPVersion;
 import org.apache.commons.lang3.tuple.Pair;

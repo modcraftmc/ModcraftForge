@@ -1,4 +1,4 @@
-package net.minecraftforge.server.command.modcraftforge;
+package fr.modcraftmc.modcraftforge.command;
 
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import net.minecraft.command.CommandSource;
@@ -13,7 +13,6 @@ public class GithubCommand {
         return Commands.literal("github")
                 .requires(cs->cs.hasPermissionLevel(4))
                 .executes((ctx)-> {
-                            fr.modcraftforge.ModcraftConfig.load();
                             ctx.getSource().sendFeedback(new StringTextComponent("github of the project: https://github.com/modcraftmc/ModcraftForge").applyTextStyle((text)-> {
                                 text.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/modcraftmc/ModcraftForge"));
                             }), false);

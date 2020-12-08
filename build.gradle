@@ -149,6 +149,15 @@ project(':forge') {
 
     compileJava.options.encoding = 'UTF-8'
 
+/*
+    jar {
+        from {
+            configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        }
+    }
+
+ */
+
 
 
     sourceSets {
@@ -532,6 +541,8 @@ project(':forge') {
         installer 'org.apache.commons:commons-collections4:4.1'
         installer 'net.sf.trove4j:trove4j:3.0.3'
         installer 'mysql:mysql-connector-java:8.0.21'
+        installer 'com.conversantmedia:disruptor:1.2.15'
+
     }
     
     def extraTxts = [

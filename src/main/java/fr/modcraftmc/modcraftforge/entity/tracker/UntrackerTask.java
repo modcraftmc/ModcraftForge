@@ -1,5 +1,6 @@
-package fr.modcraftmc.modcraftforge.entity;
+package fr.modcraftmc.modcraftforge.entity.tracker;
 
+import fr.modcraftforge.ModcraftForge;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.item.ArmorStandEntity;
@@ -8,7 +9,10 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ChunkManager;
 import net.minecraft.world.server.ServerChunkProvider;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.loading.LogMarkers;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +20,7 @@ import java.util.Set;
 public class UntrackerTask implements Runnable {
 
     private static boolean running = false;
+    private Marker LOG_UNTRACKER = MarkerManager.getMarker("Untracker");
 
 
     @Override
@@ -30,14 +35,10 @@ public class UntrackerTask implements Runnable {
             untrack(world.getDimension().getType());
         }
 
-
         running = false;
-
     }
 
-    public static void untrack(DimensionType type) {
-
-
+    public void untrack(DimensionType type) {
         Set<Integer> toRemove = new HashSet<>();
         int removed = 0;
         ServerWorld serverWorld = ServerLifecycleHooks.getCurrentServer().getWorld(type);
@@ -83,6 +84,8 @@ public class UntrackerTask implements Runnable {
         for(int id : toRemove) {
             cps.chunkManager.entities.remove(id);
         }
+
+        ModcraftForge.LOGGER.info(LOG_UNTRACKER, "Removed {} entities", removed);
 
     }
 

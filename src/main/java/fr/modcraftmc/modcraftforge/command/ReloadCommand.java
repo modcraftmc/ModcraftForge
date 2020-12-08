@@ -1,4 +1,4 @@
-package net.minecraftforge.server.command.modcraftforge;
+package fr.modcraftmc.modcraftforge.command;
 
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import net.minecraft.command.CommandSource;

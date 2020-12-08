@@ -71,7 +71,6 @@ public class FMLModIdMappingEvent extends ModLifecycleEvent
         this.remaps = Maps.newHashMap();
         remaps.forEach((name, rm) ->
         {
-            ModcraftForge.LOGGER.warn("remaping {}", name);
             List<ModRemapping> tmp = Lists.newArrayList();
             rm.forEach((key, value) -> tmp.add(new ModRemapping(name, key, value[0], value[1])));
             tmp.sort(Comparator.comparingInt(o -> o.newId));

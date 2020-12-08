@@ -1,4 +1,4 @@
-package net.minecraftforge.server.command.modcraftforge;
+package fr.modcraftmc.modcraftforge.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -14,6 +14,9 @@ public class ModcraftCommand {
                 LiteralArgumentBuilder.<CommandSource>literal("modcraftforge").executes(this::info)
                         .then(ReloadCommand.register())
                         .then(GithubCommand.register())
+                        .then(EntitiesCommand.register())
+                        .then(CheckerCommand.register())
+
 
         );
     }

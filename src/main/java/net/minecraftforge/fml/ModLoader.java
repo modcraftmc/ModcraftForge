@@ -155,9 +155,17 @@ public class ModLoader
         statusConsumer.ifPresent(c->c.accept("Mod setup: SETUP"));
         dispatchAndHandleError(LifecycleEventProvider.SETUP, mainThreadExecutor, null);
         statusConsumer.ifPresent(c->c.accept("Mod setup: SIDED SETUP"));
-        mainThreadExecutor.execute(()->preSidedRunnable.accept(c->ModList.get().forEachModContainer((mi,mc)->mc.acceptEvent(c.get()))));
+        mainThreadExecutor.execute(()->preSidedRunnable.accept(c->ModList.get().forEachModContainer((mi,mc)->{
+            statusConsumer.ifPresent(cc->cc.accept("SETUP: " + mc.modId));
+            LOGGER.info("SETUP: " + mc.modId);
+            mc.acceptEvent(c.get());
+        })));
         dispatchAndHandleError(LifecycleEventProvider.SIDED_SETUP, mainThreadExecutor, null);
-        mainThreadExecutor.execute(()->postSidedRunnable.accept(c->ModList.get().forEachModContainer((mi,mc)->mc.acceptEvent(c.get()))));
+        mainThreadExecutor.execute(()->postSidedRunnable.accept(c->ModList.get().forEachModContainer((mi,mc)->{
+            statusConsumer.ifPresent(cc->cc.accept("POST SETUP: " + mc.modId));
+            LOGGER.info("SETUP: " + mc.modId);
+            mc.acceptEvent(c.get());
+        })));
         statusConsumer.ifPresent(c->c.accept("Mod setup complete"));
     }
 

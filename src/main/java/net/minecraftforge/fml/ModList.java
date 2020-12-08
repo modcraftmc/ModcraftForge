@@ -90,7 +90,10 @@ public class ModList
 
     static LifecycleEventProvider.EventHandler<LifecycleEventProvider.LifecycleEvent, Consumer<List<ModLoadingException>>, Executor, Runnable> inlineDispatcher = (event, errors, executor, ticker) -> ModList.get().dispatchSynchronousEvent(event, errors, executor, ticker);
 
-    static LifecycleEventProvider.EventHandler<LifecycleEventProvider.LifecycleEvent, Consumer<List<ModLoadingException>>, Executor, Runnable> parallelDispatcher = (event, errors, executor, ticker) -> ModList.get().dispatchParallelEvent(event, errors, executor, ticker);
+    static LifecycleEventProvider.EventHandler<LifecycleEventProvider.LifecycleEvent, Consumer<List<ModLoadingException>>, Executor, Runnable> parallelDispatcher = (event, errors, executor, ticker) -> {
+        ModList.get().dispatchParallelEvent(event, errors, executor, ticker);
+
+    };
 
     public static ModList get() {
         return INSTANCE;
@@ -122,7 +125,7 @@ public class ModList
         FMLLoader.getLanguageLoadingProvider().forEach(lp->lp.consumeLifecycleEvent(()->lifecycleEvent));
     }
     private void dispatchParallelEvent(LifecycleEventProvider.LifecycleEvent lifecycleEvent, final Consumer<List<ModLoadingException>> errorHandler, final Executor executor, final Runnable ticker) {
-        LOGGER.debug(LOADING, "Dispatching parallel event {}", lifecycleEvent);
+        LOGGER.info(LOADING, "Dispatching parallel event {}", lifecycleEvent);
         FMLLoader.getLanguageLoadingProvider().forEach(lp->lp.consumeLifecycleEvent(()->lifecycleEvent));
         DeferredWorkQueue.clear();
         try
