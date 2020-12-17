@@ -1,0 +1,31 @@
+--- a/net/minecraft/util/Direction.java
++++ b/net/minecraft/util/Direction.java
+@@ -150,8 +150,12 @@
+       return this.field_176755_l;
+    }
+ 
++   /**
++    * @reason Avoid the modulo/abs operations
++    * @author JellySquid
++    */
+    public Direction func_176734_d() {
+-      return func_82600_a(this.field_176759_h);
++      return field_199792_n[this.field_176759_h];
+    }
+ 
+    public Direction func_176746_e() {
+@@ -413,8 +417,13 @@
+          this.field_209388_d = p_i49393_4_;
+       }
+ 
++      /**
++       * @reason Do not allocate an excessive number of Direction arrays
++       * @author JellySquid
++       */
+       public Direction func_179518_a(Random p_179518_1_) {
+-         return this.field_209387_c[p_179518_1_.nextInt(this.field_209387_c.length)];
++         /*return this.facingValues[rand.nextInt(this.facingValues.length)]; */
++         return field_199792_n[p_179518_1_.nextInt(field_199792_n.length)];
+       }
+ 
+       public boolean test(@Nullable Direction p_test_1_) {

@@ -1,6 +1,73 @@
 --- a/net/minecraft/block/PistonBlock.java
 +++ b/net/minecraft/block/PistonBlock.java
-@@ -166,6 +166,7 @@
+@@ -129,26 +129,62 @@
+ 
+    }
+ 
++   private static final Direction[] aenumdirection = Direction.values(); // Yatopia
++
+    private boolean func_176318_b(World p_176318_1_, BlockPos p_176318_2_, Direction p_176318_3_) {
++      /*
+       for(Direction direction : Direction.values()) {
+-         if (direction != p_176318_3_ && p_176318_1_.func_175709_b(p_176318_2_.func_177972_a(direction), direction)) {
++         if (direction != facing && worldIn.isSidePowered(pos.offset(direction), direction)) {
+             return true;
+          }
+       }
+ 
+-      if (p_176318_1_.func_175709_b(p_176318_2_, Direction.DOWN)) {
++      if (worldIn.isSidePowered(pos, Direction.DOWN)) {
+          return true;
+       } else {
+-         BlockPos blockpos = p_176318_2_.func_177984_a();
++         BlockPos blockpos = pos.up();
+ 
+          for(Direction direction1 : Direction.values()) {
+-            if (direction1 != Direction.DOWN && p_176318_1_.func_175709_b(blockpos.func_177972_a(direction1), direction1)) {
++            if (direction1 != Direction.DOWN && worldIn.isSidePowered(blockpos.offset(direction1), direction1)) {
+                return true;
+             }
+          }
+ 
+          return false;
+       }
++
++       */
++      //EnumDirection[] aenumdirection = EnumDirection.values(); // Yatopia
++      int i = aenumdirection.length;
++
++      int j;
++
++      for (j = 0; j < i; ++j) {
++         Direction enumdirection1 = aenumdirection[j];
++
++         if (enumdirection1 != p_176318_3_ && p_176318_1_.func_175709_b(p_176318_2_.func_177972_a(enumdirection1), enumdirection1)) {
++            return true;
++         }
++      }
++
++      if (p_176318_1_.func_175709_b(p_176318_2_, Direction.DOWN)) {
++         return true;
++      } else {
++         BlockPos blockposition1 = BlockPos.field_177992_a.func_177984_a();
++         //EnumDirection[] aenumdirection1 = EnumDirection.values(); // Yatopia
++
++         j = aenumdirection.length; // Yatopia
++
++         for (int k = 0; k < j; ++k) {
++            Direction enumdirection2 = aenumdirection[k]; // Yatopia
++
++            if (enumdirection2 != Direction.DOWN && p_176318_1_.func_175709_b(blockposition1.func_177972_a(enumdirection2), enumdirection2)) {
++               return true;
++            }
++         }
++
++         return false;
++      }
+    }
+ 
+    public boolean func_189539_a(BlockState p_189539_1_, World p_189539_2_, BlockPos p_189539_3_, int p_189539_4_, int p_189539_5_) {
+@@ -166,6 +202,7 @@
        }
  
        if (p_189539_4_ == 0) {
@@ -8,7 +75,7 @@
           if (!this.func_176319_a(p_189539_2_, p_189539_3_, direction, true)) {
              return false;
           }
-@@ -173,6 +174,7 @@
+@@ -173,6 +210,7 @@
           p_189539_2_.func_180501_a(p_189539_3_, p_189539_1_.func_206870_a(field_176320_b, Boolean.valueOf(true)), 67);
           p_189539_2_.func_184133_a((PlayerEntity)null, p_189539_3_, SoundEvents.field_187715_dR, SoundCategory.BLOCKS, 0.5F, p_189539_2_.field_73012_v.nextFloat() * 0.25F + 0.6F);
        } else if (p_189539_4_ == 1 || p_189539_4_ == 2) {
@@ -16,7 +83,7 @@
           TileEntity tileentity1 = p_189539_2_.func_175625_s(p_189539_3_.func_177972_a(direction));
           if (tileentity1 instanceof PistonTileEntity) {
              ((PistonTileEntity)tileentity1).func_145866_f();
-@@ -197,7 +199,7 @@
+@@ -197,7 +235,7 @@
              }
  
              if (!flag1) {
@@ -25,7 +92,7 @@
                    p_189539_2_.func_217377_a(p_189539_3_.func_177972_a(direction), false);
                 } else {
                    this.func_176319_a(p_189539_2_, p_189539_3_, direction, false);
-@@ -210,6 +212,7 @@
+@@ -210,6 +248,7 @@
           p_189539_2_.func_184133_a((PlayerEntity)null, p_189539_3_, SoundEvents.field_187712_dQ, SoundCategory.BLOCKS, 0.5F, p_189539_2_.field_73012_v.nextFloat() * 0.15F + 0.6F);
        }
  
@@ -33,7 +100,7 @@
        return true;
     }
  
-@@ -238,7 +241,7 @@
+@@ -238,7 +277,7 @@
                 return false;
              }
  
@@ -42,7 +109,7 @@
           } else {
              return false;
           }
-@@ -276,7 +279,7 @@
+@@ -276,7 +315,7 @@
           for(int j = list2.size() - 1; j >= 0; --j) {
              BlockPos blockpos2 = list2.get(j);
              BlockState blockstate1 = p_176319_1_.func_180495_p(blockpos2);
@@ -51,7 +118,7 @@
              func_220059_a(blockstate1, p_176319_1_, blockpos2, tileentity);
              p_176319_1_.func_180501_a(blockpos2, Blocks.field_150350_a.func_176223_P(), 18);
              --k;
-@@ -340,6 +343,10 @@
+@@ -340,6 +379,10 @@
        return p_185499_1_.func_206870_a(field_176387_N, p_185499_2_.func_185831_a(p_185499_1_.func_177229_b(field_176387_N)));
     }
  
