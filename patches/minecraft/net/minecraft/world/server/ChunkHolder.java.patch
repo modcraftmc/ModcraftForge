@@ -48,7 +48,6 @@
                 BlockPos blockpos1 = new BlockPos(k1, l1, i2);
 -               if (world.func_180495_p(blockpos1).func_177230_c().func_149716_u()) {
 +               if (world.func_180495_p(blockpos1).hasTileEntity()) {
-\ No newline at end of file
                    this.func_219305_a(world, blockpos1);
                 }
              }

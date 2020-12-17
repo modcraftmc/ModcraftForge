@@ -62,7 +62,7 @@ import static net.minecraftforge.fml.Logging.LOADING;
 /**
  * Loads mods.
  *
- * Dispatch cycle is seen in {@link #loadMods(Executor, Consumer, Consumer)} ()} and {@link #finishMods(Executor)} ()}
+ * Dispatch cycle is seen in {@link #loadMods()} and {@link #finishMods()}
  *
  * Overall sequence for loadMods is:
  * <dl>
@@ -155,17 +155,9 @@ public class ModLoader
         statusConsumer.ifPresent(c->c.accept("Mod setup: SETUP"));
         dispatchAndHandleError(LifecycleEventProvider.SETUP, mainThreadExecutor, null);
         statusConsumer.ifPresent(c->c.accept("Mod setup: SIDED SETUP"));
-        mainThreadExecutor.execute(()->preSidedRunnable.accept(c->ModList.get().forEachModContainer((mi,mc)->{
-            statusConsumer.ifPresent(cc->cc.accept("SETUP: " + mc.modId));
-            LOGGER.info("SETUP: " + mc.modId);
-            mc.acceptEvent(c.get());
-        })));
+        mainThreadExecutor.execute(()->preSidedRunnable.accept(c->ModList.get().forEachModContainer((mi,mc)->mc.acceptEvent(c.get()))));
         dispatchAndHandleError(LifecycleEventProvider.SIDED_SETUP, mainThreadExecutor, null);
-        mainThreadExecutor.execute(()->postSidedRunnable.accept(c->ModList.get().forEachModContainer((mi,mc)->{
-            statusConsumer.ifPresent(cc->cc.accept("POST SETUP: " + mc.modId));
-            LOGGER.info("SETUP: " + mc.modId);
-            mc.acceptEvent(c.get());
-        })));
+        mainThreadExecutor.execute(()->postSidedRunnable.accept(c->ModList.get().forEachModContainer((mi,mc)->mc.acceptEvent(c.get()))));
         statusConsumer.ifPresent(c->c.accept("Mod setup complete"));
     }
 
@@ -235,10 +227,8 @@ public class ModLoader
         final Map<String, IModInfo> modInfoMap = modFile.getModFileInfo().getMods().stream().collect(Collectors.toMap(IModInfo::getModId, Function.identity()));
 
         LOGGER.debug(LOADING, "ModContainer is {}", ModContainer.class.getClassLoader());
-        final List<ModContainer> containers = modFile.getScanResult().getTargets()
-                .entrySet()
-                .stream()
-                .map(e -> buildModContainerFromTOML(modFile, modClassLoader, modInfoMap, e))
+        final List<ModContainer> containers = modFile.getScanResult().getTargets().entrySet().stream().
+                map(e -> buildModContainerFromTOML(modFile, modClassLoader, modInfoMap, e))
                 .filter(e -> e != null)
                 .collect(Collectors.toList());
         if (containers.size() != modInfoMap.size()) {
@@ -248,8 +238,7 @@ public class ModLoader
                     modInfoMap.size(), modInfoMap.values().stream().map(IModInfo::getModId).sorted().collect(Collectors.toList()));
             loadingExceptions.add(new ModLoadingException(null, ModLoadingStage.CONSTRUCT, "fml.modloading.missingclasses", null, modFile.getFilePath()));
         }
-        // remove errored mod containers
-        return containers.stream().filter(mc -> mc.modLoadingStage != ModLoadingStage.ERROR).collect(Collectors.toList());
+        return containers;
     }
 
     private ModContainer buildModContainerFromTOML(final ModFile modFile, final TransformingClassLoader modClassLoader, final Map<String, IModInfo> modInfoMap, final Map.Entry<String, ? extends IModLanguageProvider.IModLanguageLoader> idToProviderEntry) {
@@ -263,8 +252,7 @@ public class ModLoader
         } catch (ModLoadingException mle) {
             // exceptions are caught and added to the error list for later handling. Null is returned here.
             loadingExceptions.add(mle);
-            // return an errored container instance here, because we tried and failed building a container.
-            return new ErroredModContainer();
+            return null;
         }
     }
 
@@ -315,21 +303,5 @@ public class ModLoader
 
     public Function<ModContainer, ModLifecycleEvent> getDataGeneratorEvent() {
         return mc -> new GatherDataEvent(mc, dataGeneratorConfig.makeGenerator(p->dataGeneratorConfig.isFlat() ? p : p.resolve(mc.getModId()), dataGeneratorConfig.getMods().contains(mc.getModId())), dataGeneratorConfig, existingFileHelper);
-    }
-
-    private static class ErroredModContainer extends ModContainer {
-        public ErroredModContainer() {
-            super();
-        }
-
-        @Override
-        public boolean matches(Object mod) {
-            return false;
-        }
-
-        @Override
-        public Object getMod() {
-            return null;
-        }
     }
 }

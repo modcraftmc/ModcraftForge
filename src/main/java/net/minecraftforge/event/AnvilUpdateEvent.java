@@ -19,9 +19,9 @@
 
 package net.minecraftforge.event;
 
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
+import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;
 

@@ -85,7 +85,6 @@
 -               itemstack1.func_190920_e(0);
 +            if (itemstack1.func_77942_o()) { // Forge: Fix MC-17431
 +               ((Slot)this.field_75151_b.get(0)).func_75215_d(itemstack1.func_77979_a(1));
-\ No newline at end of file
              } else if (!itemstack1.func_190926_b()) {
                 this.field_75151_b.get(0).func_75215_d(new ItemStack(itemstack1.func_77973_b()));
                 itemstack1.func_190918_g(1);

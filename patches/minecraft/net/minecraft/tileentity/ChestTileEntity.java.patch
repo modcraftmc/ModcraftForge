@@ -56,5 +56,4 @@
 +      if (chestHandler != null)
 +        chestHandler.invalidate();
 +   }
-\ No newline at end of file
  }

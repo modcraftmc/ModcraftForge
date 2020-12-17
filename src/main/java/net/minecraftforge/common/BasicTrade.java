@@ -19,14 +19,15 @@
 
 package net.minecraftforge.common;
 
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.merchant.villager.VillagerTrades.ITrade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
-
-import javax.annotation.Nullable;
-import java.util.Random;
 
 /**
  * A default, exposed implementation of ITrade.  All of the other implementations of ITrade (in VillagerTrades) are not public.

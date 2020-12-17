@@ -40,7 +40,6 @@
 +      return true;
 +   }
 +
-\ No newline at end of file
     public static enum Rarity {
        COMMON(10),
        UNCOMMON(5),

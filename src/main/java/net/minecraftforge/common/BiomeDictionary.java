@@ -19,21 +19,23 @@
 
 package net.minecraftforge.common;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biomes;
-import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import net.minecraft.world.biome.Biomes;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.*;
 import static net.minecraftforge.common.BiomeDictionary.Type.*;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 
 public class BiomeDictionary
 {

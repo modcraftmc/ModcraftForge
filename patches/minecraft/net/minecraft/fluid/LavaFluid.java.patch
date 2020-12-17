@@ -24,7 +24,6 @@
              if (p_205574_3_.func_177230_c() instanceof FlowingFluidBlock) {
 -               p_205574_1_.func_180501_a(p_205574_2_, Blocks.field_150348_b.func_176223_P(), 3);
 +               p_205574_1_.func_180501_a(p_205574_2_, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(p_205574_1_, p_205574_2_, p_205574_2_, Blocks.field_150348_b.func_176223_P()), 3);
-\ No newline at end of file
              }
  
              this.func_205581_a(p_205574_1_, p_205574_2_);

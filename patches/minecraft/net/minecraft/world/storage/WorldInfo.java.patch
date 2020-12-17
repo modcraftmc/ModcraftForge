@@ -5,7 +5,6 @@
  
        for(Entry<DimensionType, CompoundNBT> entry : this.field_186348_N.entrySet()) {
 +         if (entry.getValue() == null || entry.getValue().isEmpty()) continue;
-\ No newline at end of file
           compoundnbt1.func_218657_a(String.valueOf(entry.getKey().func_186068_a()), entry.getValue());
        }
  

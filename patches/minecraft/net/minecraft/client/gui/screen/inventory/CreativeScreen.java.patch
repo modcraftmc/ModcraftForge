@@ -273,7 +273,6 @@
 +         this.field_148332_b.setBackground(atlas, sprite);
 +         return this;
 +      }
-\ No newline at end of file
     }
  
     @OnlyIn(Dist.CLIENT)

@@ -19,9 +19,9 @@
 
 package net.minecraftforge.client.model.data;
 
-import com.google.common.base.Predicates;
-
 import java.util.function.Predicate;
+
+import com.google.common.base.Predicates;
 
 public class ModelProperty<T> implements Predicate<T> {
     

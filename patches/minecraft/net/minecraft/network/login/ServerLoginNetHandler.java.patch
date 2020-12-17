@@ -1,20 +1,10 @@
 --- a/net/minecraft/network/login/ServerLoginNetHandler.java
 +++ b/net/minecraft/network/login/ServerLoginNetHandler.java
-@@ -13,6 +13,8 @@
- import java.util.concurrent.atomic.AtomicInteger;
- import javax.annotation.Nullable;
- import javax.crypto.SecretKey;
-+
-+import fr.modcraftmc.modcraftforge.theading.ModcraftThreadFactory;
- import net.minecraft.entity.player.PlayerEntity;
- import net.minecraft.entity.player.ServerPlayerEntity;
- import net.minecraft.network.NetworkManager;
-@@ -53,13 +55,19 @@
+@@ -53,7 +53,13 @@
     }
  
     public void func_73660_a() {
 -      if (this.field_147328_g == ServerLoginNetHandler.State.READY_TO_ACCEPT) {
--         this.func_147326_c();
 +      if (this.field_147328_g == State.NEGOTIATING) {
 +         // We force the state into "NEGOTIATING" which is otherwise unused. Once we're completed we move the negotiation onto "READY_TO_ACCEPT"
 +         // Might want to promote player object creation to here as well..
@@ -22,17 +12,10 @@
 +         if (negotiationComplete)
 +            this.field_147328_g = State.READY_TO_ACCEPT;
 +      } else if (this.field_147328_g == ServerLoginNetHandler.State.READY_TO_ACCEPT) {
-+         ModcraftThreadFactory.LOGIN_THREAD.submit(this::func_147326_c); //ModcraftForge async login patch
+          this.func_147326_c();
        } else if (this.field_147328_g == ServerLoginNetHandler.State.DELAY_ACCEPT) {
           ServerPlayerEntity serverplayerentity = this.field_147327_f.func_184103_al().func_177451_a(this.field_147337_i.getId());
-          if (serverplayerentity == null) {
-             this.field_147328_g = ServerLoginNetHandler.State.READY_TO_ACCEPT;
--            this.field_147327_f.func_184103_al().func_72355_a(this.field_147333_a, this.field_181025_l);
-+            ModcraftThreadFactory.LOGIN_THREAD.submit(() -> this.field_147327_f.func_184103_al().func_72355_a(this.field_147333_a, this.field_181025_l)); //ModcraftForge async login patch
-             this.field_181025_l = null;
-          }
-       }
-@@ -128,7 +136,7 @@
+@@ -128,7 +134,7 @@
           this.field_147328_g = ServerLoginNetHandler.State.KEY;
           this.field_147333_a.func_179290_a(new SEncryptionRequestPacket("", this.field_147327_f.func_71250_E().getPublic(), this.field_147330_e));
        } else {
@@ -41,7 +24,7 @@
        }
  
     }
-@@ -142,7 +150,7 @@
+@@ -142,7 +148,7 @@
           this.field_147335_k = p_147315_1_.func_149300_a(privatekey);
           this.field_147328_g = ServerLoginNetHandler.State.AUTHENTICATING;
           this.field_147333_a.func_150727_a(this.field_147335_k);
@@ -50,7 +33,7 @@
              public void run() {
                 GameProfile gameprofile = ServerLoginNetHandler.this.field_147337_i;
  
-@@ -151,11 +159,11 @@
+@@ -151,11 +157,11 @@
                    ServerLoginNetHandler.this.field_147337_i = ServerLoginNetHandler.this.field_147327_f.func_147130_as().hasJoinedServer(new GameProfile((UUID)null, gameprofile.getName()), s, this.func_191235_a());
                    if (ServerLoginNetHandler.this.field_147337_i != null) {
                       ServerLoginNetHandler.field_147332_c.info("UUID of player {} is {}", ServerLoginNetHandler.this.field_147337_i.getName(), ServerLoginNetHandler.this.field_147337_i.getId());
@@ -64,7 +47,7 @@
                    } else {
                       ServerLoginNetHandler.this.func_194026_b(new TranslationTextComponent("multiplayer.disconnect.unverified_username"));
                       ServerLoginNetHandler.field_147332_c.error("Username '{}' tried to join with an invalid session", (Object)gameprofile.getName());
-@@ -164,7 +172,7 @@
+@@ -164,7 +170,7 @@
                    if (ServerLoginNetHandler.this.field_147327_f.func_71264_H()) {
                       ServerLoginNetHandler.field_147332_c.warn("Authentication servers are down but will let them in anyway!");
                       ServerLoginNetHandler.this.field_147337_i = ServerLoginNetHandler.this.func_152506_a(gameprofile);
@@ -73,12 +56,11 @@
                    } else {
                       ServerLoginNetHandler.this.func_194026_b(new TranslationTextComponent("multiplayer.disconnect.authservers_down"));
                       ServerLoginNetHandler.field_147332_c.error("Couldn't verify username because servers are unavailable");
-@@ -185,6 +193,7 @@
+@@ -185,6 +191,7 @@
     }
  
     public void func_209526_a(CCustomPayloadLoginPacket p_209526_1_) {
 +      if (!net.minecraftforge.fml.network.NetworkHooks.onCustomPayload(p_209526_1_, this.field_147333_a))
-\ No newline at end of file
        this.func_194026_b(new TranslationTextComponent("multiplayer.disconnect.unexpected_query_response"));
     }
  

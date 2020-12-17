@@ -19,7 +19,6 @@
 
 package net.minecraftforge.fml.packs;
 
-import com.google.common.base.Joiner;
 import net.minecraft.resources.ResourcePackInfo;
 import net.minecraft.resources.ResourcePackType;
 import net.minecraft.util.ResourceLocation;
@@ -36,6 +35,8 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import com.google.common.base.Joiner;
 
 public class ModFileResourcePack extends DelegatableResourcePack
 {
@@ -63,7 +64,6 @@ public class ModFileResourcePack extends DelegatableResourcePack
     {
         final Path path = modFile.getLocator().findPath(modFile, name);
         return Files.newInputStream(path, StandardOpenOption.READ);
-
     }
 
     @Override
@@ -113,11 +113,7 @@ public class ModFileResourcePack extends DelegatableResourcePack
         }
         catch (IOException e)
         {
-            if (type == ResourcePackType.SERVER_DATA) /* We still have to add the resource namespace if client resources exist, as we load langs (which are in assets) on server */ {
-                return this.getResourceNamespaces(ResourcePackType.CLIENT_RESOURCES);
-            } else {
-                return Collections.emptySet();
-            }
+            return Collections.emptySet();
         }
     }
 

@@ -19,6 +19,8 @@
 
 package net.minecraftforge.event.entity.player;
 
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +29,6 @@ import net.minecraft.util.text.ITextComponent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 public class ItemTooltipEvent extends PlayerEvent
 {

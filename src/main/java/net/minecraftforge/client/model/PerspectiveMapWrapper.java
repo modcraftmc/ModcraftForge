@@ -19,6 +19,9 @@
 
 package net.minecraftforge.client.model;
 
+import java.util.EnumMap;
+import java.util.Random;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -35,9 +38,7 @@ import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.common.model.TransformationHelper;
 
 import javax.annotation.Nullable;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Random;
 
 public class PerspectiveMapWrapper implements IDynamicBakedModel
 {

@@ -19,12 +19,12 @@
 
 package net.minecraftforge.common;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.util.WeightedRandom;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+
+import net.minecraft.entity.EntityType;
+import net.minecraft.util.WeightedRandom;
 
 public class DungeonHooks
 {

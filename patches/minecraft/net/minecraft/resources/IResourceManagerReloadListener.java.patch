@@ -21,5 +21,4 @@
 +   default net.minecraftforge.resource.IResourceType getResourceType() {
 +      return null;
 +   }
-\ No newline at end of file
  }

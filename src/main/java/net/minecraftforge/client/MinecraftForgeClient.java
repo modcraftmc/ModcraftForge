@@ -19,11 +19,31 @@
 
 package net.minecraftforge.client;
 
+import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.util.BitSet;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
+
+import javax.annotation.Nonnull;
+
+import net.minecraft.client.renderer.RenderType;
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.chunk.ChunkRenderCache;
 import net.minecraft.client.renderer.texture.NativeImage;
 import net.minecraft.resources.IResource;
@@ -31,15 +51,6 @@ import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.apache.commons.lang3.tuple.Pair;
-
-import javax.annotation.Nonnull;
-import java.io.IOException;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 
 public class MinecraftForgeClient
 {
@@ -94,16 +105,16 @@ public class MinecraftForgeClient
         }
     }
 
-    private static final LoadingCache<Pair<World, BlockPos>, ChunkRenderCache> regionCache = CacheBuilder.newBuilder()
+    private static final LoadingCache<Pair<World, BlockPos>, Optional<ChunkRenderCache>> regionCache = CacheBuilder.newBuilder()
         .maximumSize(500)
         .concurrencyLevel(5)
         .expireAfterAccess(1, TimeUnit.SECONDS)
-        .build(new CacheLoader<Pair<World, BlockPos>, ChunkRenderCache>()
+        .build(new CacheLoader<Pair<World, BlockPos>, Optional<ChunkRenderCache>>()
         {
             @Override
-            public ChunkRenderCache load(Pair<World, BlockPos> key)
+            public Optional<ChunkRenderCache> load(Pair<World, BlockPos> key)
             {
-                return ChunkRenderCache.generateCache(key.getLeft(), key.getRight().add(-1, -1, -1), key.getRight().add(16, 16, 16), 1);
+                return Optional.ofNullable(ChunkRenderCache.generateCache(key.getLeft(), key.getRight().add(-1, -1, -1), key.getRight().add(16, 16, 16), 1));
             }
         });
 
@@ -112,10 +123,15 @@ public class MinecraftForgeClient
         if (cache == null)
             regionCache.invalidate(Pair.of(world, position));
         else
-            regionCache.put(Pair.of(world, position), cache);
+            regionCache.put(Pair.of(world, position), Optional.of(cache));
     }
 
     public static ChunkRenderCache getRegionRenderCache(World world, BlockPos pos)
+    {
+        return getRegionRenderCacheOptional(world, pos).orElse(null);
+    }
+
+    public static Optional<ChunkRenderCache> getRegionRenderCacheOptional(World world, BlockPos pos)
     {
         int x = pos.getX() & ~0xF;
         int y = pos.getY() & ~0xF;

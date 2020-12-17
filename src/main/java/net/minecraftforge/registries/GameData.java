@@ -70,14 +70,14 @@ import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.MissingMappings;
-import net.minecraftforge.fml.*;
+import net.minecraftforge.fml.LifecycleEventProvider;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.StartupQuery;
 import net.minecraftforge.fml.common.EnhancedRuntimeException;
 import net.minecraftforge.fml.common.thread.EffectiveSide;
 import net.minecraftforge.fml.event.lifecycle.FMLModIdMappingEvent;
-import net.minecraftforge.fml.javafmlmod.FMLModContainer;
 import net.minecraftforge.fml.loading.AdvancedLogMessageAdapter;
 
-import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.progress.StartupMessageManager;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
@@ -326,7 +326,6 @@ public class GameData
             final Class<? extends IForgeRegistryEntry> clazz = RegistryManager.ACTIVE.getSuperType(r.getKey());
             loadRegistry(r.getKey(), RegistryManager.ACTIVE, RegistryManager.FROZEN, clazz, true);
         }
-
         RegistryManager.FROZEN.registries.forEach((name, reg) ->
         {
             reg.validateContent(name);
@@ -1013,31 +1012,6 @@ public class GameData
      */
     public static ResourceLocation checkPrefix(String name, boolean warnOverrides)
     {
-
-
-            // Get position of the last separator
-            final int separator = name.lastIndexOf(':');
-
-            // Resolve the namespace
-            String namespace = separator == -1 ? "" : name.substring(0, separator).toLowerCase(Locale.ROOT);
-
-            // Resolve the path
-            final String path = separator == -1 ? name : name.substring(separator + 1);
-
-            // If there is no namespace, try to get it from the active mod.
-            if (namespace.isEmpty()) {
-
-                final ModContainer activeMod = ModLoadingContext.get().getActiveContainer();
-
-                if (activeMod != null) {
-
-                    namespace = activeMod.wrappedContainer instanceof FMLModContainer ? "minecraft" : activeMod.getModId().toLowerCase(Locale.ROOT);
-                }
-            }
-
-            return new ResourceLocation(namespace, path);
-
-        /*
         int index = name.lastIndexOf(':');
         String oldPrefix = index == -1 ? "" : name.substring(0, index).toLowerCase(Locale.ROOT);
         name = index == -1 ? name : name.substring(index + 1);
@@ -1048,8 +1022,6 @@ public class GameData
             prefix = oldPrefix;
         }
         return new ResourceLocation(prefix, name);
-
-         */
     }
 
     private static Field regName;

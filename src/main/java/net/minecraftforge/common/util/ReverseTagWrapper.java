@@ -19,14 +19,14 @@
 
 package net.minecraftforge.common.util;
 
-import net.minecraft.tags.TagCollection;
-import net.minecraft.util.ResourceLocation;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
+
+import net.minecraft.tags.TagCollection;
+import net.minecraft.util.ResourceLocation;
 
 public class ReverseTagWrapper<T>
 {

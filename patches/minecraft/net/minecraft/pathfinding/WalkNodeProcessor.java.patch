@@ -1,31 +1,5 @@
 --- a/net/minecraft/pathfinding/WalkNodeProcessor.java
 +++ b/net/minecraft/pathfinding/WalkNodeProcessor.java
-@@ -347,11 +347,11 @@
-       return func_227480_b_(p_186330_1_, p_186330_2_, p_186330_3_, p_186330_4_);
-    }
- 
--   public static PathNodeType func_227480_b_(IBlockReader p_227480_0_, int p_227480_1_, int p_227480_2_, int p_227480_3_) {
--      PathNodeType pathnodetype = func_189553_b(p_227480_0_, p_227480_1_, p_227480_2_, p_227480_3_);
--      if (pathnodetype == PathNodeType.OPEN && p_227480_2_ >= 1) {
--         Block block = p_227480_0_.func_180495_p(new BlockPos(p_227480_1_, p_227480_2_ - 1, p_227480_3_)).func_177230_c();
--         PathNodeType pathnodetype1 = func_189553_b(p_227480_0_, p_227480_1_, p_227480_2_ - 1, p_227480_3_);
-+   public static PathNodeType func_227480_b_(IBlockReader worldIn, int x, int y, int z) {
-+      PathNodeType pathnodetype = func_189553_b(worldIn, x, y, z);
-+      if (pathnodetype == PathNodeType.OPEN && y >= 1) {
-+         Block block = worldIn.func_180495_p(new BlockPos(x, y - 1, z)).func_177230_c();
-+         PathNodeType pathnodetype1 = func_189553_b(worldIn, x, y - 1, z);
-          pathnodetype = pathnodetype1 != PathNodeType.WALKABLE && pathnodetype1 != PathNodeType.OPEN && pathnodetype1 != PathNodeType.WATER && pathnodetype1 != PathNodeType.LAVA ? PathNodeType.WALKABLE : PathNodeType.OPEN;
-          if (pathnodetype1 == PathNodeType.DAMAGE_FIRE || block == Blocks.field_196814_hQ || block == Blocks.field_222433_lV) {
-             pathnodetype = PathNodeType.DAMAGE_FIRE;
-@@ -371,7 +371,7 @@
-       }
- 
-       if (pathnodetype == PathNodeType.WALKABLE) {
--         pathnodetype = func_193578_a(p_227480_0_, p_227480_1_, p_227480_2_, p_227480_3_, pathnodetype);
-+         pathnodetype = func_193578_a(worldIn, x, y, z, pathnodetype);
-       }
- 
-       return pathnodetype;
 @@ -383,16 +383,9 @@
              for(int j = -1; j <= 1; ++j) {
                 for(int k = -1; k <= 1; ++k) {
@@ -56,7 +30,6 @@
        Material material = blockstate.func_185904_a();
 -      if (blockstate.func_196958_f()) {
 +      if (blockstate.isAir(p_189553_0_, blockpos)) {
-\ No newline at end of file
           return PathNodeType.OPEN;
        } else if (!block.func_203417_a(BlockTags.field_212185_E) && block != Blocks.field_196651_dG) {
           if (block == Blocks.field_150480_ab) {

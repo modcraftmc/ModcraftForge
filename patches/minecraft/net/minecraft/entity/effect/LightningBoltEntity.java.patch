@@ -28,7 +28,6 @@
  
              for(Entity entity : list) {
 +               if (!net.minecraftforge.event.ForgeEventFactory.onEntityStruckByLightning(entity, this))
-\ No newline at end of file
                 entity.func_70077_a(this);
              }
  

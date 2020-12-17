@@ -19,7 +19,10 @@
 
 package net.minecraftforge.client.model.animation;
 
+import java.util.Random;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Atlases;
@@ -40,8 +43,6 @@ import net.minecraftforge.common.model.animation.CapabilityAnimation;
 import net.minecraftforge.common.model.animation.IAnimationStateMachine;
 import net.minecraftforge.common.property.Properties;
 import net.minecraftforge.common.util.LazyOptional;
-
-import java.util.Random;
 
 /**
  * Generic {@link TileGameRenderer} that works with the Forge model system and animations.
@@ -65,7 +66,8 @@ public class TileEntityRendererAnimation<T extends TileEntity> extends TileEntit
         }
         if(blockRenderer == null) blockRenderer = Minecraft.getInstance().getBlockRendererDispatcher();
         BlockPos pos = te.getPos();
-        ILightReader world = MinecraftForgeClient.getRegionRenderCache(te.getWorld(), pos);
+        ILightReader world = MinecraftForgeClient.getRegionRenderCacheOptional(te.getWorld(), pos)
+            .map(ILightReader.class::cast).orElseGet(() -> te.getWorld());
         BlockState state = world.getBlockState(pos);
         IBakedModel model = blockRenderer.getBlockModelShapes().getModel(state);
         IModelData data = model.getModelData(world, pos, state, ModelDataManager.getModelData(te.getWorld(), pos));

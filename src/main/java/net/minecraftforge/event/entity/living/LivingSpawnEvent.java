@@ -19,16 +19,17 @@
 
 package net.minecraftforge.event.entity.living;
 
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import javax.annotation.Nullable;
 import net.minecraft.world.spawner.AbstractSpawner;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.eventbus.api.Event;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
+import net.minecraftforge.eventbus.api.Event.HasResult;
 
 /**
  * LivingSpawnEvent is fired for any events associated with Living Entities spawn status. <br>

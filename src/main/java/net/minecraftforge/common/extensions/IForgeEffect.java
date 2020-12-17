@@ -19,6 +19,9 @@
 
 package net.minecraftforge.common.extensions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.item.ItemStack;
@@ -27,9 +30,6 @@ import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public interface IForgeEffect {
 

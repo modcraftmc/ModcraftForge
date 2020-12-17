@@ -75,7 +75,7 @@ public class RuntimeDistCleaner implements ILaunchPluginService
         {
             unpack(classNode.visibleAnnotations).stream()
                 .filter(ann->Objects.equals(ann.desc, ONLYIN))
-                .filter(ann-> ann.values.contains("_interface"))
+                .filter(ann->ann.values.indexOf("_interface") != -1)
                 .filter(ann->!Objects.equals(((String[])ann.values.get(ann.values.indexOf("value") + 1))[1], DIST))
                 .map(ann -> ((Type)ann.values.get(ann.values.indexOf("_interface") + 1)).getInternalName())
                 .forEach(intf -> {
@@ -156,8 +156,8 @@ public class RuntimeDistCleaner implements ILaunchPluginService
         List<AnnotationNode> ret = anns.stream().filter(ann->Objects.equals(ann.desc, ONLYIN)).collect(Collectors.toList());
         anns.stream().filter(ann->Objects.equals(ann.desc, ONLYINS) && ann.values != null)
             .map( ann -> (List<AnnotationNode>)ann.values.get(ann.values.indexOf("value") + 1))
-            .filter(Objects::nonNull)
-            .forEach(ret::addAll);
+            .filter(v -> v != null)
+            .forEach(v -> v.forEach(ret::add));
         return ret;
     }
 
@@ -165,7 +165,7 @@ public class RuntimeDistCleaner implements ILaunchPluginService
     {
         return unpack(anns).stream().
                 filter(ann->Objects.equals(ann.desc, ONLYIN)).
-                filter(ann-> !ann.values.contains("_interface")).
+                filter(ann->ann.values.indexOf("_interface") == -1).
                 anyMatch(ann -> !Objects.equals(((String[])ann.values.get(ann.values.indexOf("value")+1))[1], side));
     }
 

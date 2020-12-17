@@ -84,6 +84,5 @@
        }
 +      
 +      public String getSerializedName() { return field_230177_c_; }
-\ No newline at end of file
     }
  }

@@ -93,7 +93,6 @@
 -            Vec3d vec3d1 = vec3d.func_72441_c((double)p_207668_2_.func_177958_n(), (double)p_207668_2_.func_177956_o(), (double)p_207668_2_.func_177952_p());
 +            vec3d = vec3d.func_72441_c((double)p_207668_2_.func_177958_n(), (double)p_207668_2_.func_177956_o(), (double)p_207668_2_.func_177952_p());
 +            Vec3d vec3d1 = template$entityinfo.field_186247_a; // FORGE: Position will have already been transformed by processEntityInfos
-\ No newline at end of file
              ListNBT listnbt = new ListNBT();
              listnbt.add(DoubleNBT.func_229684_a_(vec3d1.field_72450_a));
              listnbt.add(DoubleNBT.func_229684_a_(vec3d1.field_72448_b));

@@ -11,7 +11,6 @@
 +            if (i < 16 && net.minecraftforge.common.ForgeHooks.onCropsGrowPre(p_225534_2_, p_225534_3_, p_225534_1_, p_225534_4_.nextInt(3) == 0 && p_225534_2_.func_175623_d(p_225534_3_.func_177984_a()) && p_225534_2_.func_226659_b_(p_225534_3_.func_177984_a(), 0) >= 9)) {
                 this.func_220258_a(p_225534_1_, p_225534_2_, p_225534_3_, p_225534_4_, i);
 +               net.minecraftforge.common.ForgeHooks.onCropsGrowPost(p_225534_2_, p_225534_3_, p_225534_1_);
-\ No newline at end of file
              }
           }
  

@@ -521,5 +521,4 @@
 +      }
 +      return super.getCapability(capability, facing);
 +   }
-\ No newline at end of file
  }

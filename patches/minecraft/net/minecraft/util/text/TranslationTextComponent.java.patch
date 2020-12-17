@@ -1,14 +1,6 @@
 --- a/net/minecraft/util/text/TranslationTextComponent.java
 +++ b/net/minecraft/util/text/TranslationTextComponent.java
-@@ -7,6 +7,7 @@
- import java.util.Arrays;
- import java.util.IllegalFormatException;
- import java.util.List;
-+import java.util.Locale;
- import java.util.regex.Matcher;
- import java.util.regex.Pattern;
- import java.util.stream.Stream;
-@@ -100,6 +101,10 @@
+@@ -100,6 +100,10 @@
              }
           }
  
@@ -16,7 +8,6 @@
 +            // if we failed to match above, lets try the messageformat handler instead.
 +            j = net.minecraftforge.fml.TextComponentMessageFormatHandler.handle(this, this.field_150278_b, this.field_150277_e, p_150269_1_);
 +         }
-\ No newline at end of file
           if (j < p_150269_1_.length()) {
              ITextComponent itextcomponent1 = new StringTextComponent(String.format(p_150269_1_.substring(j)));
              itextcomponent1.func_150256_b().func_150221_a(this.func_150256_b());

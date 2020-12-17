@@ -6,6 +6,5 @@
     public static String getClientModName() {
 -      return "vanilla";
 +      return net.minecraftforge.fml.BrandingControl.getClientBranding();
-\ No newline at end of file
     }
  }

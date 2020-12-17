@@ -16,7 +16,6 @@
 -            if (!itemstack2.func_77984_f()) {
 +            if (!itemstack2.isRepairable()) i = itemstack.func_77952_i();
 +            if (!itemstack2.func_77984_f() || !itemstack2.isRepairable()) {
-\ No newline at end of file
                 if (!ItemStack.func_77989_b(itemstack, itemstack1)) {
                    this.field_217013_c.func_70299_a(0, ItemStack.field_190927_a);
                    this.func_75142_b();

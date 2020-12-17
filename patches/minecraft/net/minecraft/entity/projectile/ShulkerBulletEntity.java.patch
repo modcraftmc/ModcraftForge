@@ -6,7 +6,6 @@
           RayTraceResult raytraceresult = ProjectileHelper.func_221266_a(this, true, false, this.field_184570_a, RayTraceContext.BlockMode.COLLIDER);
 -         if (raytraceresult.func_216346_c() != RayTraceResult.Type.MISS) {
 +            if (raytraceresult.func_216346_c() != RayTraceResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) {
-\ No newline at end of file
              this.func_184567_a(raytraceresult);
           }
        }

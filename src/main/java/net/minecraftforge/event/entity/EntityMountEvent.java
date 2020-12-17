@@ -22,6 +22,8 @@ package net.minecraftforge.event.entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.Cancelable;
+import net.minecraftforge.eventbus.api.Event.HasResult;
 
 /**
  * This event gets fired whenever a entity mounts/dismounts another entity.<br>

@@ -29,5 +29,4 @@
 +      if (state.func_177230_c() != this) return func_176223_P();
 +      return state;
 +   }
-\ No newline at end of file
  }

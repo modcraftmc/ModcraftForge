@@ -32,5 +32,4 @@
 +   public @javax.annotation.Nullable Entity getEntity() {
 +      return entity;
 +   }
-\ No newline at end of file
  }

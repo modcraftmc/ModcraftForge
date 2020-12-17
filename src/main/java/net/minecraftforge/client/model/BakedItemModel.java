@@ -19,6 +19,11 @@
 
 package net.minecraftforge.client.model;
 
+import javax.annotation.Nullable;
+
+import java.util.List;
+import java.util.Random;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -30,10 +35,6 @@ import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Direction;
-
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Random;
 
 public class BakedItemModel implements IBakedModel
 {

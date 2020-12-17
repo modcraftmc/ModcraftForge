@@ -26,7 +26,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.EntityEvent;
+import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
+
+import net.minecraftforge.eventbus.api.Event.HasResult;
 
 /**
  * ZombieEvent is fired whenever a zombie is spawned for aid.

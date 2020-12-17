@@ -24,7 +24,14 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.forgespi.language.IModInfo;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -46,10 +53,9 @@ public abstract class ModContainer
     protected final String modId;
     protected final String namespace;
     protected final IModInfo modInfo;
-    public Object wrappedContainer;
     protected ModLoadingStage modLoadingStage;
     protected Supplier<?> contextExtension;
-    protected Map<ModLoadingStage, Consumer<LifecycleEventProvider.LifecycleEvent>> triggerMap;
+    protected final Map<ModLoadingStage, Consumer<LifecycleEventProvider.LifecycleEvent>> triggerMap;
     protected final Map<ExtensionPoint, Supplier<?>> extensionPoints = new IdentityHashMap<>();
     protected final EnumMap<ModConfig.Type, ModConfig> configs = new EnumMap<>(ModConfig.Type.class);
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
@@ -66,17 +72,6 @@ public abstract class ModContainer
         // default displaytest extension checks for version string match
         registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(()->this.modInfo.getVersion().toString(),
                 (incoming, isNetwork)->Objects.equals(incoming, this.modInfo.getVersion().toString())));
-    }
-
-    /**
-     * Errored container state, used for filtering. Does nothing.
-     */
-    ModContainer()
-    {
-        this.modLoadingStage = ModLoadingStage.ERROR;
-        modId = "BROKEN";
-        namespace = "BROKEN";
-        modInfo = null;
     }
 
     /**

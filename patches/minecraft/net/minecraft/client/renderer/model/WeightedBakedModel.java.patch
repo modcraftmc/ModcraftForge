@@ -7,7 +7,6 @@
 +   
 +   @Override
 +   public boolean isAmbientOcclusion(BlockState state) { return this.field_177566_c.isAmbientOcclusion(state); }
-\ No newline at end of file
  
     public boolean func_177556_c() {
        return this.field_177566_c.func_177556_c();

@@ -18,7 +18,6 @@
 -               Block block = this.field_145850_b.func_180495_p(new BlockPos(k, j, l)).func_177230_c();
 -               if (block != Blocks.field_150475_bE && block != Blocks.field_150340_R && block != Blocks.field_150484_ah && block != Blocks.field_150339_S) {
 +               if (!this.field_145850_b.func_180495_p(new BlockPos(k, j, l)).isBeaconBase(this.field_145850_b, new BlockPos(k, j, l), func_174877_v())) {
-\ No newline at end of file
                    flag = false;
                    break;
                 }

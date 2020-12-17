@@ -19,6 +19,8 @@
 
 package net.minecraftforge.common.extensions;
 
+import java.util.function.LongFunction;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.CreateBuffetWorldScreen;
 import net.minecraft.client.gui.screen.CreateFlatWorldScreen;
@@ -31,11 +33,13 @@ import net.minecraft.world.gen.IExtendedNoiseRandom;
 import net.minecraft.world.gen.OverworldGenSettings;
 import net.minecraft.world.gen.area.IArea;
 import net.minecraft.world.gen.area.IAreaFactory;
-import net.minecraft.world.gen.layer.*;
+import net.minecraft.world.gen.layer.AddBambooForestLayer;
+import net.minecraft.world.gen.layer.BiomeLayer;
+import net.minecraft.world.gen.layer.EdgeBiomeLayer;
+import net.minecraft.world.gen.layer.ZoomLayer;
+import net.minecraft.world.gen.layer.LayerUtil;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.function.LongFunction;
 
 public interface IForgeWorldType
 {

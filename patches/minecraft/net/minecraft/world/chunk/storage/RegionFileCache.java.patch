@@ -6,7 +6,6 @@
           File file1 = new File(this.field_219101_a, "r." + p_219098_1_.func_222241_h() + "." + p_219098_1_.func_222242_i() + ".mca");
 -         RegionFile regionfile1 = new RegionFile(file1, this.field_219101_a);
 +         RegionFile regionfile1 = new RegionFile(file1, this.field_219101_a).extractLargeChunks(p_219098_1_);
-\ No newline at end of file
           this.field_219102_c.putAndMoveToFirst(i, regionfile1);
           return regionfile1;
        }

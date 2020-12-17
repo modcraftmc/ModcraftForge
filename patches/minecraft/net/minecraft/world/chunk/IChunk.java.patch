@@ -9,5 +9,4 @@
 +   default net.minecraft.world.IWorld getWorldForge() {
 +      return null;
 +   }
-\ No newline at end of file
  }

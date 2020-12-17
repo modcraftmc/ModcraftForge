@@ -9,5 +9,4 @@
 +   protected A getArmorModelHook(T entity, net.minecraft.item.ItemStack itemStack, EquipmentSlotType slot, A model) {
 +      return net.minecraftforge.client.ForgeHooksClient.getArmorModel(entity, itemStack, slot, model);
 +   }
-\ No newline at end of file
  }

@@ -9,5 +9,4 @@
 +   public synchronized <T extends TileEntity> void setSpecialRendererInternal(TileEntityType<T> tileEntityType, TileEntityRenderer<? super T> specialRenderer) {
 +      this.field_147559_m.put(tileEntityType, specialRenderer);
 +   }
-\ No newline at end of file
  }

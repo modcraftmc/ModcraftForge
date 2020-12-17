@@ -19,23 +19,23 @@
 
 package net.minecraftforge.common.data;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.DyeColor;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.data.BlockTagsProvider;
+
+import static net.minecraftforge.common.Tags.Blocks.*;
 
 import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-
-import static net.minecraftforge.common.Tags.Blocks.*;
 
 public class ForgeBlockTagsProvider extends BlockTagsProvider
 {

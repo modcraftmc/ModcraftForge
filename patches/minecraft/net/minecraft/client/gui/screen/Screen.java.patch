@@ -77,5 +77,4 @@
 +   public Minecraft getMinecraft() {
 +      return this.minecraft;
 +   }
-\ No newline at end of file
  }

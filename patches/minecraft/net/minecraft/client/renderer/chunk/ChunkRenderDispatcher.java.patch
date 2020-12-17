@@ -167,7 +167,6 @@
 +
 +         public SortTransparencyTask(@Nullable net.minecraft.util.math.ChunkPos pos, double p_i226025_2_, ChunkRenderDispatcher.CompiledChunk p_i226025_4_) {
 +            super(pos, p_i226025_2_);
-\ No newline at end of file
              this.field_228945_e_ = p_i226025_4_;
           }
  

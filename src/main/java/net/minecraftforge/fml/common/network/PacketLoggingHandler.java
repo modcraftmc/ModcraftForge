@@ -21,13 +21,24 @@ package net.minecraftforge.fml.common.network;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.*;
-import net.minecraft.network.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelOutboundHandlerAdapter;
+import io.netty.channel.ChannelPipeline;
+import io.netty.channel.ChannelPromise;
+import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.Iterator;
 import java.util.List;
+
+
+import net.minecraft.network.PacketDirection;
+import net.minecraft.network.NettyVarint21FrameDecoder;
+import net.minecraft.network.NettyVarint21FrameEncoder;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.IPacket;
+import net.minecraft.network.PacketBuffer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class PacketLoggingHandler
 {

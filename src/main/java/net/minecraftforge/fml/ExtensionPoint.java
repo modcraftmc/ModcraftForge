@@ -19,15 +19,16 @@
 
 package net.minecraftforge.fml;
 
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
+import java.util.function.Supplier;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.resources.IResourcePack;
 import net.minecraftforge.fml.packs.ModFileResourcePack;
-import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
-import java.util.function.Supplier;
 
 public class ExtensionPoint<T>
 {

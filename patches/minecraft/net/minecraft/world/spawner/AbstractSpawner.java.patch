@@ -23,5 +23,4 @@
 +   public Entity getSpawnerEntity() {
 +      return null;
 +   }
-\ No newline at end of file
  }

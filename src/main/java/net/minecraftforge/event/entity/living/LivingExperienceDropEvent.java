@@ -21,6 +21,7 @@ package net.minecraftforge.event.entity.living;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraftforge.eventbus.api.Cancelable;
 
 /**
  * Event for when an entity drops experience on its death, can be used to change

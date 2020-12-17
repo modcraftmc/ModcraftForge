@@ -23,8 +23,6 @@ import cpw.mods.modlauncher.api.IEnvironment;
 import cpw.mods.modlauncher.api.ITransformationService;
 import cpw.mods.modlauncher.api.ITransformer;
 import cpw.mods.modlauncher.api.IncompatibleEnvironmentException;
-import fr.modcraftforge.ModcraftConfig;
-import fr.modcraftforge.ModcraftForge;
 import joptsimple.ArgumentAcceptingOptionSpec;
 import joptsimple.OptionSpecBuilder;
 import net.minecraftforge.fml.loading.moddiscovery.ModFile;
@@ -77,13 +75,10 @@ public class FMLServiceProvider implements ITransformationService
 
     @Override
     public void initialize(IEnvironment environment) {
-
-        ModcraftForge.initialize();
         LOGGER.debug(CORE, "Setting up basic FML game directories");
         FMLPaths.setup(environment);
         LOGGER.debug(CORE, "Loading configuration");
         FMLConfig.load();
-        ModcraftConfig.load();
         LOGGER.debug(CORE, "Preparing ModFile");
         environment.computePropertyIfAbsent(Environment.Keys.MODFILEFACTORY.get(), k->ModFile.buildFactory());
         arguments = new HashMap<>();

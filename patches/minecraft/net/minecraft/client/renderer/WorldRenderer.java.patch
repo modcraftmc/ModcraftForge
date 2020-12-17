@@ -174,7 +174,6 @@
 +      return net.minecraftforge.resource.VanillaResourceType.MODELS;
 +   }
 +
-\ No newline at end of file
     @OnlyIn(Dist.CLIENT)
     class LocalRenderInformationContainer {
        private final ChunkRenderDispatcher.ChunkRender field_178036_a;

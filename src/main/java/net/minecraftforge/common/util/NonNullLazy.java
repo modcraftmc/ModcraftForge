@@ -20,6 +20,8 @@
 package net.minecraftforge.common.util;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 /**
  * Proxy object for a value that is calculated on first access.

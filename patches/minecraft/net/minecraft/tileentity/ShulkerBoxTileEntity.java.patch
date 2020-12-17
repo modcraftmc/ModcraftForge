@@ -9,7 +9,6 @@
 +      return new net.minecraftforge.items.wrapper.SidedInvWrapper(this, Direction.UP);
 +   }
 +
-\ No newline at end of file
     public static enum AnimationStatus {
        CLOSED,
        OPENING,

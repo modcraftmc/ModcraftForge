@@ -6,7 +6,6 @@
        if (block != Blocks.field_150391_bh && block != Blocks.field_196661_l) {
 -         return p_196260_2_.func_226659_b_(p_196260_3_, 0) < 13 && this.func_200014_a_(blockstate, p_196260_2_, blockpos);
 +         return p_196260_2_.func_226659_b_(p_196260_3_, 0) < 13 && blockstate.canSustainPlant(p_196260_2_, blockpos, net.minecraft.util.Direction.UP, this);
-\ No newline at end of file
        } else {
           return true;
        }

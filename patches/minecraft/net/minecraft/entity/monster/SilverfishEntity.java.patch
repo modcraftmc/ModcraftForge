@@ -15,7 +15,6 @@
                       if (block instanceof SilverfishBlock) {
 -                        if (world.func_82736_K().func_223586_b(GameRules.field_223599_b)) {
 +                        if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(world, this.field_179464_a)) {
-\ No newline at end of file
                             world.func_225521_a_(blockpos1, true, this.field_179464_a);
                          } else {
                             world.func_180501_a(blockpos1, ((SilverfishBlock)block).func_196468_d().func_176223_P(), 3);

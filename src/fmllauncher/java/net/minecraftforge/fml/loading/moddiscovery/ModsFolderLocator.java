@@ -20,7 +20,6 @@
 package net.minecraftforge.fml.loading.moddiscovery;
 
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fml.loading.FileUtils;
 import net.minecraftforge.fml.loading.ModDirTransformerDiscoverer;
 import net.minecraftforge.fml.loading.StringUtils;
 import net.minecraftforge.forgespi.locating.IModFile;

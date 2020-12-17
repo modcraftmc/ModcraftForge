@@ -51,7 +51,6 @@ public class ModFileInfo implements IModFileInfo, IConfigurable
     private final boolean showAsResourcePack;
     private final List<IModInfo> mods;
     private final Map<String,Object> properties;
-    private final String license;
 
     ModFileInfo(final ModFile modFile, final IConfigurable config)
     {
@@ -62,11 +61,8 @@ public class ModFileInfo implements IModFileInfo, IConfigurable
         this.modLoaderVersion = config.<String>getConfigElement("loaderVersion").
                 map(MavenVersionAdapter::createFromVersionSpec).
                 orElseThrow(()->new InvalidModFileException("Missing ModLoader version in file", this));
-        this.license = config.<String>getConfigElement("license")
-                .orElse("");
         this.showAsResourcePack = config.<Boolean>getConfigElement("showAsResourcePack").orElse(false);
-        this.properties = config.<UnmodifiableConfig>getConfigElement("properties").
-                map(UnmodifiableConfig::valueMap).orElse(Collections.emptyMap());
+        this.properties = config.<Map<String, Object>>getConfigElement("properties").orElse(Collections.emptyMap());
         this.modFile.setFileProperties(this.properties);
         this.issueURL = config.<String>getConfigElement("issueTrackerURL").map(StringUtils::toURL).orElse(null);
         final List<? extends IConfigurable> modConfigs = config.getConfigList("mods");
@@ -112,7 +108,7 @@ public class ModFileInfo implements IModFileInfo, IConfigurable
 
     @Override
     public String getLicense() {
-        return license;
+        return "";
     }
 
     public Optional<Manifest> getManifest() {

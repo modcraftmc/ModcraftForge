@@ -19,19 +19,21 @@
 
 package net.minecraftforge.client.model.generators;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ObjectArrays;
-import com.google.gson.JsonObject;
-import net.minecraft.client.renderer.model.ModelRotation;
-import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder.PartBuilder;
-import net.minecraftforge.client.model.generators.VariantBlockStateBuilder.PartialBlockstate;
-
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.IntStream;
+
+import javax.annotation.Nullable;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ObjectArrays;
+import com.google.gson.JsonObject;
+
+import net.minecraft.client.renderer.model.ModelRotation;
+import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder.PartBuilder;
+import net.minecraftforge.client.model.generators.VariantBlockStateBuilder.PartialBlockstate;
 
 /**
  * Represents a model with blockstate configurations, e.g. rotation, uvlock, and

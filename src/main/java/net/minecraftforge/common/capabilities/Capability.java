@@ -19,14 +19,16 @@
 
 package net.minecraftforge.common.capabilities;
 
+import java.util.concurrent.Callable;
+
 import com.google.common.base.Throwables;
+
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.concurrent.Callable;
 
 /**
  * This is the core holder object Capabilities.

@@ -19,11 +19,11 @@
 
 package net.minecraftforge.common.util;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.storage.WorldSavedData;
-
-import javax.annotation.Nullable;
 
 public class WorldCapabilityData extends WorldSavedData
 {

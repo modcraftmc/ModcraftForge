@@ -20,6 +20,7 @@
 package net.minecraftforge.client.model.generators;
 
 import com.google.common.base.Preconditions;
+
 import net.minecraft.resources.ResourcePackType;
 import net.minecraft.util.ResourceLocation;
 

@@ -19,11 +19,11 @@
 
 package net.minecraftforge.common.capabilities;
 
-import net.minecraft.util.Direction;
-import net.minecraftforge.common.util.LazyOptional;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import net.minecraft.util.Direction;
+import net.minecraftforge.common.util.LazyOptional;
 
 public interface ICapabilityProvider
 {

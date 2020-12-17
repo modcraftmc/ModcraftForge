@@ -25,7 +25,6 @@
              CrashReportCategory crashreportcategory = crashreport.func_85058_a("Item being added");
 +            crashreportcategory.func_189529_a("Registry Name", () -> String.valueOf(p_191971_2_.func_77973_b().getRegistryName()));
 +            crashreportcategory.func_189529_a("Item Class", () -> p_191971_2_.func_77973_b().getClass().getName());
-\ No newline at end of file
              crashreportcategory.func_71507_a("Item ID", Item.func_150891_b(p_191971_2_.func_77973_b()));
              crashreportcategory.func_71507_a("Item data", p_191971_2_.func_77952_i());
              crashreportcategory.func_189529_a("Item name", () -> {

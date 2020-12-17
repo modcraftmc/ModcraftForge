@@ -34,8 +34,7 @@ public enum FMLPaths
     GAMEDIR(),
     MODSDIR("mods"),
     CONFIGDIR("config"),
-    FMLCONFIG(false, CONFIGDIR, "fml.toml"),
-    MODCRAFTFORGECONFIG(false, GAMEDIR, "modcraftforge.toml");
+    FMLCONFIG(false, CONFIGDIR, "fml.toml");
 
     private static final Logger LOGGER = LogManager.getLogger();
     private final Path relativePath;

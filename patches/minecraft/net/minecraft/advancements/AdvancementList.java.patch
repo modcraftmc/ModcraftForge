@@ -5,7 +5,6 @@
        }
  
 +      net.minecraftforge.common.AdvancementLoadFix.buildSortedTrees(this.field_192093_c);
-\ No newline at end of file
        field_192091_a.info("Loaded {} advancements", (int)this.field_192092_b.size());
     }
  

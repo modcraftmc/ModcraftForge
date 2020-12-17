@@ -6,7 +6,6 @@
     default int func_217298_h(BlockPos p_217298_1_) {
 -      return this.func_180495_p(p_217298_1_).func_185906_d();
 +      return this.func_180495_p(p_217298_1_).getLightValue(this, p_217298_1_);
-\ No newline at end of file
     }
  
     default int func_201572_C() {

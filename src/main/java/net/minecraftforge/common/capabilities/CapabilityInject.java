@@ -19,10 +19,7 @@
 
 package net.minecraftforge.common.capabilities;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * When placed on a FIELD, the field will be set to an

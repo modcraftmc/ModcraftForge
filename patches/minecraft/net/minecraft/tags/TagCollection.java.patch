@@ -8,5 +8,4 @@
 +   public Function<ResourceLocation, Optional<T>> getEntryLookup() {
 +       return this.field_200040_e;
 +   }
-\ No newline at end of file
  }

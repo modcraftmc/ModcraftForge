@@ -19,17 +19,19 @@
 
 package net.minecraftforge.event.world;
 
-import com.google.common.collect.ImmutableList;
-import net.minecraft.block.BlockState;
+import java.util.EnumSet;
+import java.util.List;
+
 import net.minecraft.block.NetherPortalBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.Direction;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
@@ -37,10 +39,12 @@ import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 
+import com.google.common.collect.ImmutableList;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.EnumSet;
-import java.util.List;
+
+import net.minecraftforge.eventbus.api.Event.HasResult;
 
 public class BlockEvent extends Event
 {

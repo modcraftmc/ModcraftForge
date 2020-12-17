@@ -1,208 +1,18 @@
 --- a/net/minecraft/network/play/ServerPlayNetHandler.java
 +++ b/net/minecraft/network/play/ServerPlayNetHandler.java
-@@ -4,10 +4,15 @@
- import com.google.common.primitives.Floats;
- import com.mojang.brigadier.ParseResults;
- import com.mojang.brigadier.StringReader;
-+import fr.modcraftmc.modcraftforge.api.ModcraftForgeAPI;
-+import fr.modcraftmc.modcraftforge.theading.ModcraftThreadFactory;
-+import fr.modcraftmc.modcraftforge.utils.Utils;
- import io.netty.util.concurrent.Future;
- import io.netty.util.concurrent.GenericFutureListener;
- import it.unimi.dsi.fastutil.ints.Int2ShortMap;
- import it.unimi.dsi.fastutil.ints.Int2ShortOpenHashMap;
-+
-+import java.text.DecimalFormat;
- import java.util.Collections;
- import java.util.Set;
- import javax.annotation.Nullable;
-@@ -89,17 +94,7 @@
- import net.minecraft.network.play.client.CUpdateSignPacket;
- import net.minecraft.network.play.client.CUpdateStructureBlockPacket;
- import net.minecraft.network.play.client.CUseEntityPacket;
--import net.minecraft.network.play.server.SChangeBlockPacket;
--import net.minecraft.network.play.server.SChatPacket;
--import net.minecraft.network.play.server.SConfirmTransactionPacket;
--import net.minecraft.network.play.server.SDisconnectPacket;
--import net.minecraft.network.play.server.SHeldItemChangePacket;
--import net.minecraft.network.play.server.SKeepAlivePacket;
--import net.minecraft.network.play.server.SMoveVehiclePacket;
--import net.minecraft.network.play.server.SPlayerPositionLookPacket;
--import net.minecraft.network.play.server.SQueryNBTResponsePacket;
--import net.minecraft.network.play.server.SSetSlotPacket;
--import net.minecraft.network.play.server.STabCompletePacket;
-+import net.minecraft.network.play.server.*;
- import net.minecraft.potion.Effects;
- import net.minecraft.server.MinecraftServer;
- import net.minecraft.tileentity.CommandBlockLogic;
-@@ -167,6 +162,12 @@
-    private int field_184347_F;
-    private int field_184348_G;
- 
-+   //ModcraftForge
-+   private static final DecimalFormat TIME_FORMATTER = new DecimalFormat("########0.000");
-+   private int tickCount = 0;
-+   private StringTextComponent header;
-+   private StringTextComponent footer;
-+
-    public ServerPlayNetHandler(MinecraftServer p_i1530_1_, NetworkManager p_i1530_2_, ServerPlayerEntity p_i1530_3_) {
-       this.field_147367_d = p_i1530_1_;
-       this.field_147371_a = p_i1530_2_;
-@@ -245,8 +246,39 @@
-          this.func_194028_b(new TranslationTextComponent("multiplayer.disconnect.idling"));
-       }
- 
-+      if (!fr.modcraftforge.ModcraftConfig.enableCustomTablist()) return;
-+
-+      if (++tickCount > fr.modcraftforge.ModcraftConfig.getRefreshRate()) {
-+         tickCount = 0;
-+         this.processTabUpdate();
-+      }
-+
-    }
- 
-+   public void processTabUpdate() {
-+
-+      double meanTickTime = Utils.mean(this.field_147367_d.field_71311_j) * 1.0E-6D;
-+      double meanTPS = Math.min(1000.0 / meanTickTime, 20);
-+
-+
-+      header = new StringTextComponent(fr.modcraftforge.ModcraftConfig.getCustomheader()
-+              .replaceAll("%TPS%", TIME_FORMATTER.format(meanTPS))
-+              .replaceAll("%TICKTIME%", TIME_FORMATTER.format(meanTickTime) + "MS")
-+              .replaceAll("%ONLINE%", String.valueOf(field_147367_d.func_184103_al().func_72394_k()))
-+              .replaceAll("%MAX%", String.valueOf(field_147367_d.func_184103_al().func_72352_l()))
-+              .replaceAll("%PING%", String.valueOf(field_147369_b.field_71138_i)));
-+
-+
-+      footer = new StringTextComponent(fr.modcraftforge.ModcraftConfig.getCustomFooter()
-+              .replaceAll("%TPS%", TIME_FORMATTER.format(meanTPS))
-+              .replaceAll("%TICKTIME%", TIME_FORMATTER.format(meanTickTime) + "MS")
-+              .replaceAll("%ONLINE%", String.valueOf(field_147367_d.func_184103_al().func_72394_k()))
-+              .replaceAll("%MAX%", String.valueOf(field_147367_d.func_184103_al().func_72352_l()))
-+              .replaceAll("%PING%", String.valueOf(field_147369_b.field_71138_i)));
-+
-+      field_147369_b.field_71135_a.func_147359_a(new SPlayerListHeaderFooterPacket(header, footer));
-+   }
-+
-    public void func_184342_d() {
-       this.field_184349_l = this.field_147369_b.func_226277_ct_();
-       this.field_184350_m = this.field_147369_b.func_226278_cu_();
-@@ -265,7 +297,7 @@
-    }
- 
-    public void func_194028_b(ITextComponent p_194028_1_) {
--      this.field_147371_a.func_201058_a(new SDisconnectPacket(p_194028_1_), (p_210161_2_) -> {
-+      this.field_147371_a.func_201058_a(new SDisconnectPacket(ModcraftForgeAPI.getMessagePrefix().func_150257_a(p_194028_1_)), (p_210161_2_) -> {
-          this.field_147371_a.func_150718_a(p_194028_1_);
-       });
-       this.field_147371_a.func_150721_g();
-@@ -308,37 +340,42 @@
-             double d6 = d3 - this.field_184356_s;
-             double d7 = d4 - this.field_184357_t;
-             double d8 = d5 - this.field_184358_u;
--            double d9 = entity.func_213322_ci().func_189985_c();
--            double d10 = d6 * d6 + d7 * d7 + d8 * d8;
--            if (d10 - d9 > 100.0D && !this.func_217264_d()) {
--               field_147370_c.warn("{} (vehicle of {}) moved too quickly! {},{},{}", entity.func_200200_C_().getString(), this.field_147369_b.func_200200_C_().getString(), d6, d7, d8);
--               this.field_147371_a.func_179290_a(new SMoveVehiclePacket(entity));
-+            //double d9 = entity.getMotion().lengthSquared();
-+            //double d10 = d6 * d6 + d7 * d7 + d8 * d8;
-+            /*
-+            if (d10 - d9 > 100.0D && !this.isServerOwner()) {
-+               LOGGER.warn("{} (vehicle of {}) moved too quickly! {},{},{}", entity.getName().getString(), this.player.getName().getString(), d6, d7, d8);
-+               this.netManager.sendPacket(new SMoveVehiclePacket(entity));
-                return;
-             }
--
-+            */
-             boolean flag = serverworld.func_226665_a__(entity, entity.func_174813_aQ().func_186664_h(0.0625D));
-             d6 = d3 - this.field_184359_v;
-             d7 = d4 - this.field_184360_w - 1.0E-6D;
-             d8 = d5 - this.field_184361_x;
-             entity.func_213315_a(MoverType.PLAYER, new Vec3d(d6, d7, d8));
--            d6 = d3 - entity.func_226277_ct_();
-+            //d6 = d3 - entity.getPosX();
-             d7 = d4 - entity.func_226278_cu_();
-             if (d7 > -0.5D || d7 < 0.5D) {
-                d7 = 0.0D;
+@@ -336,9 +336,11 @@
              }
  
--            d8 = d5 - entity.func_226281_cx_();
-+            /*
-+            d8 = d5 - entity.getPosZ();
-             d10 = d6 * d6 + d7 * d7 + d8 * d8;
-             boolean flag1 = false;
-             if (d10 > 0.0625D) {
-                flag1 = true;
--               field_147370_c.warn("{} moved wrongly!", (Object)entity.func_200200_C_().getString());
-+               LOGGER.warn("{} moved wrongly!", (Object)entity.getName().getString());
-             }
- 
-+             */
              entity.func_70080_a(d3, d4, d5, f, f1);
 +            this.field_147369_b.func_70080_a(d3, d4, d5, this.field_147369_b.field_70177_z, this.field_147369_b.field_70125_A); // Forge - Resync player position on vehicle moving
              boolean flag2 = serverworld.func_226665_a__(entity, entity.func_174813_aQ().func_186664_h(0.0625D));
--            if (flag && (flag1 || !flag2)) {
-+            if (flag && !flag2) {
+             if (flag && (flag1 || !flag2)) {
                 entity.func_70080_a(d0, d1, d2, f, f1);
 +               this.field_147369_b.func_70080_a(d3, d4, d5, this.field_147369_b.field_70177_z, this.field_147369_b.field_70125_A); // Forge - Resync player position on vehicle moving
                 this.field_147371_a.func_179290_a(new SMoveVehiclePacket(entity));
                 return;
              }
-@@ -710,16 +747,16 @@
-                         field_147370_c.debug("{} is sending move packets too frequently ({} packets since last tick)", this.field_147369_b.func_200200_C_().getString(), i);
-                         i = 1;
-                      }
--
--                     if (!this.field_147369_b.func_184850_K() && (!this.field_147369_b.func_71121_q().func_82736_K().func_223586_b(GameRules.field_223615_r) || !this.field_147369_b.func_184613_cA())) {
--                        float f2 = this.field_147369_b.func_184613_cA() ? 300.0F : 100.0F;
--                        if (d11 - d10 > (double)(f2 * (float)i) && !this.func_217264_d()) {
--                           field_147370_c.warn("{} moved too quickly! {},{},{}", this.field_147369_b.func_200200_C_().getString(), d7, d8, d9);
--                           this.func_147364_a(this.field_147369_b.func_226277_ct_(), this.field_147369_b.func_226278_cu_(), this.field_147369_b.func_226281_cx_(), this.field_147369_b.field_70177_z, this.field_147369_b.field_70125_A);
-+                     /*
-+                     if (!this.player.isInvulnerableDimensionChange() && (!this.player.getServerWorld().getGameRules().getBoolean(GameRules.DISABLE_ELYTRA_MOVEMENT_CHECK) || !this.player.isElytraFlying())) {
-+                        float f2 = this.player.isElytraFlying() ? 300.0F : 100.0F;
-+                        if (d11 - d10 > (double)(f2 * (float)i) && !this.isServerOwner()) {
-+                           LOGGER.warn("{} moved too quickly! {},{},{}", this.player.getName().getString(), d7, d8, d9);
-+                           this.setPlayerLocation(this.player.getPosX(), this.player.getPosY(), this.player.getPosZ(), this.player.rotationYaw, this.player.rotationPitch);
-                            return;
-                         }
-                      }
--
-+                     */
-                      boolean flag2 = this.func_223133_a(serverworld);
-                      d7 = d4 - this.field_184352_o;
-                      d8 = d5 - this.field_184353_p;
-@@ -734,20 +771,22 @@
- 
-                      this.field_147369_b.func_213315_a(MoverType.PLAYER, new Vec3d(d7, d8, d9));
-                      this.field_147369_b.field_70122_E = p_147347_1_.func_149465_i();
--                     d7 = d4 - this.field_147369_b.func_226277_ct_();
-+                     //d7 = d4 - this.player.getPosX();
-                      d8 = d5 - this.field_147369_b.func_226278_cu_();
-                      if (d8 > -0.5D || d8 < 0.5D) {
-                         d8 = 0.0D;
-                      }
- 
--                     d9 = d6 - this.field_147369_b.func_226281_cx_();
--                     d11 = d7 * d7 + d8 * d8 + d9 * d9;
-+                     //d9 = d6 - this.player.getPosZ();
-+                     //d11 = d7 * d7 + d8 * d8 + d9 * d9;
-                      boolean flag = false;
--                     if (!this.field_147369_b.func_184850_K() && d11 > 0.0625D && !this.field_147369_b.func_70608_bn() && !this.field_147369_b.field_71134_c.func_73083_d() && this.field_147369_b.field_71134_c.func_73081_b() != GameType.SPECTATOR) {
-+                     /*
-+                     if (!this.player.isInvulnerableDimensionChange() && d11 > 0.0625D && !this.player.isSleeping() && !this.player.interactionManager.isCreative() && this.player.interactionManager.getGameType() != GameType.SPECTATOR) {
-                         flag = true;
--                        field_147370_c.warn("{} moved wrongly!", (Object)this.field_147369_b.func_200200_C_().getString());
-+                        LOGGER.warn("{} moved wrongly!", (Object)this.player.getName().getString());
-                      }
- 
-+                      */
-                      this.field_147369_b.func_70080_a(d4, d5, d6, f, f1);
-                      this.field_147369_b.func_71000_j(this.field_147369_b.func_226277_ct_() - d0, this.field_147369_b.func_226278_cu_() - d1, this.field_147369_b.func_226281_cx_() - d2);
-                      if (!this.field_147369_b.field_70145_X && !this.field_147369_b.func_70608_bn()) {
-@@ -845,7 +884,9 @@
+@@ -845,7 +847,9 @@
        Direction direction = blockraytraceresult.func_216354_b();
        this.field_147369_b.func_143004_u();
        if (blockpos.func_177956_o() < this.field_147367_d.func_71207_Z() - 1 || direction != Direction.UP && blockpos.func_177956_o() < this.field_147367_d.func_71207_Z()) {
@@ -213,56 +23,7 @@
              ActionResultType actionresulttype = this.field_147369_b.field_71134_c.func_219441_a(this.field_147369_b, serverworld, itemstack, hand, blockraytraceresult);
              if (actionresulttype.func_226247_b_()) {
                 this.field_147369_b.func_226292_a_(hand, true);
-@@ -898,20 +939,25 @@
-    }
- 
-    public void func_147231_a(ITextComponent p_147231_1_) {
--      field_147370_c.info("{} lost connection: {}", this.field_147369_b.func_200200_C_().getString(), p_147231_1_.getString());
--      this.field_147367_d.func_147132_au();
--      this.field_147367_d.func_184103_al().func_148539_a((new TranslationTextComponent("multiplayer.player.left", this.field_147369_b.func_145748_c_())).func_211708_a(TextFormatting.YELLOW));
--      this.field_147369_b.func_71123_m();
--      this.field_147367_d.func_184103_al().func_72367_e(this.field_147369_b);
--      if (this.func_217264_d()) {
--         field_147370_c.info("Stopping singleplayer server as player logged out");
--         this.field_147367_d.func_71263_m(false);
--      }
-+         field_147370_c.info("{} lost connection: {}", this.field_147369_b.func_200200_C_().getString(), p_147231_1_.getString());
-+         this.field_147367_d.func_147132_au();
-+         ITextComponent component;
-+         if (fr.modcraftforge.ModcraftConfig.enableCustomConnexionMessages())
-+             component = new StringTextComponent(String.format(fr.modcraftforge.ModcraftConfig.getCustomLogoutMessage(), this.field_147369_b.func_145748_c_().func_150254_d()));
-+         else
-+            component = new TranslationTextComponent("multiplayer.player.left", this.field_147369_b.func_145748_c_()).func_211708_a(TextFormatting.YELLOW);
-+         this.field_147367_d.func_184103_al().func_148539_a(component);
-+         this.field_147369_b.func_71123_m();
-+         this.field_147367_d.func_184103_al().func_72367_e(this.field_147369_b);
-+         if (this.func_217264_d()) {
-+            field_147370_c.info("Stopping singleplayer server as player logged out");
-+            this.field_147367_d.func_71263_m(false);
-+         }
- 
-    }
- 
-    public void func_147359_a(IPacket<?> p_147359_1_) {
--      this.func_211148_a(p_147359_1_, (GenericFutureListener<? extends Future<? super Void>>)null);
-+      this.func_211148_a(p_147359_1_, null);
-    }
- 
-    public void func_211148_a(IPacket<?> p_211148_1_, @Nullable GenericFutureListener<? extends Future<? super Void>> p_211148_2_) {
-@@ -950,7 +996,11 @@
-    }
- 
-    public void func_147354_a(CChatMessagePacket p_147354_1_) {
--      PacketThreadUtil.func_218796_a(p_147354_1_, this, this.field_147369_b.func_71121_q());
-+      //PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.player.getServerWorld()); async chat
-+      if (p_147354_1_.func_149439_c().startsWith("/")) {
-+         PacketThreadUtil.func_218796_a(p_147354_1_, this, this.field_147369_b.func_71121_q());
-+      }
-+
-       if (this.field_147369_b.func_147096_v() == ChatVisibility.HIDDEN) {
-          this.func_147359_a(new SChatPacket((new TranslationTextComponent("chat.cannotSend")).func_211708_a(TextFormatting.RED)));
-       } else {
-@@ -968,7 +1018,9 @@
+@@ -968,7 +972,9 @@
           if (s.startsWith("/")) {
              this.func_147361_d(s);
           } else {
@@ -273,7 +34,7 @@
              this.field_147367_d.func_184103_al().func_148544_a(itextcomponent, false);
           }
  
-@@ -1061,6 +1113,7 @@
+@@ -1061,6 +1067,7 @@
                 this.field_147369_b.func_190775_a(entity, hand);
              } else if (p_147340_1_.func_149565_c() == CUseEntityPacket.Action.INTERACT_AT) {
                 Hand hand1 = p_147340_1_.func_186994_b();
@@ -281,7 +42,7 @@
                 ActionResultType actionresulttype = entity.func_184199_a(this.field_147369_b, p_147340_1_.func_179712_b(), hand1);
                 if (actionresulttype.func_226247_b_()) {
                    this.field_147369_b.func_226292_a_(hand1, true);
-@@ -1094,7 +1147,7 @@
+@@ -1094,7 +1101,7 @@
                 return;
              }
  
@@ -290,13 +51,12 @@
              if (this.field_147367_d.func_71199_h()) {
                 this.field_147369_b.func_71033_a(GameType.SPECTATOR);
                 this.field_147369_b.func_71121_q().func_82736_K().func_223585_a(GameRules.field_223613_p).func_223570_a(false, this.field_147367_d);
-@@ -1268,6 +1321,8 @@
+@@ -1268,6 +1275,8 @@
     }
  
     public void func_147349_a(CCustomPayloadPacket p_147349_1_) {
 +      PacketThreadUtil.func_218796_a(p_147349_1_, this, this.field_147369_b.func_71121_q());
 +      net.minecraftforge.fml.network.NetworkHooks.onCustomPayload(p_147349_1_, this.field_147371_a);
-\ No newline at end of file
     }
  
     public void func_217263_a(CSetDifficultyPacket p_217263_1_) {

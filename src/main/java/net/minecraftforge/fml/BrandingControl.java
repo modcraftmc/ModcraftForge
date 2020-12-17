@@ -21,16 +21,15 @@ package net.minecraftforge.fml;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import fr.modcraftforge.ModcraftForge;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.stream.IntStream;
+
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourceManagerReloadListener;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.versions.forge.ForgeVersion;
 import net.minecraftforge.versions.mcp.MCPVersion;
-
-import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.stream.IntStream;
 
 
 public class BrandingControl
@@ -45,7 +44,6 @@ public class BrandingControl
         {
             ImmutableList.Builder<String> brd = ImmutableList.builder();
             brd.add("Forge " + ForgeVersion.getVersion());
-            brd.add("ModcraftForge " + ModcraftForge.getVersionBrand());
             brd.add("Minecraft " + MCPVersion.getMCVersion());
             brd.add("MCP " + MCPVersion.getMCPVersion());
             int tModCount = ModList.get().size();
@@ -84,11 +82,11 @@ public class BrandingControl
     }
 
     public static String getClientBranding() {
-        return ModcraftForge.getVersionBrand();
+        return "forge";
     }
 
     public static String getServerBranding() {
-        return ModcraftForge.getVersionBrand();
+        return "forge";
     }
 
     public static IResourceManagerReloadListener resourceManagerReloadListener() {

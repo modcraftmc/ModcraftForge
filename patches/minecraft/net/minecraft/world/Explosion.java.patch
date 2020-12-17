@@ -68,7 +68,6 @@
 +      return this.position;
 +   }
 +
-\ No newline at end of file
     public static enum Mode {
        NONE,
        BREAK,

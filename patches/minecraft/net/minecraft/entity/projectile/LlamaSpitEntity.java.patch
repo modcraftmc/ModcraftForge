@@ -6,7 +6,6 @@
        }, RayTraceContext.BlockMode.OUTLINE, true);
 -      if (raytraceresult != null) {
 +      if (raytraceresult != null && raytraceresult.func_216346_c() != RayTraceResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) {
-\ No newline at end of file
           this.func_190536_a(raytraceresult);
        }
  

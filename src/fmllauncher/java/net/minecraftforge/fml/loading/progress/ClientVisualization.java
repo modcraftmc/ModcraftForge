@@ -20,7 +20,6 @@
 package net.minecraftforge.fml.loading.progress;
 
 import com.google.common.io.ByteStreams;
-import fr.modcraftforge.ModcraftForge;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -40,10 +39,7 @@ import java.lang.management.MemoryUsage;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.function.IntSupplier;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
@@ -239,7 +235,6 @@ class ClientVisualization implements EarlyProgressVisualization.Visualization {
         memorycolour[1] = ((i >> 8 ) & 0xFF) / 255.0f;
         memorycolour[0] = ((i >> 16 ) & 0xFF) / 255.0f;
         renderMessage(memory, memorycolour, 1, 1.0f);
-        renderMessage(ModcraftForge.getFormatedStartTime(), memorycolour, 2, 1.0f);
     }
 
     private void renderMessage(final String message, final float[] colour, int row, float alpha) {
@@ -263,14 +258,7 @@ class ClientVisualization implements EarlyProgressVisualization.Visualization {
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
         GL.createCapabilities();
-
-        int color = 2829099 | 0xff000000;
-
-        float r = (color >> 16 & 0xff)/255f;
-        float g = (color >> 8 & 0xff)/255f;
-        float b = (color & 0xff)/255f;
-
-        glClearColor(r, g, b, 1.0f);
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         while (running) {
             renderProgress();
@@ -304,9 +292,6 @@ class ClientVisualization implements EarlyProgressVisualization.Visualization {
             glfwSetWindowMonitor(window, monitorSupplier.getAsLong(), 0, 0, width.getAsInt(), height.getAsInt(), GLFW_DONT_CARE);
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
-
-
-
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         renderProgress();

@@ -19,13 +19,16 @@
 
 package net.minecraftforge.common.util;
 
+import java.lang.ref.WeakReference;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
+
 import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
-import net.minecraft.world.server.ServerWorld;
 
-import java.lang.ref.WeakReference;
-import java.util.Map;
-import java.util.UUID;
+import net.minecraft.world.server.ServerWorld;
 
 //To be expanded for generic Mod fake players?
 public class FakePlayerFactory

@@ -19,14 +19,16 @@
 
 package net.minecraftforge.common.crafting;
 
+import java.util.stream.Stream;
+
+import javax.annotation.Nullable;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
-
-import javax.annotation.Nullable;
-import java.util.stream.Stream;
 
 public class NBTIngredient extends Ingredient
 {

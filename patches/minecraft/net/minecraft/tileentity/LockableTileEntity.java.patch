@@ -22,5 +22,4 @@
 +      super.func_145843_s();
 +      itemHandler.invalidate();
 +   }
-\ No newline at end of file
  }

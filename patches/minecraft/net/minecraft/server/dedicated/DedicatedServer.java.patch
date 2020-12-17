@@ -1,15 +1,6 @@
 --- a/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -23,6 +23,8 @@
- import java.util.function.BooleanSupplier;
- import java.util.regex.Pattern;
- import javax.annotation.Nullable;
-+
-+import fr.modcraftforge.ModcraftForge;
- import net.minecraft.command.CommandSource;
- import net.minecraft.command.Commands;
- import net.minecraft.crash.CrashReport;
-@@ -97,6 +99,7 @@
+@@ -97,6 +97,7 @@
     public boolean func_71197_b() throws IOException {
        Thread thread = new Thread("Server console handler") {
           public void run() {
@@ -17,16 +8,7 @@
              BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
  
              String s3;
-@@ -110,6 +113,8 @@
- 
-          }
-       };
-+
-+
-       thread.setDaemon(true);
-       thread.setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(field_155771_h));
-       thread.start();
-@@ -118,7 +123,9 @@
+@@ -118,7 +119,9 @@
           field_155771_h.warn("To start the server with more ram, launch it as \"java -Xmx1024M -Xms1024M -jar minecraft_server.jar\"");
        }
  
@@ -36,7 +18,7 @@
        ServerProperties serverproperties = this.field_71340_o.func_219034_a();
        if (this.func_71264_H()) {
           this.func_71189_e("127.0.0.1");
-@@ -175,6 +182,7 @@
+@@ -175,6 +178,7 @@
        if (!PreYggdrasilConverter.func_219587_e(this)) {
           return false;
        } else {
@@ -44,16 +26,15 @@
           this.func_184105_a(new DedicatedPlayerList(this));
           long i = Util.func_211178_c();
           String s = serverproperties.field_219022_p;
-@@ -196,6 +204,8 @@
+@@ -196,6 +200,7 @@
           SkullTileEntity.func_184293_a(this.func_152358_ax());
           SkullTileEntity.func_184294_a(this.func_147130_as());
           PlayerProfileCache.func_187320_a(this.func_71266_T());
 +         if (!net.minecraftforge.fml.server.ServerLifecycleHooks.handleServerAboutToStart(this)) return false;
-+
           field_155771_h.info("Preparing level \"{}\"", (Object)this.func_71270_I());
           JsonObject jsonobject = new JsonObject();
           if (worldtype == WorldType.field_77138_c) {
-@@ -208,6 +218,7 @@
+@@ -208,6 +213,7 @@
           long l = Util.func_211178_c() - i;
           String s2 = String.format(Locale.ROOT, "%.3fs", (double)l / 1.0E9D);
           field_155771_h.info("Done ({})! For help, type \"help\"", (Object)s2);
@@ -61,7 +42,7 @@
           if (serverproperties.field_219027_u != null) {
              this.func_200252_aR().func_223585_a(GameRules.field_223620_w).func_223570_a(serverproperties.field_219027_u, this);
           }
-@@ -233,7 +244,8 @@
+@@ -233,7 +239,8 @@
           }
  
           Items.field_190931_a.func_150895_a(ItemGroup.field_78027_g, NonNullList.func_191196_a());
@@ -71,16 +52,7 @@
        }
     }
  
-@@ -317,6 +329,8 @@
-          this.field_71342_m.func_219591_b();
-       }
- 
-+      Runtime.getRuntime().halt(0);
-+
-    }
- 
-    public void func_71190_q(BooleanSupplier p_71190_1_) {
-@@ -547,4 +561,9 @@
+@@ -547,4 +554,9 @@
     public boolean func_213199_b(GameProfile p_213199_1_) {
        return false;
     }
@@ -89,5 +61,4 @@
 +   public void func_145747_a(net.minecraft.util.text.ITextComponent message) {
 +      field_155771_h.info(message.func_150254_d());
 +   }
-\ No newline at end of file
  }

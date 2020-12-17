@@ -9,15 +9,6 @@
     private final ByteBuf field_150794_a;
  
     public PacketBuffer(ByteBuf p_i45154_1_) {
-@@ -257,7 +257,7 @@
-          this.readerIndex(i);
- 
-          try {
--            return CompressedStreamTools.func_152456_a(new ByteBufInputStream(this), new NBTSizeTracker(2097152L));
-+            return CompressedStreamTools.func_152456_a(new ByteBufInputStream(this), new NBTSizeTracker(16777216L));
-          } catch (IOException ioexception) {
-             throw new EncoderException(ioexception);
-          }
 @@ -265,6 +265,15 @@
     }
  
@@ -49,7 +40,6 @@
           ItemStack itemstack = new ItemStack(Item.func_150899_d(i), j);
 -         itemstack.func_77982_d(this.func_150793_b());
 +         itemstack.readShareTag(this.func_150793_b());
-\ No newline at end of file
           return itemstack;
        }
     }

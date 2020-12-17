@@ -21,7 +21,6 @@
 +      }
 +      return func_221506_a(windowId, playerInv);
 +   }
-\ No newline at end of file
  
     public interface IFactory<T extends Container> {
        @OnlyIn(Dist.CLIENT)

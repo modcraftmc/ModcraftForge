@@ -42,7 +42,6 @@
        if (p_213386_4_ == null) {
 -         p_213386_4_ = new ZombieEntity.GroupData(p_213386_1_.func_201674_k().nextFloat() < 0.05F);
 +         p_213386_4_ = new ZombieEntity.GroupData(p_213386_1_.func_201674_k().nextFloat() < net.minecraftforge.common.ForgeConfig.SERVER.zombieBabyChance.get());
-\ No newline at end of file
        }
  
        if (p_213386_4_ instanceof ZombieEntity.GroupData) {

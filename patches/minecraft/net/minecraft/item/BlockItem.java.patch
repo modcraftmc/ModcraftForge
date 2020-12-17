@@ -46,5 +46,4 @@
 +   public void removeFromBlockToItemMap(Map<Block, Item> blockToItemMap, Item itemIn) {
 +      blockToItemMap.remove(this.func_179223_d());
 +   }
-\ No newline at end of file
  }

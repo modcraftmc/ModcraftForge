@@ -19,16 +19,17 @@
 
 package net.minecraftforge.fml.relauncher.libraries;
 
-import com.google.common.hash.Hashing;
-import com.google.common.io.Files;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.google.common.hash.Hashing;
+import com.google.common.io.Files;
 
 public class Repository
 {

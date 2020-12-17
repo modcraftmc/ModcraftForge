@@ -19,6 +19,10 @@
 
 package net.minecraftforge.common.extensions;
 
+import java.util.Set;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.entity.Entity;
@@ -31,9 +35,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IWorldReader;
 import net.minecraftforge.fluids.FluidAttributes;
-
-import javax.annotation.Nullable;
-import java.util.Set;
 
 public interface IForgeFluid
 {

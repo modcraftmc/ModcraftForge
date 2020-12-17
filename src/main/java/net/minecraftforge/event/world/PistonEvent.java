@@ -19,13 +19,13 @@
 
 package net.minecraftforge.event.world;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.PistonBlockStructureHelper;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.eventbus.api.Cancelable;
-
-import javax.annotation.Nullable;
 
 /**
  * Base piston event, use {@link PistonEvent.Post} and {@link PistonEvent.Pre}

@@ -19,15 +19,20 @@
 
 package net.minecraftforge.common.crafting;
 
-import com.google.gson.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+
 import net.minecraft.advancements.Advancement;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.conditions.ICondition;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
 
 public class ConditionalAdvancement
 {

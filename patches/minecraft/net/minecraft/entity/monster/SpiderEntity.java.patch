@@ -11,7 +11,6 @@
 +         return event.getResult() == net.minecraftforge.eventbus.api.Event.Result.ALLOW;
 +      }
 +      return super.func_70687_e(p_70687_1_);
-\ No newline at end of file
     }
  
     public boolean func_70841_p() {

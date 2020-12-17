@@ -19,13 +19,14 @@
 
 package net.minecraftforge.common.crafting;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient.IItemList;
-
 import java.util.Collection;
 import java.util.Collections;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient.IItemList;
 
 public class StackList implements IItemList
 {

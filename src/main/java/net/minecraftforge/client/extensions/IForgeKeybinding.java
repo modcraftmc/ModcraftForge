@@ -19,12 +19,12 @@
 
 package net.minecraftforge.client.extensions;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
 import net.minecraftforge.client.settings.IKeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
-
-import javax.annotation.Nonnull;
 
 public interface IForgeKeybinding
 {

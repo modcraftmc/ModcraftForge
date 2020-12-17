@@ -34,7 +34,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.moddiscovery.BackgroundScanHandler;
 import net.minecraftforge.fml.loading.moddiscovery.ModDiscoverer;
 import net.minecraftforge.fml.loading.moddiscovery.ModFile;
-import net.minecraftforge.fml.loading.moddiscovery.ModFileInfo;
 import net.minecraftforge.fml.loading.progress.EarlyProgressVisualization;
 import net.minecraftforge.fml.loading.progress.StartupMessageManager;
 import net.minecraftforge.forgespi.Environment;
@@ -215,7 +214,7 @@ public class FMLLoader
         loadingModList = backgroundScanHandler.getLoadingModList();
         commonLaunchHandler.addLibraries(backgroundScanHandler.getModFiles().getOrDefault(IModFile.Type.LIBRARY, Collections.emptyList()));
         progressWindowTick.run();
-        return loadingModList.getModFiles().stream().map(ModFileInfo::getFile).collect(Collectors.groupingBy(ModFile::getType));
+        return backgroundScanHandler.getModFiles();
     }
 
     public static ICoreModProvider getCoreModProvider() {

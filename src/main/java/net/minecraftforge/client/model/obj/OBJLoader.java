@@ -30,8 +30,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModelLoader;
 
 import javax.annotation.Nullable;
-import java.io.FileNotFoundException;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 public class OBJLoader implements IModelLoader<OBJModel>
 {
@@ -71,23 +71,6 @@ public class OBJLoader implements IModelLoader<OBJModel>
     public OBJModel loadModel(OBJModel.ModelSettings settings)
     {
         return modelCache.computeIfAbsent(settings, (data) -> {
-
-            try(IResource resource = manager.getResource(settings.modelLocation);
-                LineReader rdr = new LineReader(resource))
-            {
-                return new OBJModel(rdr, settings);
-            }
-            catch (FileNotFoundException e)
-            {
-                throw new RuntimeException("Could not find OBJ model", e);
-            }
-            catch (Exception e)
-            {
-                throw new RuntimeException("Could not read OBJ model", e);
-            }
-
-            //ModcraftForge -> Fix resource leak
-            /* old code
             IResource resource;
             try
             {
@@ -106,30 +89,12 @@ public class OBJLoader implements IModelLoader<OBJModel>
             {
                 throw new RuntimeException("Could not read OBJ model", e);
             }
-
-             */
         });
     }
 
     public MaterialLibrary loadMaterialLibrary(ResourceLocation materialLocation)
     {
         return materialCache.computeIfAbsent(materialLocation, (location) -> {
-
-            try(IResource resource = manager.getResource(location);
-                LineReader rdr = new LineReader(resource))
-            {
-                return new MaterialLibrary(rdr);
-            }
-            catch (FileNotFoundException e)
-            {
-                throw new RuntimeException("Could not find OBJ material library", e);
-            }
-            catch (Exception e)
-            {
-                throw new RuntimeException("Could not read OBJ material library", e);
-            }
-
-            /* old code
             IResource resource;
             try
             {
@@ -148,8 +113,6 @@ public class OBJLoader implements IModelLoader<OBJModel>
             {
                 throw new RuntimeException("Could not read OBJ material library", e);
             }
-
-             */
         });
     }
 }

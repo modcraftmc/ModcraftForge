@@ -34,6 +34,5 @@
  
 -      return super.func_212321_a(p_212321_1_);
 +      return super.changeDimension(p_212321_1_, teleporter);
-\ No newline at end of file
     }
  }

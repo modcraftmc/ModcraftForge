@@ -10,5 +10,4 @@
 +   protected int queuedUpdateSize() {
 +      return field_215488_c.size();
 +   }
-\ No newline at end of file
  }

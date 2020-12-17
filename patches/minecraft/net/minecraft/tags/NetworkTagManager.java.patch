@@ -5,7 +5,6 @@
           FluidTags.func_206953_a(this.field_205705_c);
           EntityTypeTags.func_219759_a(this.field_215299_d);
 +         net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.TagsUpdatedEvent(this));
-\ No newline at end of file
        }, p_215226_6_);
     }
  

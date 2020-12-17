@@ -73,5 +73,4 @@
 +      for (int x = 0; x < handlers.length; x++)
 +        handlers[x].invalidate();
 +   }
-\ No newline at end of file
  }

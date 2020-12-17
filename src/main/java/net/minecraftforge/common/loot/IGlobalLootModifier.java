@@ -19,11 +19,12 @@
 
 package net.minecraftforge.common.loot;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.storage.loot.LootContext;
+import java.util.List;
 
 import javax.annotation.Nonnull;
-import java.util.List;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.storage.loot.LootContext;
 
 /**
  * Implementation that defines what a global loot modifier must implement in order to be functional.

@@ -19,14 +19,16 @@
 
 package net.minecraftforge.client.event;
 
+import java.util.Collections;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
-
-import javax.annotation.Nonnull;
-import java.util.Collections;
-import java.util.List;
+import net.minecraftforge.eventbus.api.Event;
 
 /**
  * A set of events which are fired at various points during tooltip rendering.

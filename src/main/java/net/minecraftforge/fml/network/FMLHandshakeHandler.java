@@ -19,11 +19,10 @@
 
 package net.minecraftforge.fml.network;
 
-import com.google.common.collect.Maps;
+import net.minecraft.network.login.ServerLoginNetHandler;
 import com.google.common.collect.Multimap;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.login.ServerLoginNetHandler;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.config.ConfigTracker;
@@ -36,6 +35,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
+
+import com.google.common.collect.Maps;
 
 import java.util.*;
 import java.util.concurrent.CountDownLatch;

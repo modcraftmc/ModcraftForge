@@ -54,5 +54,4 @@
 +   public boolean isActivatorRail() {
 +      return isActivator;
 +   }
-\ No newline at end of file
  }

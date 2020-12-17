@@ -20,6 +20,7 @@
 package net.minecraftforge.common.crafting;
 
 import com.google.gson.JsonObject;
+
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
 

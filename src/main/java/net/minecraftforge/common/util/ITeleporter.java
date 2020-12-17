@@ -19,13 +19,13 @@
 
 package net.minecraftforge.common.util;
 
+import java.util.function.Function;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.function.Function;
 
 /**
  * Interface for handling the placement of entities during dimension change.

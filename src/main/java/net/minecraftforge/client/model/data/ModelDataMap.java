@@ -19,10 +19,10 @@
 
 package net.minecraftforge.client.model.data;
 
-import com.google.common.base.Preconditions;
-
 import java.util.IdentityHashMap;
 import java.util.Map;
+
+import com.google.common.base.Preconditions;
 
 public class ModelDataMap implements IModelData
 {

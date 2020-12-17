@@ -20,8 +20,8 @@
 package net.minecraftforge.fml.javafmlmod;
 
 import net.minecraftforge.forgespi.language.ILifecycleEvent;
-import net.minecraftforge.forgespi.language.IModInfo;
 import net.minecraftforge.forgespi.language.IModLanguageProvider;
+import net.minecraftforge.forgespi.language.IModInfo;
 import net.minecraftforge.forgespi.language.ModFileScanData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,8 +35,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static net.minecraftforge.fml.Logging.LOADING;
-import static net.minecraftforge.fml.Logging.SCAN;
+import static net.minecraftforge.fml.Logging.*;
 
 public class FMLJavaModLanguageProvider implements IModLanguageProvider
 {

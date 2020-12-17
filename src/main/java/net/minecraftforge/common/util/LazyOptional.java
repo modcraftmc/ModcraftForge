@@ -19,20 +19,22 @@
 
 package net.minecraftforge.common.util;
 
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraftforge.common.capabilities.Capability;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import mcp.MethodsReturnNonnullByDefault;
+import net.minecraftforge.common.capabilities.Capability;
 
 /**
  * This object encapsulates a lazy value, with typical transformation operations

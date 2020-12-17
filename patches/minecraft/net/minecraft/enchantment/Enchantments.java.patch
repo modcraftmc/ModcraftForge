@@ -5,7 +5,6 @@
  import net.minecraft.util.registry.Registry;
  
 +@net.minecraftforge.registries.ObjectHolder("minecraft")
-\ No newline at end of file
  public class Enchantments {
     private static final EquipmentSlotType[] field_222195_L = new EquipmentSlotType[]{EquipmentSlotType.HEAD, EquipmentSlotType.CHEST, EquipmentSlotType.LEGS, EquipmentSlotType.FEET};
     public static final Enchantment field_180310_c = func_222191_a("protection", new ProtectionEnchantment(Enchantment.Rarity.COMMON, ProtectionEnchantment.Type.ALL, field_222195_L));

@@ -19,8 +19,9 @@
 
 package net.minecraftforge.common.util;
 
-import javax.annotation.Nonnull;
 import java.util.function.Function;
+
+import javax.annotation.Nonnull;
 
 /**
  * Equivalent to {@link Function}, except with nonnull contract.

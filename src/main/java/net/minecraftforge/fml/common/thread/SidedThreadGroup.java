@@ -21,8 +21,9 @@ package net.minecraftforge.fml.common.thread;
 
 import net.minecraftforge.fml.LogicalSide;
 
-import javax.annotation.Nonnull;
 import java.util.concurrent.ThreadFactory;
+
+import javax.annotation.Nonnull;
 
 /**
  * A thread group and factory combination which belongs to a {@link LogicalSide}.

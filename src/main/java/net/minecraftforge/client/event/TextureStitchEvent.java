@@ -19,9 +19,9 @@
 
 package net.minecraftforge.client.event;
 
-import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.Event;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 
 import java.util.Set;
 

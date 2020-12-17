@@ -98,13 +98,7 @@ public class LanguageHook
         final InputStream forge = Thread.currentThread().getContextClassLoader().getResourceAsStream("assets/forge/lang/en_us.json");
         loadLocaleData(mc);
         loadLocaleData(forge);
-
-        int size = capturedTables.size();
-        for (int j = 0; j < size; j++) {
-            capturedTables.get(j).putAll(modTable);
-        }
-
-        //capturedTables.forEach(t->t.putAll(modTable));
+        capturedTables.forEach(t->t.putAll(modTable));
         ForgeI18n.loadLanguageData(modTable);
     }
 

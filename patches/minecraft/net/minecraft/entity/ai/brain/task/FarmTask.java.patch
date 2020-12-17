@@ -18,7 +18,6 @@
 +                        p_212833_1_.func_180501_a(field_220422_a, ((net.minecraftforge.common.IPlantable)itemstack.func_77973_b()).getPlant(p_212833_1_, field_220422_a), 3);
 +                        flag = true;
 +                     }
-\ No newline at end of file
                    }
                 }
  

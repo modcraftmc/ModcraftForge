@@ -21,6 +21,7 @@ package net.minecraftforge.common;
 
 import net.minecraftforge.eventbus.api.BusBuilder;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraft.crash.CrashReport;
 import net.minecraftforge.versions.forge.ForgeVersion;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,6 +54,8 @@ public class MinecraftForge
        UsernameCache.load();
        ForgeHooks.initTools();
 
+       //For all the normal CrashReport classes to be defined. We're in MC's classloader so this should all be fine
+       new CrashReport("ThisIsFake", new Exception("Not real"));
    }
 
 
