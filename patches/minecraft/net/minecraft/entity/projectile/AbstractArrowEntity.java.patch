@@ -1,6 +1,14 @@
 --- a/net/minecraft/entity/projectile/AbstractArrowEntity.java
 +++ b/net/minecraft/entity/projectile/AbstractArrowEntity.java
-@@ -160,7 +160,7 @@
+@@ -1,6 +1,7 @@
+ package net.minecraft.entity.projectile;
+ 
+ import com.google.common.collect.Lists;
++import fr.modcraftmc.forge.config.ModcraftConfig;
+ import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+ import java.util.Arrays;
+ import java.util.List;
+@@ -160,7 +161,7 @@
  
        BlockPos blockpos = new BlockPos(this);
        BlockState blockstate = this.field_70170_p.func_180495_p(blockpos);
@@ -9,7 +17,7 @@
           VoxelShape voxelshape = blockstate.func_196952_d(this.field_70170_p, blockpos);
           if (!voxelshape.func_197766_b()) {
              Vec3d vec3d1 = this.func_213303_ch();
-@@ -218,7 +218,7 @@
+@@ -218,7 +219,7 @@
                 }
              }
  
@@ -18,3 +26,12 @@
                 this.func_184549_a(raytraceresult);
                 this.field_70160_al = true;
              }
+@@ -292,7 +293,7 @@
+ 
+    protected void func_225516_i_() {
+       ++this.field_70252_j;
+-      if (this.field_70252_j >= 1200) {
++      if (this.field_70252_j >= ModcraftConfig.getArrowDespawnRate()) {
+          this.func_70106_y();
+       }
+ 
