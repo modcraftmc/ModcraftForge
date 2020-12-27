@@ -19,6 +19,7 @@ package fr.modcraftmc.forge.spigot;
 import fr.modcraftmc.forge.config.ModcraftConfig;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.item.ItemFrameEntity;
@@ -37,18 +38,29 @@ public class TrackingRange {
      * @param entity
      * @return
      */
+
     public static int getEntityTrackingRange(Entity entity, int defaultRange) {
-        if (entity instanceof PlayerEntity) {
+        if ( entity instanceof PlayerEntity )
+        {
             return ModcraftConfig.getPlayerTrackingRange();
-        } else if (entity instanceof IMob) {
-            return ModcraftConfig.getMonsterTrackingRange();
-        } else if (entity instanceof GhastEntity) {
-            return Math.max(ModcraftConfig.getMonsterActivationRange(), ModcraftConfig.getMonsterTrackingRange());
-        } else if (entity instanceof CreatureEntity || entity instanceof AmbientEntity) {
-            return ModcraftConfig.getAnimalTrackingRange();
-        } else if (entity instanceof ItemFrameEntity || entity instanceof PaintingEntity || entity instanceof ItemEntity || entity instanceof ExperienceOrbEntity) {
+            // Paper start - Simplify and set water mobs to animal tracking range
+        }
+        switch (entity.activationType) {
+            case RAIDER:
+            case MONSTER:
+                return ModcraftConfig.getMonsterTrackingRange();
+            case WATER:
+            case ANIMAL:
+                return ModcraftConfig.getAnimalTrackingRange();
+            case MISC:
+        }
+        if ( entity instanceof ItemFrameEntity || entity instanceof PaintingEntity || entity instanceof ItemEntity || entity instanceof ExperienceOrbEntity )
+        // Paper end
+        {
             return ModcraftConfig.getMiscTrackingRange();
-        } else {
+        } else
+        {
+            if (entity instanceof EnderDragonEntity) return defaultRange; // Paper - enderdragon is exempt
             return ModcraftConfig.getOtherTrackingRange();
         }
     }
