@@ -9,7 +9,7 @@
  import net.minecraft.profiler.IProfiler;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
-@@ -22,7 +24,8 @@
+@@ -22,11 +24,14 @@
        }
     };
     private final Map<Goal.Flag, PrioritizedGoal> field_220891_c = new EnumMap<>(Goal.Flag.class);
@@ -19,3 +19,35 @@
     private final IProfiler field_75781_c;
     private final EnumSet<Goal.Flag> field_220893_f = EnumSet.noneOf(Goal.Flag.class);
     private int field_75779_e = 3;
++    private int curRate;private int getCurRate() { return curRate; } private void incRate() { this.curRate++; } // Paper TODO
+ 
++
+    public GoalSelector(IProfiler p_i50327_1_) {
+       this.field_75781_c = p_i50327_1_;
+    }
+@@ -44,6 +49,25 @@
+       });
+    }
+ 
++    // Paper start
++    public boolean inactiveTick() {
++        if (getCurRate() % field_75779_e != 0) {
++            incRate();
++            return false;
++        } else {
++            return true;
++        }
++    }
++    public boolean hasTasks() {
++        for (PrioritizedGoal task : field_220892_d) {
++            if (task.func_220773_g()) {
++                return true;
++            }
++        }
++        return false;
++    }
++    // Paper end
++
+    public void func_75774_a() {
+       this.field_75781_c.func_76320_a("goalCleanup");
+       this.func_220888_c().filter((p_220881_1_) -> {

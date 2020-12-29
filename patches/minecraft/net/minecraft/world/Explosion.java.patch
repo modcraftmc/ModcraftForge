@@ -1,6 +1,21 @@
 --- a/net/minecraft/world/Explosion.java
 +++ b/net/minecraft/world/Explosion.java
-@@ -54,6 +54,7 @@
+@@ -1,5 +1,6 @@
+ package net.minecraft.world;
+ 
++import com.google.common.base.Predicate;
+ import com.google.common.collect.Lists;
+ import com.google.common.collect.Maps;
+ import com.google.common.collect.Sets;
+@@ -26,6 +27,7 @@
+ import net.minecraft.particles.ParticleTypes;
+ import net.minecraft.tileentity.TileEntity;
+ import net.minecraft.util.DamageSource;
++import net.minecraft.util.EntityPredicates;
+ import net.minecraft.util.SoundCategory;
+ import net.minecraft.util.SoundEvents;
+ import net.minecraft.util.math.AxisAlignedBB;
+@@ -54,6 +56,7 @@
     private DamageSource field_199593_j;
     private final List<BlockPos> field_77281_g = Lists.newArrayList();
     private final Map<PlayerEntity, Vec3d> field_77288_k = Maps.newHashMap();
@@ -8,7 +23,16 @@
  
     @OnlyIn(Dist.CLIENT)
     public Explosion(World p_i45752_1_, @Nullable Entity p_i45752_2_, double p_i45752_3_, double p_i45752_5_, double p_i45752_7_, float p_i45752_9_, List<BlockPos> p_i45752_10_) {
-@@ -76,6 +77,7 @@
+@@ -69,13 +72,15 @@
+    public Explosion(World p_i50007_1_, @Nullable Entity p_i50007_2_, double p_i50007_3_, double p_i50007_5_, double p_i50007_7_, float p_i50007_9_, boolean p_i50007_10_, Explosion.Mode p_i50007_11_) {
+       this.field_77287_j = p_i50007_1_;
+       this.field_77283_e = p_i50007_2_;
+-      this.field_77280_f = p_i50007_9_;
++      //this.size = sizeIn;
++      this.field_77280_f = (float) Math.max(p_i50007_9_, 0.0); // CraftBukkit - clamp bad values
+       this.field_77284_b = p_i50007_3_;
+       this.field_77285_c = p_i50007_5_;
+       this.field_77282_d = p_i50007_7_;
        this.field_77286_a = p_i50007_10_;
        this.field_222260_b = p_i50007_11_;
        this.field_199593_j = DamageSource.func_94539_a(this);
@@ -16,26 +40,133 @@
     }
  
     public static float func_222259_a(Vec3d p_222259_0_, Entity p_222259_1_) {
-@@ -135,8 +137,8 @@
-                      BlockPos blockpos = new BlockPos(d4, d6, d8);
-                      BlockState blockstate = this.field_77287_j.func_180495_p(blockpos);
-                      IFluidState ifluidstate = this.field_77287_j.func_204610_c(blockpos);
+@@ -112,50 +117,58 @@
+    }
+ 
+    public void func_77278_a() {
++      // CraftBukkit start
++      if (this.field_77280_f < 0.1F) {
++         return;
++      }
++      // CraftBukkit end
++
+       Set<BlockPos> set = Sets.newHashSet();
+       int i = 16;
+ 
+-      for(int j = 0; j < 16; ++j) {
+-         for(int k = 0; k < 16; ++k) {
+-            for(int l = 0; l < 16; ++l) {
+-               if (j == 0 || j == 15 || k == 0 || k == 15 || l == 0 || l == 15) {
+-                  double d0 = (double)((float)j / 15.0F * 2.0F - 1.0F);
+-                  double d1 = (double)((float)k / 15.0F * 2.0F - 1.0F);
+-                  double d2 = (double)((float)l / 15.0F * 2.0F - 1.0F);
+-                  double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+-                  d0 = d0 / d3;
+-                  d1 = d1 / d3;
+-                  d2 = d2 / d3;
+-                  float f = this.field_77280_f * (0.7F + this.field_77287_j.field_73012_v.nextFloat() * 0.6F);
+-                  double d4 = this.field_77284_b;
+-                  double d6 = this.field_77285_c;
+-                  double d8 = this.field_77282_d;
++      if (field_77286_a || this.field_222260_b != Mode.NONE) { // EMC - don't run block processing if neither flag is set
++         for(int j = 0; j < 16; ++j) {
++            for(int k = 0; k < 16; ++k) {
++               for(int l = 0; l < 16; ++l) {
++                  if (j == 0 || j == 15 || k == 0 || k == 15 || l == 0 || l == 15) {
++                     double d0 = (double)((float)j / 15.0F * 2.0F - 1.0F);
++                     double d1 = (double)((float)k / 15.0F * 2.0F - 1.0F);
++                     double d2 = (double)((float)l / 15.0F * 2.0F - 1.0F);
++                     double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
++                     d0 = d0 / d3;
++                     d1 = d1 / d3;
++                     d2 = d2 / d3;
++                     float f = this.field_77280_f * (0.7F + this.field_77287_j.field_73012_v.nextFloat() * 0.6F);
++                     double d4 = this.field_77284_b;
++                     double d6 = this.field_77285_c;
++                     double d8 = this.field_77282_d;
+ 
+-                  for(float f1 = 0.3F; f > 0.0F; f -= 0.22500001F) {
+-                     BlockPos blockpos = new BlockPos(d4, d6, d8);
+-                     BlockState blockstate = this.field_77287_j.func_180495_p(blockpos);
+-                     IFluidState ifluidstate = this.field_77287_j.func_204610_c(blockpos);
 -                     if (!blockstate.func_196958_f() || !ifluidstate.func_206888_e()) {
 -                        float f2 = Math.max(blockstate.func_177230_c().func_149638_a(), ifluidstate.func_210200_l());
-+                     if (!blockstate.isAir(this.field_77287_j, blockpos) || !ifluidstate.func_206888_e()) {
-+                        float f2 = Math.max(blockstate.getExplosionResistance(this.field_77287_j, blockpos, field_77283_e, this), ifluidstate.getExplosionResistance(this.field_77287_j, blockpos, field_77283_e, this));
-                         if (this.field_77283_e != null) {
-                            f2 = this.field_77283_e.func_180428_a(this, this.field_77287_j, blockpos, blockstate, ifluidstate, f2);
+-                        if (this.field_77283_e != null) {
+-                           f2 = this.field_77283_e.func_180428_a(this, this.field_77287_j, blockpos, blockstate, ifluidstate, f2);
++                     for(float f1 = 0.3F; f > 0.0F; f -= 0.22500001F) {
++                        BlockPos blockpos = new BlockPos(d4, d6, d8);
++                        BlockState blockstate = this.field_77287_j.func_180495_p(blockpos);
++                        IFluidState ifluidstate = this.field_77287_j.func_204610_c(blockpos);
++                        if (!blockstate.isAir(this.field_77287_j, blockpos) || !ifluidstate.func_206888_e()) {
++                           float f2 = Math.max(blockstate.getExplosionResistance(this.field_77287_j, blockpos, field_77283_e, this), ifluidstate.getExplosionResistance(this.field_77287_j, blockpos, field_77283_e, this));
++                           if (this.field_77283_e != null) {
++                              f2 = this.field_77283_e.func_180428_a(this, this.field_77287_j, blockpos, blockstate, ifluidstate, f2);
++                           }
++
++                           f -= (f2 + 0.3F) * 0.3F;
                          }
-@@ -166,6 +168,7 @@
+ 
+-                        f -= (f2 + 0.3F) * 0.3F;
+-                     }
++                        if (f > 0.0F && (this.field_77283_e == null || this.field_77283_e.func_174816_a(this, this.field_77287_j, blockpos, blockstate, f))) {
++                           set.add(blockpos);
++                        }
+ 
+-                     if (f > 0.0F && (this.field_77283_e == null || this.field_77283_e.func_174816_a(this, this.field_77287_j, blockpos, blockstate, f))) {
+-                        set.add(blockpos);
++                        d4 += d0 * (double)0.3F;
++                        d6 += d1 * (double)0.3F;
++                        d8 += d2 * (double)0.3F;
+                      }
+-
+-                     d4 += d0 * (double)0.3F;
+-                     d6 += d1 * (double)0.3F;
+-                     d8 += d2 * (double)0.3F;
+                   }
+                }
+             }
+          }
+-      }
++      } // EMC - don't run block processing if neither flag is set
+ 
+       this.field_77281_g.addAll(set);
+       float f3 = this.field_77280_f * 2.0F;
+@@ -165,7 +178,15 @@
+       int i1 = MathHelper.func_76128_c(this.field_77285_c + (double)f3 + 1.0D);
        int j2 = MathHelper.func_76128_c(this.field_77282_d - (double)f3 - 1.0D);
        int j1 = MathHelper.func_76128_c(this.field_77282_d + (double)f3 + 1.0D);
-       List<Entity> list = this.field_77287_j.func_72839_b(this.field_77283_e, new AxisAlignedBB((double)k1, (double)i2, (double)j2, (double)l1, (double)i1, (double)j1));
+-      List<Entity> list = this.field_77287_j.func_72839_b(this.field_77283_e, new AxisAlignedBB((double)k1, (double)i2, (double)j2, (double)l1, (double)i1, (double)j1));
++      //List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this.exploder, new AxisAlignedBB((double)k1, (double)i2, (double)j2, (double)l1, (double)i1, (double)j1));
++
++      // Paper start - Fix lag from explosions processing dead entities
++      List<Entity> list = this.field_77287_j.func_175674_a(this.field_77283_e, new AxisAlignedBB((double)k1, (double)i2, (double)j2, (double)l1, (double)i1, (double)j1), (Predicate<Entity>) entity -> {
++         return EntityPredicates.field_188444_d.test(entity) && entity.func_70089_S() && !(entity instanceof ItemEntity); // EMC
++      });
++      // Paper end
++
 +      net.minecraftforge.event.ForgeEventFactory.onExplosionDetonate(this.field_77287_j, this, list, f3);
        Vec3d vec3d = new Vec3d(this.field_77284_b, this.field_77285_c, this.field_77282_d);
  
        for(int k2 = 0; k2 < list.size(); ++k2) {
-@@ -224,11 +227,11 @@
+@@ -181,7 +202,7 @@
+                   d5 = d5 / d13;
+                   d7 = d7 / d13;
+                   d9 = d9 / d13;
+-                  double d14 = (double)func_222259_a(vec3d, entity);
++                  double d14 = (double)getBlockDensityFromPaper(vec3d, entity); // Paper - Optimize explosions
+                   double d10 = (1.0D - d12) * d14;
+                   entity.func_70097_a(this.func_199591_b(), (float)((int)((d10 * d10 + d10) / 2.0D * 7.0D * (double)f3 + 1.0D)));
+                   double d11 = d10;
+@@ -210,7 +231,7 @@
+ 
+       boolean flag = this.field_222260_b != Explosion.Mode.NONE;
+       if (p_77279_1_) {
+-         if (!(this.field_77280_f < 2.0F) && flag) {
++         if (!(this.field_77280_f < 2.0F) /*&& flag*/) { // EMC - don't care about block breaks flag for animation
+             this.field_77287_j.func_195594_a(ParticleTypes.field_197626_s, this.field_77284_b, this.field_77285_c, this.field_77282_d, 1.0D, 0.0D, 0.0D);
+          } else {
+             this.field_77287_j.func_195594_a(ParticleTypes.field_197627_t, this.field_77284_b, this.field_77285_c, this.field_77282_d, 1.0D, 0.0D, 0.0D);
+@@ -224,11 +245,11 @@
           for(BlockPos blockpos : this.field_77281_g) {
              BlockState blockstate = this.field_77287_j.func_180495_p(blockpos);
              Block block = blockstate.func_177230_c();
@@ -50,7 +181,7 @@
                    LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld)this.field_77287_j)).func_216023_a(this.field_77287_j.field_73012_v).func_216015_a(LootParameters.field_216286_f, blockpos).func_216015_a(LootParameters.field_216289_i, ItemStack.field_190927_a).func_216021_b(LootParameters.field_216288_h, tileentity).func_216021_b(LootParameters.field_216281_a, this.field_77283_e);
                    if (this.field_222260_b == Explosion.Mode.DESTROY) {
                       lootcontext$builder.func_216015_a(LootParameters.field_216290_j, this.field_77280_f);
-@@ -239,8 +242,7 @@
+@@ -239,8 +260,7 @@
                    });
                 }
  
@@ -60,7 +191,7 @@
                 this.field_77287_j.func_217381_Z().func_76319_b();
              }
           }
-@@ -311,6 +313,10 @@
+@@ -311,9 +331,91 @@
        return this.field_77281_g;
     }
  
@@ -71,3 +202,84 @@
     public static enum Mode {
        NONE,
        BREAK,
+       DESTROY;
+    }
++
++   // Paper start - Optimize Vec3d
++   private float getBlockDensityFromPaper(Vec3d vec3d, Entity entity) {
++      CacheKey key = new CacheKey(this, entity.func_174813_aQ());
++      Float blockDensity = this.field_77287_j.explosionDensityCache.get(key);
++      if (blockDensity == null) {
++         blockDensity = func_222259_a(vec3d, entity);
++         this.field_77287_j.explosionDensityCache.put(key, blockDensity);
++      }
++
++      return blockDensity;
++   }
++
++   static class CacheKey {
++      private final World world;
++      private final double posX, posY, posZ;
++      private final double minX, minY, minZ;
++      private final double maxX, maxY, maxZ;
++
++      public CacheKey(Explosion explosion, AxisAlignedBB aabb) {
++         this.world = explosion.field_77287_j;
++         this.posX = explosion.position.field_72450_a;
++         this.posY = explosion.position.field_72448_b;
++         this.posZ = explosion.position.field_72449_c;
++         this.minX = aabb.field_72340_a;
++         this.minY = aabb.field_72338_b;
++         this.minZ = aabb.field_72339_c;
++         this.maxX = aabb.field_72336_d;
++         this.maxY = aabb.field_72337_e;
++         this.maxZ = aabb.field_72334_f;
++      }
++
++      @Override
++      public boolean equals(Object o) {
++         if (this == o) return true;
++         if (o == null || getClass() != o.getClass()) return false;
++
++         CacheKey cacheKey = (CacheKey) o;
++
++         if (Double.compare(cacheKey.posX, posX) != 0) return false;
++         if (Double.compare(cacheKey.posY, posY) != 0) return false;
++         if (Double.compare(cacheKey.posZ, posZ) != 0) return false;
++         if (Double.compare(cacheKey.minX, minX) != 0) return false;
++         if (Double.compare(cacheKey.minY, minY) != 0) return false;
++         if (Double.compare(cacheKey.minZ, minZ) != 0) return false;
++         if (Double.compare(cacheKey.maxX, maxX) != 0) return false;
++         if (Double.compare(cacheKey.maxY, maxY) != 0) return false;
++         if (Double.compare(cacheKey.maxZ, maxZ) != 0) return false;
++         return world.equals(cacheKey.world);
++      }
++
++      @Override
++      public int hashCode() {
++         int result;
++         long temp;
++         result = world.hashCode();
++         temp = Double.doubleToLongBits(posX);
++         result = 31 * result + (int) (temp ^ (temp >>> 32));
++         temp = Double.doubleToLongBits(posY);
++         result = 31 * result + (int) (temp ^ (temp >>> 32));
++         temp = Double.doubleToLongBits(posZ);
++         result = 31 * result + (int) (temp ^ (temp >>> 32));
++         temp = Double.doubleToLongBits(minX);
++         result = 31 * result + (int) (temp ^ (temp >>> 32));
++         temp = Double.doubleToLongBits(minY);
++         result = 31 * result + (int) (temp ^ (temp >>> 32));
++         temp = Double.doubleToLongBits(minZ);
++         result = 31 * result + (int) (temp ^ (temp >>> 32));
++         temp = Double.doubleToLongBits(maxX);
++         result = 31 * result + (int) (temp ^ (temp >>> 32));
++         temp = Double.doubleToLongBits(maxY);
++         result = 31 * result + (int) (temp ^ (temp >>> 32));
++         temp = Double.doubleToLongBits(maxZ);
++         result = 31 * result + (int) (temp ^ (temp >>> 32));
++         return result;
++      }
++   }
++   // Paper end
+ }

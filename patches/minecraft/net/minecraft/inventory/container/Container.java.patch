@@ -1,9 +1,29 @@
 --- a/net/minecraft/inventory/container/Container.java
 +++ b/net/minecraft/inventory/container/Container.java
-@@ -116,9 +116,11 @@
+@@ -5,6 +5,8 @@
+ import java.util.List;
+ import java.util.Set;
+ import javax.annotation.Nullable;
++
++import fr.modcraftmc.forge.spigot.SpeedboostUtils;
+ import net.minecraft.block.Block;
+ import net.minecraft.entity.player.PlayerEntity;
+ import net.minecraft.entity.player.PlayerInventory;
+@@ -111,14 +113,21 @@
+       return nonnulllist;
+    }
+ 
++   public boolean speedUpIsEqual(ItemStack a, ItemStack b) {
++      return !(SpeedboostUtils.fastMatches(a, b) || (SpeedboostUtils.tickCount % SpeedboostUtils.itemDirtyTicks == 0 && !ItemStack.func_77989_b(a, b)));
++   }
++
+    public void func_75142_b() {
+       for(int i = 0; i < this.field_75151_b.size(); ++i) {
           ItemStack itemstack = this.field_75151_b.get(i).func_75211_c();
           ItemStack itemstack1 = this.field_75153_a.get(i);
-          if (!ItemStack.func_77989_b(itemstack1, itemstack)) {
+-         if (!ItemStack.func_77989_b(itemstack1, itemstack)) {
++         if (speedUpIsEqual(itemstack1, itemstack)) {
++            SpeedboostUtils.tickCount++;
 +            boolean clientStackChanged = !itemstack1.equals(itemstack, true);
              itemstack1 = itemstack.func_77946_l();
              this.field_75153_a.set(i, itemstack1);
@@ -12,7 +32,7 @@
              for(IContainerListener icontainerlistener : this.field_75149_d) {
                 icontainerlistener.func_71111_a(this, i, itemstack1);
              }
-@@ -476,14 +478,15 @@
+@@ -476,14 +485,15 @@
              ItemStack itemstack = slot.func_75211_c();
              if (!itemstack.func_190926_b() && func_195929_a(p_75135_1_, itemstack)) {
                 int j = itemstack.func_190916_E() + p_75135_1_.func_190916_E();
@@ -32,7 +52,7 @@
                    slot.func_75218_e();
                    flag = true;
                 }
-@@ -584,7 +587,7 @@
+@@ -584,7 +594,7 @@
           p_94525_2_.func_190920_e(1);
           break;
        case 2:

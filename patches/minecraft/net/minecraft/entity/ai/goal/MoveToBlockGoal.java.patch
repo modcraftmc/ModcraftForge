@@ -1,0 +1,42 @@
+--- a/net/minecraft/entity/ai/goal/MoveToBlockGoal.java
++++ b/net/minecraft/entity/ai/goal/MoveToBlockGoal.java
+@@ -1,6 +1,8 @@
+ package net.minecraft.entity.ai.goal;
+ 
+ import java.util.EnumSet;
++
++import net.minecraft.block.Block;
+ import net.minecraft.entity.CreatureEntity;
+ import net.minecraft.util.math.BlockPos;
+ import net.minecraft.world.IWorldReader;
+@@ -17,6 +19,9 @@
+    private final int field_203113_j;
+    protected int field_203112_e;
+ 
++   protected BlockPos e; public BlockPos getTarget() { return e; } public void setTarget(BlockPos pos) { this.e = pos; field_179495_c.movingTarget = pos != BlockPos.field_177992_a ? pos : null; } // Paper - OBFHELPER
++
++
+    public MoveToBlockGoal(CreatureEntity p_i45888_1_, double p_i45888_2_, int p_i45888_4_) {
+       this(p_i45888_1_, p_i45888_2_, p_i45888_4_, 1);
+    }
+@@ -40,6 +45,12 @@
+       }
+    }
+ 
++   @Override
++   public void func_75251_c() {
++      super.func_75251_c();
++      setTarget(BlockPos.field_177992_a);
++   }
++
+    protected int func_203109_a(CreatureEntity p_203109_1_) {
+       return 200 + p_203109_1_.func_70681_au().nextInt(200);
+    }
+@@ -97,6 +108,7 @@
+                   blockpos$mutable.func_189533_g(blockpos).func_196234_d(i1, k - 1, j1);
+                   if (this.field_179495_c.func_213389_a(blockpos$mutable) && this.func_179488_a(this.field_179495_c.field_70170_p, blockpos$mutable)) {
+                      this.field_179494_b = blockpos$mutable;
++                     setTarget(blockpos$mutable.func_185334_h());
+                      return true;
+                   }
+                }
