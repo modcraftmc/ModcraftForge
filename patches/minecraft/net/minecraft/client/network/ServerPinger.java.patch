@@ -1,6 +1,15 @@
 --- a/net/minecraft/client/network/ServerPinger.java
 +++ b/net/minecraft/client/network/ServerPinger.java
-@@ -120,6 +120,8 @@
+@@ -79,6 +79,8 @@
+                   p_147224_1_.field_82821_f = serverstatusresponse.func_151322_c().func_151304_b();
+                } else {
+                   p_147224_1_.field_82822_g = I18n.func_135052_a("multiplayer.status.old");
++                  p_147224_1_.field_82822_g = "Server starting...";
++                  p_147224_1_.field_78843_d = "Server is starting, please wait..";
+                   p_147224_1_.field_82821_f = 0;
+                }
+ 
+@@ -120,6 +122,8 @@
                    p_147224_1_.func_147407_a((String)null);
                 }
  
