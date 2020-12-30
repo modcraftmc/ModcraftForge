@@ -1,13 +1,6 @@
 --- a/net/minecraft/tileentity/ChestTileEntity.java
 +++ b/net/minecraft/tileentity/ChestTileEntity.java
-@@ -32,12 +32,13 @@
-    value = Dist.CLIENT,
-    _interface = IChestLid.class
- )
--public class ChestTileEntity extends LockableLootTileEntity implements IChestLid, ITickableTileEntity {
-+public class ChestTileEntity extends LockableLootTileEntity implements IChestLid /*, ITickableTileEntity  Paper - Remove ITickable */ {
-    private NonNullList<ItemStack> field_145985_p = NonNullList.func_191197_a(27, ItemStack.field_190927_a);
-    protected float field_145989_m;
+@@ -38,6 +38,7 @@
     protected float field_145986_n;
     protected int field_145987_o;
     private int field_145983_q;
@@ -15,64 +8,23 @@
  
     protected ChestTileEntity(TileEntityType<?> p_i48287_1_) {
        super(p_i48287_1_);
-@@ -74,31 +75,63 @@
+@@ -74,6 +75,10 @@
     }
  
     public void func_73660_a() {
--      int i = this.field_174879_c.func_177958_n();
--      int j = this.field_174879_c.func_177956_o();
--      int k = this.field_174879_c.func_177952_p();
--      ++this.field_145983_q;
--      this.field_145987_o = func_213977_a(this.field_145850_b, this, this.field_145983_q, i, j, k, this.field_145987_o);
--      this.field_145986_n = this.field_145989_m;
-+      /*
-+      int i = this.pos.getX();
-+      int j = this.pos.getY();
-+      int k = this.pos.getZ();
-+      ++this.ticksSinceSync;
-+      this.numPlayersUsing = calculatePlayersUsingSync(this.world, this, this.ticksSinceSync, i, j, k, this.numPlayersUsing);
-+      this.prevLidAngle = this.lidAngle;
-       float f = 0.1F;
--      if (this.field_145987_o > 0 && this.field_145989_m == 0.0F) {
--         this.func_195483_a(SoundEvents.field_187657_V);
-+      if (this.numPlayersUsing > 0 && this.lidAngle == 0.0F) {
-+         this.playSound(SoundEvents.BLOCK_CHEST_OPEN);
++
++      if (!field_145850_b.func_201670_d()) return;
++      System.out.println("Ticking chest");
++
+       int i = this.field_174879_c.func_177958_n();
+       int j = this.field_174879_c.func_177956_o();
+       int k = this.field_174879_c.func_177952_p();
+@@ -106,9 +111,38 @@
+             this.field_145989_m = 0.0F;
+          }
        }
- 
--      if (this.field_145987_o == 0 && this.field_145989_m > 0.0F || this.field_145987_o > 0 && this.field_145989_m < 1.0F) {
--         float f1 = this.field_145989_m;
--         if (this.field_145987_o > 0) {
--            this.field_145989_m += 0.1F;
-+      if (this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F) {
-+         float f1 = this.lidAngle;
-+         if (this.numPlayersUsing > 0) {
-+            this.lidAngle += 0.1F;
-          } else {
--            this.field_145989_m -= 0.1F;
-+            this.lidAngle -= 0.1F;
-          }
- 
--         if (this.field_145989_m > 1.0F) {
--            this.field_145989_m = 1.0F;
-+         if (this.lidAngle > 1.0F) {
-+            this.lidAngle = 1.0F;
-          }
- 
-          float f2 = 0.5F;
--         if (this.field_145989_m < 0.5F && f1 >= 0.5F) {
-+         if (this.lidAngle < 0.5F && f1 >= 0.5F) {
-+            this.playSound(SoundEvents.BLOCK_CHEST_CLOSE);
-+         }
-+
-+         if (this.lidAngle < 0.0F) {
-+            this.lidAngle = 0.0F;
-+         }
-+      }
-+
-+
-+       */
 +   }
-+
+ 
 +   //From paper
 +   public void doOpenLogic() {
 +      /*
@@ -85,23 +37,22 @@
 +      if (this.field_145987_o > 0 && this.field_145989_m == 0.0F) {
 +         this.func_195483_a(SoundEvents.field_187657_V);
 +      }
-+   }
-+
+    }
+ 
 +   public void doCloseLogic() {
 +
 +      if (this.field_145987_o == 0) {
 +
 +         if (this.field_145989_m < 0.5F && this.field_145989_m >= 0.5F) {
-             this.func_195483_a(SoundEvents.field_187651_T);
-          }
- 
-@@ -106,9 +139,10 @@
-             this.field_145989_m = 0.0F;
-          }
-       }
--
-    }
- 
++            this.func_195483_a(SoundEvents.field_187651_T);
++         }
++
++         if (this.field_145989_m < 0.0F) {
++            this.field_145989_m = 0.0F;
++         }
++      }
++   }
++
 +   //End paper
 +
     public static int func_213977_a(World p_213977_0_, LockableTileEntity p_213977_1_, int p_213977_2_, int p_213977_3_, int p_213977_4_, int p_213977_5_, int p_213977_6_) {

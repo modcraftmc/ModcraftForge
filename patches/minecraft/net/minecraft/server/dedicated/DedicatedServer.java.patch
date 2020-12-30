@@ -1,6 +1,22 @@
 --- a/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -97,6 +97,7 @@
+@@ -29,6 +29,7 @@
+ import net.minecraft.entity.player.PlayerEntity;
+ import net.minecraft.item.ItemGroup;
+ import net.minecraft.item.Items;
++import net.minecraft.network.ServerStatusResponse;
+ import net.minecraft.network.rcon.IServer;
+ import net.minecraft.network.rcon.MainThread;
+ import net.minecraft.network.rcon.QueryThread;
+@@ -49,6 +50,7 @@
+ import net.minecraft.util.Util;
+ import net.minecraft.util.math.BlockPos;
+ import net.minecraft.util.math.MathHelper;
++import net.minecraft.util.text.StringTextComponent;
+ import net.minecraft.world.Difficulty;
+ import net.minecraft.world.GameRules;
+ import net.minecraft.world.GameType;
+@@ -97,6 +99,7 @@
     public boolean func_71197_b() throws IOException {
        Thread thread = new Thread("Server console handler") {
           public void run() {
@@ -8,7 +24,7 @@
              BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
  
              String s3;
-@@ -118,7 +119,9 @@
+@@ -118,7 +121,9 @@
           field_155771_h.warn("To start the server with more ram, launch it as \"java -Xmx1024M -Xms1024M -jar minecraft_server.jar\"");
        }
  
@@ -18,7 +34,7 @@
        ServerProperties serverproperties = this.field_71340_o.func_219034_a();
        if (this.func_71264_H()) {
           this.func_71189_e("127.0.0.1");
-@@ -175,6 +178,7 @@
+@@ -175,6 +180,7 @@
        if (!PreYggdrasilConverter.func_219587_e(this)) {
           return false;
        } else {
@@ -26,7 +42,7 @@
           this.func_184105_a(new DedicatedPlayerList(this));
           long i = Util.func_211178_c();
           String s = serverproperties.field_219022_p;
-@@ -196,6 +200,7 @@
+@@ -196,6 +202,7 @@
           SkullTileEntity.func_184293_a(this.func_152358_ax());
           SkullTileEntity.func_184294_a(this.func_147130_as());
           PlayerProfileCache.func_187320_a(this.func_71266_T());
@@ -34,7 +50,7 @@
           field_155771_h.info("Preparing level \"{}\"", (Object)this.func_71270_I());
           JsonObject jsonobject = new JsonObject();
           if (worldtype == WorldType.field_77138_c) {
-@@ -208,6 +213,7 @@
+@@ -208,6 +215,7 @@
           long l = Util.func_211178_c() - i;
           String s2 = String.format(Locale.ROOT, "%.3fs", (double)l / 1.0E9D);
           field_155771_h.info("Done ({})! For help, type \"help\"", (Object)s2);
@@ -42,7 +58,7 @@
           if (serverproperties.field_219027_u != null) {
              this.func_200252_aR().func_223585_a(GameRules.field_223620_w).func_223570_a(serverproperties.field_219027_u, this);
           }
-@@ -233,7 +239,8 @@
+@@ -233,7 +241,8 @@
           }
  
           Items.field_190931_a.func_150895_a(ItemGroup.field_78027_g, NonNullList.func_191196_a());
@@ -52,7 +68,7 @@
        }
     }
  
-@@ -547,4 +554,9 @@
+@@ -547,4 +556,9 @@
     public boolean func_213199_b(GameProfile p_213199_1_) {
        return false;
     }
