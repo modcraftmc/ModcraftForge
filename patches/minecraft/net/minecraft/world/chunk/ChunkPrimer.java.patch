@@ -1,6 +1,77 @@
 --- a/net/minecraft/world/chunk/ChunkPrimer.java
 +++ b/net/minecraft/world/chunk/ChunkPrimer.java
-@@ -136,13 +136,13 @@
+@@ -1,5 +1,8 @@
+ package net.minecraft.world.chunk;
+ 
++import ca.starlight.common.chunk.ExtendedChunk;
++import ca.starlight.common.light.SWMRNibbleArray;
++import ca.starlight.common.light.StarLightEngine;
+ import com.google.common.collect.Lists;
+ import com.google.common.collect.Maps;
+ import com.google.common.collect.Sets;
+@@ -36,8 +39,9 @@
+ import net.minecraft.world.lighting.WorldLightManager;
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
++import org.spongepowered.asm.mixin.Unique;
+ 
+-public class ChunkPrimer implements IChunk {
++public class ChunkPrimer implements IChunk, ExtendedChunk {
+    private static final Logger field_201653_a = LogManager.getLogger();
+    private final ChunkPos field_201654_b;
+    private volatile boolean field_201655_c;
+@@ -62,6 +66,37 @@
+    private final Map<GenerationStage.Carving, BitSet> field_205769_s = Maps.newHashMap();
+    private volatile boolean field_217335_u;
+ 
++   private volatile SWMRNibbleArray[] blockNibbles;
++
++   private volatile SWMRNibbleArray[] skyNibbles;
++
++   private boolean[][] emptinessMap;
++
++   @Override
++   public SWMRNibbleArray[] getBlockNibbles() {
++      return this.blockNibbles;
++   }
++
++   @Override
++   public void setBlockNibbles(final SWMRNibbleArray[] nibbles) {
++      this.blockNibbles = nibbles;
++   }
++
++   @Override
++   public SWMRNibbleArray[] getSkyNibbles() {
++      return this.skyNibbles;
++   }
++
++   @Override
++   public void setSkyNibbles(final SWMRNibbleArray[] nibbles) {
++      this.skyNibbles = nibbles;
++   }
++
++   @Override
++   public boolean[][] getEmptinessMap() {
++      return this.emptinessMap;
++   }
++
+    public ChunkPrimer(ChunkPos p_i48700_1_, UpgradeData p_i48700_2_) {
+       this(p_i48700_1_, p_i48700_2_, (ChunkSection[])null, new ChunkPrimerTickList<>((p_205332_0_) -> {
+          return p_205332_0_ == null || p_205332_0_.func_176223_P().func_196958_f();
+@@ -75,6 +110,12 @@
+       this.field_201668_p = p_i49941_2_;
+       this.field_201664_l = p_i49941_4_;
+       this.field_205333_q = p_i49941_5_;
++
++      //Startlight
++      this.blockNibbles = StarLightEngine.getFilledEmptyLight();
++      this.skyNibbles = StarLightEngine.getFilledEmptyLight();
++      this.emptinessMap = new boolean[9][];
++
+       if (p_i49941_3_ != null) {
+          if (this.field_201661_i.length == p_i49941_3_.length) {
+             System.arraycopy(p_i49941_3_, 0, this.field_201661_i, 0, this.field_201661_i.length);
+@@ -136,13 +177,13 @@
           if (this.field_201661_i[j >> 4] == Chunk.field_186036_a && p_177436_2_.func_177230_c() == Blocks.field_150350_a) {
              return p_177436_2_;
           } else {

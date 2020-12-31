@@ -23,6 +23,15 @@
           }
  
           this.field_186022_c.func_186041_a(this.field_205526_g);
+@@ -127,7 +132,7 @@
+       return (T)this.func_186015_a(func_186011_b(p_186016_1_, p_186016_2_, p_186016_3_));
+    }
+ 
+-   protected T func_186015_a(int p_186015_1_) {
++   public T func_186015_a(int p_186015_1_) {
+       T t = this.field_186022_c.func_186039_a(this.field_186021_b.func_188142_a(p_186015_1_));
+       return (T)(t == null ? this.field_205526_g : t);
+    }
 @@ -137,12 +142,16 @@
        this.func_210459_b();
        int i = p_186010_1_.readByte();

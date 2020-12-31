@@ -8,6 +8,15 @@
  import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
  import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
  import it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap;
+@@ -100,7 +101,7 @@
+    private final LongSet field_219254_h = new LongOpenHashSet();
+    private final ServerWorld field_219255_i;
+    private final ServerWorldLightManager field_219256_j;
+-   private final ThreadTaskExecutor<Runnable> field_219257_k;
++   public final ThreadTaskExecutor<Runnable> field_219257_k;
+    private final ChunkGenerator<?> field_219258_l;
+    private final Supplier<DimensionSavedDataManager> field_219259_m;
+    private final PointOfInterestManager field_219260_n;
 @@ -368,6 +369,7 @@
        iprofiler.func_219895_b("chunk_unload");
        if (!this.field_219255_i.func_217402_u()) {

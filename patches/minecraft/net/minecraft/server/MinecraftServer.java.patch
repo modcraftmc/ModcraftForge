@@ -180,7 +180,7 @@
 +                  tps1.add(currentTps, diff);
 +                  tps5.add(currentTps, diff);
 +                  tps15.add(currentTps, diff);
-+                  // Backwards compat with bad plugins
++
 +                  recentTps[0] = tps1.getAverage();
 +                  recentTps[1] = tps5.getAverage();
 +                  recentTps[2] = tps15.getAverage();

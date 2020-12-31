@@ -1,15 +1,54 @@
 --- a/net/minecraft/block/BlockState.java
 +++ b/net/minecraft/block/BlockState.java
-@@ -51,7 +51,7 @@
+@@ -1,5 +1,6 @@
+ package net.minecraft.block;
+ 
++import ca.starlight.common.blockstate.ExtendedAbstractBlockState;
+ import com.google.common.collect.ImmutableMap;
+ import com.mojang.datafixers.Dynamic;
+ import com.mojang.datafixers.types.DynamicOps;
+@@ -50,13 +51,29 @@
+ import net.minecraft.world.storage.loot.LootContext;
  import net.minecraftforge.api.distmarker.Dist;
  import net.minecraftforge.api.distmarker.OnlyIn;
++import org.spongepowered.asm.mixin.Unique;
  
 -public class BlockState extends StateHolder<Block, BlockState> implements IStateHolder<BlockState> {
-+public class BlockState extends StateHolder<Block, BlockState> implements IStateHolder<BlockState>, net.minecraftforge.common.extensions.IForgeBlockState {
++public class BlockState extends StateHolder<Block, BlockState> implements IStateHolder<BlockState>, net.minecraftforge.common.extensions.IForgeBlockState, ExtendedAbstractBlockState {
     @Nullable
     private BlockState.Cache field_215707_c;
     private final int field_215708_d;
-@@ -106,10 +106,14 @@
+    private final boolean field_215709_e;
+ 
++
++   private int opacityIfCached;
++   private boolean isConditionallyFullOpaque;
++
++
++   @Override
++   public final boolean isConditionallyFullOpaque() {
++      return this.isConditionallyFullOpaque;
++   }
++
++   @Override
++   public final int getOpacityIfCached() {
++      return this.opacityIfCached;
++   }
++
+    public BlockState(Block p_i49958_1_, ImmutableMap<IProperty<?>, Comparable<?>> p_i49958_2_) {
+       super(p_i49958_1_, p_i49958_2_);
+       this.field_215708_d = p_i49958_1_.func_149750_m(this);
+@@ -67,7 +84,8 @@
+       if (!this.func_177230_c().func_208619_r()) {
+          this.field_215707_c = new BlockState.Cache(this);
+       }
+-
++      this.isConditionallyFullOpaque = this.func_200132_m() & this.field_215709_e; // oof this mapping.
++      this.opacityIfCached = this.field_215707_c == null || this.isConditionallyFullOpaque ? -1 : this.field_215707_c.field_222501_e;
+    }
+ 
+    public Block func_177230_c() {
+@@ -106,10 +124,14 @@
        return this.field_215708_d;
     }
  

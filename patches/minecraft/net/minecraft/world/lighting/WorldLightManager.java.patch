@@ -1,0 +1,350 @@
+--- a/net/minecraft/world/lighting/WorldLightManager.java
++++ b/net/minecraft/world/lighting/WorldLightManager.java
+@@ -1,94 +1,209 @@
+ package net.minecraft.world.lighting;
+ 
+ import javax.annotation.Nullable;
++
++import ca.starlight.common.chunk.ExtendedChunk;
++import ca.starlight.common.light.SWMRNibbleArray;
++import ca.starlight.common.light.StarLightEngine;
++import ca.starlight.common.light.StarLightInterface;
++import ca.starlight.common.light.StarLightLightingProvider;
++import ca.starlight.common.util.CoordinateUtils;
++import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
++import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
++import it.unimi.dsi.fastutil.shorts.ShortOpenHashSet;
+ import net.minecraft.util.math.BlockPos;
+ import net.minecraft.util.math.ChunkPos;
+ import net.minecraft.util.math.SectionPos;
+ import net.minecraft.world.LightType;
++import net.minecraft.world.chunk.IChunk;
+ import net.minecraft.world.chunk.IChunkLightProvider;
+ import net.minecraft.world.chunk.NibbleArray;
++import net.minecraft.world.server.ServerWorldLightManager;
+ import net.minecraftforge.api.distmarker.Dist;
+ import net.minecraftforge.api.distmarker.OnlyIn;
++import org.spongepowered.asm.mixin.Unique;
+ 
+-public class WorldLightManager implements ILightListener {
++import java.util.Iterator;
++
++public class WorldLightManager implements ILightListener, StarLightLightingProvider {
+    @Nullable
+    private final LightEngine<?, ?> field_215576_a;
+    @Nullable
+    private final LightEngine<?, ?> field_215577_b;
+ 
++   protected StarLightInterface lightEngine;
++
+    public WorldLightManager(IChunkLightProvider p_i51290_1_, boolean p_i51290_2_, boolean p_i51290_3_) {
+       this.field_215576_a = p_i51290_2_ ? new BlockLightEngine(p_i51290_1_) : null;
+       this.field_215577_b = p_i51290_3_ ? new SkyLightEngine(p_i51290_1_) : null;
++      this.lightEngine = new StarLightInterface(p_i51290_1_, p_i51290_3_, p_i51290_2_);
++
+    }
+ 
+    public void func_215568_a(BlockPos p_215568_1_) {
+-      if (this.field_215576_a != null) {
+-         this.field_215576_a.func_215617_a(p_215568_1_);
++      /*
++      if (this.blockLight != null) {
++         this.blockLight.checkLight(blockPosIn);
+       }
+ 
+-      if (this.field_215577_b != null) {
+-         this.field_215577_b.func_215617_a(p_215568_1_);
++      if (this.skyLight != null) {
++         this.skyLight.checkLight(blockPosIn);
+       }
+ 
++       */
++
++      this.lightEngine.blockChange(p_215568_1_);
++
+    }
+ 
+    public void func_215573_a(BlockPos p_215573_1_, int p_215573_2_) {
+-      if (this.field_215576_a != null) {
+-         this.field_215576_a.func_215623_a(p_215573_1_, p_215573_2_);
++      /*
++      if (this.blockLight != null) {
++         this.blockLight.func_215623_a(blockPosIn, p_215573_2_);
+       }
+ 
++       */
++
+    }
+ 
+    public boolean func_215570_a() {
+-      if (this.field_215577_b != null && this.field_215577_b.func_215619_a()) {
++      /*
++      if (this.skyLight != null && this.skyLight.func_215619_a()) {
+          return true;
+       } else {
+-         return this.field_215576_a != null && this.field_215576_a.func_215619_a();
++         return this.blockLight != null && this.blockLight.func_215619_a();
+       }
++
++       */
++      return this.lightEngine.hasUpdates();
+    }
+ 
++   protected final Long2ObjectOpenHashMap<SWMRNibbleArray[]> blockLightMap = new Long2ObjectOpenHashMap<>();
++
++   protected final Long2ObjectOpenHashMap<SWMRNibbleArray[]> skyLightMap = new Long2ObjectOpenHashMap<>();
++
++   protected final Long2ObjectOpenHashMap<Boolean[]> queuedChunkLoads = new Long2ObjectOpenHashMap<>();
++
++   protected final Long2ObjectOpenHashMap<ShortOpenHashSet> queuedEdgeChecksBlock = new Long2ObjectOpenHashMap<>();
++
++   protected final Long2ObjectOpenHashMap<ShortOpenHashSet> queuedEdgeChecksSky = new Long2ObjectOpenHashMap<>();
++
++
+    public int func_215575_a(int p_215575_1_, boolean p_215575_2_, boolean p_215575_3_) {
+-      if (this.field_215576_a != null && this.field_215577_b != null) {
+-         int i = p_215575_1_ / 2;
+-         int j = this.field_215576_a.func_215616_a(i, p_215575_2_, p_215575_3_);
+-         int k = p_215575_1_ - i + j;
+-         int l = this.field_215577_b.func_215616_a(k, p_215575_2_, p_215575_3_);
+-         return j == 0 && l > 0 ? this.field_215576_a.func_215616_a(l, p_215575_2_, p_215575_3_) : l;
+-      } else if (this.field_215576_a != null) {
+-         return this.field_215576_a.func_215616_a(p_215575_1_, p_215575_2_, p_215575_3_);
++      /*
++      if (this.blockLight != null && this.skyLight != null) {
++         int i = toUpdateCount / 2;
++         int j = this.blockLight.tick(i, updateSkyLight, updateBlockLight);
++         int k = toUpdateCount - i + j;
++         int l = this.skyLight.tick(k, updateSkyLight, updateBlockLight);
++         return j == 0 && l > 0 ? this.blockLight.tick(l, updateSkyLight, updateBlockLight) : l;
++      } else if (this.blockLight != null) {
++         return this.blockLight.tick(toUpdateCount, updateSkyLight, updateBlockLight);
+       } else {
+-         return this.field_215577_b != null ? this.field_215577_b.func_215616_a(p_215575_1_, p_215575_2_, p_215575_3_) : p_215575_1_;
++         return this.skyLight != null ? this.skyLight.tick(toUpdateCount, updateSkyLight, updateBlockLight) : toUpdateCount;
+       }
++
++       */
++
++      // replace impl
++      if ((Object)this instanceof ServerWorldLightManager) {
++         // serverside
++         final boolean hadUpdates = this.func_215570_a();
++         this.lightEngine.propagateChanges();
++         return hadUpdates ? 1 : 0;
++      } else {
++         // clientside
++         final boolean hadUpdates = this.func_215570_a() || !this.queuedChunkLoads.isEmpty();
++         for (final Iterator<Long2ObjectMap.Entry<Boolean[]>> iterator = this.queuedChunkLoads.long2ObjectEntrySet().fastIterator(); iterator.hasNext();) {
++            final Long2ObjectMap.Entry<Boolean[]> entry = iterator.next();
++            final long coordinate = entry.getLongKey();
++            final Boolean[] emptiness = entry.getValue();
++            iterator.remove();
++
++            this.lightEngine.loadInChunk(CoordinateUtils.getChunkX(coordinate), CoordinateUtils.getChunkZ(coordinate), emptiness);
++         }
++         for (final Iterator<Long2ObjectMap.Entry<ShortOpenHashSet>> iterator = this.queuedEdgeChecksSky.long2ObjectEntrySet().fastIterator(); iterator.hasNext();) {
++            final Long2ObjectMap.Entry<ShortOpenHashSet> entry = iterator.next();
++            final long coordinate = entry.getLongKey();
++            final ShortOpenHashSet sections = entry.getValue();
++            iterator.remove();
++
++            this.lightEngine.checkSkyEdges(CoordinateUtils.getChunkX(coordinate), CoordinateUtils.getChunkZ(coordinate), sections);
++         }
++         for (final Iterator<Long2ObjectMap.Entry<ShortOpenHashSet>> iterator = this.queuedEdgeChecksBlock.long2ObjectEntrySet().fastIterator(); iterator.hasNext();) {
++            final Long2ObjectMap.Entry<ShortOpenHashSet> entry = iterator.next();
++            final long coordinate = entry.getLongKey();
++            final ShortOpenHashSet sections = entry.getValue();
++            iterator.remove();
++
++            this.lightEngine.checkBlockEdges(CoordinateUtils.getChunkX(coordinate), CoordinateUtils.getChunkZ(coordinate), sections);
++         }
++
++         this.lightEngine.propagateChanges();
++         return hadUpdates ? 1 : 0;
++      }
+    }
+ 
+    public void func_215566_a(SectionPos p_215566_1_, boolean p_215566_2_) {
+-      if (this.field_215576_a != null) {
+-         this.field_215576_a.func_215566_a(p_215566_1_, p_215566_2_);
++      /*
++      if (this.blockLight != null) {
++         this.blockLight.updateSectionStatus(pos, isEmpty);
+       }
+ 
+-      if (this.field_215577_b != null) {
+-         this.field_215577_b.func_215566_a(p_215566_1_, p_215566_2_);
++      if (this.skyLight != null) {
++         this.skyLight.updateSectionStatus(pos, isEmpty);
+       }
+ 
++       */
++
++      this.lightEngine.sectionChange(p_215566_1_, p_215566_2_);
++
+    }
+ 
+    public void func_215571_a(ChunkPos p_215571_1_, boolean p_215571_2_) {
+-      if (this.field_215576_a != null) {
+-         this.field_215576_a.func_215620_a(p_215571_1_, p_215571_2_);
++      /*
++      if (this.blockLight != null) {
++         this.blockLight.func_215620_a(p_215571_1_, p_215571_2_);
+       }
+ 
+-      if (this.field_215577_b != null) {
+-         this.field_215577_b.func_215620_a(p_215571_1_, p_215571_2_);
++      if (this.skyLight != null) {
++         this.skyLight.func_215620_a(p_215571_1_, p_215571_2_);
+       }
+ 
++       */
++
++      final IChunk chunk = this.getLightEngine().getAnyChunkNow(p_215571_1_.field_77276_a, p_215571_1_.field_77275_b);
++      if (chunk != null) {
++         final SWMRNibbleArray[] blockNibbles = this.blockLightMap.get(CoordinateUtils.getChunkKey(p_215571_1_));
++         final SWMRNibbleArray[] skyNibbles = this.skyLightMap.get(CoordinateUtils.getChunkKey(p_215571_1_));
++         if (blockNibbles != null) {
++            ((ExtendedChunk)chunk).setBlockNibbles(blockNibbles);
++         }
++         if (skyNibbles != null) {
++            ((ExtendedChunk)chunk).setSkyNibbles(skyNibbles);
++         }
++
++         this.queuedChunkLoads.put(CoordinateUtils.getChunkKey(p_215571_1_), StarLightEngine.getEmptySectionsForChunk(chunk));
++      } else if (!p_215571_2_) {
++         this.blockLightMap.remove(CoordinateUtils.getChunkKey(p_215571_1_));
++         this.skyLightMap.remove(CoordinateUtils.getChunkKey(p_215571_1_));
++         this.queuedChunkLoads.remove(CoordinateUtils.getChunkKey(p_215571_1_));
++         this.queuedEdgeChecksBlock.remove(CoordinateUtils.getChunkKey(p_215571_1_));
++         this.queuedEdgeChecksSky.remove(CoordinateUtils.getChunkKey(p_215571_1_));
++      }
++
+    }
+ 
+    public IWorldLightListener func_215569_a(LightType p_215569_1_) {
+-      if (p_215569_1_ == LightType.BLOCK) {
+-         return (IWorldLightListener)(this.field_215576_a == null ? IWorldLightListener.Dummy.INSTANCE : this.field_215576_a);
++      /*
++      if (type == LightType.BLOCK) {
++         return (IWorldLightListener)(this.blockLight == null ? IWorldLightListener.Dummy.INSTANCE : this.blockLight);
+       } else {
+-         return (IWorldLightListener)(this.field_215577_b == null ? IWorldLightListener.Dummy.INSTANCE : this.field_215577_b);
++         return (IWorldLightListener)(this.skyLight == null ? IWorldLightListener.Dummy.INSTANCE : this.skyLight);
+       }
++
++       */
++      return p_215569_1_ == LightType.BLOCK ? this.lightEngine.getBlockReader() : this.lightEngine.getSkyReader();
+    }
+ 
+    @OnlyIn(Dist.CLIENT)
+@@ -105,30 +220,97 @@
+    }
+ 
+    public void func_215574_a(LightType p_215574_1_, SectionPos p_215574_2_, @Nullable NibbleArray p_215574_3_) {
+-      if (p_215574_1_ == LightType.BLOCK) {
+-         if (this.field_215576_a != null) {
+-            this.field_215576_a.func_215621_a(p_215574_2_.func_218146_v(), p_215574_3_);
++      /*
++      if (type == LightType.BLOCK) {
++         if (this.blockLight != null) {
++            this.blockLight.setData(pos.asLong(), array);
+          }
+-      } else if (this.field_215577_b != null) {
+-         this.field_215577_b.func_215621_a(p_215574_2_.func_218146_v(), p_215574_3_);
++      } else if (this.skyLight != null) {
++         this.skyLight.setData(pos.asLong(), array);
+       }
+ 
++       */
++
++      // data storage changed with new light impl
++      final IChunk chunk = this.getLightEngine().getAnyChunkNow(p_215574_2_.func_177958_n(), p_215574_2_.func_177952_p());
++      switch (p_215574_1_) {
++         case BLOCK: {
++            final SWMRNibbleArray[] blockNibbles = this.blockLightMap.computeIfAbsent(CoordinateUtils.getChunkKey(p_215574_2_), (final long keyInMap) -> {
++               return StarLightEngine.getFilledEmptyLight();
++            });
++
++            final SWMRNibbleArray replacement;
++            if (p_215574_3_ == null) {
++               replacement = new SWMRNibbleArray(null, true);
++            } else if (p_215574_3_.func_215655_c()) {
++               replacement = new SWMRNibbleArray();
++            } else {
++               replacement = new SWMRNibbleArray(p_215574_3_.func_177481_a().clone()); // make sure we don't write to the parameter later
++            }
++
++            blockNibbles[p_215574_2_.func_177956_o() + 1] = replacement;
++
++            if (chunk != null) {
++               ((ExtendedChunk)chunk).setBlockNibbles(blockNibbles);
++               this.lightEngine.getLightAccess().func_217201_a(LightType.BLOCK, p_215574_2_);
++            }
++            break;
++         }
++         case SKY: {
++            final SWMRNibbleArray[] skyNibbles = this.skyLightMap.computeIfAbsent(CoordinateUtils.getChunkKey(p_215574_2_), (final long keyInMap) -> {
++               return StarLightEngine.getFilledEmptyLight();
++            });
++
++            final SWMRNibbleArray replacement;
++            if (p_215574_3_ == null) {
++               replacement = new SWMRNibbleArray(null, true);
++            } else if (p_215574_3_.func_215655_c()) {
++               replacement = new SWMRNibbleArray();
++            } else {
++               replacement = new SWMRNibbleArray(p_215574_3_.func_177481_a().clone()); // make sure we don't write to the parameter later
++            }
++
++            skyNibbles[p_215574_2_.func_177956_o() + 1] = replacement;
++
++            if (chunk != null) {
++               ((ExtendedChunk)chunk).setSkyNibbles(skyNibbles);
++               this.lightEngine.getLightAccess().func_217201_a(LightType.SKY, p_215574_2_);
++            }
++            break;
++         }
++      }
++
+    }
+ 
+    public void func_223115_b(ChunkPos p_223115_1_, boolean p_223115_2_) {
+-      if (this.field_215576_a != null) {
+-         this.field_215576_a.func_223129_b(p_223115_1_, p_223115_2_);
++      /*
++      if (this.blockLight != null) {
++         this.blockLight.retainChunkData(pos, retain);
+       }
+ 
+-      if (this.field_215577_b != null) {
+-         this.field_215577_b.func_223129_b(p_223115_1_, p_223115_2_);
++      if (this.skyLight != null) {
++         this.skyLight.retainChunkData(pos, retain);
+       }
+ 
++       */
++
+    }
+ 
+    public int func_227470_b_(BlockPos p_227470_1_, int p_227470_2_) {
+-      int i = this.field_215577_b == null ? 0 : this.field_215577_b.func_215611_b(p_227470_1_) - p_227470_2_;
+-      int j = this.field_215576_a == null ? 0 : this.field_215576_a.func_215611_b(p_227470_1_);
++      /*
++      int i = this.skyLight == null ? 0 : this.skyLight.getLightFor(blockPosIn) - amount;
++      int j = this.blockLight == null ? 0 : this.blockLight.getLightFor(blockPosIn);
+       return Math.max(j, i);
++
++       */
++
++      final int sky = this.lightEngine.getSkyReader().func_215611_b(p_227470_1_) - p_227470_2_;
++      final int block = this.lightEngine.getBlockReader().func_215611_b(p_227470_1_);
++      return Math.max(sky, block);
+    }
++
++   @Override
++   public StarLightInterface getLightEngine() {
++      return lightEngine;
++   }
+ }

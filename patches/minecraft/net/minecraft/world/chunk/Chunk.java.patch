@@ -1,7 +1,11 @@
 --- a/net/minecraft/world/chunk/Chunk.java
 +++ b/net/minecraft/world/chunk/Chunk.java
-@@ -2,14 +2,13 @@
+@@ -1,15 +1,17 @@
+ package net.minecraft.world.chunk;
  
++import ca.starlight.common.chunk.ExtendedChunk;
++import ca.starlight.common.light.SWMRNibbleArray;
++import ca.starlight.common.light.StarLightEngine;
  import com.google.common.collect.Maps;
  import com.google.common.collect.Sets;
 +import fr.modcraftmc.forge.ModcraftForge;
@@ -19,7 +23,7 @@
  import java.util.Map.Entry;
  import java.util.function.Consumer;
  import java.util.function.Predicate;
-@@ -20,7 +19,6 @@
+@@ -20,7 +22,6 @@
  import net.minecraft.block.Block;
  import net.minecraft.block.BlockState;
  import net.minecraft.block.Blocks;
@@ -27,7 +31,7 @@
  import net.minecraft.crash.CrashReport;
  import net.minecraft.crash.CrashReportCategory;
  import net.minecraft.crash.ReportedException;
-@@ -28,13 +26,15 @@
+@@ -28,13 +29,15 @@
  import net.minecraft.entity.EntityType;
  import net.minecraft.entity.boss.dragon.EnderDragonEntity;
  import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
@@ -44,12 +48,14 @@
  import net.minecraft.util.math.AxisAlignedBB;
  import net.minecraft.util.math.BlockPos;
  import net.minecraft.util.math.ChunkPos;
-@@ -58,18 +58,18 @@
+@@ -57,19 +60,20 @@
+ import net.minecraftforge.api.distmarker.OnlyIn;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
++import org.spongepowered.asm.mixin.Unique;
  
 -public class Chunk implements IChunk {
-+public class Chunk extends net.minecraftforge.common.capabilities.CapabilityProvider<Chunk> implements IChunk, net.minecraftforge.common.extensions.IForgeChunk {
++public class Chunk extends net.minecraftforge.common.capabilities.CapabilityProvider<Chunk> implements IChunk, net.minecraftforge.common.extensions.IForgeChunk, ExtendedChunk {
     private static final Logger field_150817_t = LogManager.getLogger();
     public static final ChunkSection field_186036_a = null;
     private final ChunkSection[] field_76652_q = new ChunkSection[16];
@@ -66,12 +72,41 @@
     private final Map<String, StructureStart> field_201619_q = Maps.newHashMap();
     private final Map<String, LongSet> field_201620_r = Maps.newHashMap();
     private final ShortList[] field_201622_t = new ShortList[16];
-@@ -86,26 +86,41 @@
+@@ -86,26 +90,74 @@
     private final ChunkPos field_212816_F;
     private volatile boolean field_217331_x;
  
 +   //ModcraftForge
 +   public final List<Entity>[] entitySlices; // Spigot
++
++   private volatile SWMRNibbleArray[] blockNibbles;
++   private volatile SWMRNibbleArray[] skyNibbles;
++   private boolean[][] emptinessMap;
++
++   @Override
++   public SWMRNibbleArray[] getBlockNibbles() {
++      return this.blockNibbles;
++   }
++
++   @Override
++   public void setBlockNibbles(final SWMRNibbleArray[] nibbles) {
++      this.blockNibbles = nibbles;
++   }
++
++   @Override
++   public SWMRNibbleArray[] getSkyNibbles() {
++      return this.skyNibbles;
++   }
++
++   @Override
++   public void setSkyNibbles(final SWMRNibbleArray[] nibbles) {
++      this.skyNibbles = nibbles;
++   }
++
++   @Override
++   public boolean[][] getEmptinessMap() {
++      return this.emptinessMap;
++   }
 +
 +
     public Chunk(World p_i225780_1_, ChunkPos p_i225780_2_, BiomeContainer p_i225780_3_) {
@@ -88,6 +123,10 @@
  
 +      //ModcraftForge
 +      this.entitySlices = (List[]) (new List[16]);
++
++      this.blockNibbles = StarLightEngine.getFilledEmptyLight();
++      this.skyNibbles = StarLightEngine.getFilledEmptyLight();
++      this.emptinessMap = new boolean[9][];
 +
        for(Heightmap.Type heightmap$type : Heightmap.Type.values()) {
           if (ChunkStatus.field_222617_m.func_222595_h().contains(heightmap$type)) {
@@ -111,7 +150,7 @@
        this.field_76651_r = p_i225781_3_;
        this.field_201621_s = p_i225781_5_;
        this.field_205325_u = p_i225781_6_;
-@@ -118,7 +133,7 @@
+@@ -118,12 +170,16 @@
              field_150817_t.warn("Could not set level chunk sections, array length is {} instead of {}", p_i225781_9_.length, this.field_76652_q.length);
           }
        }
@@ -120,7 +159,16 @@
     }
  
     public Chunk(World p_i49947_1_, ChunkPrimer p_i49947_2_) {
-@@ -263,14 +278,14 @@
+       this(p_i49947_1_, p_i49947_2_.func_76632_l(), p_i49947_2_.func_225549_i_(), p_i49947_2_.func_196966_y(), p_i49947_2_.func_205218_i_(), p_i49947_2_.func_212247_j(), p_i49947_2_.func_177416_w(), p_i49947_2_.func_76587_i(), (Consumer<Chunk>)null);
+ 
++      this.setBlockNibbles(((ExtendedChunk)p_i49947_2_).getBlockNibbles());
++      this.setSkyNibbles(((ExtendedChunk)p_i49947_2_).getSkyNibbles());
++      this.emptinessMap = ((ExtendedChunk)p_i49947_2_).getEmptinessMap();
++
+       for(CompoundNBT compoundnbt : p_i49947_2_.func_201652_l()) {
+          EntityType.func_220335_a(compoundnbt, p_i49947_1_, (p_217325_1_) -> {
+             this.func_76612_a(p_217325_1_);
+@@ -263,14 +319,14 @@
  
           if (!this.field_76637_e.field_72995_K) {
              blockstate.func_196947_b(this.field_76637_e, p_177436_1_, p_177436_2_, p_177436_3_);
@@ -137,7 +185,7 @@
                 TileEntity tileentity = this.func_177424_a(p_177436_1_, Chunk.CreateEntityType.CHECK);
                 if (tileentity != null) {
                    tileentity.func_145836_u();
-@@ -281,10 +296,10 @@
+@@ -281,10 +337,10 @@
                 p_177436_2_.func_215705_a(this.field_76637_e, p_177436_1_, blockstate, p_177436_3_);
              }
  
@@ -150,7 +198,7 @@
                    this.field_76637_e.func_175690_a(p_177436_1_, tileentity1);
                 } else {
                    tileentity1.func_145836_u();
-@@ -316,15 +331,49 @@
+@@ -316,15 +372,49 @@
           k = 0;
        }
  
@@ -203,7 +251,7 @@
     }
  
     public void func_201607_a(Heightmap.Type p_201607_1_, long[] p_201607_2_) {
-@@ -340,11 +389,35 @@
+@@ -340,11 +430,35 @@
           p_76608_2_ = 0;
        }
  
@@ -242,7 +290,7 @@
     }
  
     public int func_201576_a(Heightmap.Type p_201576_1_, int p_201576_2_, int p_201576_3_) {
-@@ -355,7 +428,7 @@
+@@ -355,7 +469,7 @@
     private TileEntity func_177422_i(BlockPos p_177422_1_) {
        BlockState blockstate = this.func_180495_p(p_177422_1_);
        Block block = blockstate.func_177230_c();
@@ -251,7 +299,7 @@
     }
  
     @Nullable
-@@ -366,6 +439,10 @@
+@@ -366,6 +480,10 @@
     @Nullable
     public TileEntity func_177424_a(BlockPos p_177424_1_, Chunk.CreateEntityType p_177424_2_) {
        TileEntity tileentity = this.field_150816_i.get(p_177424_1_);
@@ -262,7 +310,7 @@
        if (tileentity == null) {
           CompoundNBT compoundnbt = this.field_201618_i.remove(p_177424_1_);
           if (compoundnbt != null) {
-@@ -381,9 +458,6 @@
+@@ -381,9 +499,6 @@
              tileentity = this.func_177422_i(p_177424_1_);
              this.field_76637_e.func_175690_a(p_177424_1_, tileentity);
           }
@@ -272,7 +320,7 @@
        }
  
        return tileentity;
-@@ -398,7 +472,7 @@
+@@ -398,7 +513,7 @@
     }
  
     public void func_177426_a(BlockPos p_177426_1_, TileEntity p_177426_2_) {
@@ -281,7 +329,7 @@
           p_177426_2_.func_226984_a_(this.field_76637_e, p_177426_1_);
           p_177426_2_.func_145829_t();
           TileEntity tileentity = this.field_150816_i.put(p_177426_1_.func_185334_h(), p_177426_2_);
-@@ -417,9 +491,14 @@
+@@ -417,9 +532,14 @@
     public CompoundNBT func_223134_j(BlockPos p_223134_1_) {
        TileEntity tileentity = this.func_175625_s(p_223134_1_);
        if (tileentity != null && !tileentity.func_145837_r()) {
@@ -296,7 +344,7 @@
        } else {
           CompoundNBT compoundnbt = this.field_201618_i.get(p_223134_1_);
           if (compoundnbt != null) {
-@@ -454,23 +533,60 @@
+@@ -454,23 +574,60 @@
     }
  
     public void func_177414_a(@Nullable Entity p_177414_1_, AxisAlignedBB p_177414_2_, List<Entity> p_177414_3_, @Nullable Predicate<? super Entity> p_177414_4_) {
@@ -369,7 +417,7 @@
                          }
                       }
                    }
-@@ -479,38 +595,109 @@
+@@ -479,38 +636,109 @@
           }
        }
  
@@ -489,7 +537,7 @@
     }
  
     public boolean func_76621_g() {
-@@ -531,6 +718,11 @@
+@@ -531,6 +759,11 @@
        };
        Sets.newHashSet(this.field_150816_i.keySet()).stream().filter(predicate).forEach(this.field_76637_e::func_175713_t);
  
@@ -501,7 +549,7 @@
        for(int i = 0; i < this.field_76652_q.length; ++i) {
           ChunkSection chunksection = this.field_76652_q[i];
           if ((p_227073_4_ & 1 << i) == 0) {
-@@ -584,8 +776,8 @@
+@@ -584,8 +817,8 @@
        return this.field_150816_i;
     }
  
@@ -512,7 +560,7 @@
     }
  
     public CompoundNBT func_201579_g(BlockPos p_201579_1_) {
-@@ -594,7 +786,7 @@
+@@ -594,7 +827,7 @@
  
     public Stream<BlockPos> func_217304_m() {
        return StreamSupport.stream(BlockPos.func_191531_b(this.field_212816_F.func_180334_c(), 0, this.field_212816_F.func_180333_d(), this.field_212816_F.func_180332_e(), 255, this.field_212816_F.func_180330_f()).spliterator(), false).filter((p_217312_1_) -> {
@@ -521,7 +569,7 @@
        });
     }
  
-@@ -699,9 +891,9 @@
+@@ -699,9 +932,9 @@
     private TileEntity func_212815_a(BlockPos p_212815_1_, CompoundNBT p_212815_2_) {
        TileEntity tileentity;
        if ("DUMMY".equals(p_212815_2_.func_74779_i("id"))) {
@@ -534,7 +582,7 @@
           } else {
              tileentity = null;
              field_150817_t.warn("Tried to load a DUMMY block entity @ {} but found not block entity block {} at location", p_212815_1_, this.func_180495_p(p_212815_1_));
-@@ -790,4 +982,30 @@
+@@ -790,4 +1023,28 @@
        QUEUED,
        CHECK;
     }
@@ -542,7 +590,6 @@
 +   /**
 +    * <strong>FOR INTERNAL USE ONLY</strong>
 +    * <p>
-+    * Only public for use in {@link AnvilChunkLoader}.
 +    */
 +   @java.lang.Deprecated
 +   @javax.annotation.Nullable
@@ -553,7 +600,6 @@
 +   /**
 +    * <strong>FOR INTERNAL USE ONLY</strong>
 +    * <p>
-+    * Only public for use in {@link AnvilChunkLoader}.
 +    */
 +   @java.lang.Deprecated
 +   public final void readCapsFromNBT(CompoundNBT tag) {

@@ -1,6 +1,22 @@
 --- a/net/minecraft/world/chunk/IChunk.java
 +++ b/net/minecraft/world/chunk/IChunk.java
-@@ -151,4 +151,9 @@
+@@ -1,5 +1,6 @@
+ package net.minecraft.world.chunk;
+ 
++import ca.starlight.common.chunk.ExtendedChunk;
+ import it.unimi.dsi.fastutil.shorts.ShortArrayList;
+ import it.unimi.dsi.fastutil.shorts.ShortList;
+ import java.util.BitSet;
+@@ -28,7 +29,7 @@
+ import net.minecraft.world.gen.feature.structure.StructureStart;
+ import org.apache.logging.log4j.LogManager;
+ 
+-public interface IChunk extends IBlockReader, IStructureReader {
++public interface IChunk extends IBlockReader, IStructureReader, ExtendedChunk {
+    @Nullable
+    BlockState func_177436_a(BlockPos p_177436_1_, BlockState p_177436_2_, boolean p_177436_3_);
+ 
+@@ -151,4 +152,9 @@
     boolean func_217310_r();
  
     void func_217305_b(boolean p_217305_1_);

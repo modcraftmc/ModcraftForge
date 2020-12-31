@@ -1,0 +1,47 @@
+--- a/net/minecraft/world/chunk/EmptyChunk.java
++++ b/net/minecraft/world/chunk/EmptyChunk.java
+@@ -4,6 +4,10 @@
+ import java.util.List;
+ import java.util.function.Predicate;
+ import javax.annotation.Nullable;
++
++import ca.starlight.common.chunk.ExtendedChunk;
++import ca.starlight.common.light.SWMRNibbleArray;
++import ca.starlight.common.light.StarLightEngine;
+ import net.minecraft.block.BlockState;
+ import net.minecraft.block.Blocks;
+ import net.minecraft.entity.Entity;
+@@ -21,11 +25,32 @@
+ import net.minecraft.world.lighting.WorldLightManager;
+ import net.minecraft.world.server.ChunkHolder;
+ 
+-public class EmptyChunk extends Chunk {
++public class EmptyChunk extends Chunk implements IChunk, ExtendedChunk {
+    private static final Biome[] field_201623_e = Util.func_200696_a(new Biome[BiomeContainer.field_227049_a_], (p_203406_0_) -> {
+       Arrays.fill(p_203406_0_, Biomes.field_76772_c);
+    });
+ 
++   @Override
++   public SWMRNibbleArray[] getBlockNibbles() {
++      return StarLightEngine.getFilledEmptyLight();
++   }
++
++   @Override
++   public void setBlockNibbles(final SWMRNibbleArray[] nibbles) {}
++
++   @Override
++   public SWMRNibbleArray[] getSkyNibbles() {
++      return StarLightEngine.getFilledEmptyLight();
++   }
++
++   @Override
++   public void setSkyNibbles(final SWMRNibbleArray[] nibbles) {}
++
++   @Override
++   public boolean[][] getEmptinessMap() {
++      return new boolean[9][];
++   }
++
+    public EmptyChunk(World p_i49950_1_, ChunkPos p_i49950_2_) {
+       super(p_i49950_1_, p_i49950_2_, new BiomeContainer(field_201623_e));
+    }

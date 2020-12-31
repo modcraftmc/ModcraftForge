@@ -1,6 +1,48 @@
 --- a/net/minecraft/client/world/ClientWorld.java
 +++ b/net/minecraft/client/world/ClientWorld.java
-@@ -103,6 +103,8 @@
+@@ -1,5 +1,7 @@
+ package net.minecraft.client.world;
+ 
++import ca.starlight.common.chunk.ExtendedChunk;
++import ca.starlight.common.world.ExtendedWorld;
+ import com.google.common.collect.Iterables;
+ import com.google.common.collect.Lists;
+ import com.google.common.collect.Maps;
+@@ -69,6 +71,7 @@
+ import net.minecraft.world.biome.Biomes;
+ import net.minecraft.world.chunk.Chunk;
+ import net.minecraft.world.chunk.ChunkStatus;
++import net.minecraft.world.chunk.IChunk;
+ import net.minecraft.world.dimension.DimensionType;
+ import net.minecraft.world.level.ColorResolver;
+ import net.minecraft.world.storage.MapData;
+@@ -77,7 +80,7 @@
+ import net.minecraftforge.api.distmarker.OnlyIn;
+ 
+ @OnlyIn(Dist.CLIENT)
+-public class ClientWorld extends World {
++public class ClientWorld extends World implements ExtendedWorld {
+    private final List<Entity> field_217428_a = Lists.newArrayList();
+    private final Int2ObjectMap<Entity> field_217429_b = new Int2ObjectOpenHashMap<>();
+    private final ClientPlayNetHandler field_73035_a;
+@@ -94,6 +97,16 @@
+       p_228319_0_.put(BiomeColors.field_180290_c, new ColorCache());
+    });
+ 
++   @Override
++   public final Chunk getChunkAtImmediately(final int chunkX, final int chunkZ) {
++      return this.func_72863_F().func_217205_a(chunkX, chunkZ, false);
++   }
++
++   @Override
++   public final IChunk getAnyChunkImmediately(int chunkX, int chunkZ) {
++      return this.func_72863_F().func_217205_a(chunkX, chunkZ, false);
++   }
++
+    public ClientWorld(ClientPlayNetHandler p_i51056_1_, WorldSettings p_i51056_2_, DimensionType p_i51056_3_, int p_i51056_4_, IProfiler p_i51056_5_, WorldRenderer p_i51056_6_) {
+       super(new WorldInfo(p_i51056_2_, "MpServer"), p_i51056_3_, (p_228317_1_, p_228317_2_) -> {
+          return new ClientChunkProvider((ClientWorld)p_228317_1_, p_i51056_4_);
+@@ -103,6 +116,8 @@
        this.func_175652_B(new BlockPos(8, 64, 8));
        this.func_72966_v();
        this.func_72947_a();
@@ -9,7 +51,7 @@
     }
  
     public void func_72835_b(BooleanSupplier p_72835_1_) {
-@@ -127,6 +129,7 @@
+@@ -127,6 +142,7 @@
           Entity entity = this.field_217428_a.get(i);
           this.func_217390_a((p_228325_0_) -> {
              ++p_228325_0_.field_70173_aa;
@@ -17,7 +59,7 @@
              p_228325_0_.func_70071_h_();
           }, entity);
           if (entity.field_70128_L) {
-@@ -172,6 +175,7 @@
+@@ -172,6 +188,7 @@
              this.func_217381_Z().func_194340_a(() -> {
                 return Registry.field_212629_r.func_177774_c(p_217418_1_.func_200600_R()).toString();
              });
@@ -25,7 +67,7 @@
              p_217418_1_.func_70071_h_();
              this.func_217381_Z().func_76319_b();
           }
-@@ -289,9 +293,11 @@
+@@ -289,9 +306,11 @@
     }
  
     private void func_217424_b(int p_217424_1_, Entity p_217424_2_) {
@@ -37,7 +79,7 @@
     }
  
     public void func_217413_d(int p_217413_1_) {
-@@ -310,6 +316,7 @@
+@@ -310,6 +329,7 @@
        }
  
        this.field_217431_w.remove(p_217414_1_);
@@ -45,7 +87,7 @@
     }
  
     public void func_217417_b(Chunk p_217417_1_) {
-@@ -443,6 +450,11 @@
+@@ -443,6 +463,11 @@
     }
  
     public void func_184148_a(@Nullable PlayerEntity p_184148_1_, double p_184148_2_, double p_184148_4_, double p_184148_6_, SoundEvent p_184148_8_, SoundCategory p_184148_9_, float p_184148_10_, float p_184148_11_) {
@@ -57,7 +99,7 @@
        if (p_184148_1_ == this.field_73037_M.field_71439_g) {
           this.func_184134_a(p_184148_2_, p_184148_4_, p_184148_6_, p_184148_8_, p_184148_9_, p_184148_10_, p_184148_11_, false);
        }
-@@ -450,6 +462,11 @@
+@@ -450,6 +475,11 @@
     }
  
     public void func_217384_a(@Nullable PlayerEntity p_217384_1_, Entity p_217384_2_, SoundEvent p_217384_3_, SoundCategory p_217384_4_, float p_217384_5_, float p_217384_6_) {
