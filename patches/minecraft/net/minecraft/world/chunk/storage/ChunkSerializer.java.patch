@@ -51,6 +51,7 @@
              chunkprimer1.func_205767_a(generationstage$carving, BitSet.valueOf(compoundnbt5.func_74770_j(s1)));
           }
  
+-         return chunkprimer1;
 +         net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.world.ChunkDataEvent.Load(ichunk, compoundnbt, chunkstatus$type));
 +
 +
@@ -100,7 +101,7 @@
 +         ((ExtendedChunk)ret).setBlockNibbles(blockNibbles);
 +         ((ExtendedChunk)ret).setSkyNibbles(skyNibbles);
 +
-          return chunkprimer1;
++         return ret;
        }
     }
  
@@ -138,10 +139,11 @@
        } else {
           ChunkPrimer chunkprimer = (ChunkPrimer)p_222645_1_;
           listnbt2.addAll(chunkprimer.func_201652_l());
-@@ -343,6 +415,89 @@
+@@ -343,7 +415,90 @@
  
        compoundnbt1.func_218657_a("Heightmaps", compoundnbt6);
        compoundnbt1.func_218657_a("Structures", func_222649_a(chunkpos, p_222645_1_.func_201609_c(), p_222645_1_.func_201604_d()));
+-      return compoundnbt;
 +
 +
 +
@@ -225,6 +227,7 @@
 +      }
 +      level.func_218657_a("Sections", sectionsStored);
 +
-       return compoundnbt;
++      return ret;
     }
  
+    public static ChunkStatus.Type func_222651_a(@Nullable CompoundNBT p_222651_0_) {
