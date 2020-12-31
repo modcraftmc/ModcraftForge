@@ -1,6 +1,26 @@
 --- a/net/minecraft/entity/player/ServerPlayerEntity.java
 +++ b/net/minecraft/entity/player/ServerPlayerEntity.java
-@@ -432,6 +432,7 @@
+@@ -207,6 +207,19 @@
+ 
+    }
+ 
++   public long timeOffset = 0;
++   public boolean relativeTime = true;
++
++   public long getPlayerTime() {
++      if (this.relativeTime) {
++         // Adds timeOffset to the current server time.
++         return this.field_70170_p.func_72820_D() + this.timeOffset;
++      } else {
++         // Adds timeOffset to the beginning of this day.
++         return this.field_70170_p.func_72820_D() - (this.field_70170_p.func_72820_D() % 24000) + this.timeOffset;
++      }
++   }
++
+    private int func_205735_q(int p_205735_1_) {
+       return p_205735_1_ <= 16 ? p_205735_1_ - 1 : 17;
+    }
+@@ -432,6 +445,7 @@
     }
  
     public void func_70645_a(DamageSource p_70645_1_) {
@@ -8,7 +28,7 @@
        boolean flag = this.field_70170_p.func_82736_K().func_223586_b(GameRules.field_223609_l);
        if (flag) {
           ITextComponent itextcomponent = this.func_110142_aN().func_151521_b();
-@@ -550,13 +551,15 @@
+@@ -550,13 +564,15 @@
        return this.field_71133_b.func_71219_W();
     }
  
@@ -27,7 +47,7 @@
           if (!this.field_71136_j) {
              this.field_71136_j = true;
              this.field_71135_a.func_147359_a(new SChangeGameStatePacket(4, this.field_192040_cp ? 0.0F : 1.0F));
-@@ -569,12 +572,14 @@
+@@ -569,12 +585,14 @@
           this.field_71093_bK = p_212321_1_;
           ServerWorld serverworld1 = this.field_71133_b.func_71218_a(p_212321_1_);
           WorldInfo worldinfo = serverworld1.func_72912_H();
@@ -44,7 +64,7 @@
           double d0 = this.func_226277_ct_();
           double d1 = this.func_226278_cu_();
           double d2 = this.func_226281_cx_();
-@@ -583,13 +588,11 @@
+@@ -583,13 +601,11 @@
           double d3 = 8.0D;
           float f2 = f1;
           serverworld.func_217381_Z().func_76320_a("moving");
@@ -61,7 +81,7 @@
           } else if (dimensiontype == DimensionType.field_223227_a_ && p_212321_1_ == DimensionType.field_223229_c_) {
              BlockPos blockpos = serverworld1.func_180504_m();
              d0 = (double)blockpos.func_177958_n();
-@@ -630,7 +633,7 @@
+@@ -630,7 +646,7 @@
  
              this.func_70012_b((double)i, (double)j, (double)k, f1, 0.0F);
              this.func_213317_d(Vec3d.field_186680_a);
@@ -70,7 +90,7 @@
              serverworld1.func_85176_s().func_85188_a(this);
              serverworld1.func_85176_s().func_222268_a(this, f2);
           }
-@@ -640,6 +643,9 @@
+@@ -640,6 +656,9 @@
           serverworld1.func_217447_b(this);
           this.func_213846_b(serverworld);
           this.field_71135_a.func_147364_a(this.func_226277_ct_(), this.func_226278_cu_(), this.func_226281_cx_(), f1, f);
@@ -80,7 +100,7 @@
           this.field_71134_c.func_73080_a(serverworld1);
           this.field_71135_a.func_147359_a(new SPlayerAbilitiesPacket(this.field_71075_bZ));
           playerlist.func_72354_b(this, serverworld1);
-@@ -653,6 +659,7 @@
+@@ -653,6 +672,7 @@
           this.field_71144_ck = -1;
           this.field_71149_ch = -1.0F;
           this.field_71146_ci = -1;
@@ -88,7 +108,7 @@
           return this;
        }
     }
-@@ -788,6 +795,7 @@
+@@ -788,6 +808,7 @@
              this.field_71135_a.func_147359_a(new SOpenWindowPacket(container.field_75152_c, container.func_216957_a(), p_213829_1_.func_145748_c_()));
              container.func_75132_a(this);
              this.field_71070_bA = container;
@@ -96,7 +116,7 @@
              return OptionalInt.of(this.field_71139_cq);
           }
        }
-@@ -806,6 +814,7 @@
+@@ -806,6 +827,7 @@
        this.field_71135_a.func_147359_a(new SOpenHorseWindowPacket(this.field_71139_cq, p_184826_2_.func_70302_i_(), p_184826_1_.func_145782_y()));
        this.field_71070_bA = new HorseInventoryContainer(this.field_71139_cq, this.field_71071_by, p_184826_2_, p_184826_1_);
        this.field_71070_bA.func_75132_a(this);
@@ -104,7 +124,7 @@
     }
  
     public void func_184814_a(ItemStack p_184814_1_, Hand p_184814_2_) {
-@@ -863,6 +872,7 @@
+@@ -863,6 +885,7 @@
  
     public void func_71128_l() {
        this.field_71070_bA.func_75134_a(this);
@@ -112,7 +132,7 @@
        this.field_71070_bA = this.field_71069_bz;
     }
  
-@@ -989,6 +999,20 @@
+@@ -989,6 +1012,20 @@
        this.field_193110_cw = p_193104_1_.field_193110_cw;
        this.func_192029_h(p_193104_1_.func_192023_dk());
        this.func_192031_i(p_193104_1_.func_192025_dl());
@@ -133,7 +153,7 @@
     }
  
     protected void func_70670_a(EffectInstance p_70670_1_) {
-@@ -1207,15 +1231,17 @@
+@@ -1207,15 +1244,17 @@
        this.func_184210_p();
        if (p_200619_1_ == this.field_70170_p) {
           this.field_71135_a.func_147364_a(p_200619_2_, p_200619_4_, p_200619_6_, p_200619_8_, p_200619_9_);
@@ -154,7 +174,7 @@
           this.func_70012_b(p_200619_2_, p_200619_4_, p_200619_6_, p_200619_8_, p_200619_9_);
           this.func_70029_a(p_200619_1_);
           p_200619_1_.func_217446_a(this);
-@@ -1224,6 +1250,7 @@
+@@ -1224,6 +1263,7 @@
           this.field_71134_c.func_73080_a(p_200619_1_);
           this.field_71133_b.func_184103_al().func_72354_b(this, p_200619_1_);
           this.field_71133_b.func_184103_al().func_72385_f(this);
@@ -162,7 +182,7 @@
        }
  
     }
-@@ -1261,6 +1288,8 @@
+@@ -1261,6 +1301,8 @@
        if (itementity == null) {
           return null;
        } else {

@@ -468,7 +468,17 @@
        return this.func_208016_c(itextcomponent);
     }
  
-@@ -2029,4 +2158,53 @@
+@@ -2005,7 +2134,8 @@
+       return super.func_213357_a(p_213357_1_, p_213357_2_);
+    }
+ 
+-   public static enum SleepResult {
++
++    public static enum SleepResult {
+       NOT_POSSIBLE_HERE,
+       NOT_POSSIBLE_NOW(new TranslationTextComponent("block.minecraft.bed.no_sleep")),
+       TOO_FAR_AWAY(new TranslationTextComponent("block.minecraft.bed.too_far_away")),
+@@ -2029,4 +2159,53 @@
           return this.field_221260_g;
        }
     }

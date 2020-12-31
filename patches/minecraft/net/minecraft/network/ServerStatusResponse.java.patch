@@ -1,8 +1,11 @@
 --- a/net/minecraft/network/ServerStatusResponse.java
 +++ b/net/minecraft/network/ServerStatusResponse.java
-@@ -19,13 +19,24 @@
+@@ -17,15 +17,26 @@
+ public class ServerStatusResponse {
+    private ITextComponent field_151326_a;
     private ServerStatusResponse.Players field_151324_b;
-    private ServerStatusResponse.Version field_151325_c;
+-   private ServerStatusResponse.Version field_151325_c;
++   private ServerStatusResponse.Version field_151325_c = new Version("Server is starting...", 0);
     private String field_151323_d;
 +   private transient net.minecraftforge.fml.network.FMLStatusPing forgeData;
  
