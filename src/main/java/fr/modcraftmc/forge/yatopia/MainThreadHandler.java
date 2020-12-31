@@ -1,4 +1,4 @@
-package org.yatopiamc.yatopia.server.util;
+package fr.modcraftmc.forge.yatopia;
 
 public class MainThreadHandler {
 
