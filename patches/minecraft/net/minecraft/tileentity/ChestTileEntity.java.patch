@@ -8,18 +8,16 @@
  
     protected ChestTileEntity(TileEntityType<?> p_i48287_1_) {
        super(p_i48287_1_);
-@@ -74,6 +75,10 @@
+@@ -74,6 +75,8 @@
     }
  
     public void func_73660_a() {
 +
 +      if (!field_145850_b.func_201670_d()) return;
-+      System.out.println("Ticking chest");
-+
        int i = this.field_174879_c.func_177958_n();
        int j = this.field_174879_c.func_177956_o();
        int k = this.field_174879_c.func_177952_p();
-@@ -106,9 +111,38 @@
+@@ -106,9 +109,38 @@
              this.field_145989_m = 0.0F;
           }
        }
@@ -58,7 +56,7 @@
     public static int func_213977_a(World p_213977_0_, LockableTileEntity p_213977_1_, int p_213977_2_, int p_213977_3_, int p_213977_4_, int p_213977_5_, int p_213977_6_) {
        if (!p_213977_0_.field_72995_K && p_213977_6_ != 0 && (p_213977_2_ + p_213977_3_ + p_213977_4_ + p_213977_5_) % 200 == 0) {
           p_213977_6_ = func_213976_a(p_213977_0_, p_213977_1_, p_213977_3_, p_213977_4_, p_213977_5_);
-@@ -165,14 +199,17 @@
+@@ -165,14 +197,17 @@
           }
  
           ++this.field_145987_o;
@@ -77,7 +75,7 @@
           this.func_195482_p();
        }
  
-@@ -202,7 +239,7 @@
+@@ -202,7 +237,7 @@
  
     public static int func_195481_a(IBlockReader p_195481_0_, BlockPos p_195481_1_) {
        BlockState blockstate = p_195481_0_.func_180495_p(p_195481_1_);
@@ -86,7 +84,7 @@
           TileEntity tileentity = p_195481_0_.func_175625_s(p_195481_1_);
           if (tileentity instanceof ChestTileEntity) {
              return ((ChestTileEntity)tileentity).field_145987_o;
-@@ -221,4 +258,39 @@
+@@ -221,4 +256,39 @@
     protected Container func_213906_a(int p_213906_1_, PlayerInventory p_213906_2_) {
        return ChestContainer.func_216992_a(p_213906_1_, p_213906_2_, this);
     }

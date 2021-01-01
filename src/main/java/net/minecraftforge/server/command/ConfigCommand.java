@@ -33,6 +33,8 @@ import net.minecraftforge.fml.config.ModConfig;
 
 import java.io.File;
 
+
+
 public class ConfigCommand {
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
         dispatcher.register(
@@ -45,10 +47,12 @@ public class ConfigCommand {
         static ArgumentBuilder<CommandSource, ?> register() {
             return Commands.literal("showfile").
                     requires(cs->cs.hasPermissionLevel(0)).
-                    then(Commands.argument("mod", ModIdArgument.modIdArgument()).
-                        then(Commands.argument("type", EnumArgument.enumArgument(ModConfig.Type.class)).
+                    then(Commands.argument("mod", ModIdArgument.modIdArgument())
+                       /* then(Commands.argument("type", enumArgument(ModConfig.Type.class)).
                             executes(ShowFile::showFile)
                         )
+
+                        */
                     );
         }
 

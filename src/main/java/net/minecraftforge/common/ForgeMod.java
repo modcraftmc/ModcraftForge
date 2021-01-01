@@ -19,6 +19,7 @@
 
 package net.minecraftforge.common;
 
+import fr.modcraftmc.forge.commands.ModcraftCommand;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -135,7 +136,8 @@ public class ForgeMod implements WorldPersistenceHooks.WorldPersistenceHook
     public void serverStarting(FMLServerStartingEvent evt)
     {
         new ForgeCommand(evt.getCommandDispatcher());
-        ConfigCommand.register(evt.getCommandDispatcher());
+        //ConfigCommand.register(evt.getCommandDispatcher());
+        ModcraftCommand.register(evt.getCommandDispatcher());
     }
 
     public void serverStopping(FMLServerStoppingEvent evt)

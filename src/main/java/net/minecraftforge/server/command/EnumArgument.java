@@ -17,8 +17,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+/*
 package net.minecraftforge.server.command;
 
+import com.google.gson.JsonObject;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -26,6 +28,9 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.command.ISuggestionProvider;
+import net.minecraft.command.arguments.IArgumentSerializer;
+import net.minecraft.network.PacketBuffer;
+
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -56,16 +61,19 @@ public class EnumArgument<T extends Enum<T>> implements ArgumentType<T> {
         return Stream.of(enumClass.getEnumConstants()).map(Object::toString).collect(Collectors.toList());
     }
 
-    /* JAVAC HATES RAW TYPES!
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public static class Serialzier implements IArgumentSerializer<EnumArgument> {
+    public Serialzier getSerializer() {
+        return new Serialzier();
+    }
+
+    public class Serialzier implements IArgumentSerializer<EnumArgument<T>> {
+
         @Override
         public void write(EnumArgument argument, PacketBuffer buffer) {
             buffer.writeString(argument.enumClass.getName());
         }
 
         @Override
-        public EnumArgument<?> read(PacketBuffer buffer) {
+        public EnumArgument<T> read(PacketBuffer buffer) {
             try {
                 String name = buffer.readString();
                 return new EnumArgument(Class.forName(name));
@@ -79,5 +87,7 @@ public class EnumArgument<T extends Enum<T>> implements ArgumentType<T> {
             json.addProperty("enum", argument.enumClass.getName());
         }
     }
-    */
+
 }
+
+ */
