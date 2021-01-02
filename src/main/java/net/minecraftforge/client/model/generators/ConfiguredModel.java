@@ -166,7 +166,7 @@ public final class ConfiguredModel {
         return new Builder<>();
     }
 
-    static Builder<VariantBlockStateBuilder> builder(VariantBlockStateBuilder outer, VariantBlockStateBuilder.PartialBlockstate state) {
+    static Builder<VariantBlockStateBuilder> builder(VariantBlockStateBuilder outer, PartialBlockstate state) {
         return new Builder<>(models -> outer.setModels(state, models), ImmutableList.of());
     }
 

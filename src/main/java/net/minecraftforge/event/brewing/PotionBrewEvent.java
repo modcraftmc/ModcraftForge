@@ -67,7 +67,7 @@ public class PotionBrewEvent extends Event
      * <br>
      * {@link #stacks} contains the itemstack array from the TileEntityBrewer holding all items in Brewer.<br>
      * <br>
-     * This event is {@link net.minecraftforge.eventbus.api.Cancelable}.<br>
+     * This event is {@link Cancelable}.<br>
      * If the event is not canceled, the vanilla brewing will take place instead of modded brewing.
      * <br>
      * This event does not have a result. {@link HasResult}<br>
@@ -76,7 +76,7 @@ public class PotionBrewEvent extends Event
      * <br>
      * If this event is canceled, and items have been modified, PotionBrewEvent.Post will automatically be fired.
      **/
-    @net.minecraftforge.eventbus.api.Cancelable
+    @Cancelable
     public static class Pre extends PotionBrewEvent
     {
         public Pre(NonNullList<ItemStack> stacks)
@@ -92,7 +92,7 @@ public class PotionBrewEvent extends Event
      * <br>
      * {@link #stacks} contains the itemstack array from the TileEntityBrewer holding all items in Brewer.<br>
      * <br>
-     * This event is not {@link net.minecraftforge.eventbus.api.Cancelable}.<br>
+     * This event is not {@link Cancelable}.<br>
      * <br>
      * This event does not have a result. {@link HasResult}<br>
      * <br>

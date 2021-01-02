@@ -1,0 +1,18 @@
+--- a/net/minecraft/util/palette/IPalette.java
++++ b/net/minecraft/util/palette/IPalette.java
+@@ -6,11 +6,15 @@
+ import net.minecraftforge.api.distmarker.Dist;
+ import net.minecraftforge.api.distmarker.OnlyIn;
+ 
++import java.util.function.Predicate;
++
+ public interface IPalette<T> {
+    int func_186041_a(T p_186041_1_);
+ 
+    boolean func_222626_b(T p_222626_1_);
++   boolean accepts(Predicate<T> predicate);
+ 
++
+    @Nullable
+    T func_186039_a(int p_186039_1_);
+ 

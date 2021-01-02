@@ -35,7 +35,7 @@ import javax.annotation.Nonnull;
  * {@link #bow} contains the ItemBow ItemStack that was used in this event.<br>
  * {@link #charge} contains the value for how much the player had charged before stopping the shot.<br>
  * <br>
- * This event is {@link net.minecraftforge.eventbus.api.Cancelable}.<br>
+ * This event is {@link Cancelable}.<br>
  * If this event is canceled, the player does not stop using the bow.<br>
  * <br>
  * This event does not have a result. {@link HasResult}<br>

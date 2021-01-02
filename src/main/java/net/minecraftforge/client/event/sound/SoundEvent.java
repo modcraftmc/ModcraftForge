@@ -24,7 +24,7 @@ import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.SoundEngine;
 import net.minecraft.client.audio.SoundSource;
 
-public class SoundEvent extends net.minecraftforge.eventbus.api.Event
+public class SoundEvent extends Event
 {
     private final SoundEngine manager;
     public SoundEvent(SoundEngine manager)

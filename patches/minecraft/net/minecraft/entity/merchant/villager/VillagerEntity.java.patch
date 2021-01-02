@@ -1,6 +1,31 @@
 --- a/net/minecraft/entity/merchant/villager/VillagerEntity.java
 +++ b/net/minecraft/entity/merchant/villager/VillagerEntity.java
-@@ -228,7 +228,7 @@
+@@ -5,6 +5,7 @@
+ import com.google.common.collect.ImmutableSet;
+ import com.mojang.datafixers.Dynamic;
+ import com.mojang.datafixers.util.Pair;
++import fr.modcraftmc.forge.config.ModcraftConfig;
+ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+ import java.util.List;
+ import java.util.Map;
+@@ -112,6 +113,16 @@
+       this(p_i50182_1_, p_i50182_2_, IVillagerType.field_221175_c);
+    }
+ 
++   @Override
++   public void inactiveTick() {
++
++      if (ModcraftConfig.isTickInactiveVillagers() && this.func_70613_aW()) {
++         this.func_70619_bc();
++      }
++
++      super.inactiveTick();
++   }
++
+    public VillagerEntity(EntityType<? extends VillagerEntity> p_i50183_1_, World p_i50183_2_, IVillagerType p_i50183_3_) {
+       super(p_i50183_1_, p_i50183_2_);
+       ((GroundPathNavigator)this.func_70661_as()).func_179688_b(true);
+@@ -228,7 +239,7 @@
        if (flag) {
           itemstack.func_111282_a(p_184645_1_, this, p_184645_2_);
           return true;
@@ -9,7 +34,7 @@
           if (this.func_70631_g_()) {
              this.func_213756_es();
              return super.func_184645_a(p_184645_1_, p_184645_2_);
-@@ -607,7 +607,8 @@
+@@ -607,7 +618,8 @@
     }
  
     protected ITextComponent func_225513_by_() {

@@ -21,6 +21,7 @@ package net.minecraftforge.fml.server;
 
 import static net.minecraftforge.fml.Logging.CORE;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -75,9 +76,12 @@ public class ServerLifecycleHooks
 
     private static Path getServerConfigPath(final MinecraftServer server)
     {
-        final Path serverConfig = server.getActiveAnvilConverter().getFile(server.getFolderName(), "serverconfig").toPath();
+        /*final Path serverConfig = server.getActiveAnvilConverter().getFile(server.getFolderName(), "serverconfig").toPath();
         FileUtils.getOrCreateDirectory(serverConfig, "serverconfig");
-        return serverConfig;
+         */
+        File serverConfig = new File("serverconfig");
+        serverConfig.mkdirs();
+        return serverConfig.toPath();
     }
 
     public static boolean handleServerAboutToStart(final MinecraftServer server)
@@ -126,6 +130,7 @@ public class ServerLifecycleHooks
             exitLatch = null;
         }
         ConfigTracker.INSTANCE.unloadConfigs(ModConfig.Type.SERVER, getServerConfigPath(server));
+        LOGGER.info("stopped!");
     }
 
     public static MinecraftServer getCurrentServer()

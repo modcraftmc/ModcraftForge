@@ -35,7 +35,7 @@ import java.util.Optional;
  * <br>
  * {@link #result} contains whether the player is able to sleep. <br>
  * <br>
- * This event is not {@link net.minecraftforge.eventbus.api.Cancelable}.
+ * This event is not {@link Cancelable}.
  * <br>
  * This event does not have a result. {@link HasResult}
  * <br>

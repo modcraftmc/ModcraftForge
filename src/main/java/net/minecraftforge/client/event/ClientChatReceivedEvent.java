@@ -24,8 +24,8 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 
-@net.minecraftforge.eventbus.api.Cancelable
-public class ClientChatReceivedEvent extends net.minecraftforge.eventbus.api.Event
+@Cancelable
+public class ClientChatReceivedEvent extends Event
 {
     private ITextComponent message;
     private final ChatType type;

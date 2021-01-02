@@ -47,7 +47,7 @@ import net.minecraft.util.SoundEvent;
  * <br>
  * This event is fired on the {@link MinecraftForge#EVENT_BUS}.<br>
  **/
-@net.minecraftforge.eventbus.api.Cancelable
+@Cancelable
 public class PlaySoundAtEntityEvent extends EntityEvent
 {
     private SoundEvent name;

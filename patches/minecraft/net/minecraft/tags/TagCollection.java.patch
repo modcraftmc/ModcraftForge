@@ -1,6 +1,24 @@
 --- a/net/minecraft/tags/TagCollection.java
 +++ b/net/minecraft/tags/TagCollection.java
-@@ -154,4 +154,8 @@
+@@ -22,6 +22,8 @@
+ import java.util.concurrent.Executor;
+ import java.util.function.Function;
+ import javax.annotation.Nullable;
++
++import fr.modcraftmc.forge.config.ModcraftConfig;
+ import net.minecraft.resources.IResource;
+ import net.minecraft.resources.IResourceManager;
+ import net.minecraft.util.JSONUtils;
+@@ -101,7 +103,7 @@
+                         }).func_219783_a(this.field_200040_e, jsonobject);
+                      }
+                   } catch (RuntimeException | IOException ioexception) {
+-                     field_199918_a.error("Couldn't read {} tag list {} from {} in data pack {}", this.field_200157_i, resourcelocation1, resourcelocation, iresource.func_199026_d(), ioexception);
++                     if (ModcraftConfig.isShowTagCollectionError()) field_199918_a.error("Couldn't read {} tag list {} from {} in data pack {}", this.field_200157_i, resourcelocation1, resourcelocation, iresource.func_199026_d(), ioexception);
+                   } finally {
+                      IOUtils.closeQuietly((Closeable)iresource);
+                   }
+@@ -154,4 +156,8 @@
     public Map<ResourceLocation, Tag<T>> func_200039_c() {
        return this.field_199921_d;
     }

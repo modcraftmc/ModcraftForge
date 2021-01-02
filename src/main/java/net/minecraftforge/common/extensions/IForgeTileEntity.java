@@ -99,7 +99,7 @@ public interface IForgeTileEntity extends ICapabilitySerializable<CompoundNBT>
      /**
       * Sometimes default render bounding box: infinite in scope. Used to control rendering on {@link TileEntitySpecialRenderer}.
       */
-     public static final AxisAlignedBB INFINITE_EXTENT_AABB = new net.minecraft.util.math.AxisAlignedBB(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+     public static final AxisAlignedBB INFINITE_EXTENT_AABB = new AxisAlignedBB(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 
      /**
       * Return an {@link AxisAlignedBB} that controls the visible scope of a {@link TileEntitySpecialRenderer} associated with this {@link TileEntity}
@@ -142,7 +142,7 @@ public interface IForgeTileEntity extends ICapabilitySerializable<CompoundNBT>
                  // So, once again in the long line of US having to accommodate BUKKIT breaking things,
                  // here it is, assume that the TE is only 1 cubic block. Problem with this is that it may
                  // cause the TileEntity renderer to error further down the line! But alas, nothing we can do.
-                 cbb = new net.minecraft.util.math.AxisAlignedBB(pos.add(-1, 0, -1), pos.add(1, 1, 1));
+                 cbb = new AxisAlignedBB(pos.add(-1, 0, -1), pos.add(1, 1, 1));
              }
              if (cbb != null) bb = cbb;
          }

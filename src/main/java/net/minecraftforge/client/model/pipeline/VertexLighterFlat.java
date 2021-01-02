@@ -238,7 +238,7 @@ public class VertexLighterFlat extends QuadGatheringTransformer
                         parent.put(e, position[v]);
                         break;
                     case NORMAL:
-                        final net.minecraft.client.renderer.Vector3f norm = new net.minecraft.client.renderer.Vector3f(normal[v]);
+                        final Vector3f norm = new Vector3f(normal[v]);
                         norm.transform(pose.getNormal());
 
                         normal[v][0] = norm.getX();

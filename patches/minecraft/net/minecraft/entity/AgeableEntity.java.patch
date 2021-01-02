@@ -1,0 +1,36 @@
+--- a/net/minecraft/entity/AgeableEntity.java
++++ b/net/minecraft/entity/AgeableEntity.java
+@@ -20,11 +20,33 @@
+    protected int field_175504_a;
+    protected int field_175502_b;
+    protected int field_175503_c;
++   public boolean ageLocked; // CraftBukkit
+ 
+    protected AgeableEntity(EntityType<? extends AgeableEntity> p_i48581_1_, World p_i48581_2_) {
+       super(p_i48581_1_, p_i48581_2_);
+    }
+ 
++
++   @Override
++   public void inactiveTick() {
++      super.inactiveTick();
++
++      if (this.field_70170_p.field_72995_K || this.ageLocked) {
++
++         this.func_213323_x_();
++      } else {
++         int age = this.func_70874_b();
++
++         if (age < 0) {
++            age++;
++            this.func_70873_a(age);
++         } else if (age > 0) {
++            age--;
++            this.func_70873_a(age);
++         }
++      }
++   }
++
+    public ILivingEntityData func_213386_a(IWorld p_213386_1_, DifficultyInstance p_213386_2_, SpawnReason p_213386_3_, @Nullable ILivingEntityData p_213386_4_, @Nullable CompoundNBT p_213386_5_) {
+       if (p_213386_4_ == null) {
+          p_213386_4_ = new AgeableEntity.AgeableData();

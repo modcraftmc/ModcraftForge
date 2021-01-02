@@ -79,7 +79,7 @@
     public boolean func_220340_m() {
 +      return velocityUpdateSupplier.test(this);
 +   }
-+   private boolean defaultVelocitySupplier() {
++   public boolean defaultVelocitySupplier() {
        return this != field_200729_aH && this != field_200770_J && this != field_200760_az && this != field_200791_e && this != field_200766_F && this != field_200768_H && this != field_200782_V && this != field_200801_o && this != field_200805_s;
     }
  

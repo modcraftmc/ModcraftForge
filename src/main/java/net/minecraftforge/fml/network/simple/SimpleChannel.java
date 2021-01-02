@@ -135,7 +135,7 @@ public class SimpleChannel
     }
 
     /**
-     * Build a new MessageBuilder. The type should implement {@link java.util.function.IntSupplier} if it is a login
+     * Build a new MessageBuilder. The type should implement {@link IntSupplier} if it is a login
      * packet.
      * @param type Type of message
      * @param id id in the indexed codec
@@ -147,7 +147,7 @@ public class SimpleChannel
     }
 
     /**
-     * Build a new MessageBuilder. The type should implement {@link java.util.function.IntSupplier} if it is a login
+     * Build a new MessageBuilder. The type should implement {@link IntSupplier} if it is a login
      * packet.
      * @param type Type of message
      * @param id id in the indexed codec

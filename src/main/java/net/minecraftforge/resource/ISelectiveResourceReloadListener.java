@@ -34,7 +34,7 @@ public interface ISelectiveResourceReloadListener extends IResourceManagerReload
     }
 
     /**
-     * A version of onResourceManager that selectively chooses {@link net.minecraftforge.resource.IResourceType}s
+     * A version of onResourceManager that selectively chooses {@link IResourceType}s
      * to reload.
      * When using this, the given predicate should be called to ensure the relevant resources should
      * be reloaded at this time.

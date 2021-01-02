@@ -466,7 +466,7 @@ public class ModelBuilder<T extends ModelBuilder<T>> extends ModelFile {
 
         BlockPart build() {
             Map<Direction, BlockPartFace> faces = this.faces.entrySet().stream()
-                    .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().build(), (k1, k2) -> { throw new IllegalArgumentException(); }, LinkedHashMap::new));
+                    .collect(Collectors.toMap(Entry::getKey, e -> e.getValue().build(), (k1, k2) -> { throw new IllegalArgumentException(); }, LinkedHashMap::new));
             return new BlockPart(from, to, faces, rotation == null ? null : rotation.build(), shade);
         }
 
@@ -637,7 +637,7 @@ public class ModelBuilder<T extends ModelBuilder<T>> extends ModelFile {
 
         Map<Perspective, ItemTransformVec3f> build() {
             return this.transforms.entrySet().stream()
-                    .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().build(), (k1, k2) -> { throw new IllegalArgumentException(); }, LinkedHashMap::new));
+                    .collect(Collectors.toMap(Entry::getKey, e -> e.getValue().build(), (k1, k2) -> { throw new IllegalArgumentException(); }, LinkedHashMap::new));
         }
 
         public T end() { return self(); }

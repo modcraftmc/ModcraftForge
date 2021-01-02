@@ -1,5 +1,31 @@
 --- a/net/minecraft/world/server/ChunkHolder.java
 +++ b/net/minecraft/world/server/ChunkHolder.java
+@@ -39,13 +39,13 @@
+    private static final CompletableFuture<Either<Chunk, ChunkHolder.IChunkLoadingError>> field_219309_d = CompletableFuture.completedFuture(field_219308_c);
+    private static final List<ChunkStatus> field_219310_e = ChunkStatus.func_222582_a();
+    private static final ChunkHolder.LocationType[] field_219311_f = ChunkHolder.LocationType.values();
+-   private final AtomicReferenceArray<CompletableFuture<Either<IChunk, ChunkHolder.IChunkLoadingError>>> field_219312_g = new AtomicReferenceArray<>(field_219310_e.size());
++   public final AtomicReferenceArray<CompletableFuture<Either<IChunk, ChunkHolder.IChunkLoadingError>>> field_219312_g = new AtomicReferenceArray<>(field_219310_e.size());
+    private volatile CompletableFuture<Either<Chunk, ChunkHolder.IChunkLoadingError>> field_222983_h = field_219309_d;
+    private volatile CompletableFuture<Either<Chunk, ChunkHolder.IChunkLoadingError>> field_219313_h = field_219309_d;
+    private volatile CompletableFuture<Either<Chunk, ChunkHolder.IChunkLoadingError>> field_219314_i = field_219309_d;
+    private CompletableFuture<IChunk> field_219315_j = CompletableFuture.completedFuture((IChunk)null);
+-   private int field_219316_k;
+-   private int field_219317_l;
++   public int field_219316_k;
++   public int field_219317_l;
+    private int field_219318_m;
+    private final ChunkPos field_219319_n;
+    private short[] field_219320_o = new short[64];
+@@ -56,7 +56,7 @@
+    private int field_219325_t;
+    private final WorldLightManager field_219326_u;
+    private final ChunkHolder.IListener field_219327_v;
+-   private final ChunkHolder.IPlayerProvider field_219328_w;
++   public final ChunkHolder.IPlayerProvider field_219328_w;
+    private boolean field_219329_x;
+ 
+    public ChunkHolder(ChunkPos p_i50716_1_, int p_i50716_2_, WorldLightManager p_i50716_3_, ChunkHolder.IListener p_i50716_4_, ChunkHolder.IPlayerProvider p_i50716_5_) {
 @@ -136,7 +136,7 @@
        Chunk chunk = this.func_219298_c();
        if (chunk != null) {
@@ -51,3 +77,21 @@
                    this.func_219305_a(world, blockpos1);
                 }
              }
+@@ -225,7 +226,7 @@
+ 
+    }
+ 
+-   private void func_219293_a(IPacket<?> p_219293_1_, boolean p_219293_2_) {
++   protected void func_219293_a(IPacket<?> p_219293_1_, boolean p_219293_2_) {
+       this.field_219328_w.func_219097_a(this.field_219319_n, p_219293_2_).forEach((p_219304_1_) -> {
+          p_219304_1_.field_71135_a.func_147359_a(p_219293_1_);
+       });
+@@ -251,7 +252,7 @@
+       }
+    }
+ 
+-   private void func_219284_a(CompletableFuture<? extends Either<? extends IChunk, ChunkHolder.IChunkLoadingError>> p_219284_1_) {
++   public void func_219284_a(CompletableFuture<? extends Either<? extends IChunk, ChunkHolder.IChunkLoadingError>> p_219284_1_) {
+       this.field_219315_j = this.field_219315_j.thenCombine(p_219284_1_, (p_219295_0_, p_219295_1_) -> {
+          return p_219295_1_.map((p_219283_0_) -> {
+             return p_219283_0_;

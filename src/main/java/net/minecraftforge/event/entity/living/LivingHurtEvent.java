@@ -44,7 +44,7 @@ import net.minecraft.entity.LivingEntity;
  * This event is fired on the {@link MinecraftForge#EVENT_BUS}.
  * @see LivingDamageEvent
  **/
-@net.minecraftforge.eventbus.api.Cancelable
+@Cancelable
 public class LivingHurtEvent extends LivingEvent
 {
     private final DamageSource source;

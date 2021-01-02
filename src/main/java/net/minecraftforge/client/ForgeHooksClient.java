@@ -394,11 +394,11 @@ public class ForgeHooksClient
         modelLoader.onPostBakeEvent(modelRegistry);
     }
 
-    private static final net.minecraft.client.renderer.Matrix4f flipX;
-    private static final net.minecraft.client.renderer.Matrix3f flipXNormal;
+    private static final Matrix4f flipX;
+    private static final Matrix3f flipXNormal;
     static {
         flipX = Matrix4f.makeScale(-1,1,1);
-        flipXNormal = new net.minecraft.client.renderer.Matrix3f(flipX);
+        flipXNormal = new Matrix3f(flipX);
     }
 
     public static IBakedModel handleCameraTransforms(MatrixStack matrixStack, IBakedModel model, ItemCameraTransforms.TransformType cameraTransformType, boolean leftHandHackery)
@@ -410,8 +410,8 @@ public class ForgeHooksClient
         if (!stack.clear())
         {
             // Apply the transformation to the real matrix stack, flipping for left hand
-            net.minecraft.client.renderer.Matrix4f tMat = stack.getLast().getMatrix();
-            net.minecraft.client.renderer.Matrix3f nMat = stack.getLast().getNormal();
+            Matrix4f tMat = stack.getLast().getMatrix();
+            Matrix3f nMat = stack.getLast().getNormal();
             if (leftHandHackery)
             {
                 tMat.multiplyBackward(flipX);

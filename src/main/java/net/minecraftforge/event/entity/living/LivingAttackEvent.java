@@ -36,7 +36,7 @@ import net.minecraft.entity.LivingEntity;
  * {@link #source} contains the DamageSource of the attack. <br>
  * {@link #amount} contains the amount of damage dealt to the entity. <br>
  * <br>
- * This event is {@link net.minecraftforge.eventbus.api.Cancelable}.<br>
+ * This event is {@link Cancelable}.<br>
  * If this event is canceled, the Entity does not take attack damage.<br>
  * <br>
  * This event does not have a result. {@link HasResult}<br>

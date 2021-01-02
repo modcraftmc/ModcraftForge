@@ -27,7 +27,7 @@ import net.minecraftforge.eventbus.api.Cancelable;
 /**
  * This event is fired when a player gets an advancement.
  * <br>
- * This event is not {@link net.minecraftforge.eventbus.api.Cancelable}.<br>
+ * This event is not {@link Cancelable}.<br>
  * <br>
  * This event does not have a result. {@link HasResult}<br>
  * <br>

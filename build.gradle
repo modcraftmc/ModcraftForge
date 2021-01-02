@@ -12,6 +12,9 @@ buildscript {
         maven {
             url 'https://raw.githubusercontent.com/modcraftmc/ModcraftMaven/master/'
         }
+        maven {
+            url 'https://maven.gegy.dev/'
+        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
@@ -97,6 +100,9 @@ project(':clean') {
 
         maven {
             url 'https://raw.githubusercontent.com/modcraftmc/ModcraftMaven/master/'
+        }
+        maven {
+            url 'https://maven.gegy.dev/'
         }
     }
 
@@ -228,6 +234,10 @@ project(':forge') {
 
         maven {
             url 'https://raw.githubusercontent.com/modcraftmc/ModcraftMaven/master/'
+        }
+
+        maven {
+            url 'https://maven.gegy.dev/'
         }
     }
 
@@ -542,6 +552,7 @@ project(':forge') {
         installer 'net.sf.trove4j:trove4j:3.0.3'
         installer 'mysql:mysql-connector-java:8.0.21'
         installer 'com.conversantmedia:disruptor:1.2.15'
+       // installer 'net.gegy1000:just-now:0.1.0-SNAPSHOT'
 
     }
     
@@ -1386,6 +1397,9 @@ def getArtifacts(project, config, classifiers) {
                 url = "https://hub.spigotmc.org/nexus/content/groups/public/${path}"
                 if (!checkExists(url)) {
                     url = "https://raw.githubusercontent.com/modcraftmc/ModcraftMaven/master/${path}"
+                    if (!checkExists(url)) {
+                        url = "https://maven.gegy.dev/${path}"
+                    }
                 }
             }
 

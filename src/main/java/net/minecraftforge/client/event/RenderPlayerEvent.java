@@ -53,7 +53,7 @@ public abstract class RenderPlayerEvent extends PlayerEvent
     public IRenderTypeBuffer getBuffers() { return buffers; }
     public int getLight() { return light; }
 
-    @net.minecraftforge.eventbus.api.Cancelable
+    @Cancelable
     public static class Pre extends RenderPlayerEvent
     {
         public Pre(PlayerEntity player, PlayerRenderer renderer, float tick, MatrixStack stack, IRenderTypeBuffer buffers, int light) {

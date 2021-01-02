@@ -23,7 +23,7 @@ import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 
-@net.minecraftforge.eventbus.api.Cancelable
+@Cancelable
 public class PlayerSetSpawnEvent extends PlayerEvent
 {
     private final boolean forced;

@@ -149,7 +149,7 @@ public interface IForgeDimension
      * @param pos The location where the player tries to sleep at (the position of the clicked on bed for example)
      * @return the result of a player trying to sleep at the given location
      */
-    default SleepResult canSleepAt(net.minecraft.entity.player.PlayerEntity player, BlockPos pos)
+    default SleepResult canSleepAt(PlayerEntity player, BlockPos pos)
     {
         return (getDimension().canRespawnHere() && getWorld().getBiome(pos) != Biomes.NETHER) ? SleepResult.ALLOW : SleepResult.BED_EXPLODES;
     }

@@ -1,0 +1,41 @@
+--- a/net/minecraft/command/arguments/ArgumentTypes.java
++++ b/net/minecraft/command/arguments/ArgumentTypes.java
+@@ -12,12 +12,15 @@
+ import java.util.Collection;
+ import java.util.Map;
+ import javax.annotation.Nullable;
++
++import fr.modcraftmc.forge.config.ModcraftConfig;
+ import net.minecraft.command.arguments.serializers.BrigadierSerializers;
+ import net.minecraft.network.PacketBuffer;
+ import net.minecraft.test.TestArgArgument;
+ import net.minecraft.test.TestTypeArgument;
+ import net.minecraft.util.ResourceLocation;
+ import net.minecraft.util.SharedConstants;
++import net.minecraftforge.server.command.ModIdArgument;
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
+ 
+@@ -77,11 +80,9 @@
+       func_218136_a("entity_summon", EntitySummonArgument.class, new ArgumentSerializer<>(EntitySummonArgument::func_211366_a));
+       func_218136_a("dimension", DimensionArgument.class, new ArgumentSerializer<>(DimensionArgument::func_212595_a));
+       func_218136_a("time", TimeArgument.class, new ArgumentSerializer<>(TimeArgument::func_218091_a));
+-      if (SharedConstants.field_206244_b) {
+-         func_218136_a("test_argument", TestArgArgument.class, new ArgumentSerializer<>(TestArgArgument::func_229665_a_));
+-         func_218136_a("test_class", TestTypeArgument.class, new ArgumentSerializer<>(TestTypeArgument::func_229611_a_));
+-      }
+ 
++     // register("modid", ModIdArgument.class, new ArgumentSerializer<>(ModIdArgument::modIdArgument));
++
+    }
+ 
+    @Nullable
+@@ -97,7 +98,7 @@
+    public static <T extends ArgumentType<?>> void func_197484_a(PacketBuffer p_197484_0_, T p_197484_1_) {
+       ArgumentTypes.Entry<T> entry = (ArgumentTypes.Entry<T>)func_201040_a(p_197484_1_);
+       if (entry == null) {
+-         field_197488_a.error("Could not serialize {} ({}) - will not be sent to client!", p_197484_1_, p_197484_1_.getClass());
++         if (ModcraftConfig.isWarnArgumentTypes()) field_197488_a.error("Could not serialize {} ({}) - will not be sent to client!", p_197484_1_, p_197484_1_.getClass());
+          p_197484_0_.func_192572_a(new ResourceLocation(""));
+       } else {
+          p_197484_0_.func_192572_a(entry.field_197481_c);

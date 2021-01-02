@@ -10,13 +10,15 @@
  import net.minecraft.block.Block;
  import net.minecraft.block.BlockState;
  import net.minecraft.block.Blocks;
-@@ -12,15 +15,86 @@
+@@ -12,15 +15,88 @@
  import net.minecraft.util.palette.PalettedContainer;
  import net.minecraftforge.api.distmarker.Dist;
  import net.minecraftforge.api.distmarker.OnlyIn;
 +import org.spongepowered.asm.mixin.Unique;
  
 -public class ChunkSection {
++import java.util.function.Predicate;
++
 +public class ChunkSection implements ExtendedChunkSection {
     private static final IPalette<BlockState> field_205512_a = new PaletteIdentity<>(Block.field_176229_d, Blocks.field_150350_a.func_176223_P());
     private final int field_76684_a;
@@ -99,7 +101,7 @@
     public ChunkSection(int p_i49943_1_) {
        this(p_i49943_1_, (short)0, (short)0, (short)0);
     }
-@@ -85,6 +159,19 @@
+@@ -85,6 +161,19 @@
           ++this.field_206918_e;
        }
  
@@ -119,7 +121,7 @@
        return blockstate;
     }
  
-@@ -133,6 +220,7 @@
+@@ -133,6 +222,7 @@
           }
  
        });
@@ -127,7 +129,7 @@
     }
  
     public PalettedContainer<BlockState> func_186049_g() {
-@@ -143,6 +231,7 @@
+@@ -143,6 +233,7 @@
     public void func_222634_a(PacketBuffer p_222634_1_) {
        this.field_76682_b = p_222634_1_.readShort();
        this.field_177488_d.func_186010_a(p_222634_1_);
@@ -135,3 +137,12 @@
     }
  
     public void func_222630_b(PacketBuffer p_222630_1_) {
+@@ -157,4 +248,8 @@
+    public boolean func_222636_a(BlockState p_222636_1_) {
+       return this.field_177488_d.func_222640_a(p_222636_1_);
+    }
++
++   public boolean hasAny(Predicate<BlockState> predicate) {
++      return this.field_177488_d.hasAny(predicate);
++   }
+ }

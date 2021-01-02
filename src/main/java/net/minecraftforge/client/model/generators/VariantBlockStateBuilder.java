@@ -188,7 +188,7 @@ public class VariantBlockStateBuilder implements IGeneratedBlockstate {
         PartialBlockstate(Block owner, Map<IProperty<?>, Comparable<?>> setStates, @Nullable VariantBlockStateBuilder outerBuilder) {
             this.owner = owner;
             this.outerBuilder = outerBuilder;
-            for (Map.Entry<IProperty<?>, Comparable<?>> entry : setStates.entrySet()) {
+            for (Entry<IProperty<?>, Comparable<?>> entry : setStates.entrySet()) {
                 IProperty<?> prop = entry.getKey();
                 Comparable<?> value = entry.getValue();
                 Preconditions.checkArgument(owner.getStateContainer().getProperties().contains(prop), "Property %s not found on block %s", entry, this.owner);
@@ -290,7 +290,7 @@ public class VariantBlockStateBuilder implements IGeneratedBlockstate {
             if (blockState.getBlock() != getOwner()) {
                 return false;
             }
-            for (Map.Entry<IProperty<?>, Comparable<?>> entry : setStates.entrySet()) {
+            for (Entry<IProperty<?>, Comparable<?>> entry : setStates.entrySet()) {
                 if (blockState.get(entry.getKey()) != entry.getValue()) {
                     return false;
                 }
@@ -301,7 +301,7 @@ public class VariantBlockStateBuilder implements IGeneratedBlockstate {
         @Override
         public String toString() {
             StringBuilder ret = new StringBuilder();
-            for (Map.Entry<IProperty<?>, Comparable<?>> entry : setStates.entrySet()) {
+            for (Entry<IProperty<?>, Comparable<?>> entry : setStates.entrySet()) {
                 if (ret.length() > 0) {
                     ret.append(',');
                 }

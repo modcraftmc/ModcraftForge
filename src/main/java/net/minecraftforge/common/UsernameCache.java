@@ -69,7 +69,7 @@ public final class UsernameCache {
      * Set a player's current usernamee
      *
      * @param uuid
-     *            the player's {@link java.util.UUID UUID}
+     *            the player's {@link UUID UUID}
      * @param username
      *            the player's username
      */
@@ -88,7 +88,7 @@ public final class UsernameCache {
      * Remove a player's username from the cache
      *
      * @param uuid
-     *            the player's {@link java.util.UUID UUID}
+     *            the player's {@link UUID UUID}
      * @return if the cache contained the user
      */
     protected static boolean removeUsername(UUID uuid)
@@ -110,7 +110,7 @@ public final class UsernameCache {
      * <b>May be <code>null</code></b>
      *
      * @param uuid
-     *            the player's {@link java.util.UUID UUID}
+     *            the player's {@link UUID UUID}
      * @return the player's last known username, or <code>null</code> if the
      *         cache doesn't have a record of the last username
      */
@@ -125,7 +125,7 @@ public final class UsernameCache {
      * Check if the cache contains the given player's username
      *
      * @param uuid
-     *            the player's {@link java.util.UUID UUID}
+     *            the player's {@link UUID UUID}
      * @return if the cache contains a username for the given player
      */
     public static boolean containsUUID(UUID uuid)
@@ -188,7 +188,7 @@ public final class UsernameCache {
     }
 
     /**
-     * Used for saving the {@link com.google.gson.Gson#toJson(Object) Gson}
+     * Used for saving the {@link Gson#toJson(Object) Gson}
      * representation of the cache to disk
      */
     private static class SaveThread extends Thread {

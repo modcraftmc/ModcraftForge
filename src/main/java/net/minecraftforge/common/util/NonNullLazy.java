@@ -36,7 +36,7 @@ public interface NonNullLazy<T> extends NonNullSupplier<T>
      */
     static <T> NonNullLazy<T> of(@Nonnull NonNullSupplier<T> supplier)
     {
-        return new NonNullLazy.Fast<>(supplier);
+        return new Fast<>(supplier);
     }
 
     /**
@@ -45,7 +45,7 @@ public interface NonNullLazy<T> extends NonNullSupplier<T>
      */
     static <T> NonNullLazy<T> concurrentOf(@Nonnull NonNullSupplier<T> supplier)
     {
-        return new NonNullLazy.Concurrent<>(supplier);
+        return new Concurrent<>(supplier);
     }
 
     /**

@@ -718,7 +718,7 @@ public enum B3DLoader implements ISelectiveResourceReloadListener
                     if(f.getBrush() != null) textures = f.getBrush().getTextures();
                     TextureAtlasSprite sprite;
                     if(textures == null || textures.isEmpty()) sprite = this.textures.get("missingno");
-                    else if(textures.get(0) == B3DModel.Texture.White) sprite = ModelLoader.White.instance();
+                    else if(textures.get(0) == Texture.White) sprite = ModelLoader.White.instance();
                     else sprite = this.textures.get(textures.get(0).getPath());
                     BakedQuadBuilder quadBuilder = new BakedQuadBuilder(sprite);
                     quadBuilder.setContractUVs(true);

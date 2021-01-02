@@ -65,7 +65,7 @@ public class ZombieEvent extends EntityEvent {
      * {@link #attacker} contains the living Entity that attacked and caused this event to fire.
      * {@link #summonChance} contains the likelihood that a Zombie would successfully be summoned.
      * 
-     * This event is not {@link net.minecraftforge.eventbus.api.Cancelable}.
+     * This event is not {@link Cancelable}.
      * 
      * This event has a result. {@link HasResult}
      * {@link Result#ALLOW} Zombie is summoned.

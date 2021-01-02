@@ -91,7 +91,7 @@ public class ChunkDataEvent extends ChunkEvent
      * This event is fired during chunk saving in
      * {@link AnvilChunkLoader#saveChunk(World, Chunk)}. <br>
      * <br>
-     * This event is not {@link net.minecraftforge.eventbus.api.Cancelable}.<br>
+     * This event is not {@link Cancelable}.<br>
      * <br>
      * This event does not have a result. {@link HasResult} <br>
      * <br>

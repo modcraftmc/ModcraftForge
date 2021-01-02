@@ -1,0 +1,36 @@
+--- a/net/minecraft/world/chunk/ChunkDistanceGraph.java
++++ b/net/minecraft/world/chunk/ChunkDistanceGraph.java
+@@ -13,9 +13,12 @@
+    }
+ 
+    protected void func_215478_a(long p_215478_1_, int p_215478_3_, boolean p_215478_4_) {
+-      ChunkPos chunkpos = new ChunkPos(p_215478_1_);
+-      int i = chunkpos.field_77276_a;
+-      int j = chunkpos.field_77275_b;
++      /*ChunkPos chunkpos = new ChunkPos(pos);
++      int i = chunkpos.x;
++      int j = chunkpos.z;
++       */
++      int i = ChunkPos.func_212578_a(p_215478_1_);
++      int j = ChunkPos.func_212579_b(p_215478_1_);
+ 
+       for(int k = -1; k <= 1; ++k) {
+          for(int l = -1; l <= 1; ++l) {
+@@ -30,10 +33,14 @@
+ 
+    protected int func_215477_a(long p_215477_1_, long p_215477_3_, int p_215477_5_) {
+       int i = p_215477_5_;
+-      ChunkPos chunkpos = new ChunkPos(p_215477_1_);
+-      int j = chunkpos.field_77276_a;
+-      int k = chunkpos.field_77275_b;
++      /*ChunkPos chunkpos = new ChunkPos(pos);
++      int j = chunkpos.x;
++      int k = chunkpos.z;
++       */
+ 
++      int j = ChunkPos.func_212578_a(p_215477_1_);
++      int k = ChunkPos.func_212579_b(p_215477_1_);
++
+       for(int l = -1; l <= 1; ++l) {
+          for(int i1 = -1; i1 <= 1; ++i1) {
+             long j1 = ChunkPos.func_77272_a(j + l, k + i1);

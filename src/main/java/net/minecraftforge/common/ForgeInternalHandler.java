@@ -72,7 +72,7 @@ public class ForgeInternalHandler
     @SubscribeEvent
     public void onServerTick(ServerTickEvent event)
     {
-        WorldWorkerManager.tick(event.phase == TickEvent.Phase.START);
+        WorldWorkerManager.tick(event.phase == Phase.START);
     }
 
     @SubscribeEvent

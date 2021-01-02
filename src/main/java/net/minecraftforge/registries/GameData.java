@@ -488,7 +488,7 @@ public class GameData
 
         private static class BlockDummyAir extends AirBlock //A named class so DummyBlockReplacementTest can detect if its a dummy
         {
-            private BlockDummyAir(Block.Properties properties)
+            private BlockDummyAir(Properties properties)
             {
                 super(properties);
             }
@@ -801,7 +801,7 @@ public class GameData
             {
                 ResourceLocation name = m.getKey();
                 ForgeRegistry<?> reg = STAGING.getRegistry(name);
-                RegistryEvent.MissingMappings<?> event = reg.getMissingEvent(name, m.getValue());
+                MissingMappings<?> event = reg.getMissingEvent(name, m.getValue());
                 MinecraftForge.EVENT_BUS.post(event);
 
                 List<MissingMappings.Mapping<?>> lst = event.getAllMappings().stream().filter(e -> e.getAction() == MissingMappings.Action.DEFAULT).sorted((a, b) -> a.toString().compareTo(b.toString())).collect(Collectors.toList());
@@ -1015,29 +1015,7 @@ public class GameData
     public static ResourceLocation checkPrefix(String name, boolean warnOverrides)
     {
 
-        // Get position of the last separator
-        final int separator = name.lastIndexOf(':');
 
-        // Resolve the namespace
-        String namespace = separator == -1 ? "" : name.substring(0, separator).toLowerCase(Locale.ROOT);
-
-        // Resolve the path
-        final String path = separator == -1 ? name : name.substring(separator + 1);
-
-        // If there is no namespace, try to get it from the active mod.
-        if (namespace.isEmpty()) {
-
-            final ModContainer activeMod = ModLoadingContext.get().getActiveContainer();
-
-            if (activeMod != null) {
-
-                namespace = activeMod instanceof FMLModContainer ? "minecraft" : activeMod.getModId().toLowerCase(Locale.ROOT);
-            }
-        }
-
-        return new ResourceLocation(namespace, path);
-
-        /*
         int index = name.lastIndexOf(':');
         String oldPrefix = index == -1 ? "" : name.substring(0, index).toLowerCase(Locale.ROOT);
         name = index == -1 ? name : name.substring(index + 1);
@@ -1049,7 +1027,6 @@ public class GameData
         }
         return new ResourceLocation(prefix, name);
 
-         */
     }
 
     private static Field regName;

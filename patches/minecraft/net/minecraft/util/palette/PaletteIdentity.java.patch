@@ -1,0 +1,23 @@
+--- a/net/minecraft/util/palette/PaletteIdentity.java
++++ b/net/minecraft/util/palette/PaletteIdentity.java
+@@ -6,6 +6,8 @@
+ import net.minecraftforge.api.distmarker.Dist;
+ import net.minecraftforge.api.distmarker.OnlyIn;
+ 
++import java.util.function.Predicate;
++
+ public class PaletteIdentity<T> implements IPalette<T> {
+    private final ObjectIntIdentityMap<T> field_205505_a;
+    private final T field_205506_b;
+@@ -24,6 +26,11 @@
+       return true;
+    }
+ 
++   @Override
++   public boolean accepts(Predicate<T> predicate) {
++      return true;
++   }
++
+    public T func_186039_a(int p_186039_1_) {
+       T t = this.field_205505_a.func_148745_a(p_186039_1_);
+       return (T)(t == null ? this.field_205506_b : t);

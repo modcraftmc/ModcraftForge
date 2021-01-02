@@ -30,8 +30,8 @@ import net.minecraft.client.gui.screen.Screen;
  * 
  * @author jk-5
  */
-@net.minecraftforge.eventbus.api.Cancelable
-public class GuiOpenEvent extends net.minecraftforge.eventbus.api.Event
+@Cancelable
+public class GuiOpenEvent extends Event
 {
     private Screen gui;
     public GuiOpenEvent(Screen gui)

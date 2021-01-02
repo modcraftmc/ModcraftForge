@@ -1,0 +1,10 @@
+--- a/net/minecraft/tileentity/LockableLootTileEntity.java
++++ b/net/minecraft/tileentity/LockableLootTileEntity.java
+@@ -59,6 +59,7 @@
+    }
+ 
+    public void func_184281_d(@Nullable PlayerEntity p_184281_1_) {
++      if (p_184281_1_ == null) return; // EMC
+       if (this.field_184284_m != null && this.field_145850_b.func_73046_m() != null) {
+          LootTable loottable = this.field_145850_b.func_73046_m().func_200249_aQ().func_186521_a(this.field_184284_m);
+          this.field_184284_m = null;

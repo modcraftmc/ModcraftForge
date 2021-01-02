@@ -37,12 +37,12 @@ import net.minecraftforge.eventbus.api.Event;
  * <p>
  * Do not use this event directly, use one of the subclasses:
  * <ul>
- * <li>{@link RenderTooltipEvent.Pre}</li>
- * <li>{@link RenderTooltipEvent.PostBackground}</li>
- * <li>{@link RenderTooltipEvent.PostText}</li>
+ * <li>{@link Pre}</li>
+ * <li>{@link PostBackground}</li>
+ * <li>{@link PostText}</li>
  * </ul>
  */
-public abstract class RenderTooltipEvent extends net.minecraftforge.eventbus.api.Event
+public abstract class RenderTooltipEvent extends Event
 {
     @Nonnull
     protected final ItemStack stack;
@@ -70,7 +70,7 @@ public abstract class RenderTooltipEvent extends net.minecraftforge.eventbus.api
     }
     
     /**
-     * The lines to be drawn. May change between {@link RenderTooltipEvent.Pre} and {@link RenderTooltipEvent.Post}.
+     * The lines to be drawn. May change between {@link Pre} and {@link Post}.
      * 
      * @return An <i>unmodifiable</i> list of strings. Use {@link ItemTooltipEvent} to modify tooltip text.
      */
@@ -110,7 +110,7 @@ public abstract class RenderTooltipEvent extends net.minecraftforge.eventbus.api
      * <p>
      * This event is {@link Cancelable}.
      */
-    @net.minecraftforge.eventbus.api.Cancelable
+    @Cancelable
     public static class Pre extends RenderTooltipEvent
     {
         private int screenWidth;
@@ -191,8 +191,8 @@ public abstract class RenderTooltipEvent extends net.minecraftforge.eventbus.api
      * <p>
      * Do not use this event directly, use one of its subclasses:
      * <ul>
-     * <li>{@link RenderTooltipEvent.PostBackground}</li>
-     * <li>{@link RenderTooltipEvent.PostText}</li>
+     * <li>{@link PostBackground}</li>
+     * <li>{@link PostText}</li>
      * </ul>
      */
     protected static abstract class Post extends RenderTooltipEvent

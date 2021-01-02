@@ -32,7 +32,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 /**
- * General interface for any model that can be baked, superset of vanilla {@link net.minecraft.client.renderer.model.IUnbakedModel}.
+ * General interface for any model that can be baked, superset of vanilla {@link IUnbakedModel}.
  * Models can be baked to different vertex formats and with different state.
  */
 public interface IModelGeometry<T extends IModelGeometry<T>>

@@ -1,6 +1,14 @@
 --- a/net/minecraft/util/palette/PalettedContainer.java
 +++ b/net/minecraft/util/palette/PalettedContainer.java
-@@ -65,8 +65,11 @@
+@@ -6,6 +6,7 @@
+ import java.util.Objects;
+ import java.util.concurrent.locks.ReentrantLock;
+ import java.util.function.Function;
++import java.util.function.Predicate;
+ import java.util.stream.Collectors;
+ import net.minecraft.crash.CrashReport;
+ import net.minecraft.crash.CrashReportCategory;
+@@ -65,8 +66,11 @@
     }
  
     private void func_186012_b(int p_186012_1_) {
@@ -14,7 +22,7 @@
           if (this.field_186024_e <= 4) {
              this.field_186024_e = 4;
              this.field_186022_c = new PaletteArray<>(this.field_205523_d, this.field_186024_e, this, this.field_205524_e);
-@@ -75,6 +78,8 @@
+@@ -75,6 +79,8 @@
           } else {
              this.field_186022_c = this.field_205521_b;
              this.field_186024_e = MathHelper.func_151241_e(this.field_205523_d.func_186804_a());
@@ -23,7 +31,7 @@
           }
  
           this.field_186022_c.func_186041_a(this.field_205526_g);
-@@ -127,7 +132,7 @@
+@@ -127,7 +133,7 @@
        return (T)this.func_186015_a(func_186011_b(p_186016_1_, p_186016_2_, p_186016_3_));
     }
  
@@ -32,7 +40,7 @@
        T t = this.field_186022_c.func_186039_a(this.field_186021_b.func_188142_a(p_186015_1_));
        return (T)(t == null ? this.field_205526_g : t);
     }
-@@ -137,12 +142,16 @@
+@@ -137,12 +143,16 @@
        this.func_210459_b();
        int i = p_186010_1_.readByte();
        if (this.field_186024_e != i) {
@@ -50,3 +58,22 @@
     }
  
     public void func_186009_b(PacketBuffer p_186009_1_) {
+@@ -222,6 +232,7 @@
+       return this.field_186022_c.func_222626_b(p_222640_1_);
+    }
+ 
++
+    public void func_225497_a(PalettedContainer.ICountConsumer<T> p_225497_1_) {
+       Int2IntMap int2intmap = new Int2IntOpenHashMap();
+       this.field_186021_b.func_225421_a((p_225498_1_) -> {
+@@ -232,6 +243,10 @@
+       });
+    }
+ 
++   public boolean hasAny(Predicate<T> predicate) {
++      return this.field_186022_c.accepts(predicate);
++   }
++
+    @FunctionalInterface
+    public interface ICountConsumer<T> {
+       void accept(T p_accept_1_, int p_accept_2_);

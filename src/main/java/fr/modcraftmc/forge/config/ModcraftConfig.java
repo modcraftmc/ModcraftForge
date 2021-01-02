@@ -19,6 +19,11 @@ public class ModcraftConfig {
     private static int miscTrackingRange = 32;
     private static int otherTrackingRange = 64;
 
+    private static boolean warnArgumentTypes = false;
+    private static boolean showTagCollectionError = false;
+    private static boolean showRecipeManagerError = false;
+    private static boolean showLootTableError = false;
+
     public ModcraftConfig() {
         arrowDespawnRate = 200;
     }
@@ -74,5 +79,21 @@ public class ModcraftConfig {
 
     public static int getOtherTrackingRange() {
         return otherTrackingRange;
+    }
+
+    public static boolean isWarnArgumentTypes() {
+        return warnArgumentTypes;
+    }
+
+    public static boolean isShowTagCollectionError() {
+        return showTagCollectionError;
+    }
+
+    public static boolean isShowRecipeManagerError() {
+        return showRecipeManagerError;
+    }
+
+    public static boolean isShowLootTableError() {
+        return showLootTableError;
     }
 }

@@ -30,7 +30,7 @@ import net.minecraftforge.eventbus.api.Event;
 
 /**
  * EntityEvent is fired when an event involving any Entity occurs.<br>
- * If a method utilizes this {@link net.minecraftforge.eventbus.api.Event} as its parameter, the method will
+ * If a method utilizes this {@link Event} as its parameter, the method will
  * receive every child event of this class.<br>
  * <br>
  * {@link #entity} contains the entity that caused this event to occur.<br>
@@ -55,7 +55,7 @@ public class EntityEvent extends Event
      * EntityConstructing is fired when an Entity is being created. <br>
      * This event is fired within the constructor of the Entity.<br>
      * <br>
-     * This event is not {@link net.minecraftforge.eventbus.api.Cancelable}.<br>
+     * This event is not {@link Cancelable}.<br>
      * <br>
      * This event does not have a result. {@link HasResult}<br>
      * <br>
@@ -72,7 +72,7 @@ public class EntityEvent extends Event
     /**
      * CanUpdate is fired when an Entity is being created. <br>
      * This event is fired whenever vanilla Minecraft determines that an entity<br>
-     * cannot update in {@link World#updateEntityWithOptionalForce(net.minecraft.entity.Entity, boolean)} <br>
+     * cannot update in {@link World#updateEntityWithOptionalForce(Entity, boolean)} <br>
      * <br>
      * {@link CanUpdate#canUpdate} contains the boolean value of whether this entity can update.<br>
      * If the modder decides that this Entity can be updated, they may change canUpdate to true, <br>
@@ -104,7 +104,7 @@ public class EntityEvent extends Event
     /**
      * EnteringChunk is fired when an Entity enters a chunk. <br>
      * This event is fired whenever vanilla Minecraft determines that an entity <br>
-     * is entering a chunk in {@link Chunk#addEntity(net.minecraft.entity.Entity)} <br>
+     * is entering a chunk in {@link Chunk#addEntity(Entity)} <br>
      * <br>
      * This event is not {@link Cancelable}.<br>
      * <br>

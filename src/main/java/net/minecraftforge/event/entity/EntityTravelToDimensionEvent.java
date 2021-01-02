@@ -30,7 +30,7 @@ import net.minecraftforge.eventbus.api.Event.HasResult;
  * <br>
  * {@link #dimension} contains the id of the dimension the entity is traveling to.<br>
  * <br>
- * This event is {@link net.minecraftforge.eventbus.api.Cancelable}.<br>
+ * This event is {@link Cancelable}.<br>
  * If this event is canceled, the Entity does not travel to the dimension.<br>
  * <br>
  * This event does not have a result. {@link HasResult}<br>

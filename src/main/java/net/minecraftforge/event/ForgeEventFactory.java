@@ -149,7 +149,7 @@ public class ForgeEventFactory
     public static boolean onBlockPlace(@Nullable Entity entity, @Nonnull BlockSnapshot blockSnapshot, @Nonnull Direction direction)
     {
         BlockState placedAgainst = blockSnapshot.getWorld().getBlockState(blockSnapshot.getPos().offset(direction.getOpposite()));
-        EntityPlaceEvent event = new BlockEvent.EntityPlaceEvent(blockSnapshot, placedAgainst, entity);
+        EntityPlaceEvent event = new EntityPlaceEvent(blockSnapshot, placedAgainst, entity);
         return MinecraftForge.EVENT_BUS.post(event);
     }
 
@@ -471,7 +471,7 @@ public class ForgeEventFactory
 
     public static void onPlayerClone(PlayerEntity player, PlayerEntity oldPlayer, boolean wasDeath)
     {
-        MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.player.PlayerEvent.Clone(player, oldPlayer, wasDeath));
+        MinecraftForge.EVENT_BUS.post(new PlayerEvent.Clone(player, oldPlayer, wasDeath));
     }
 
     public static boolean onExplosionStart(World world, Explosion explosion)
@@ -671,7 +671,7 @@ public class ForgeEventFactory
     public static int onEnchantmentLevelSet(World world, BlockPos pos, int enchantRow, int power, ItemStack itemStack, int level)
     {
         net.minecraftforge.event.enchanting.EnchantmentLevelSetEvent e = new net.minecraftforge.event.enchanting.EnchantmentLevelSetEvent(world, pos, enchantRow, power, itemStack, level);
-        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(e);
+        MinecraftForge.EVENT_BUS.post(e);
         return e.getLevel();
     }
 

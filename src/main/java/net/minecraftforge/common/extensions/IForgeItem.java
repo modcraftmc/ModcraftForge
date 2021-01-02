@@ -705,7 +705,7 @@ public interface IForgeItem
 
     default ImmutableMap<String, ITimeValue> getAnimationParameters(final ItemStack stack, final World world, final LivingEntity entity)
     {
-        com.google.common.collect.ImmutableMap.Builder<String, ITimeValue> builder = ImmutableMap.builder();
+        ImmutableMap.Builder<String, ITimeValue> builder = ImmutableMap.builder();
         getItem().properties.forEach((k,v) -> builder.put(k.toString(), input -> v.call(stack, world, entity)));
         return builder.build();
     }

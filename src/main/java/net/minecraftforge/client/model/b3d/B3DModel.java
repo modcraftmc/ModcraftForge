@@ -725,7 +725,7 @@ public class B3DModel
         @Override
         public String toString()
         {
-            return String.format("Vertex [pos=%s, normal=%s, color=%s, texCoords=%s]", pos, normal, color, java.util.Arrays.toString(texCoords));
+            return String.format("Vertex [pos=%s, normal=%s, color=%s, texCoords=%s]", pos, normal, color, Arrays.toString(texCoords));
         }
     }
 

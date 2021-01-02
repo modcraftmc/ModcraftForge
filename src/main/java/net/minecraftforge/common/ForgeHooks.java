@@ -843,11 +843,11 @@ public class ForgeHooks
     public static FluidAttributes createVanillaFluidAttributes(Fluid fluid)
     {
         if (fluid instanceof EmptyFluid)
-            return net.minecraftforge.fluids.FluidAttributes.builder(null, null)
+            return FluidAttributes.builder(null, null)
                     .translationKey("block.minecraft.air")
                     .color(0).density(0).temperature(0).luminosity(0).viscosity(0).build(fluid);
         if (fluid instanceof WaterFluid)
-            return net.minecraftforge.fluids.FluidAttributes.Water.builder(
+            return FluidAttributes.Water.builder(
                     new ResourceLocation("block/water_still"),
                     new ResourceLocation("block/water_flow"))
                     .overlay(new ResourceLocation("block/water_overlay"))
@@ -856,7 +856,7 @@ public class ForgeHooks
                     .sound(SoundEvents.ITEM_BUCKET_FILL, SoundEvents.ITEM_BUCKET_EMPTY)
                     .build(fluid);
         if (fluid instanceof LavaFluid)
-            return net.minecraftforge.fluids.FluidAttributes.builder(
+            return FluidAttributes.builder(
                     new ResourceLocation("block/lava_still"),
                     new ResourceLocation("block/lava_flow"))
                     .translationKey("block.minecraft.lava")
@@ -955,7 +955,7 @@ public class ForgeHooks
     {
         BlockEvent ev = new BlockEvent.CropGrowEvent.Pre(worldIn,pos,state);
         MinecraftForge.EVENT_BUS.post(ev);
-        return (ev.getResult() == net.minecraftforge.eventbus.api.Event.Result.ALLOW || (ev.getResult() == net.minecraftforge.eventbus.api.Event.Result.DEFAULT && def));
+        return (ev.getResult() == Result.ALLOW || (ev.getResult() == Result.DEFAULT && def));
     }
 
     public static void onCropsGrowPost(World worldIn, BlockPos pos, BlockState state)
@@ -968,7 +968,7 @@ public class ForgeHooks
     {
         CriticalHitEvent hitResult = new CriticalHitEvent(player, target, damageModifier, vanillaCritical);
         MinecraftForge.EVENT_BUS.post(hitResult);
-        if (hitResult.getResult() == net.minecraftforge.eventbus.api.Event.Result.ALLOW || (vanillaCritical && hitResult.getResult() == net.minecraftforge.eventbus.api.Event.Result.DEFAULT))
+        if (hitResult.getResult() == Result.ALLOW || (vanillaCritical && hitResult.getResult() == Result.DEFAULT))
         {
             return hitResult;
         }

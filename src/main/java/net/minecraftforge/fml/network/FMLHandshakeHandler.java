@@ -63,9 +63,9 @@ import static net.minecraftforge.registries.ForgeRegistry.REGISTRIES;
  *
  * <p>During client to server initiation, on the <em>server</em>, the {@link NetworkEvent.GatherLoginPayloadsEvent} is fired,
  * which solicits all registered channels at the {@link NetworkRegistry} for any
- * {@link net.minecraftforge.fml.network.NetworkRegistry.LoginPayload} they wish to supply.
+ * {@link NetworkRegistry.LoginPayload} they wish to supply.
  *
- * <p>The collected {@link net.minecraftforge.fml.network.NetworkRegistry.LoginPayload} are sent, one per tick, via
+ * <p>The collected {@link NetworkRegistry.LoginPayload} are sent, one per tick, via
  * the {@link FMLLoginWrapper#wrapPacket(ResourceLocation, PacketBuffer)} mechanism to the incoming client connection. Each
  * packet is indexed via {@link net.minecraft.network.login.client.CCustomPayloadLoginPacket#transaction}, which is
  * the only mechanism available for tracking request/response pairs.
