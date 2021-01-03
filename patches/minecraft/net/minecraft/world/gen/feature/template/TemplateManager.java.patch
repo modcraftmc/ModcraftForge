@@ -1,0 +1,35 @@
+--- a/net/minecraft/world/gen/feature/template/TemplateManager.java
++++ b/net/minecraft/world/gen/feature/template/TemplateManager.java
+@@ -13,6 +13,7 @@
+ import java.nio.file.InvalidPathException;
+ import java.nio.file.Path;
+ import java.util.Map;
++import java.util.concurrent.ConcurrentHashMap;
+ import javax.annotation.Nullable;
+ import net.minecraft.nbt.CompoundNBT;
+ import net.minecraft.nbt.CompressedStreamTools;
+@@ -30,7 +31,7 @@
+ 
+ public class TemplateManager implements IResourceManagerReloadListener {
+    private static final Logger field_195431_a = LogManager.getLogger();
+-   private final Map<ResourceLocation, Template> field_186240_a = Maps.newHashMap();
++   private final Map<ResourceLocation, Template> field_186240_a = new ConcurrentHashMap();
+    private final DataFixer field_191154_c;
+    private final MinecraftServer field_195432_d;
+    private final Path field_195433_e;
+@@ -54,6 +55,7 @@
+ 
+    @Nullable
+    public Template func_200219_b(ResourceLocation p_200219_1_) {
++      System.out.println("GetTemplate");
+       return this.field_186240_a.computeIfAbsent(p_200219_1_, (p_209204_1_) -> {
+          Template template = this.func_195428_d(p_209204_1_);
+          return template != null ? template : this.func_209201_e(p_209204_1_);
+@@ -61,6 +63,7 @@
+    }
+ 
+    public void func_195410_a(IResourceManager p_195410_1_) {
++      System.out.println("cleaning");
+       this.field_186240_a.clear();
+    }
+ 

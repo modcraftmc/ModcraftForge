@@ -1,15 +1,6 @@
 --- a/net/minecraft/tileentity/EnderChestTileEntity.java
 +++ b/net/minecraft/tileentity/EnderChestTileEntity.java
-@@ -23,6 +23,8 @@
-    }
- 
-    public void func_73660_a() {
-+      if (!field_145850_b.func_201670_d()) return;
-+
-       if (++this.field_145974_k % 20 * 4 == 0) {
-          this.field_145850_b.func_175641_c(this.field_174879_c, Blocks.field_150477_bB, 1, this.field_145973_j);
-       }
-@@ -64,6 +66,40 @@
+@@ -64,6 +64,40 @@
  
     }
  
@@ -50,17 +41,17 @@
     public boolean func_145842_c(int p_145842_1_, int p_145842_2_) {
        if (p_145842_1_ == 1) {
           this.field_145973_j = p_145842_2_;
-@@ -81,11 +117,13 @@
+@@ -81,11 +115,13 @@
     public void func_145969_a() {
        ++this.field_145973_j;
        this.field_145850_b.func_175641_c(this.field_174879_c, Blocks.field_150477_bB, 1, this.field_145973_j);
-+      doOpenLogic();
++      //doOpenLogic();
     }
  
     public void func_145970_b() {
        --this.field_145973_j;
        this.field_145850_b.func_175641_c(this.field_174879_c, Blocks.field_150477_bB, 1, this.field_145973_j);
-+      doCloseLogic();
++      //doCloseLogic();
     }
  
     public boolean func_145971_a(PlayerEntity p_145971_1_) {

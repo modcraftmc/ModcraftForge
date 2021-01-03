@@ -97,6 +97,8 @@ project(':clean') {
             name 'maven_central'
             url 'https://repo.maven.apache.org/maven2/'
         }
+        maven { url = 'https://files.minecraftforge.net/maven' }
+
 
         maven {
             url 'https://raw.githubusercontent.com/modcraftmc/ModcraftMaven/master/'
@@ -231,6 +233,8 @@ project(':forge') {
             name 'maven_central'
             url 'https://repo.maven.apache.org/maven2/'
         }
+
+        maven { url = 'https://files.minecraftforge.net/maven' }
 
         maven {
             url 'https://raw.githubusercontent.com/modcraftmc/ModcraftMaven/master/'

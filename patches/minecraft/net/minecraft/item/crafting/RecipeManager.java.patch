@@ -10,7 +10,7 @@
  import net.minecraft.client.resources.JsonReloadListener;
  import net.minecraft.inventory.IInventory;
  import net.minecraft.item.ItemStack;
-@@ -50,9 +53,18 @@
+@@ -50,14 +53,23 @@
  
        for(Entry<ResourceLocation, JsonObject> entry : p_212853_1_.entrySet()) {
           ResourceLocation resourcelocation = entry.getKey();
@@ -29,13 +29,9 @@
              map.computeIfAbsent(irecipe.func_222127_g(), (p_223391_0_) -> {
                 return ImmutableMap.builder();
              }).put(resourcelocation, irecipe);
-@@ -121,7 +133,8 @@
-    public static IRecipe<?> func_215377_a(ResourceLocation p_215377_0_, JsonObject p_215377_1_) {
-       String s = JSONUtils.func_151200_h(p_215377_1_, "type");
-       return Registry.field_218368_I.func_218349_b(new ResourceLocation(s)).orElseThrow(() -> {
--         return new JsonSyntaxException("Invalid or unsupported recipe type '" + s + "'");
-+         if (ModcraftConfig.isShowRecipeManagerError()) return new JsonSyntaxException("Invalid or unsupported recipe type '" + s + "'");
-+         else return new SilentException();
-       }).func_199425_a_(p_215377_0_, p_215377_1_);
-    }
+          } catch (IllegalArgumentException | JsonParseException jsonparseexception) {
+-            field_199521_c.error("Parsing error loading recipe {}", resourcelocation, jsonparseexception);
++            if (ModcraftConfig.isShowRecipeManagerError()) field_199521_c.error("Parsing error loading recipe {}", resourcelocation, jsonparseexception);
+          }
+       }
  

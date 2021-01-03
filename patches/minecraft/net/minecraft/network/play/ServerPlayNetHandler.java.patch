@@ -23,7 +23,33 @@
              ActionResultType actionresulttype = this.field_147369_b.field_71134_c.func_219441_a(this.field_147369_b, serverworld, itemstack, hand, blockraytraceresult);
              if (actionresulttype.func_226247_b_()) {
                 this.field_147369_b.func_226292_a_(hand, true);
-@@ -968,7 +972,9 @@
+@@ -950,7 +954,11 @@
+    }
+ 
+    public void func_147354_a(CChatMessagePacket p_147354_1_) {
+-      PacketThreadUtil.func_218796_a(p_147354_1_, this, this.field_147369_b.func_71121_q());
++      //PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.player.getServerWorld());
++
++      boolean isSync = p_147354_1_.func_149439_c().startsWith("/");
++      if (isSync) PacketThreadUtil.func_218796_a(p_147354_1_, this, this.field_147369_b.func_71121_q());
++
+       if (this.field_147369_b.func_147096_v() == ChatVisibility.HIDDEN) {
+          this.func_147359_a(new SChatPacket((new TranslationTextComponent("chat.cannotSend")).func_211708_a(TextFormatting.RED)));
+       } else {
+@@ -960,7 +968,11 @@
+ 
+          for(int i = 0; i < s.length(); ++i) {
+             if (!SharedConstants.func_71566_a(s.charAt(i))) {
+-               this.func_194028_b(new TranslationTextComponent("multiplayer.disconnect.illegal_characters"));
++               if (!isSync) {
++                  this.field_147367_d.execute(() -> this.func_194028_b(new TranslationTextComponent("multiplayer.disconnect.illegal_characters")));
++               } else {
++                  this.func_194028_b(new TranslationTextComponent("multiplayer.disconnect.illegal_characters"));
++               }
+                return;
+             }
+          }
+@@ -968,7 +980,9 @@
           if (s.startsWith("/")) {
              this.func_147361_d(s);
           } else {
@@ -34,7 +60,7 @@
              this.field_147367_d.func_184103_al().func_148544_a(itextcomponent, false);
           }
  
-@@ -1061,6 +1067,7 @@
+@@ -1061,6 +1075,7 @@
                 this.field_147369_b.func_190775_a(entity, hand);
              } else if (p_147340_1_.func_149565_c() == CUseEntityPacket.Action.INTERACT_AT) {
                 Hand hand1 = p_147340_1_.func_186994_b();
@@ -42,7 +68,7 @@
                 ActionResultType actionresulttype = entity.func_184199_a(this.field_147369_b, p_147340_1_.func_179712_b(), hand1);
                 if (actionresulttype.func_226247_b_()) {
                    this.field_147369_b.func_226292_a_(hand1, true);
-@@ -1094,7 +1101,7 @@
+@@ -1094,7 +1109,7 @@
                 return;
              }
  
@@ -51,7 +77,7 @@
              if (this.field_147367_d.func_71199_h()) {
                 this.field_147369_b.func_71033_a(GameType.SPECTATOR);
                 this.field_147369_b.func_71121_q().func_82736_K().func_223585_a(GameRules.field_223613_p).func_223570_a(false, this.field_147367_d);
-@@ -1268,6 +1275,8 @@
+@@ -1268,6 +1283,8 @@
     }
  
     public void func_147349_a(CCustomPayloadPacket p_147349_1_) {
