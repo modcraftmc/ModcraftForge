@@ -1,0 +1,17 @@
+--- a/com/mojang/blaze3d/platform/GLX.java
++++ b/com/mojang/blaze3d/platform/GLX.java
+@@ -46,6 +46,14 @@
+       p_229878_0_.put(1286, "Operation on incomplete framebuffer");
+    });
+ 
++   public static boolean isUsingFBOs() {
++      return true;
++   }
++
++   public static boolean useVbo() {
++      return true;
++   }
++
+    public static String getOpenGLVersionString() {
+       RenderSystem.assertThread(RenderSystem::isOnRenderThread);
+       return GLFW.glfwGetCurrentContext() == 0L ? "NO CONTEXT" : GlStateManager.func_227610_C_(7937) + " GL version " + GlStateManager.func_227610_C_(7938) + ", " + GlStateManager.func_227610_C_(7936);

@@ -19,6 +19,7 @@
 
 package net.minecraftforge.common;
 
+import fr.modcraftmc.forge.commands.ModcraftCommand;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -120,6 +121,7 @@ public class ForgeInternalHandler
     {
         new ForgeCommand(event.getDispatcher());
         ConfigCommand.register(event.getDispatcher());
+        ModcraftCommand.register(event.getDispatcher());
     }
     
     private static LootModifierManager INSTANCE;

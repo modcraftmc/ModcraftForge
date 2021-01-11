@@ -22,6 +22,8 @@ package net.minecraftforge.fml.client;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import fr.modcraftmc.forge.ModcraftForge;
+import fr.modcraftmc.forge.utils.ColorUtils;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.MathHelper;
@@ -70,7 +72,11 @@ public class EarlyLoaderGUI {
         int guiScale = window.calcGuiScale(0, false);
         window.setGuiScale(guiScale);
 
-        RenderSystem.clearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        float r = (ColorUtils.backColor >> 16 & 0xff)/255f;
+        float g = (ColorUtils.backColor >> 8 & 0xff)/255f;
+        float b = (ColorUtils.backColor & 0xff)/255f;
+
+        RenderSystem.clearColor(r, g, b, 1.0f);
         RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
         RenderSystem.pushMatrix();
         setupMatrix();
@@ -116,6 +122,7 @@ public class EarlyLoaderGUI {
         memorycolour[1] = ((i >> 8 ) & 0xFF) / 255.0f;
         memorycolour[0] = ((i >> 16 ) & 0xFF) / 255.0f;
         renderMessage(memory, memorycolour, 1, 1.0f);
+        renderMessage(ModcraftForge.getFormatedStartTime(), memorycolour, 2, 1.0f);
     }
 
     @SuppressWarnings("deprecation")

@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.stream.IntStream;
 
+import fr.modcraftmc.forge.ModcraftForge;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourceManagerReloadListener;
 import net.minecraftforge.client.ForgeHooksClient;
@@ -46,6 +47,7 @@ public class BrandingControl
             brd.add("Forge " + ForgeVersion.getVersion());
             brd.add("Minecraft " + MCPVersion.getMCVersion());
             brd.add("MCP " + MCPVersion.getMCPVersion());
+            brd.add("ModcraftForge " + ModcraftForge.getVersionBrand());
             int tModCount = ModList.get().size();
             brd.add(ForgeI18n.parseMessage("fml.menu.loadingmods", tModCount));
             brandings = brd.build();
@@ -82,11 +84,11 @@ public class BrandingControl
     }
 
     public static String getClientBranding() {
-        return "forge";
+        return ModcraftForge.getVersionBrand();
     }
 
     public static String getServerBranding() {
-        return "forge";
+        return ModcraftForge.getVersionBrand();
     }
 
     public static IResourceManagerReloadListener resourceManagerReloadListener() {

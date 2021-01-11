@@ -57,6 +57,19 @@ public class Util {
 			def url = "https://libraries.minecraft.net/${path}"
 			if (!checkExists(url)) {
 				url = "https://files.minecraftforge.net/maven/${path}"
+
+				if (!checkExists(url)) {
+					url = "https://hub.spigotmc.org/nexus/content/groups/public/${path}"
+					if (!checkExists(url)) {
+						url = "https://raw.githubusercontent.com/modcraftmc/ModcraftMaven/master/${path}"
+						if (!checkExists(url)) {
+							url = "https://maven.gegy.dev/${path}"
+							if (!checkExists(url)) {
+								url = "https://repo.maven.apache.org/maven2/${path}"
+							}
+						}
+					}
+				}
 			}
 			//TODO remove when Mojang launcher is updated
 			if (!classifiers && art.classifier != null) { //Mojang launcher doesn't currently support classifiers, so... move it to part of the version, and force the extension to 'jar'
