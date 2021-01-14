@@ -1,0 +1,20 @@
+--- a/net/minecraft/entity/ai/goal/GoalSelector.java
++++ b/net/minecraft/entity/ai/goal/GoalSelector.java
+@@ -7,6 +7,8 @@
+ import java.util.Set;
+ import java.util.function.Supplier;
+ import java.util.stream.Stream;
++
++import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
+ import net.minecraft.profiler.IProfiler;
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
+@@ -23,7 +25,7 @@
+       }
+    };
+    private final Map<Goal.Flag, PrioritizedGoal> field_220891_c = new EnumMap<>(Goal.Flag.class);
+-   private final Set<PrioritizedGoal> field_220892_d = Sets.newLinkedHashSet();
++   private final Set<PrioritizedGoal> field_220892_d = /*Sets.newLinkedHashSet(); */  new ObjectLinkedOpenHashSet<>();
+    private final Supplier<IProfiler> field_75781_c;
+    private final EnumSet<Goal.Flag> field_220893_f = EnumSet.noneOf(Goal.Flag.class);
+    private int field_75779_e = 3;

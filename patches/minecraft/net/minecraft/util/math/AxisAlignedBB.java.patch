@@ -1,0 +1,160 @@
+--- a/net/minecraft/util/math/AxisAlignedBB.java
++++ b/net/minecraft/util/math/AxisAlignedBB.java
+@@ -15,6 +15,157 @@
+    public final double field_72337_e;
+    public final double field_72334_f;
+ 
++   public static final double COLLISION_EPSILON = 1.0E-7; // Tuinity - Just in case mojang changes this...
++   // Tuinity start
++   public final boolean isEmpty() {
++      return (this.field_72336_d - this.field_72340_a) < COLLISION_EPSILON && (this.field_72337_e - this.field_72338_b) < COLLISION_EPSILON && (this.field_72334_f - this.field_72339_c) < COLLISION_EPSILON;
++   }
++
++   public static AxisAlignedBB getBoxForChunk(int chunkX, int chunkZ) {
++      double x = (double)(chunkX << 4);
++      double z = (double)(chunkZ << 4);
++      // use a bounding box bigger than the chunk to prevent entities from entering it on move
++      return new AxisAlignedBB(x - 3*COLLISION_EPSILON, Double.NEGATIVE_INFINITY, z - 3*COLLISION_EPSILON, x + (16.0 + 3*COLLISION_EPSILON), Double.POSITIVE_INFINITY, z + (16.0 + 3*COLLISION_EPSILON));
++   }
++
++    /*
++      A couple of rules for VoxelShape collisions:
++      Two shapes only intersect if they are actually more than EPSILON units into each other. This also applies to movement
++      checks.
++      If the two shapes strictly collide, then the return value of a collide call will return a value in the opposite
++      direction of the source move. However, this value will not be greater in magnitude than EPSILON. Collision code
++      will automatically round it to 0.
++     */
++
++   public final boolean voxelShapeIntersect(AxisAlignedBB other) {
++      return (this.field_72340_a - other.field_72336_d) < -COLLISION_EPSILON && (this.field_72336_d - other.field_72340_a) > COLLISION_EPSILON &&
++              (this.field_72338_b - other.field_72337_e) < -COLLISION_EPSILON && (this.field_72337_e - other.field_72338_b) > COLLISION_EPSILON &&
++              (this.field_72339_c - other.field_72334_f) < -COLLISION_EPSILON && (this.field_72334_f - other.field_72339_c) > COLLISION_EPSILON;
++   }
++
++   public final boolean voxelShapeIntersect(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
++      return (this.field_72340_a - maxX) < -COLLISION_EPSILON && (this.field_72336_d - minX) > COLLISION_EPSILON &&
++              (this.field_72338_b - maxY) < -COLLISION_EPSILON && (this.field_72337_e - minY) > COLLISION_EPSILON &&
++              (this.field_72339_c - maxZ) < -COLLISION_EPSILON && (this.field_72334_f - minZ) > COLLISION_EPSILON;
++   }
++
++   public static boolean voxelShapeIntersect(double minX1, double minY1, double minZ1, double maxX1, double maxY1, double maxZ1,
++                                             double minX2, double minY2, double minZ2, double maxX2, double maxY2, double maxZ2) {
++      return (minX1 - maxX2) < -COLLISION_EPSILON && (maxX1 - minX2) > COLLISION_EPSILON &&
++              (minY1 - maxY2) < -COLLISION_EPSILON && (maxY1 - minY2) > COLLISION_EPSILON &&
++              (minZ1 - maxZ2) < -COLLISION_EPSILON && (maxZ1 - minZ2) > COLLISION_EPSILON;
++   }
++
++   public static double collideX(AxisAlignedBB target, AxisAlignedBB source, double source_move) {
++      if (target.isEmpty() || source.isEmpty()) {
++         return source_move;
++      }
++      if (Math.abs(source_move) < COLLISION_EPSILON) {
++         return 0.0;
++      }
++
++      if ((source.field_72338_b - target.field_72337_e) < -COLLISION_EPSILON && (source.field_72337_e - target.field_72338_b) > COLLISION_EPSILON &&
++              (source.field_72339_c - target.field_72334_f) < -COLLISION_EPSILON && (source.field_72334_f - target.field_72339_c) > COLLISION_EPSILON) {
++
++         if (source_move >= 0.0) {
++            double max_move = target.field_72340_a - source.field_72336_d; // < 0.0 if no strict collision
++            if (max_move < -COLLISION_EPSILON) {
++               return source_move;
++            }
++            return Math.min(max_move, source_move);
++         } else {
++            double max_move = target.field_72336_d - source.field_72340_a; // > 0.0 if no strict collision
++            if (max_move > COLLISION_EPSILON) {
++               return source_move;
++            }
++            return Math.max(max_move, source_move);
++         }
++      }
++      return source_move;
++   }
++
++   public static double collideY(AxisAlignedBB target, AxisAlignedBB source, double source_move) {
++      if (target.isEmpty() || source.isEmpty()) {
++         return source_move;
++      }
++      if (Math.abs(source_move) < COLLISION_EPSILON) {
++         return 0.0;
++      }
++
++      if ((source.field_72340_a - target.field_72336_d) < -COLLISION_EPSILON && (source.field_72336_d - target.field_72340_a) > COLLISION_EPSILON &&
++              (source.field_72339_c - target.field_72334_f) < -COLLISION_EPSILON && (source.field_72334_f - target.field_72339_c) > COLLISION_EPSILON) {
++         if (source_move >= 0.0) {
++            double max_move = target.field_72338_b - source.field_72337_e; // < 0.0 if no strict collision
++            if (max_move < -COLLISION_EPSILON) {
++               return source_move;
++            }
++            return Math.min(max_move, source_move);
++         } else {
++            double max_move = target.field_72337_e - source.field_72338_b; // > 0.0 if no strict collision
++            if (max_move > COLLISION_EPSILON) {
++               return source_move;
++            }
++            return Math.max(max_move, source_move);
++         }
++      }
++      return source_move;
++   }
++
++   public static double collideZ(AxisAlignedBB target, AxisAlignedBB source, double source_move) {
++      if (target.isEmpty() || source.isEmpty()) {
++         return source_move;
++      }
++      if (Math.abs(source_move) < COLLISION_EPSILON) {
++         return 0.0;
++      }
++
++      if ((source.field_72340_a - target.field_72336_d) < -COLLISION_EPSILON && (source.field_72336_d - target.field_72340_a) > COLLISION_EPSILON &&
++              (source.field_72338_b - target.field_72337_e) < -COLLISION_EPSILON && (source.field_72337_e - target.field_72338_b) > COLLISION_EPSILON) {
++         if (source_move >= 0.0) {
++            double max_move = target.field_72339_c - source.field_72334_f; // < 0.0 if no strict collision
++            if (max_move < -COLLISION_EPSILON) {
++               return source_move;
++            }
++            return Math.min(max_move, source_move);
++         } else {
++            double max_move = target.field_72334_f - source.field_72339_c; // > 0.0 if no strict collision
++            if (max_move > COLLISION_EPSILON) {
++               return source_move;
++            }
++            return Math.max(max_move, source_move);
++         }
++      }
++      return source_move;
++   }
++
++   public final AxisAlignedBB expandUpwards(double dy) {
++      return new AxisAlignedBB(this.field_72340_a, this.field_72338_b, this.field_72339_c, this.field_72336_d, this.field_72337_e + dy, this.field_72334_f);
++   }
++
++   public final  AxisAlignedBB cutUpwards(final double dy) { // dy > 0.0
++      return new AxisAlignedBB(this.field_72340_a, this.field_72337_e, this.field_72339_c, this.field_72336_d, this.field_72337_e + dy, this.field_72334_f);
++   }
++
++   public final AxisAlignedBB cutDownwards(final double dy) { // dy < 0.0
++      return new AxisAlignedBB(this.field_72340_a, this.field_72338_b + dy, this.field_72339_c, this.field_72336_d, this.field_72338_b, this.field_72334_f);
++   }
++
++   public final AxisAlignedBB expandUpwardsAndCutBelow(double dy) {
++      return new AxisAlignedBB(this.field_72340_a, this.field_72337_e, this.field_72339_c, this.field_72336_d, this.field_72337_e + dy, this.field_72334_f);
++   }
++
++   public final AxisAlignedBB offsetX(double dx) {
++      return new AxisAlignedBB(this.field_72340_a + dx, this.field_72338_b, this.field_72339_c, this.field_72336_d + dx, this.field_72337_e, this.field_72334_f);
++   }
++
++   public final AxisAlignedBB offsetY(double dy) {
++      return new AxisAlignedBB(this.field_72340_a, this.field_72338_b + dy, this.field_72339_c, this.field_72336_d, this.field_72337_e + dy, this.field_72334_f);
++   }
++
++   public final AxisAlignedBB offsetZ(double dz) {
++      return new AxisAlignedBB(this.field_72340_a, this.field_72338_b, this.field_72339_c + dz, this.field_72336_d, this.field_72337_e, this.field_72334_f + dz);
++   }
++
+    public AxisAlignedBB(double p_i2300_1_, double p_i2300_3_, double p_i2300_5_, double p_i2300_7_, double p_i2300_9_, double p_i2300_11_) {
+       this.field_72340_a = Math.min(p_i2300_1_, p_i2300_7_);
+       this.field_72338_b = Math.min(p_i2300_3_, p_i2300_9_);

@@ -1,0 +1,136 @@
+--- a/net/minecraft/util/math/shapes/VoxelShapeArray.java
++++ b/net/minecraft/util/math/shapes/VoxelShapeArray.java
+@@ -3,30 +3,60 @@
+ import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
+ import it.unimi.dsi.fastutil.doubles.DoubleList;
+ import java.util.Arrays;
++import java.util.List;
++
+ import net.minecraft.util.Direction;
+ import net.minecraft.util.Util;
++import net.minecraft.util.math.AxisAlignedBB;
+ 
+ public final class VoxelShapeArray extends VoxelShape {
+    private final DoubleList field_197782_a;
+    private final DoubleList field_197783_b;
+    private final DoubleList field_197784_c;
+ 
++   // Tuinity start - optimise multi-aabb shapes
++   static final AxisAlignedBB[] EMPTY = new AxisAlignedBB[0];
++   final AxisAlignedBB[] boundingBoxesRepresentation;
++
++   final double offsetX;
++   final double offsetY;
++   final double offsetZ;
++   // Tuinity end - optimise multi-aabb shapes
++
+    protected VoxelShapeArray(VoxelShapePart p_i47693_1_, double[] p_i47693_2_, double[] p_i47693_3_, double[] p_i47693_4_) {
+       this(p_i47693_1_, (DoubleList)DoubleArrayList.wrap(Arrays.copyOf(p_i47693_2_, p_i47693_1_.func_197823_b() + 1)), (DoubleList)DoubleArrayList.wrap(Arrays.copyOf(p_i47693_3_, p_i47693_1_.func_197820_c() + 1)), (DoubleList)DoubleArrayList.wrap(Arrays.copyOf(p_i47693_4_, p_i47693_1_.func_197821_d() + 1)));
+    }
+ 
+    VoxelShapeArray(VoxelShapePart p_i47694_1_, DoubleList p_i47694_2_, DoubleList p_i47694_3_, DoubleList p_i47694_4_) {
+-      super(p_i47694_1_);
+-      int i = p_i47694_1_.func_197823_b() + 1;
+-      int j = p_i47694_1_.func_197820_c() + 1;
+-      int k = p_i47694_1_.func_197821_d() + 1;
+-      if (i == p_i47694_2_.size() && j == p_i47694_3_.size() && k == p_i47694_4_.size()) {
+-         this.field_197782_a = p_i47694_2_;
+-         this.field_197783_b = p_i47694_3_;
+-         this.field_197784_c = p_i47694_4_;
++      // Tuinity start - optimise multi-aabb shapes
++      this(p_i47694_1_, p_i47694_2_, p_i47694_3_, p_i47694_4_, null, null, 0.0, 0.0, 0.0);
++   }
++
++   VoxelShapeArray(VoxelShapePart shapePartIn, DoubleList xPointsIn, DoubleList yPointsIn, DoubleList zPointsIn, VoxelShapeArray original, AxisAlignedBB[] boundingBoxesRepresentation, double offsetX, double offsetY, double offsetZ) {
++      super(shapePartIn);
++      int i = shapePartIn.func_197823_b() + 1;
++      int j = shapePartIn.func_197820_c() + 1;
++      int k = shapePartIn.func_197821_d() + 1;
++      if (i == xPointsIn.size() && j == yPointsIn.size() && k == zPointsIn.size()) {
++         this.field_197782_a = xPointsIn;
++         this.field_197783_b = yPointsIn;
++         this.field_197784_c = zPointsIn;
+       } else {
+          throw (IllegalArgumentException)Util.func_229757_c_(new IllegalArgumentException("Lengths of point arrays must be consistent with the size of the VoxelShape."));
+       }
++
++      // Tuinity start - optimise multi-aabb shapes
++      this.boundingBoxesRepresentation = boundingBoxesRepresentation == null ? this.func_197756_d().toArray(EMPTY) : boundingBoxesRepresentation; // Tuinity - optimise multi-aabb shapes
++      if (original == null) {
++         this.offsetX = offsetX;
++         this.offsetY = offsetY;
++         this.offsetZ = offsetZ;
++      } else {
++         this.offsetX = offsetX + original.offsetX;
++         this.offsetY = offsetY + original.offsetY;
++         this.offsetZ = offsetZ + original.offsetZ;
++      }
++      // Tuinity end - optimise multi-aabb shapes
+    }
+ 
+    protected DoubleList func_197757_a(Direction.Axis p_197757_1_) {
+@@ -41,4 +71,64 @@
+          throw new IllegalArgumentException();
+       }
+    }
++
++   // Tuinity start - optimise multi-aabb shapes
++   @Override
++   public VoxelShape func_197751_a(double d0, double d1, double d2) {
++      if (this == VoxelShapes.field_197886_a || this.boundingBoxesRepresentation.length == 0) {
++         return this;
++      }
++      return new VoxelShapeArray(this.field_197768_g, new OffsetDoubleList(this.func_197757_a(Direction.Axis.X), d0), new OffsetDoubleList(this.func_197757_a(Direction.Axis.Y), d1), new OffsetDoubleList(this.func_197757_a(Direction.Axis.Z), d2), this, this.boundingBoxesRepresentation, d0, d1, d2);
++
++   }
++
++   @Override
++   public List<AxisAlignedBB> func_197756_d() { // getBoundingBoxesRepresentation
++      if (this.boundingBoxesRepresentation == null) {
++         return super.func_197756_d();
++      }
++      List<AxisAlignedBB> ret = new java.util.ArrayList<>(this.boundingBoxesRepresentation.length);
++
++      double offX = this.offsetX;
++      double offY = this.offsetY;
++      double offZ = this.offsetZ;
++      for (AxisAlignedBB boundingBox : this.boundingBoxesRepresentation) {
++         ret.add(boundingBox.func_72317_d(offX, offY, offZ));
++      }
++
++      return ret;
++   }
++
++   public final AxisAlignedBB[] getBoundingBoxesRepresentationRaw() {
++      return this.boundingBoxesRepresentation;
++   }
++
++   public final double getOffsetX() {
++      return this.offsetX;
++   }
++
++   public final double getOffsetY() {
++      return this.offsetY;
++   }
++
++   public final double getOffsetZ() {
++      return this.offsetZ;
++   }
++
++   public final boolean intersects(AxisAlignedBB axisalingedbb) {
++      // this can be optimised by checking an "overall shape" first, but not needed
++      double offX = this.offsetX;
++      double offY = this.offsetY;
++      double offZ = this.offsetZ;
++
++      for (AxisAlignedBB boundingBox : this.boundingBoxesRepresentation) {
++         if (axisalingedbb.voxelShapeIntersect(boundingBox.field_72340_a + offX, boundingBox.field_72338_b + offY, boundingBox.field_72339_c + offZ,
++                 boundingBox.field_72336_d + offX, boundingBox.field_72337_e + offY, boundingBox.field_72334_f + offZ)) {
++            return true;
++         }
++      }
++
++      return false;
++   }
++   // Tuinity end - optimise multi-aabb shapes
+ }

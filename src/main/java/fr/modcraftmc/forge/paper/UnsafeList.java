@@ -111,6 +111,32 @@ public class UnsafeList<E> extends AbstractList<E> implements List<E>, RandomAcc
         return indexOf(o) >= 0;
     }
 
+    // Tuinity start
+    protected transient int maxSize;
+    public void setSize(int size) {
+        if (this.maxSize < this.size) {
+            this.maxSize = this.size;
+        }
+        this.size = size;
+    }
+
+    public void completeReset() {
+        if (this.data != null) {
+            Arrays.fill(this.data, 0, Math.max(this.size, this.maxSize), null);
+        }
+        this.size = 0;
+        this.maxSize = 0;
+        if (this.iterPool != null) {
+            for (Iterator temp : this.iterPool) {
+                if (temp == null) {
+                    continue;
+                }
+                ((Itr)temp).valid = false;
+            }
+        }
+    }
+    // Tuinity end
+
     @Override
     public void clear() {
         // Create new array to reset memory usage to initial capacity

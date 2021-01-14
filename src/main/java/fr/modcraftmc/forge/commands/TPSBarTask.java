@@ -1,5 +1,6 @@
 package fr.modcraftmc.forge.commands;
 
+import fr.modcraftmc.forge.utils.MathUtils;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.CustomServerBossInfo;
 import net.minecraft.server.CustomServerBossInfoManager;
@@ -80,7 +81,7 @@ public class TPSBarTask implements ITickableTileEntity {
             bar.setColor(BossInfo.Color.RED);
         }
 
-        double mspt = ServerLifecycleHooks.getCurrentServer().getTickTime();
+        double mspt = MathUtils.mean(ServerLifecycleHooks.getCurrentServer().tickTimeArray);
         String msptColor;
         if (mspt < 40) {
             msptColor = "§2";

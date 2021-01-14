@@ -1,0 +1,37 @@
+--- a/net/minecraft/util/math/shapes/VoxelShape.java
++++ b/net/minecraft/util/math/shapes/VoxelShape.java
+@@ -2,6 +2,7 @@
+ 
+ import com.google.common.collect.Lists;
+ import com.google.common.math.DoubleMath;
++import fr.modcraftmc.forge.tuinity.AABBVoxelShape;
+ import it.unimi.dsi.fastutil.doubles.DoubleList;
+ import java.util.List;
+ import javax.annotation.Nullable;
+@@ -17,11 +18,11 @@
+ import net.minecraftforge.api.distmarker.OnlyIn;
+ 
+ public abstract class VoxelShape {
+-   protected final VoxelShapePart field_197768_g;
++   protected final VoxelShapePart field_197768_g; public final VoxelShapePart getShape() { return this.field_197768_g; } // Tuinity - OBFHELPER
+    @Nullable
+    private VoxelShape[] field_222864_b;
+ 
+-   VoxelShape(VoxelShapePart p_i47680_1_) {
++   public VoxelShape(VoxelShapePart p_i47680_1_) {
+       this.field_197768_g = p_i47680_1_;
+    }
+ 
+@@ -57,6 +58,12 @@
+       return (VoxelShape)(this.func_197766_b() ? VoxelShapes.func_197880_a() : new VoxelShapeArray(this.field_197768_g, (DoubleList)(new OffsetDoubleList(this.func_197757_a(Direction.Axis.X), p_197751_1_)), (DoubleList)(new OffsetDoubleList(this.func_197757_a(Direction.Axis.Y), p_197751_3_)), (DoubleList)(new OffsetDoubleList(this.func_197757_a(Direction.Axis.Z), p_197751_5_))));
+    }
+ 
++   // Tuinity start - optimise multi-aabb shapes
++   public boolean intersects(final AxisAlignedBB axisalingedbb) {
++      return VoxelShapes.applyOperation(this, new AABBVoxelShape(axisalingedbb), IBooleanFunction.field_223238_i_);
++   }
++   // Tuinity end - optimise multi-aabb shapes
++
+    public VoxelShape func_197753_c() {
+       VoxelShape[] avoxelshape = new VoxelShape[]{VoxelShapes.func_197880_a()};
+       this.func_197755_b((p_197763_1_, p_197763_3_, p_197763_5_, p_197763_7_, p_197763_9_, p_197763_11_) -> {

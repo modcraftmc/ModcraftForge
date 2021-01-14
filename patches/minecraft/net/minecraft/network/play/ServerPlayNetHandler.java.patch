@@ -1,6 +1,26 @@
 --- a/net/minecraft/network/play/ServerPlayNetHandler.java
 +++ b/net/minecraft/network/play/ServerPlayNetHandler.java
-@@ -391,9 +391,11 @@
+@@ -366,9 +366,9 @@
+             double d9 = entity.func_213322_ci().func_189985_c();
+             double d10 = d6 * d6 + d7 * d7 + d8 * d8;
+             if (d10 - d9 > 100.0D && !this.func_217264_d()) {
+-               field_147370_c.warn("{} (vehicle of {}) moved too quickly! {},{},{}", entity.func_200200_C_().getString(), this.field_147369_b.func_200200_C_().getString(), d6, d7, d8);
+-               this.field_147371_a.func_179290_a(new SMoveVehiclePacket(entity));
+-               return;
++               //LOGGER.warn("{} (vehicle of {}) moved too quickly! {},{},{}", entity.getName().getString(), this.player.getName().getString(), d6, d7, d8);
++               //this.netManager.sendPacket(new SMoveVehiclePacket(entity));
++               //return;
+             }
+ 
+             boolean flag = serverworld.func_226665_a__(entity, entity.func_174813_aQ().func_186664_h(0.0625D));
+@@ -386,14 +386,16 @@
+             d10 = d6 * d6 + d7 * d7 + d8 * d8;
+             boolean flag1 = false;
+             if (d10 > 0.0625D) {
+-               flag1 = true;
+-               field_147370_c.warn("{} (vehicle of {}) moved wrongly! {}", entity.func_200200_C_().getString(), this.field_147369_b.func_200200_C_().getString(), Math.sqrt(d10));
++               //flag1 = true;
++               //LOGGER.warn("{} (vehicle of {}) moved wrongly! {}", entity.getName().getString(), this.player.getName().getString(), Math.sqrt(d10));
              }
  
              entity.func_70080_a(d3, d4, d5, f, f1);
@@ -21,6 +41,30 @@
     }
  
     public void func_184339_a(CConfirmTeleportPacket p_184339_1_) {
+@@ -807,9 +809,9 @@
+                      if (!this.field_147369_b.func_184850_K() && (!this.field_147369_b.func_71121_q().func_82736_K().func_223586_b(GameRules.field_223615_r) || !this.field_147369_b.func_184613_cA())) {
+                         float f2 = this.field_147369_b.func_184613_cA() ? 300.0F : 100.0F;
+                         if (d11 - d10 > (double)(f2 * (float)i) && !this.func_217264_d()) {
+-                           field_147370_c.warn("{} moved too quickly! {},{},{}", this.field_147369_b.func_200200_C_().getString(), d7, d8, d9);
+-                           this.func_147364_a(this.field_147369_b.func_226277_ct_(), this.field_147369_b.func_226278_cu_(), this.field_147369_b.func_226281_cx_(), this.field_147369_b.field_70177_z, this.field_147369_b.field_70125_A);
+-                           return;
++                           //LOGGER.warn("{} moved too quickly! {},{},{}", this.player.getName().getString(), d7, d8, d9);
++                           //this.setPlayerLocation(this.player.getPosX(), this.player.getPosY(), this.player.getPosZ(), this.player.rotationYaw, this.player.rotationPitch);
++                           //return;
+                         }
+                      }
+ 
+@@ -833,8 +835,8 @@
+                      d11 = d7 * d7 + d8 * d8 + d9 * d9;
+                      boolean flag1 = false;
+                      if (!this.field_147369_b.func_184850_K() && d11 > 0.0625D && !this.field_147369_b.func_70608_bn() && !this.field_147369_b.field_71134_c.func_73083_d() && this.field_147369_b.field_71134_c.func_73081_b() != GameType.SPECTATOR) {
+-                        flag1 = true;
+-                        field_147370_c.warn("{} moved wrongly!", (Object)this.field_147369_b.func_200200_C_().getString());
++                        //flag1 = true;
++                        //LOGGER.warn("{} moved wrongly!", (Object)this.player.getName().getString());
+                      }
+ 
+                      this.field_147369_b.func_70080_a(d4, d5, d6, f, f1);
 @@ -950,7 +952,9 @@
        Direction direction = blockraytraceresult.func_216354_b();
        this.field_147369_b.func_143004_u();
