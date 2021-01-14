@@ -16,6 +16,14 @@ public class ModcraftCommand {
                     return execute(context.getSource().asPlayer());
                 })
         );
+        dispatcher.register(Commands.literal("monitorbar")
+            .requires((listener) -> {
+                return listener.hasPermissionLevel(2);
+            })
+                .executes(context -> {
+                    return execute(context.getSource().asPlayer());
+                })
+        );
     }
 
     private static int execute(ServerPlayerEntity player) {

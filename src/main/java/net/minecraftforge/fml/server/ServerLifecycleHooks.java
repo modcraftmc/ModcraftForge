@@ -21,6 +21,7 @@ package net.minecraftforge.fml.server;
 
 import static net.minecraftforge.fml.Logging.CORE;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -82,9 +83,11 @@ public class ServerLifecycleHooks
 
     private static Path getServerConfigPath(final MinecraftServer server)
     {
-        final Path serverConfig = server.func_240776_a_(SERVERCONFIG);
-        FileUtils.getOrCreateDirectory(serverConfig, "serverconfig");
-        return serverConfig;
+        //final Path serverConfig = server.func_240776_a_(SERVERCONFIG);
+        //FileUtils.getOrCreateDirectory(serverConfig, "serverconfig");
+        File file = new File("serverconfig");
+        file.mkdir();
+        return file.toPath();
     }
 
     public static boolean handleServerAboutToStart(final MinecraftServer server)

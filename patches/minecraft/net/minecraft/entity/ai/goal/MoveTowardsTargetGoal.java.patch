@@ -1,0 +1,10 @@
+--- a/net/minecraft/entity/ai/goal/MoveTowardsTargetGoal.java
++++ b/net/minecraft/entity/ai/goal/MoveTowardsTargetGoal.java
+@@ -4,6 +4,7 @@
+ import net.minecraft.entity.CreatureEntity;
+ import net.minecraft.entity.LivingEntity;
+ import net.minecraft.entity.ai.RandomPositionGenerator;
++import net.minecraft.util.math.BlockPos;
+ import net.minecraft.util.math.vector.Vector3d;
+ 
+ public class MoveTowardsTargetGoal extends Goal {

@@ -1,6 +1,64 @@
 --- a/net/minecraft/world/server/ServerChunkProvider.java
 +++ b/net/minecraft/world/server/ServerChunkProvider.java
-@@ -353,7 +353,7 @@
+@@ -17,6 +17,9 @@
+ import java.util.function.Function;
+ import java.util.function.Supplier;
+ import javax.annotation.Nullable;
++
++import fr.modcraftmc.forge.paper.WeakSeqLock;
++import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+ import net.minecraft.entity.Entity;
+ import net.minecraft.entity.player.ServerPlayerEntity;
+ import net.minecraft.network.IPacket;
+@@ -65,6 +68,47 @@
+    @Nullable
+    private WorldEntitySpawner.EntityDensityManager field_241097_p_;
+ 
++   final WeakSeqLock loadedChunkMapSeqLock = new WeakSeqLock();
++   final Long2ObjectOpenHashMap<Chunk> loadedChunkMap = new Long2ObjectOpenHashMap<>(8192, 0.5f);
++
++   private final Chunk[] lastLoadedChunks = new Chunk[4 * 4];
++   private static int getChunkCacheKey(int x, int z) {
++      return x & 3 | ((z & 3) << 2);
++   }
++
++   void addLoadedChunk(Chunk chunk) {
++      this.loadedChunkMapSeqLock.acquireWrite();
++      try {
++         this.loadedChunkMap.put(chunk.coordinateKey, chunk);
++      } finally {
++         this.loadedChunkMapSeqLock.releaseWrite();
++      }
++
++      // rewrite cache if we have to
++      // we do this since we also cache null chunks
++      int cacheKey = getChunkCacheKey(chunk.locX, chunk.locZ);
++
++      this.lastLoadedChunks[cacheKey] = chunk;
++   }
++
++   void removeLoadedChunk(Chunk chunk) {
++      this.loadedChunkMapSeqLock.acquireWrite();
++      try {
++         this.loadedChunkMap.remove(chunk.coordinateKey);
++      } finally {
++         this.loadedChunkMapSeqLock.releaseWrite();
++      }
++
++      // rewrite cache if we have to
++      // we do this since we also cache null chunks
++      int cacheKey = getChunkCacheKey(chunk.locX, chunk.locZ);
++
++      Chunk cachedChunk = this.lastLoadedChunks[cacheKey];
++      if (cachedChunk != null && cachedChunk.coordinateKey == chunk.coordinateKey) {
++         this.lastLoadedChunks[cacheKey] = null;
++      }
++   }
++
+    public ServerChunkProvider(ServerWorld p_i232603_1_, SaveFormat.LevelSave p_i232603_2_, DataFixer p_i232603_3_, TemplateManager p_i232603_4_, Executor p_i232603_5_, ChunkGenerator p_i232603_6_, int p_i232603_7_, boolean p_i232603_8_, IChunkStatusListener p_i232603_9_, Supplier<DimensionSavedDataManager> p_i232603_10_) {
+       this.field_73251_h = p_i232603_1_;
+       this.field_217243_i = new ServerChunkProvider.ChunkExecutor(p_i232603_1_);
+@@ -353,7 +397,7 @@
                 if (optional1.isPresent()) {
                    Chunk chunk = optional1.get();
                    ChunkPos chunkpos = p_241099_7_.func_219277_h();

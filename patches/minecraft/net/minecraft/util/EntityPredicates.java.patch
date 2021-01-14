@@ -1,0 +1,18 @@
+--- a/net/minecraft/util/EntityPredicates.java
++++ b/net/minecraft/util/EntityPredicates.java
+@@ -6,6 +6,7 @@
+ import net.minecraft.entity.Entity;
+ import net.minecraft.entity.LivingEntity;
+ import net.minecraft.entity.player.PlayerEntity;
++import net.minecraft.entity.player.ServerPlayerEntity;
+ import net.minecraft.inventory.IInventory;
+ import net.minecraft.item.ItemStack;
+ import net.minecraft.scoreboard.Team;
+@@ -30,6 +31,7 @@
+       return !p_233587_0_.func_175149_v();
+    };
+ 
++
+    public static Predicate<Entity> func_188443_a(double p_188443_0_, double p_188443_2_, double p_188443_4_, double p_188443_6_) {
+       double d0 = p_188443_6_ * p_188443_6_;
+       return (p_233584_8_) -> {

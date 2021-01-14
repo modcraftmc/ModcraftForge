@@ -9,7 +9,7 @@
  import net.minecraft.profiler.IProfiler;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
-@@ -23,7 +25,7 @@
+@@ -23,11 +25,31 @@
        }
     };
     private final Map<Goal.Flag, PrioritizedGoal> field_220891_c = new EnumMap<>(Goal.Flag.class);
@@ -17,4 +17,29 @@
 +   private final Set<PrioritizedGoal> field_220892_d = /*Sets.newLinkedHashSet(); */  new ObjectLinkedOpenHashSet<>();
     private final Supplier<IProfiler> field_75781_c;
     private final EnumSet<Goal.Flag> field_220893_f = EnumSet.noneOf(Goal.Flag.class);
-    private int field_75779_e = 3;
+-   private int field_75779_e = 3;
++   private int field_75779_e = 3; private int getTickRate() { return field_75779_e; } // Paper - OBFHELPER
++   private int curRate;private int getCurRate() { return curRate; } private void incRate() { this.curRate++; } // Paper TODO
+ 
++   // Paper start
++   public boolean inactiveTick() {
++      if (getCurRate() % getTickRate() != 0) {
++         incRate();
++         return false;
++      } else {
++         return true;
++      }
++   }
++   public boolean hasTasks() {
++      for (PrioritizedGoal task : field_220892_d) {
++         if (task.func_220773_g()) {
++            return true;
++         }
++      }
++      return false;
++   }
++   // Paper end
++
+    public GoalSelector(Supplier<IProfiler> p_i231546_1_) {
+       this.field_75781_c = p_i231546_1_;
+    }

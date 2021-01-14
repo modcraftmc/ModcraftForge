@@ -10,11 +10,15 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.BossInfo;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
+import java.text.DecimalFormat;
+
 public class TPSBarTask implements ITickableTileEntity {
 
     private final ResourceLocation key;
     private CustomServerBossInfo bar;
     private static TPSBarTask instance;
+
+    private static final DecimalFormat TIME_FORMATTER = new DecimalFormat("########0.000");
 
     public static void onServerStartedEvent() {
         new TPSBarTask();
@@ -59,7 +63,7 @@ public class TPSBarTask implements ITickableTileEntity {
             return;
         }
 
-        double tps = /*ServerLifecycleHooks.getCurrentServer().getTPS()[0]; */ 20.0D;
+        double tps = ServerLifecycleHooks.getCurrentServer().getTPS()[0];
         if (tps > 20.0D) {
             tps = 20.0D;
         } else if (tps < 0.0D) {
@@ -81,7 +85,7 @@ public class TPSBarTask implements ITickableTileEntity {
             bar.setColor(BossInfo.Color.RED);
         }
 
-        double mspt = MathUtils.mean(ServerLifecycleHooks.getCurrentServer().tickTimeArray);
+        double mspt = ServerLifecycleHooks.getCurrentServer().getTickTime();
         String msptColor;
         if (mspt < 40) {
             msptColor = "§2";
@@ -91,6 +95,6 @@ public class TPSBarTask implements ITickableTileEntity {
             msptColor = "§4";
         }
 
-        bar.setName(new StringTextComponent("§eTPS§3: " + tpsColor + String.format("%.2f", tps) + "§eMSPT§3: " + msptColor + String.format("%.3f", mspt)));
+        bar.setName(new StringTextComponent("§eTPS§3: " + tpsColor + String.format("%.2f", tps) + "§eMSPT§3: " + msptColor + TIME_FORMATTER.format(mspt)));
     }
 }
