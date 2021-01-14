@@ -8,7 +8,8 @@ ModcraftForge is a fork of MinecraftForge which aims for high performance and ca
 
 | Version  | Support |
 | ------------- | ------------- |
-| 1.15.x  | Active  |
+| 1.16.x  | Active  |
+| 1.15.x  | LTS     |
 
 
 * [Download]
