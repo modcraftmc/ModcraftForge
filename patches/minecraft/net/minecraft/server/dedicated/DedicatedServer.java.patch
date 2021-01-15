@@ -36,6 +36,15 @@
        }
     }
  
+@@ -280,7 +284,7 @@
+       if (this.field_71342_m != null) {
+          this.field_71342_m.func_219591_b();
+       }
+-
++      Runtime.getRuntime().halt(0);
+    }
+ 
+    public void func_71190_q(BooleanSupplier p_71190_1_) {
 @@ -515,6 +519,11 @@
        return false;
     }

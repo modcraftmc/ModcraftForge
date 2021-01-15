@@ -129,6 +129,14 @@ project(':forge') {
     compileJava.sourceCompatibility = compileJava.targetCompatibility = sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
     group = 'net.minecraftforge'
 
+    compileJava.options.encoding = 'UTF-8'
+    /*
+    jar {
+        from {
+            configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        }
+    } */
+
     sourceSets {
         fmllauncher {
             java {
@@ -224,7 +232,7 @@ project(':forge') {
         return "${MC_VERSION}-${tag}.${offset}${t -> if (branch != null) t << '-' + branch}".toString() //Bake the response instead of making it dynamic
     }
 
-    version = getVersion()
+    version = /*getVersion()*/ "1.16.4-35.1.40"
     println('Forge Version: ' + version)
 
     patcher {

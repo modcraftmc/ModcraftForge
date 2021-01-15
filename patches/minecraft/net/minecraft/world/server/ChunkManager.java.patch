@@ -8,6 +8,15 @@
  import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
  import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
  import it.unimi.dsi.fastutil.longs.Long2ByteMap;
+@@ -101,7 +102,7 @@
+    private final LongSet field_219254_h = new LongOpenHashSet();
+    private final ServerWorld field_219255_i;
+    private final ServerWorldLightManager field_219256_j;
+-   private final ThreadTaskExecutor<Runnable> field_219257_k;
++   public final ThreadTaskExecutor<Runnable> field_219257_k;
+    private final ChunkGenerator field_219258_l;
+    private final Supplier<DimensionSavedDataManager> field_219259_m;
+    private final PointOfInterestManager field_219260_n;
 @@ -119,8 +120,16 @@
     private final Int2ObjectMap<ChunkManager.EntityTracker> field_219272_z = new Int2ObjectOpenHashMap<>();
     private final Long2ByteMap field_241087_z_ = new Long2ByteOpenHashMap();

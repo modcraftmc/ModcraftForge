@@ -1,0 +1,135 @@
+--- a/net/minecraft/world/chunk/ChunkSection.java
++++ b/net/minecraft/world/chunk/ChunkSection.java
+@@ -2,6 +2,9 @@
+ 
+ import java.util.function.Predicate;
+ import javax.annotation.Nullable;
++
++import ca.spottedleaf.starlight.common.blockstate.ExtendedAbstractBlockState;
++import ca.spottedleaf.starlight.common.chunk.ExtendedChunkSection;
+ import net.minecraft.block.Block;
+ import net.minecraft.block.BlockState;
+ import net.minecraft.block.Blocks;
+@@ -13,15 +16,85 @@
+ import net.minecraft.util.palette.PalettedContainer;
+ import net.minecraftforge.api.distmarker.Dist;
+ import net.minecraftforge.api.distmarker.OnlyIn;
++import org.spongepowered.asm.mixin.Unique;
+ 
+-public class ChunkSection {
++public class ChunkSection implements ExtendedChunkSection {
+    private static final IPalette<BlockState> field_205512_a = new IdentityPalette<>(Block.field_176229_d, Blocks.field_150350_a.func_176223_P());
+    private final int field_76684_a;
+    private short field_76682_b;
+    private short field_76683_c;
+    private short field_206918_e;
+-   private final PalettedContainer<BlockState> field_177488_d;
++   public final PalettedContainer<BlockState> field_177488_d;
+ 
++   protected int transparentBlockCount;
++   private final long[] knownBlockTransparencies = new long[16 * 16 * 16 / Long.SIZE]; // blocks * bits per block / bits per long
++
++   private static long getKnownTransparency(final BlockState state) {
++      final int opacityIfCached = ((ExtendedAbstractBlockState)state).getOpacityIfCached();
++
++      if (opacityIfCached == 0) {
++         return ExtendedChunkSection.BLOCK_IS_TRANSPARENT;
++      }
++
++      return ExtendedChunkSection.BLOCK_UNKNOWN_TRANSPARENCY;
++   }
++
++   /* NOTE: Index is y | (x << 4) | (z << 8) */
++   private void updateTransparencyInfo(final int blockIndex, final long transparency) {
++      final int arrayIndex = (blockIndex >>> 6); // blockIndex / 64
++      final int valueShift = (blockIndex & (Long.SIZE - 1));
++
++      long value = this.knownBlockTransparencies[arrayIndex];
++
++      value &= ~(0b1L << valueShift);
++      value |= (transparency << valueShift);
++
++      this.knownBlockTransparencies[arrayIndex] = value;
++   }
++
++   private void initKnownTransparenciesData() {
++      this.transparentBlockCount = 0;
++      for (int y = 0; y <= 15; ++y) {
++         for (int z = 0; z <= 15; ++z) {
++            for (int x = 0; x <= 15; ++x) {
++               final long transparency = getKnownTransparency(this.field_177488_d.func_186016_a(x, y, z));
++               if (transparency == ExtendedChunkSection.BLOCK_IS_TRANSPARENT) {
++                  ++this.transparentBlockCount;
++               }
++               this.updateTransparencyInfo(y | (x << 4) | (z << 8), transparency);
++            }
++         }
++      }
++   }
++
++   @Override
++   public final long getKnownTransparency(final int blockIndex) {
++      // index = y | (x << 4) | (z << 8)
++      final int arrayIndex = (blockIndex >>> 6); // blockIndex / 64
++      final int valueShift = (blockIndex & (Long.SIZE - 1));
++
++      final long value = this.knownBlockTransparencies[arrayIndex];
++
++      return (value >>> valueShift) & 0b1L;
++   }
++
++
++   @Override
++   public final long getBitsetForColumn(final int columnX, final int columnZ) {
++      // index = y | (x << 4) | (z << 8)
++      final int columnIndex = (columnX << 4) | (columnZ << 8);
++      final long value = this.knownBlockTransparencies[columnIndex >>> 6]; // columnIndex / 64
++
++      final int startIndex = (columnIndex & (Long.SIZE - 1));
++
++      return (value >>> startIndex) & ((1L << 16) - 1);
++   }
++
++   @Override
++   public final boolean hasOpaqueBlocks() {
++      return this.transparentBlockCount != 4096;
++   }
++
+    public ChunkSection(int p_i49943_1_) {
+       this(p_i49943_1_, (short)0, (short)0, (short)0);
+    }
+@@ -86,6 +159,18 @@
+          ++this.field_206918_e;
+       }
+ 
++      final long oldTransparency = getKnownTransparency(blockstate);
++      final long newTransparency = getKnownTransparency(p_177484_4_);
++
++      if (oldTransparency == ExtendedChunkSection.BLOCK_IS_TRANSPARENT) {
++         --this.transparentBlockCount;
++      }
++      if (newTransparency == ExtendedChunkSection.BLOCK_IS_TRANSPARENT) {
++         ++this.transparentBlockCount;
++      }
++
++      this.updateTransparencyInfo(p_177484_2_ | (p_177484_1_ << 4) | (p_177484_3_ << 8), newTransparency);
++
+       return blockstate;
+    }
+ 
+@@ -134,6 +219,7 @@
+          }
+ 
+       });
++      this.initKnownTransparenciesData();
+    }
+ 
+    public PalettedContainer<BlockState> func_186049_g() {
+@@ -144,6 +230,7 @@
+    public void func_222634_a(PacketBuffer p_222634_1_) {
+       this.field_76682_b = p_222634_1_.readShort();
+       this.field_177488_d.func_186010_a(p_222634_1_);
++      this.initKnownTransparenciesData();
+    }
+ 
+    public void func_222630_b(PacketBuffer p_222630_1_) {

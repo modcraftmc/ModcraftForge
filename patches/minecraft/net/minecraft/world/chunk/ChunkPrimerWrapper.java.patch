@@ -1,0 +1,60 @@
+--- a/net/minecraft/world/chunk/ChunkPrimerWrapper.java
++++ b/net/minecraft/world/chunk/ChunkPrimerWrapper.java
+@@ -1,5 +1,7 @@
+ package net.minecraft.world.chunk;
+ 
++import ca.spottedleaf.starlight.common.chunk.ExtendedChunk;
++import ca.spottedleaf.starlight.common.light.SWMRNibbleArray;
+ import it.unimi.dsi.fastutil.longs.LongSet;
+ import java.util.BitSet;
+ import java.util.Map;
+@@ -23,8 +25,10 @@
+ import net.minecraft.world.gen.feature.structure.Structure;
+ import net.minecraft.world.gen.feature.structure.StructureStart;
+ import net.minecraft.world.lighting.WorldLightManager;
++import org.spongepowered.asm.mixin.Final;
++import org.spongepowered.asm.mixin.Shadow;
+ 
+-public class ChunkPrimerWrapper extends ChunkPrimer {
++public class ChunkPrimerWrapper extends ChunkPrimer implements IChunk, ExtendedChunk {
+    private final Chunk field_209220_a;
+ 
+    public ChunkPrimerWrapper(Chunk p_i49948_1_) {
+@@ -32,6 +36,37 @@
+       this.field_209220_a = p_i49948_1_;
+    }
+ 
++
++   @Override
++   public SWMRNibbleArray[] getBlockNibbles() {
++      return ((ExtendedChunk)this.field_209220_a).getBlockNibbles();
++   }
++
++   @Override
++   public void setBlockNibbles(final SWMRNibbleArray[] nibbles) {
++      ((ExtendedChunk)this.field_209220_a).setBlockNibbles(nibbles);
++   }
++
++   @Override
++   public SWMRNibbleArray[] getSkyNibbles() {
++      return ((ExtendedChunk)this.field_209220_a).getSkyNibbles();
++   }
++
++   @Override
++   public void setSkyNibbles(final SWMRNibbleArray[] nibbles) {
++      ((ExtendedChunk)this.field_209220_a).setSkyNibbles(nibbles);
++   }
++
++   @Override
++   public boolean[] getEmptinessMap() {
++      return ((ExtendedChunk)this.field_209220_a).getEmptinessMap();
++   }
++
++   @Override
++   public void setEmptinessMap(final boolean[] emptinessMap) {
++      ((ExtendedChunk)this.field_209220_a).setEmptinessMap(emptinessMap);
++   }
++
+    @Nullable
+    public TileEntity func_175625_s(BlockPos p_175625_1_) {
+       return this.field_209220_a.func_175625_s(p_175625_1_);

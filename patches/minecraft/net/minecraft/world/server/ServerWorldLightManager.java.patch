@@ -1,0 +1,275 @@
+--- a/net/minecraft/world/server/ServerWorldLightManager.java
++++ b/net/minecraft/world/server/ServerWorldLightManager.java
+@@ -1,5 +1,8 @@
+ package net.minecraft.world.server;
+ 
++import ca.spottedleaf.starlight.common.light.StarLightEngine;
++import ca.spottedleaf.starlight.common.light.StarLightInterface;
++import ca.spottedleaf.starlight.common.light.StarLightLightingProvider;
+ import com.mojang.datafixers.util.Pair;
+ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+ import it.unimi.dsi.fastutil.objects.ObjectList;
+@@ -15,16 +18,12 @@
+ import net.minecraft.util.math.ChunkPos;
+ import net.minecraft.util.math.SectionPos;
+ import net.minecraft.world.LightType;
+-import net.minecraft.world.chunk.ChunkSection;
+-import net.minecraft.world.chunk.ChunkTaskPriorityQueueSorter;
+-import net.minecraft.world.chunk.IChunk;
+-import net.minecraft.world.chunk.IChunkLightProvider;
+-import net.minecraft.world.chunk.NibbleArray;
++import net.minecraft.world.chunk.*;
+ import net.minecraft.world.lighting.WorldLightManager;
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
+ 
+-public class ServerWorldLightManager extends WorldLightManager implements AutoCloseable {
++public class ServerWorldLightManager extends WorldLightManager implements AutoCloseable, StarLightLightingProvider {
+    private static final Logger field_215604_a = LogManager.getLogger();
+    private final DelegatedTaskExecutor<Runnable> field_215605_b;
+    private final ObjectList<Pair<ServerWorldLightManager.Phase, Runnable>> field_215606_c = new ObjectArrayList<>();
+@@ -33,6 +32,48 @@
+    private volatile int field_215609_f = 5;
+    private final AtomicBoolean field_215610_g = new AtomicBoolean();
+ 
++   private long workTicketCounts = 0L;
++
++   private void queueTaskForSection(final int chunkX, final int chunkY, final int chunkZ, final Runnable runnable) {
++      // TODO this impl is actually fucking awful for checking neighbours and keeping neighbours, for the love of god rewrite it
++
++      final ServerWorld world = (ServerWorld)this.getLightEngine().getWorld();
++
++      if (!world.func_72863_F().field_217237_a.field_219257_k.func_213162_bc()) {
++         // this is not safe to run off-main, re-schedule
++         world.func_72863_F().field_217237_a.field_219257_k.execute(() -> {
++            this.queueTaskForSection(chunkX, chunkY, chunkZ, runnable);
++         });
++         return;
++      }
++
++      IChunk center = this.getLightEngine().getAnyChunkNow(chunkX, chunkZ);
++      if (center == null || !center.func_201589_g().func_209003_a(ChunkStatus.field_222614_j) || !center.func_217310_r()) {
++         // do not accept updates in unlit chunks
++         return;
++      }
++
++      final Long ticketId = Long.valueOf(this.workTicketCounts++);
++
++      // ensure 1 radius features is loaded (yes they can UNLOAD)
++      for (int dz = -1; dz <= 1; ++dz) {
++         for (int dx = -1; dx <= 1; ++dx) {
++            world.func_217353_a(dx + chunkX, dz + chunkZ, (dx | dz) == 0 ? ChunkStatus.field_222614_j : ChunkStatus.field_222613_i, true);
++         }
++      }
++
++      world.func_72863_F().func_217228_a(StarLightInterface.CHUNK_WORK_TICKET, new ChunkPos(chunkX, chunkZ), 0, ticketId);
++
++      this.func_215586_a(chunkX, chunkZ, ServerWorldLightManager.Phase.PRE_UPDATE, () -> { // enqueue
++         runnable.run();
++         this.func_215586_a(chunkX, chunkZ, ServerWorldLightManager.Phase.POST_UPDATE, () -> { // enqueue
++            world.func_72863_F().field_217237_a.field_219257_k.execute(() -> {
++               world.func_72863_F().func_217222_b(StarLightInterface.CHUNK_WORK_TICKET, new ChunkPos(chunkX, chunkZ), 0, ticketId);
++            });
++         });
++      });
++   }
++
+    public ServerWorldLightManager(IChunkLightProvider p_i50701_1_, ChunkManager p_i50701_2_, boolean p_i50701_3_, DelegatedTaskExecutor<Runnable> p_i50701_4_, ITaskExecutor<ChunkTaskPriorityQueueSorter.FunctionEntry<Runnable>> p_i50701_5_) {
+       super(p_i50701_1_, true, p_i50701_3_);
+       this.field_215607_d = p_i50701_2_;
+@@ -52,61 +93,83 @@
+    }
+ 
+    public void func_215568_a(BlockPos p_215568_1_) {
+-      BlockPos blockpos = p_215568_1_.func_185334_h();
+-      this.func_215586_a(p_215568_1_.func_177958_n() >> 4, p_215568_1_.func_177952_p() >> 4, ServerWorldLightManager.Phase.POST_UPDATE, Util.func_215075_a(() -> {
+-         super.func_215568_a(blockpos);
++      /*
++      BlockPos blockpos = blockPosIn.toImmutable();
++      this.func_215586_a(blockPosIn.getX() >> 4, blockPosIn.getZ() >> 4, ServerWorldLightManager.Phase.POST_UPDATE, Util.namedRunnable(() -> {
++         super.checkBlock(blockpos);
+       }, () -> {
+          return "checkBlock " + blockpos;
+       }));
++
++       */
++      final BlockPos posCopy = p_215568_1_.func_185334_h();
++      this.queueTaskForSection(posCopy.func_177958_n() >> 4, posCopy.func_177956_o() >> 4, posCopy.func_177952_p() >> 4, () -> {
++         super.func_215568_a(posCopy);
++      });
+    }
+ 
+    protected void func_215581_a(ChunkPos p_215581_1_) {
+-      this.func_215600_a(p_215581_1_.field_77276_a, p_215581_1_.field_77275_b, () -> {
++      /*
++      this.func_215600_a(p_215581_1_.x, p_215581_1_.z, () -> {
+          return 0;
+-      }, ServerWorldLightManager.Phase.PRE_UPDATE, Util.func_215075_a(() -> {
+-         super.func_223115_b(p_215581_1_, false);
+-         super.func_215571_a(p_215581_1_, false);
++      }, ServerWorldLightManager.Phase.PRE_UPDATE, Util.namedRunnable(() -> {
++         super.retainData(p_215581_1_, false);
++         super.enableLightSources(p_215581_1_, false);
+ 
+          for(int i = -1; i < 17; ++i) {
+-            super.func_215574_a(LightType.BLOCK, SectionPos.func_218156_a(p_215581_1_, i), (NibbleArray)null, true);
+-            super.func_215574_a(LightType.SKY, SectionPos.func_218156_a(p_215581_1_, i), (NibbleArray)null, true);
++            super.setData(LightType.BLOCK, SectionPos.from(p_215581_1_, i), (NibbleArray)null, true);
++            super.setData(LightType.SKY, SectionPos.from(p_215581_1_, i), (NibbleArray)null, true);
+          }
+ 
+          for(int j = 0; j < 16; ++j) {
+-            super.func_215566_a(SectionPos.func_218156_a(p_215581_1_, j), true);
++            super.updateSectionStatus(SectionPos.from(p_215581_1_, j), true);
+          }
+ 
+       }, () -> {
+          return "updateChunkStatus " + p_215581_1_ + " " + true;
+       }));
++       */
+    }
+ 
+    public void func_215566_a(SectionPos p_215566_1_, boolean p_215566_2_) {
+-      this.func_215600_a(p_215566_1_.func_218149_a(), p_215566_1_.func_218148_c(), () -> {
++      /*
++      this.func_215600_a(pos.getSectionX(), pos.getSectionZ(), () -> {
+          return 0;
+-      }, ServerWorldLightManager.Phase.PRE_UPDATE, Util.func_215075_a(() -> {
+-         super.func_215566_a(p_215566_1_, p_215566_2_);
++      }, ServerWorldLightManager.Phase.PRE_UPDATE, Util.namedRunnable(() -> {
++         super.updateSectionStatus(pos, isEmpty);
+       }, () -> {
+-         return "updateSectionStatus " + p_215566_1_ + " " + p_215566_2_;
++         return "updateSectionStatus " + pos + " " + isEmpty;
+       }));
++
++       */
++
++      this.queueTaskForSection(p_215566_1_.func_177958_n(), p_215566_1_.func_177956_o(), p_215566_1_.func_177952_p(), () -> {
++         super.func_215566_a(p_215566_1_, p_215566_2_);
++      });
+    }
+ 
+    public void func_215571_a(ChunkPos p_215571_1_, boolean p_215571_2_) {
+-      this.func_215586_a(p_215571_1_.field_77276_a, p_215571_1_.field_77275_b, ServerWorldLightManager.Phase.PRE_UPDATE, Util.func_215075_a(() -> {
+-         super.func_215571_a(p_215571_1_, p_215571_2_);
++      /*
++      this.func_215586_a(p_215571_1_.x, p_215571_1_.z, ServerWorldLightManager.Phase.PRE_UPDATE, Util.namedRunnable(() -> {
++         super.enableLightSources(p_215571_1_, p_215571_2_);
+       }, () -> {
+          return "enableLight " + p_215571_1_ + " " + p_215571_2_;
+       }));
++
++       */
+    }
+ 
+    public void func_215574_a(LightType p_215574_1_, SectionPos p_215574_2_, @Nullable NibbleArray p_215574_3_, boolean p_215574_4_) {
+-      this.func_215600_a(p_215574_2_.func_218149_a(), p_215574_2_.func_218148_c(), () -> {
++      /*
++      this.func_215600_a(pos.getSectionX(), pos.getSectionZ(), () -> {
+          return 0;
+-      }, ServerWorldLightManager.Phase.PRE_UPDATE, Util.func_215075_a(() -> {
+-         super.func_215574_a(p_215574_1_, p_215574_2_, p_215574_3_, p_215574_4_);
++      }, ServerWorldLightManager.Phase.PRE_UPDATE, Util.namedRunnable(() -> {
++         super.setData(type, pos, array, p_215574_4_);
+       }, () -> {
+-         return "queueData " + p_215574_2_;
++         return "queueData " + pos;
+       }));
++
++       */
+    }
+ 
+    private void func_215586_a(int p_215586_1_, int p_215586_2_, ServerWorldLightManager.Phase p_215586_3_, Runnable p_215586_4_) {
+@@ -124,46 +187,74 @@
+    }
+ 
+    public void func_223115_b(ChunkPos p_223115_1_, boolean p_223115_2_) {
+-      this.func_215600_a(p_223115_1_.field_77276_a, p_223115_1_.field_77275_b, () -> {
++      /*
++      this.func_215600_a(pos.x, pos.z, () -> {
+          return 0;
+-      }, ServerWorldLightManager.Phase.PRE_UPDATE, Util.func_215075_a(() -> {
+-         super.func_223115_b(p_223115_1_, p_223115_2_);
++      }, ServerWorldLightManager.Phase.PRE_UPDATE, Util.namedRunnable(() -> {
++         super.retainData(pos, retain);
+       }, () -> {
+-         return "retainData " + p_223115_1_;
++         return "retainData " + pos;
+       }));
++
++       */
+    }
+ 
+    public CompletableFuture<IChunk> func_215593_a(IChunk p_215593_1_, boolean p_215593_2_) {
+-      ChunkPos chunkpos = p_215593_1_.func_76632_l();
+-      p_215593_1_.func_217305_b(false);
+-      this.func_215586_a(chunkpos.field_77276_a, chunkpos.field_77275_b, ServerWorldLightManager.Phase.PRE_UPDATE, Util.func_215075_a(() -> {
+-         ChunkSection[] achunksection = p_215593_1_.func_76587_i();
+ 
++      final ChunkPos chunkPos = p_215593_1_.func_76632_l();
++
++      return CompletableFuture.supplyAsync(() -> {
++         final Boolean[] emptySections = StarLightEngine.getEmptySectionsForChunk(p_215593_1_);
++         if (!p_215593_2_) {
++            this.getLightEngine().lightChunk(chunkPos.field_77276_a, chunkPos.field_77275_b, emptySections);
++            p_215593_1_.func_217305_b(true);
++         } else {
++            this.getLightEngine().loadInChunk(chunkPos.field_77276_a, chunkPos.field_77275_b, emptySections);
++         }
++
++         this.field_215607_d.func_219209_c(chunkPos); // releaseLightTicket
++         return p_215593_1_;
++      }, (runnable) -> {
++         this.func_215586_a(chunkPos.field_77276_a, chunkPos.field_77275_b, ServerWorldLightManager.Phase.PRE_UPDATE, runnable); // enqueue
++      }).whenComplete((final IChunk c, final Throwable throwable) -> {
++         if (throwable != null) {
++            field_215604_a.fatal("Failed to light chunk " + chunkPos, throwable);
++         }
++      });
++
++      /*
++      ChunkPos chunkpos = p_215593_1_.getPos();
++      p_215593_1_.setLight(false);
++      this.func_215586_a(chunkpos.x, chunkpos.z, ServerWorldLightManager.Phase.PRE_UPDATE, Util.namedRunnable(() -> {
++         ChunkSection[] achunksection = p_215593_1_.getSections();
++
+          for(int i = 0; i < 16; ++i) {
+             ChunkSection chunksection = achunksection[i];
+-            if (!ChunkSection.func_222628_a(chunksection)) {
+-               super.func_215566_a(SectionPos.func_218156_a(chunkpos, i), false);
++            if (!ChunkSection.isEmpty(chunksection)) {
++               super.updateSectionStatus(SectionPos.from(chunkpos, i), false);
+             }
+          }
+ 
+-         super.func_215571_a(chunkpos, true);
++         super.enableLightSources(chunkpos, true);
+          if (!p_215593_2_) {
+-            p_215593_1_.func_217304_m().forEach((p_215579_2_) -> {
+-               super.func_215573_a(p_215579_2_, p_215593_1_.func_217298_h(p_215579_2_));
++            p_215593_1_.getLightSources().forEach((p_215579_2_) -> {
++               super.onBlockEmissionIncrease(p_215579_2_, p_215593_1_.getLightValue(p_215579_2_));
+             });
+          }
+ 
+-         this.field_215607_d.func_219209_c(chunkpos);
++         this.chunkManager.func_219209_c(chunkpos);
+       }, () -> {
+          return "lightChunk " + chunkpos + " " + p_215593_2_;
+       }));
+       return CompletableFuture.supplyAsync(() -> {
+-         p_215593_1_.func_217305_b(true);
+-         super.func_223115_b(chunkpos, false);
++         p_215593_1_.setLight(true);
++         super.retainData(chunkpos, false);
+          return p_215593_1_;
+       }, (p_215597_2_) -> {
+-         this.func_215586_a(chunkpos.field_77276_a, chunkpos.field_77275_b, ServerWorldLightManager.Phase.POST_UPDATE, p_215597_2_);
++         this.func_215586_a(chunkpos.x, chunkpos.z, ServerWorldLightManager.Phase.POST_UPDATE, p_215597_2_);
+       });
++
++       */
+    }
+ 
+    public void func_215588_z_() {

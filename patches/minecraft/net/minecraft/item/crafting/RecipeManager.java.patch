@@ -46,7 +46,8 @@
 +               return new Object2ObjectLinkedOpenHashMap<>();
              }).put(resourcelocation, irecipe);
           } catch (IllegalArgumentException | JsonParseException jsonparseexception) {
-             field_199521_c.error("Parsing error loading recipe {}", resourcelocation, jsonparseexception);
+-            field_199521_c.error("Parsing error loading recipe {}", resourcelocation, jsonparseexception);
++            //LOGGER.error("Parsing error loading recipe {}", resourcelocation, jsonparseexception);
           }
        }
  

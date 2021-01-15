@@ -53,12 +53,13 @@
     protected BlockPos field_242271_ac;
     private boolean field_83001_bt;
     protected UUID field_96093_i = MathHelper.func_180182_a(this.field_70146_Z);
-@@ -194,7 +199,18 @@
+@@ -193,8 +198,19 @@
+    private long field_191506_aJ;
     private EntitySize field_213325_aI;
     private float field_213326_aJ;
- 
++   public final ActivationRange.ActivationType activationType =  ActivationRange.initializeEntityActivationType(this);
 +   public final TrackingRange.TrackingRangeType trackingRangeType = TrackingRange.getTrackingRangeType(this);
-+   public final ActivationRange.ActivationType activationType =ActivationRange.initializeEntityActivationType(this);
+ 
 +   public final boolean defaultActivationState;
 +   public long activatedTick = Integer.MIN_VALUE;
 +   public boolean isTemporarilyActive = false; // Paper

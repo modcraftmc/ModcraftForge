@@ -131,7 +131,6 @@ public class ServerLifecycleHooks
         currentServer = null;
         LogicalSidedProvider.setServer(null);
         CountDownLatch latch = exitLatch;
-
         if (latch != null)
         {
             latch.countDown();
