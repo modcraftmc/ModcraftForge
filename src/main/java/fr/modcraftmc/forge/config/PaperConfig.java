@@ -8,6 +8,13 @@ public class PaperConfig {
     public int monsterActivationRange = 32;
     public int raiderActivationRange = 48;
     public int miscActivationRange = 16;
+
+    public int playerTrackingRange = 48;
+    public int animalTrackingRange = 48;
+    public int monsterTrackingRange = 48;
+    public int miscTrackingRange = 32;
+    public int otherTrackingRange = 64;
+
     // Paper start
     public int flyingMonsterActivationRange = 32;
     public int waterActivationRange = 16;
