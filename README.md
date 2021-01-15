@@ -4,7 +4,7 @@ ModcraftForge server software
 =============
 ![Java CI with Gradle](https://github.com/modcraftmc/ModcraftForge/workflows/Java%20CI%20with%20Gradle/badge.svg?branch=performance_upgrade)
 
-ModcraftForge is a fork of MinecraftForge which aims for high performance and capacity on 1.15.2 modded server
+ModcraftForge is a fork of MinecraftForge which aims for high performance and capacity on 1.16.4 and 1.15.2 modded server
 
 | Version  | Support |
 | ------------- | ------------- |
