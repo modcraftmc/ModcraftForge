@@ -1,0 +1,81 @@
+--- a/net/minecraft/util/concurrent/ThreadTaskExecutor.java
++++ b/net/minecraft/util/concurrent/ThreadTaskExecutor.java
+@@ -2,8 +2,10 @@
+ 
+ import com.google.common.collect.Queues;
+ import java.util.Queue;
++import java.util.concurrent.BlockingDeque;
+ import java.util.concurrent.CompletableFuture;
+ import java.util.concurrent.Executor;
++import java.util.concurrent.LinkedBlockingDeque;
+ import java.util.concurrent.locks.LockSupport;
+ import java.util.function.BooleanSupplier;
+ import java.util.function.Supplier;
+@@ -15,9 +17,12 @@
+ public abstract class ThreadTaskExecutor<R extends Runnable> implements ITaskExecutor<R>, Executor {
+    private final String field_213171_b;
+    private static final Logger field_213172_c = LogManager.getLogger();
+-   private final Queue<R> field_213173_d = Queues.newConcurrentLinkedQueue();
++   private final BlockingDeque<R> field_213173_d = new LinkedBlockingDeque<>(); // Yatopia - improve task performance
+    private int field_213174_e;
+ 
++   private R next = null; // Yatopia - improve task performance - temp storage for next object
++
++
+    protected ThreadTaskExecutor(String p_i50403_1_) {
+       this.field_213171_b = p_i50403_1_;
+    }
+@@ -76,7 +81,7 @@
+ 
+    public void func_212871_a_(R p_212871_1_) {
+       this.field_213173_d.add(p_212871_1_);
+-      LockSupport.unpark(this.func_213170_ax());
++      //LockSupport.unpark(this.getExecutionThread()); // Yatopia - improve task performance - replaced by LinkedBlockingQueue
+    }
+ 
+    public void execute(Runnable p_execute_1_) {
+@@ -100,13 +105,16 @@
+    }
+ 
+    protected boolean func_213168_p() {
+-      R r = this.field_213173_d.peek();
+-      if (r == null) {
++      //R r = this.queue.peek();
++      if (next == null && !field_213173_d.isEmpty()) func_223705_bi();
++      if (next == null) {
+          return false;
+-      } else if (this.field_213174_e == 0 && !this.func_212874_c_(r)) {
++      } else if (this.field_213174_e == 0 && !this.func_212874_c_(next)) {
+          return false;
+       } else {
+-         this.func_213166_h(this.field_213173_d.remove());
++         R r = next;
++         next = null;
++         this.func_213166_h(r);
+          return true;
+       }
+    }
+@@ -127,14 +135,21 @@
+    }
+ 
+    protected void func_223705_bi() {
+-      Thread.yield();
+-      LockSupport.parkNanos("waiting for tasks", 100000L);
++      // Yatopia start - replaced logic
++      //Thread.yield();
++      //LockSupport.parkNanos("waiting for tasks", 100000L);
++      next = null;
++      try {
++         next = field_213173_d.poll(100, java.util.concurrent.TimeUnit.MICROSECONDS);
++      } catch (InterruptedException ignored) {
++      }
+    }
+ 
+    protected void func_213166_h(R p_213166_1_) {
+       try {
+          p_213166_1_.run();
+       } catch (Exception exception) {
++         if (exception.getCause() instanceof ThreadDeath) throw exception; // Paper
+          field_213172_c.fatal("Error executing task on {}", this.func_213142_bd(), exception);
+       }
+ 
