@@ -63,10 +63,7 @@ public class Util {
 					if (!checkExists(url)) {
 						url = "https://raw.githubusercontent.com/modcraftmc/ModcraftMaven/master/${path}"
 						if (!checkExists(url)) {
-							url = "https://maven.gegy.dev/${path}"
-							if (!checkExists(url)) {
 								url = "https://repo.maven.apache.org/maven2/${path}"
-							}
 						}
 					}
 				}
