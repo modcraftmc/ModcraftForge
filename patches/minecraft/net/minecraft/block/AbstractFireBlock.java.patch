@@ -8,3 +8,17 @@
              if (optional.isPresent()) {
                 optional.get().func_150859_c();
                 return;
+@@ -171,12 +172,7 @@
+             }
+          }
+ 
+-         if (!flag) {
+-            return false;
+-         } else {
+-            Direction.Axis direction$axis = p_241466_2_.func_176740_k().func_176722_c() ? p_241466_2_.func_176735_f().func_176740_k() : Direction.Plane.HORIZONTAL.func_244803_b(p_241466_0_.field_73012_v);
+-            return PortalSize.func_242964_a(p_241466_0_, p_241466_1_, direction$axis).isPresent();
+-         }
++         return flag && PortalSize.func_242964_a(p_241466_0_, p_241466_1_, p_241466_2_.func_176735_f().func_176740_k()).isPresent();
+       }
+    }
+ }

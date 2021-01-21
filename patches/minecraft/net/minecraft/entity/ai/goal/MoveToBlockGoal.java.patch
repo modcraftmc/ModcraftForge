@@ -5,7 +5,7 @@
     protected int field_179493_e;
     private int field_179490_f;
 -   protected BlockPos field_179494_b = BlockPos.field_177992_a;
-+   protected BlockPos field_179494_b; public final BlockPos getTargetPosition() { return this.field_179494_b; } public void setTargetPosition(BlockPos pos) { this.field_179494_b = pos; field_179495_c.movingTarget = pos != BlockPos.field_177992_a ? pos : null; } // Paper - OBFHELPER
++   protected BlockPos field_179494_b = BlockPos.field_177992_a; public final BlockPos getTargetPosition() { return this.field_179494_b; } public void setTargetPosition(BlockPos pos) { this.field_179494_b = pos; field_179495_c.movingTarget = pos != BlockPos.field_177992_a ? pos : null; } // Paper - OBFHELPER
 +
     private boolean field_179491_g;
     private final int field_179497_h;
