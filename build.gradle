@@ -232,7 +232,7 @@ project(':forge') {
         return "${MC_VERSION}-${tag}.${offset}${t -> if (branch != null) t << '-' + branch}".toString() //Bake the response instead of making it dynamic
     }
 
-    version = /*getVersion()*/ "1.16.4-35.1.40"
+    version = /*getVersion()*/ "1.16.5-35.1.40"
     println('Forge Version: ' + version)
 
     patcher {

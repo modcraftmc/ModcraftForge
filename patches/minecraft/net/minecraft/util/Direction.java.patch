@@ -56,3 +56,14 @@
     }
  
     public static Direction func_210769_a(double p_210769_0_, double p_210769_2_, double p_210769_4_) {
+@@ -432,10 +454,6 @@
+          return Util.func_240989_a_(this.field_209387_c, p_179518_1_);
+       }
+ 
+-      public Direction.Axis func_244803_b(Random p_244803_1_) {
+-         return Util.func_240989_a_(this.field_209388_d, p_244803_1_);
+-      }
+-
+       public boolean test(@Nullable Direction p_test_1_) {
+          return p_test_1_ != null && p_test_1_.func_176740_k().func_176716_d() == this;
+       }

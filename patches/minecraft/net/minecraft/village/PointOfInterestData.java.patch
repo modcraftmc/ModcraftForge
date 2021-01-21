@@ -1,0 +1,40 @@
+--- a/net/minecraft/village/PointOfInterestData.java
++++ b/net/minecraft/village/PointOfInterestData.java
+@@ -15,7 +15,6 @@
+ import java.util.function.Consumer;
+ import java.util.function.Predicate;
+ import java.util.stream.Stream;
+-import net.minecraft.util.SharedConstants;
+ import net.minecraft.util.Util;
+ import net.minecraft.util.math.BlockPos;
+ import net.minecraft.util.math.SectionPos;
+@@ -79,21 +78,16 @@
+       if (pointofinterest != null) {
+          if (pointofinteresttype.equals(pointofinterest.func_218260_g())) {
+             return false;
++         } else {
++            throw (IllegalStateException)Util.func_229757_c_(new IllegalStateException("POI data mismatch: already registered at " + blockpos));
+          }
+-
+-         String s = "POI data mismatch: already registered at " + blockpos;
+-         if (SharedConstants.field_206244_b) {
+-            throw (IllegalStateException)Util.func_229757_c_(new IllegalStateException(s));
+-         }
+-
+-         field_218255_a.error(s);
++      } else {
++         this.field_218256_b.put(short1, p_218254_1_);
++         this.field_218257_c.computeIfAbsent(pointofinteresttype, (p_234155_0_) -> {
++            return Sets.newHashSet();
++         }).add(p_218254_1_);
++         return true;
+       }
+-
+-      this.field_218256_b.put(short1, p_218254_1_);
+-      this.field_218257_c.computeIfAbsent(pointofinteresttype, (p_234155_0_) -> {
+-         return Sets.newHashSet();
+-      }).add(p_218254_1_);
+-      return true;
+    }
+ 
+    public void func_218248_a(BlockPos p_218248_1_) {
