@@ -642,10 +642,8 @@ public class B3DModel
     public static class Vertex
     {
         private final Vector3f pos;
-        @Nullable
-        private final Vector3f normal;
-        @Nullable
-        private final Vector4f color;
+             private final Vector3f normal;
+             private final Vector4f color;
         private final Vector4f[] texCoords;
         public Vertex(Vector3f pos, @Nullable Vector3f normal, @Nullable Vector4f color, Vector4f[] texCoords)
         {
@@ -704,14 +702,12 @@ public class B3DModel
             return pos;
         }
 
-        @Nullable
-        public Vector3f getNormal()
+             public Vector3f getNormal()
         {
             return normal;
         }
 
-        @Nullable
-        public Vector4f getColor()
+             public Vector4f getColor()
         {
             return color;
         }
@@ -731,8 +727,7 @@ public class B3DModel
     public static class Face
     {
         private final Vertex v1, v2, v3;
-        @Nullable
-        private final Brush brush;
+             private final Brush brush;
         private final Vector3f normal;
 
         public Face(Vertex v1, Vertex v2, Vertex v3, @Nullable Brush brush)
@@ -764,8 +759,7 @@ public class B3DModel
             return v3;
         }
 
-        @Nullable
-        public Brush getBrush()
+             public Brush getBrush()
         {
             return brush;
         }
@@ -796,12 +790,9 @@ public class B3DModel
 
     public static class Key
     {
-        @Nullable
-        private final Vector3f pos;
-        @Nullable
-        private final Vector3f scale;
-        @Nullable
-        private final Quaternion rot;
+             private final Vector3f pos;
+             private final Vector3f scale;
+             private final Quaternion rot;
 
         public Key(@Nullable Vector3f pos, @Nullable Vector3f scale, @Nullable Quaternion rot)
         {
@@ -810,20 +801,17 @@ public class B3DModel
             this.rot = rot;
         }
 
-        @Nullable
-        public Vector3f getPos()
+             public Vector3f getPos()
         {
             return pos;
         }
 
-        @Nullable
-        public Vector3f getScale()
+             public Vector3f getScale()
         {
             return scale;
         }
 
-        @Nullable
-        public Quaternion getRot()
+             public Quaternion getRot()
         {
             return rot;
         }
@@ -890,11 +878,9 @@ public class B3DModel
         private final Vector3f scale;
         private final Quaternion rot;
         private final ImmutableMap<String, Node<?>> nodes;
-        @Nullable
-        private Animation animation;
+             private Animation animation;
         private final K kind;
-        @Nullable
-        private Node<? extends IKind<?>> parent;
+             private Node<? extends IKind<?>> parent;
 
         public static <K extends IKind<K>> Node<K> create(String name, Vector3f pos, Vector3f scale, Quaternion rot, List<Node<?>> nodes, K kind)
         {
@@ -980,14 +966,12 @@ public class B3DModel
             return nodes;
         }
 
-        @Nullable
-        public Animation getAnimation()
+             public Animation getAnimation()
         {
             return animation;
         }
 
-        @Nullable
-        public Node<? extends IKind<?>> getParent()
+             public Node<? extends IKind<?>> getParent()
         {
             return parent;
         }

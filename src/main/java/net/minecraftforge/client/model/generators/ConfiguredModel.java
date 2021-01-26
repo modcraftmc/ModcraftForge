@@ -192,8 +192,7 @@ public final class ConfiguredModel {
     public static class Builder<T> {
 
         private ModelFile model;
-        @Nullable
-        private final Function<ConfiguredModel[], T> callback;
+             private final Function<ConfiguredModel[], T> callback;
         private final List<ConfiguredModel> otherModels;
         private int rotationX;
         private int rotationY;

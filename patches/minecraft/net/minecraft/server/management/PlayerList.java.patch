@@ -106,7 +106,38 @@
        if (flag2) {
           serverplayerentity.field_71135_a.func_147359_a(new SPlaySoundEffectPacket(SoundEvents.field_232818_ms_, SoundCategory.BLOCKS, (double)blockpos.func_177958_n(), (double)blockpos.func_177956_o(), (double)blockpos.func_177952_p(), 1.0F, 1.0F));
        }
-@@ -769,6 +778,8 @@
+@@ -623,12 +632,28 @@
+    }
+ 
+    public void func_72389_g() {
+-      for(int i = 0; i < this.field_72404_b.size(); ++i) {
+-         this.func_72391_b(this.field_72404_b.get(i));
++      savePlayers(null);
++      /*
++      for(int i = 0; i < this.players.size(); ++i) {
++         this.writePlayerData(this.players.get(i));
+       }
+ 
++       */
+    }
+ 
++   public void savePlayers(Integer interval) {
++      int numSaved = 0;
++      long now = MinecraftServer.currentTick;
++      for (int i = 0; i < this.field_72404_b.size(); ++i) {
++         ServerPlayerEntity entityplayer = this.field_72404_b.get(i);
++         if (interval == null || now - entityplayer.lastSave >= interval) {
++            this.func_72391_b(entityplayer);
++            if (interval != null && ++numSaved <= 10 /* TODO/ paper config*/) { break; }
++         }
++         // Paper end
++      }
++   }
++
+    public WhiteList func_152599_k() {
+       return this.field_72411_j;
+    }
+@@ -769,6 +794,8 @@
           this.field_192055_p.put(uuid, playeradvancements);
        }
  
@@ -115,7 +146,7 @@
        playeradvancements.func_192739_a(p_192054_1_);
        return playeradvancements;
     }
-@@ -786,7 +797,7 @@
+@@ -786,7 +813,7 @@
     }
  
     public List<ServerPlayerEntity> func_181057_v() {
@@ -124,7 +155,7 @@
     }
  
     @Nullable
-@@ -804,6 +815,7 @@
+@@ -804,6 +831,7 @@
        }
  
        this.func_148540_a(new STagsListPacket(this.field_72400_f.func_244266_aF()));
@@ -132,7 +163,7 @@
        SUpdateRecipesPacket supdaterecipespacket = new SUpdateRecipesPacket(this.field_72400_f.func_199529_aN().func_199510_b());
  
        for(ServerPlayerEntity serverplayerentity : this.field_72404_b) {
-@@ -816,4 +828,12 @@
+@@ -816,4 +844,12 @@
     public boolean func_206257_x() {
        return this.field_72407_n;
     }

@@ -150,8 +150,7 @@ public interface IForgeBlock
      * @param world The world to create the TE in
      * @return A instance of a class extending TileEntity
      */
-    @Nullable
-    default TileEntity createTileEntity(BlockState state, IBlockReader world)
+     default TileEntity createTileEntity(BlockState state, IBlockReader world)
     {
         if (getBlock() instanceof ITileEntityProvider)
             return ((ITileEntityProvider)getBlock()).createNewTileEntity(world);
@@ -635,8 +634,7 @@ public interface IForgeBlock
      * @param beaconPos The position of the beacon
      * @return A float RGB [0.0, 1.0] array to be averaged with a beacon's existing beam color, or null to do nothing to the beam
      */
-    @Nullable
-    default float[] getBeaconColorMultiplier(BlockState state, IWorldReader world, BlockPos pos, BlockPos beaconPos)
+     default float[] getBeaconColorMultiplier(BlockState state, IWorldReader world, BlockPos pos, BlockPos beaconPos)
     {
         if (getBlock() instanceof IBeaconBeamColorProvider)
             return ((IBeaconBeamColorProvider)getBlock()).getColor().getColorComponentValues();
@@ -701,8 +699,7 @@ public interface IForgeBlock
      *
      * @return the PathNodeType
      */
-    @Nullable
-    default PathNodeType getAiPathNodeType(BlockState state, IBlockReader world, BlockPos pos, @Nullable MobEntity entity)
+     default PathNodeType getAiPathNodeType(BlockState state, IBlockReader world, BlockPos pos, @Nullable MobEntity entity)
     {
         return state.getBlock() == Blocks.LAVA ? PathNodeType.LAVA : state.isBurning(world, pos) ? PathNodeType.DAMAGE_FIRE : null;
     }
@@ -897,8 +894,7 @@ public interface IForgeBlock
      * @param stack The stack being used by the player
      * @return The resulting state after the action has been performed
      */
-    @Nullable
-    default BlockState getToolModifiedState(BlockState state, World world, BlockPos pos, PlayerEntity player, ItemStack stack, ToolType toolType)
+     default BlockState getToolModifiedState(BlockState state, World world, BlockPos pos, PlayerEntity player, ItemStack stack, ToolType toolType)
     {
         if (toolType == ToolType.AXE) return AxeItem.getAxeStrippingState(state);
         else if(toolType == ToolType.HOE) return HoeItem.getHoeTillingState(state);

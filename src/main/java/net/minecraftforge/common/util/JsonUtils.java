@@ -96,8 +96,7 @@ public class JsonUtils
         }
     }
 
-    @Nullable
-    public static CompoundNBT readNBT(JsonObject json, String key)
+     public static CompoundNBT readNBT(JsonObject json, String key)
     {
         if (net.minecraft.util.JSONUtils.hasField(json, key))
         {

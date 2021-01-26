@@ -1,0 +1,12 @@
+--- a/net/minecraft/world/storage/MapData.java
++++ b/net/minecraft/world/storage/MapData.java
+@@ -361,8 +361,7 @@
+          this.field_76211_a = p_i2138_2_;
+       }
+ 
+-      @Nullable
+-      public IPacket<?> func_176101_a(ItemStack p_176101_1_) {
++         public IPacket<?> func_176101_a(ItemStack p_176101_1_) {
+          if (this.field_176105_d) {
+             this.field_176105_d = false;
+             return new SMapDataPacket(FilledMapItem.func_195949_f(p_176101_1_), MapData.this.field_76197_d, MapData.this.field_186210_e, MapData.this.field_215161_h, MapData.this.field_76203_h.values(), MapData.this.field_76198_e, this.field_176106_e, this.field_176103_f, this.field_176104_g + 1 - this.field_176106_e, this.field_176108_h + 1 - this.field_176103_f);

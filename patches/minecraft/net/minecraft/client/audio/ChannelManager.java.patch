@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/audio/ChannelManager.java
++++ b/net/minecraft/client/audio/ChannelManager.java
+@@ -70,8 +70,7 @@
+ 
+    @OnlyIn(Dist.CLIENT)
+    public class Entry {
+-      @Nullable
+-      private SoundSource field_217893_b;
++         private SoundSource field_217893_b;
+       private boolean field_217894_c;
+ 
+       public boolean func_217889_a() {

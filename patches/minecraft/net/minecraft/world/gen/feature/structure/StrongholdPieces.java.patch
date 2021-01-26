@@ -1,0 +1,42 @@
+--- a/net/minecraft/world/gen/feature/structure/StrongholdPieces.java
++++ b/net/minecraft/world/gen/feature/structure/StrongholdPieces.java
+@@ -999,8 +999,7 @@
+ 
+    public static class Stairs2 extends StrongholdPieces.Stairs {
+       public StrongholdPieces.PieceWeight field_75027_a;
+-      @Nullable
+-      public StrongholdPieces.PortalRoom field_75025_b;
++         public StrongholdPieces.PortalRoom field_75025_b;
+       public final List<StructurePiece> field_75026_c = Lists.newArrayList();
+ 
+       public Stairs2(Random p_i50117_1_, int p_i50117_2_, int p_i50117_3_) {
+@@ -1216,8 +1215,7 @@
+          }
+       }
+ 
+-      @Nullable
+-      protected StructurePiece func_74986_a(StrongholdPieces.Stairs2 p_74986_1_, List<StructurePiece> p_74986_2_, Random p_74986_3_, int p_74986_4_, int p_74986_5_) {
++         protected StructurePiece func_74986_a(StrongholdPieces.Stairs2 p_74986_1_, List<StructurePiece> p_74986_2_, Random p_74986_3_, int p_74986_4_, int p_74986_5_) {
+          Direction direction = this.func_186165_e();
+          if (direction != null) {
+             switch(direction) {
+@@ -1235,8 +1233,7 @@
+          return null;
+       }
+ 
+-      @Nullable
+-      protected StructurePiece func_74989_b(StrongholdPieces.Stairs2 p_74989_1_, List<StructurePiece> p_74989_2_, Random p_74989_3_, int p_74989_4_, int p_74989_5_) {
++         protected StructurePiece func_74989_b(StrongholdPieces.Stairs2 p_74989_1_, List<StructurePiece> p_74989_2_, Random p_74989_3_, int p_74989_4_, int p_74989_5_) {
+          Direction direction = this.func_186165_e();
+          if (direction != null) {
+             switch(direction) {
+@@ -1254,8 +1251,7 @@
+          return null;
+       }
+ 
+-      @Nullable
+-      protected StructurePiece func_74987_c(StrongholdPieces.Stairs2 p_74987_1_, List<StructurePiece> p_74987_2_, Random p_74987_3_, int p_74987_4_, int p_74987_5_) {
++         protected StructurePiece func_74987_c(StrongholdPieces.Stairs2 p_74987_1_, List<StructurePiece> p_74987_2_, Random p_74987_3_, int p_74987_4_, int p_74987_5_) {
+          Direction direction = this.func_186165_e();
+          if (direction != null) {
+             switch(direction) {

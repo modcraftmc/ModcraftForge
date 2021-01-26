@@ -1,0 +1,12 @@
+--- a/net/minecraft/util/text/CharacterManager.java
++++ b/net/minecraft/util/text/CharacterManager.java
+@@ -434,8 +434,7 @@
+          return textpropertiesmanager.func_238156_b_();
+       }
+ 
+-      @Nullable
+-      public ITextProperties func_238371_a_() {
++         public ITextProperties func_238371_a_() {
+          TextPropertiesManager textpropertiesmanager = new TextPropertiesManager();
+          this.field_238369_a_.forEach(textpropertiesmanager::func_238155_a_);
+          this.field_238369_a_.clear();

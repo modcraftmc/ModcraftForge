@@ -52,8 +52,7 @@ public class RegisterDimensionsEvent extends Event
         return keys;
     }
 
-    @Nullable
-    public SavedEntry getEntry(ResourceLocation key)
+     public SavedEntry getEntry(ResourceLocation key)
     {
         return missing.get(key);
     }

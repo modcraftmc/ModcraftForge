@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/renderer/entity/EnderDragonRenderer.java
++++ b/net/minecraft/client/renderer/entity/EnderDragonRenderer.java
+@@ -183,8 +183,7 @@
+       private ModelRenderer field_229078_x_;
+       private ModelRenderer field_229079_y_;
+       private ModelRenderer field_229080_z_;
+-      @Nullable
+-      private EnderDragonEntity field_229064_A_;
++         private EnderDragonEntity field_229064_A_;
+       private float field_78223_m;
+ 
+       public EnderDragonModel() {

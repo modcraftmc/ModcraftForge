@@ -516,14 +516,12 @@ public class ModelBlockAnimation
         }
     }
 
-    @Nullable
-    public TransformationMatrix getPartTransform(IModelTransform state, BlockPart part, int i)
+     public TransformationMatrix getPartTransform(IModelTransform state, BlockPart part, int i)
     {
         return getPartTransform(state, i);
     }
 
-    @Nullable
-    public TransformationMatrix getPartTransform(IModelTransform state, int i)
+     public TransformationMatrix getPartTransform(IModelTransform state, int i)
     {
         ImmutableCollection<MBJointWeight> infos = getJoint(i);
         if(!infos.isEmpty())

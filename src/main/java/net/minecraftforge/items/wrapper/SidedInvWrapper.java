@@ -32,8 +32,7 @@ import javax.annotation.Nullable;
 public class SidedInvWrapper implements IItemHandlerModifiable
 {
     protected final ISidedInventory inv;
-    @Nullable
-    protected final Direction side;
+     protected final Direction side;
 
     @SuppressWarnings("unchecked")
     public static LazyOptional<IItemHandlerModifiable>[] create(ISidedInventory inv, Direction... sides) {

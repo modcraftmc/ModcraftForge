@@ -34,18 +34,15 @@ public class BlockModelConfiguration implements IModelConfiguration
 {
     public final BlockModel owner;
     public final VisibilityData visibilityData = new VisibilityData();
-    @Nullable
-    private IModelGeometry<?> customGeometry;
-    @Nullable
-    private IModelTransform customModelState;
+     private IModelGeometry<?> customGeometry;
+     private IModelTransform customModelState;
 
     public BlockModelConfiguration(BlockModel owner)
     {
         this.owner = owner;
     }
 
-    @Nullable
-    @Override
+     @Override
     public IUnbakedModel getOwnerModel()
     {
         return owner;
@@ -62,8 +59,7 @@ public class BlockModelConfiguration implements IModelConfiguration
         return getCustomGeometry() != null;
     }
 
-    @Nullable
-    public IModelGeometry<?> getCustomGeometry()
+     public IModelGeometry<?> getCustomGeometry()
     {
         return owner.parent != null && customGeometry == null ? owner.parent.customData.getCustomGeometry() : customGeometry;
     }
@@ -73,8 +69,7 @@ public class BlockModelConfiguration implements IModelConfiguration
         this.customGeometry = geometry;
     }
 
-    @Nullable
-    public IModelTransform getCustomModelState()
+     public IModelTransform getCustomModelState()
     {
         return owner.parent != null && customModelState == null ? owner.parent.customData.getCustomModelState() : customModelState;
     }

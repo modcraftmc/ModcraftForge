@@ -114,8 +114,7 @@ public final class UsernameCache {
      * @return the player's last known username, or <code>null</code> if the
      *         cache doesn't have a record of the last username
      */
-    @Nullable
-    public static String getLastKnownUsername(UUID uuid)
+     public static String getLastKnownUsername(UUID uuid)
     {
         Objects.requireNonNull(uuid);
         return map.get(uuid);

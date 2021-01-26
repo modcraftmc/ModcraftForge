@@ -48,8 +48,7 @@ public interface IForgeRegistryEntry<V>
      *
      * @return Unique identifier or null.
      */
-    @Nullable
-    ResourceLocation getRegistryName();
+     ResourceLocation getRegistryName();
 
     /**
      * Determines the type for this entry, used to look up the correct registry in the global registries list as there can only be one

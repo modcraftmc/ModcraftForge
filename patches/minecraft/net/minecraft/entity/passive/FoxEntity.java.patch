@@ -27,3 +27,13 @@
           if (foxentity != null) {
              ServerPlayerEntity serverplayerentity = this.field_75390_d.func_191993_do();
              ServerPlayerEntity serverplayerentity1 = this.field_75391_e.func_191993_do();
+@@ -1146,8 +1157,7 @@
+    }
+ 
+    class RevengeGoal extends NearestAttackableTargetGoal<LivingEntity> {
+-      @Nullable
+-      private LivingEntity field_220786_j;
++         private LivingEntity field_220786_j;
+       private LivingEntity field_220787_k;
+       private int field_220788_l;
+ 

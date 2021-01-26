@@ -9,3 +9,13 @@
        boolean flag = false;
  
        for(ResourceLocation resourcelocation : this.field_192116_c) {
+@@ -142,8 +142,7 @@
+       private int field_200282_a;
+       private final List<ResourceLocation> field_200283_b = Lists.newArrayList();
+       private final List<ResourceLocation> field_200284_c = Lists.newArrayList();
+-      @Nullable
+-      private ResourceLocation field_200285_d;
++         private ResourceLocation field_200285_d;
+ 
+       public static AdvancementRewards.Builder func_203907_a(int p_203907_0_) {
+          return (new AdvancementRewards.Builder()).func_203906_b(p_203907_0_);

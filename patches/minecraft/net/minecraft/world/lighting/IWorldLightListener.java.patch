@@ -1,0 +1,12 @@
+--- a/net/minecraft/world/lighting/IWorldLightListener.java
++++ b/net/minecraft/world/lighting/IWorldLightListener.java
+@@ -14,8 +14,7 @@
+    public static enum Dummy implements IWorldLightListener {
+       INSTANCE;
+ 
+-      @Nullable
+-      public NibbleArray func_215612_a(SectionPos p_215612_1_) {
++         public NibbleArray func_215612_a(SectionPos p_215612_1_) {
+          return null;
+       }
+ 

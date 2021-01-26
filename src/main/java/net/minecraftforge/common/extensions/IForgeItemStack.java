@@ -196,8 +196,7 @@ public interface IForgeItemStack extends ICapabilitySerializable<CompoundNBT>
      *         vanilla logic as per {@code EntityLiving.getSlotForItemStack(stack)}
      *         decide
      */
-    @Nullable
-    default EquipmentSlotType getEquipmentSlot()
+     default EquipmentSlotType getEquipmentSlot()
     {
         return getStack().getItem().getEquipmentSlot(getStack());
     }
@@ -368,8 +367,7 @@ public interface IForgeItemStack extends ICapabilitySerializable<CompoundNBT>
      *
      * @return The NBT tag
      */
-    @Nullable
-    default CompoundNBT getShareTag()
+     default CompoundNBT getShareTag()
     {
         return getStack().getItem().getShareTag(getStack());
     }

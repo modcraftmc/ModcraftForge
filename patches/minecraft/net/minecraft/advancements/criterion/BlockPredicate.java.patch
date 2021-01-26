@@ -1,0 +1,15 @@
+--- a/net/minecraft/advancements/criterion/BlockPredicate.java
++++ b/net/minecraft/advancements/criterion/BlockPredicate.java
+@@ -106,10 +106,8 @@
+    }
+ 
+    public static class Builder {
+-      @Nullable
+-      private Block field_226239_a_;
+-      @Nullable
+-      private ITag<Block> field_226240_b_;
++         private Block field_226239_a_;
++         private ITag<Block> field_226240_b_;
+       private StatePropertiesPredicate field_226241_c_ = StatePropertiesPredicate.field_227178_a_;
+       private NBTPredicate field_226242_d_ = NBTPredicate.field_193479_a;
+ 

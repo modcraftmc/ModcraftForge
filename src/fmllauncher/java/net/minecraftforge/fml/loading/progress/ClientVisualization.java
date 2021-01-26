@@ -20,6 +20,8 @@
 package net.minecraftforge.fml.loading.progress;
 
 import com.google.common.io.ByteStreams;
+import fr.modcraftforge.forge.ModcraftForge;
+import fr.modcraftforge.forge.utils.ColorUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.lwjgl.glfw.*;
@@ -232,7 +234,11 @@ class ClientVisualization implements EarlyProgressVisualization.Visualization {
 
     private void renderBackground() {
         glBegin(GL_QUADS);
-        glColor4f(239F / 255F, 50F / 255F, 61F / 255F, 255F / 255F); //Color from ResourceLoadProgressGui
+        float r = (ColorUtils.backColor >> 16 & 0xff)/255f;
+        float g = (ColorUtils.backColor >> 8 & 0xff)/255f;
+        float b = (ColorUtils.backColor & 0xff)/255f;
+
+        glColor4f(r, g, b, 255F / 255F); //Color from ResourceLoadProgressGui
         glVertex2f(0, 0);
         glVertex2f(0, screenHeight);
         glVertex2f(screenWidth, screenHeight);
@@ -276,6 +282,7 @@ class ClientVisualization implements EarlyProgressVisualization.Visualization {
         memorycolour[1] = ((i >> 8 ) & 0xFF) / 255.0f;
         memorycolour[0] = ((i >> 16 ) & 0xFF) / 255.0f;
         renderMessage(memory, memorycolour, 1, 1.0f);
+        renderMessage(ModcraftForge.getFormatedStartTime(), memorycolour, 2, 1.0f);
     }
 
     private void renderMessage(final String message, final float[] colour, int row, float alpha) {

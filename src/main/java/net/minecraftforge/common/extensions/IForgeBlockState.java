@@ -114,8 +114,7 @@ public interface IForgeBlockState
      * @param world The world to create the TE in
      * @return A instance of a class extending TileEntity
      */
-    @Nullable
-    default TileEntity createTileEntity(IBlockReader world)
+     default TileEntity createTileEntity(IBlockReader world)
     {
         return getBlockState().getBlock().createTileEntity(getBlockState(), world);
     }
@@ -556,8 +555,7 @@ public interface IForgeBlockState
      * @param beaconPos The position of the beacon
      * @return A float RGB [0.0, 1.0] array to be averaged with a beacon's existing beam color, or null to do nothing to the beam
      */
-    @Nullable
-    default float[] getBeaconColorMultiplier(IWorldReader world, BlockPos pos, BlockPos beacon)
+     default float[] getBeaconColorMultiplier(IWorldReader world, BlockPos pos, BlockPos beacon)
     {
         return getBlockState().getBlock().getBeaconColorMultiplier(getBlockState(), world, pos, beacon);
     }
@@ -720,8 +718,7 @@ public interface IForgeBlockState
      *
      * @return the PathNodeType
      */
-    @Nullable
-    default PathNodeType getAiPathNodeType(IBlockReader world, BlockPos pos)
+     default PathNodeType getAiPathNodeType(IBlockReader world, BlockPos pos)
     {
         return getAiPathNodeType(world, pos, null);
     }
@@ -731,8 +728,7 @@ public interface IForgeBlockState
      *
      * @return the PathNodeType
      */
-    @Nullable
-    default PathNodeType getAiPathNodeType(IBlockReader world, BlockPos pos, @Nullable MobEntity entity)
+     default PathNodeType getAiPathNodeType(IBlockReader world, BlockPos pos, @Nullable MobEntity entity)
     {
         return getBlockState().getBlock().getAiPathNodeType(getBlockState(), world, pos, entity);
     }
@@ -793,8 +789,7 @@ public interface IForgeBlockState
      * @param toolTypes The tool types to be considered when performing the action
      * @return The resulting state after the action has been performed
      */
-    @Nullable
-    default BlockState getToolModifiedState(World world, BlockPos pos, PlayerEntity player, ItemStack stack, ToolType toolType)
+     default BlockState getToolModifiedState(World world, BlockPos pos, PlayerEntity player, ItemStack stack, ToolType toolType)
     {
         BlockState eventState = net.minecraftforge.event.ForgeEventFactory.onToolUse(getBlockState(), world, pos, player, stack, toolType);
         return eventState != getBlockState() ? eventState : getBlockState().getBlock().getToolModifiedState(getBlockState(), world, pos, player, stack, toolType);

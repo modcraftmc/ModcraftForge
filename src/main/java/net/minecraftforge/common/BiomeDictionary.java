@@ -163,8 +163,7 @@ public class BiomeDictionary
             return allTypes;
         }
 
-        @Nullable
-        public static Type fromVanilla(Biome.Category category)
+             public static Type fromVanilla(Biome.Category category)
         {
             if (category == Biome.Category.NONE)
                 return null;

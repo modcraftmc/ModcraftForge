@@ -62,8 +62,7 @@ public class ForgeTagHandler
     private static Set<ResourceLocation> customTagTypeNames = Collections.emptySet();
     private static boolean tagTypesSet = false;
 
-    @Nullable
-    private static <T extends IForgeRegistryEntry<T>> TagRegistry<T> getTagRegistry(IForgeRegistry<T> registry)
+     private static <T extends IForgeRegistryEntry<T>> TagRegistry<T> getTagRegistry(IForgeRegistry<T> registry)
     {
         return (TagRegistry<T>) TagRegistryManager.get(registry.getRegistryName());
     }

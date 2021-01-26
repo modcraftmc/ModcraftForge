@@ -83,14 +83,12 @@ public class BabyEntitySpawnEvent extends net.minecraftforge.eventbus.api.Event
         return parentB;
     }
 
-    @Nullable
-    public PlayerEntity getCausedByPlayer()
+     public PlayerEntity getCausedByPlayer()
     {
         return causedByPlayer;
     }
 
-    @Nullable
-    public AgeableEntity getChild()
+     public AgeableEntity getChild()
     {
         return child;
     }

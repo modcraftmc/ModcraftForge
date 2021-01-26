@@ -73,3 +73,16 @@
                          if (mobentity.func_213380_a(p_77191_0_, SpawnReason.CHUNK_GENERATION) && mobentity.func_205019_a(p_77191_0_)) {
                             ilivingentitydata = mobentity.func_213386_a(p_77191_0_, p_77191_0_.func_175649_E(mobentity.func_233580_cy_()), SpawnReason.CHUNK_GENERATION, ilivingentitydata, (CompoundNBT)null);
                             p_77191_0_.func_242417_l(mobentity);
+@@ -403,10 +412,8 @@
+       private final Object2IntOpenHashMap<EntityClassification> field_234982_b_;
+       private final MobDensityTracker field_234983_c_;
+       private final Object2IntMap<EntityClassification> field_234984_d_;
+-      @Nullable
+-      private BlockPos field_234985_e_;
+-      @Nullable
+-      private EntityType<?> field_234986_f_;
++         private BlockPos field_234985_e_;
++         private EntityType<?> field_234986_f_;
+       private double field_234987_g_;
+ 
+       private EntityDensityManager(int p_i231621_1_, Object2IntOpenHashMap<EntityClassification> p_i231621_2_, MobDensityTracker p_i231621_3_) {

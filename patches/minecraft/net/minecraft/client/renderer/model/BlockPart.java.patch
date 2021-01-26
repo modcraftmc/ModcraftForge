@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/renderer/model/BlockPart.java
++++ b/net/minecraft/client/renderer/model/BlockPart.java
+@@ -78,8 +78,7 @@
+          }
+       }
+ 
+-      @Nullable
+-      private BlockPartRotation func_178256_a(JsonObject p_178256_1_) {
++         private BlockPartRotation func_178256_a(JsonObject p_178256_1_) {
+          BlockPartRotation blockpartrotation = null;
+          if (p_178256_1_.has("rotation")) {
+             JsonObject jsonobject = JSONUtils.func_152754_s(p_178256_1_, "rotation");

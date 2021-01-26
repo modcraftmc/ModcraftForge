@@ -51,3 +51,13 @@
     public ItemOverrideList func_188617_f() {
        return this.field_177566_c.func_188617_f();
     }
+@@ -67,8 +81,7 @@
+          return this;
+       }
+ 
+-      @Nullable
+-      public IBakedModel func_209614_a() {
++         public IBakedModel func_209614_a() {
+          if (this.field_177678_a.isEmpty()) {
+             return null;
+          } else {

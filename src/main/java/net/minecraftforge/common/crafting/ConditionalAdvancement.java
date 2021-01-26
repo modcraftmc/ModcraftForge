@@ -53,8 +53,7 @@ public class ConditionalAdvancement
      * @param json The incoming json from the advancement file.
      * @return The advancement that passed the conditions, or null if none did.
      */
-    @Nullable
-    public static JsonObject processConditional(JsonObject json) {
+     public static JsonObject processConditional(JsonObject json) {
         JsonArray entries = JSONUtils.getJsonArray(json, "advancements", null);
         if (entries == null)
         {

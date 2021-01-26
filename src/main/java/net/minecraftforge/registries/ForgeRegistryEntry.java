@@ -51,8 +51,7 @@ public abstract class ForgeRegistryEntry<V extends IForgeRegistryEntry<V>> imple
 
     public final V setRegistryName(String modID, String name){ return setRegistryName(modID + ":" + name); }
 
-    @Nullable
-    public final ResourceLocation getRegistryName()
+     public final ResourceLocation getRegistryName()
     {
         if (delegate.name() != null) return delegate.name();
         return registryName != null ? registryName : null;

@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/fonts/FontTexture.java
++++ b/net/minecraft/client/gui/fonts/FontTexture.java
+@@ -74,8 +74,7 @@
+          this.field_211228_d = p_i49711_4_;
+       }
+ 
+-      @Nullable
+-      FontTexture.Entry func_211224_a(IGlyphInfo p_211224_1_) {
++         FontTexture.Entry func_211224_a(IGlyphInfo p_211224_1_) {
+          if (this.field_211229_e != null && this.field_211230_f != null) {
+             FontTexture.Entry fonttexture$entry = this.field_211229_e.func_211224_a(p_211224_1_);
+             if (fonttexture$entry == null) {

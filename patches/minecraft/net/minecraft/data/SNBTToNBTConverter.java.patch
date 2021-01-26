@@ -1,0 +1,12 @@
+--- a/net/minecraft/data/SNBTToNBTConverter.java
++++ b/net/minecraft/data/SNBTToNBTConverter.java
+@@ -140,8 +140,7 @@
+    static class TaskResult {
+       private final String field_229449_a_;
+       private final byte[] field_229450_b_;
+-      @Nullable
+-      private final String field_240515_c_;
++         private final String field_240515_c_;
+       private final String field_229451_c_;
+ 
+       public TaskResult(String p_i232551_1_, byte[] p_i232551_2_, @Nullable String p_i232551_3_, String p_i232551_4_) {

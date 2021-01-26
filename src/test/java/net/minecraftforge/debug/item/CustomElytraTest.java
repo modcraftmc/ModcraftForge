@@ -76,8 +76,7 @@ public class CustomElytraTest
             DispenserBlock.registerDispenseBehavior(this, ArmorItem.DISPENSER_BEHAVIOR);
         }
 
-        @Nullable
-        @Override
+             @Override
         public EquipmentSlotType getEquipmentSlot(ItemStack stack)
         {
             return EquipmentSlotType.CHEST; //Or you could just extend ItemArmor

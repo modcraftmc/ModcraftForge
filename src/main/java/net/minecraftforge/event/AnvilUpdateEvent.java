@@ -86,8 +86,7 @@ public class AnvilUpdateEvent extends Event
      * If empty, it indicates the user wishes to clear the custom name from the item.
      * @return The name that the output item will be set to, if applicable.
      */
-    @Nullable
-    public String getName()
+     public String getName()
     {
         return name;
     }

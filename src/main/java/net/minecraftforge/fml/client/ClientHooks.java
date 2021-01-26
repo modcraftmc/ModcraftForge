@@ -75,8 +75,7 @@ public class ClientHooks
     private static final Marker CLIENTHOOKS = MarkerManager.getMarker("CLIENTHOOKS");
 
     private static final ResourceLocation iconSheet = new ResourceLocation(ForgeVersion.MOD_ID, "textures/gui/icons.png");
-    @Nullable
-
+ 
     public static void processForgeListPingData(ServerStatusResponse packet, ServerData target)
     {
         if (packet.getForgeData() != null) {

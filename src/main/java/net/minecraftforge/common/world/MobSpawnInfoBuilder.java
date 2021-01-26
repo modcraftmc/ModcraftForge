@@ -60,8 +60,7 @@ public class MobSpawnInfoBuilder extends MobSpawnInfo.Builder
         return this.costView;
     }
 
-    @Nullable
-    public MobSpawnInfo.SpawnCosts getCost(EntityType<?> type)
+     public MobSpawnInfo.SpawnCosts getCost(EntityType<?> type)
     {
         return this.spawnCosts.get(type);
     }

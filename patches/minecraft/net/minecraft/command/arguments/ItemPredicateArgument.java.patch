@@ -1,0 +1,22 @@
+--- a/net/minecraft/command/arguments/ItemPredicateArgument.java
++++ b/net/minecraft/command/arguments/ItemPredicateArgument.java
+@@ -79,8 +79,7 @@
+ 
+    static class ItemPredicate implements Predicate<ItemStack> {
+       private final Item field_199841_a;
+-      @Nullable
+-      private final CompoundNBT field_199842_b;
++         private final CompoundNBT field_199842_b;
+ 
+       public ItemPredicate(Item p_i48221_1_, @Nullable CompoundNBT p_i48221_2_) {
+          this.field_199841_a = p_i48221_1_;
+@@ -94,8 +93,7 @@
+ 
+    static class TagPredicate implements Predicate<ItemStack> {
+       private final ITag<Item> field_199843_a;
+-      @Nullable
+-      private final CompoundNBT field_199844_b;
++         private final CompoundNBT field_199844_b;
+ 
+       public TagPredicate(ITag<Item> p_i48220_1_, @Nullable CompoundNBT p_i48220_2_) {
+          this.field_199843_a = p_i48220_1_;

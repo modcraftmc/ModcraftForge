@@ -52,8 +52,7 @@ public class PlayerInteractEvent extends PlayerEvent
 {
     private final Hand hand;
     private final BlockPos pos;
-    @Nullable
-    private final Direction face;
+     private final Direction face;
     private ActionResultType cancellationResult = ActionResultType.PASS;
 
     private PlayerInteractEvent(PlayerEntity player, Hand hand, BlockPos pos, @Nullable Direction face)
@@ -355,8 +354,7 @@ public class PlayerInteractEvent extends PlayerEvent
     /**
      * @return The face involved in this interaction. For all non-block interactions, this will return null.
      */
-    @Nullable
-    public Direction getFace()
+     public Direction getFace()
     {
         return face;
     }

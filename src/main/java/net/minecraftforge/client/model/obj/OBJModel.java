@@ -72,8 +72,7 @@ public class OBJModel implements IMultipartModelGeometry<OBJModel>
 
     public final ResourceLocation modelLocation;
 
-    @Nullable
-    public final String materialLibraryOverrideLocation;
+     public final String materialLibraryOverrideLocation;
 
 
     OBJModel(LineReader reader, ModelSettings settings) throws IOException
@@ -588,10 +587,8 @@ public class OBJModel implements IMultipartModelGeometry<OBJModel>
 
     private class ModelMesh
     {
-        @Nullable
-        public MaterialLibrary.Material mat;
-        @Nullable
-        public String smoothingGroup;
+             public MaterialLibrary.Material mat;
+             public String smoothingGroup;
         public final List<int[][]> faces = Lists.newArrayList();
 
         public ModelMesh(@Nullable MaterialLibrary.Material currentMat, @Nullable String currentSmoothingGroup)
@@ -609,8 +606,7 @@ public class OBJModel implements IMultipartModelGeometry<OBJModel>
         public final boolean diffuseLighting;
         public final boolean flipV;
         public final boolean ambientToFullbright;
-        @Nullable
-        public final String materialLibraryOverrideLocation;
+             public final String materialLibraryOverrideLocation;
 
         public ModelSettings(@Nonnull ResourceLocation modelLocation, boolean detectCullableFaces, boolean diffuseLighting, boolean flipV, boolean ambientToFullbright,
                              @Nullable String materialLibraryOverrideLocation)

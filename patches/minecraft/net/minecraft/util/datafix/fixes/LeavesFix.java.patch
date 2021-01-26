@@ -1,0 +1,28 @@
+--- a/net/minecraft/util/datafix/fixes/LeavesFix.java
++++ b/net/minecraft/util/datafix/fixes/LeavesFix.java
+@@ -187,12 +187,9 @@
+    }
+ 
+    public static final class LeavesSection extends LeavesFix.Section {
+-      @Nullable
+-      private IntSet field_212523_f;
+-      @Nullable
+-      private IntSet field_212524_g;
+-      @Nullable
+-      private Int2IntMap field_212525_h;
++         private IntSet field_212523_f;
++         private IntSet field_212524_g;
++         private Int2IntMap field_212525_h;
+ 
+       public LeavesSection(Typed<?> p_i49851_1_, Schema p_i49851_2_) {
+          super(p_i49851_1_, p_i49851_2_);
+@@ -274,8 +271,7 @@
+       protected final OpticFinder<List<Pair<String, Dynamic<?>>>> field_208468_c = DSL.fieldFinder("Palette", DSL.list(this.field_208466_a));
+       protected final List<Dynamic<?>> field_208469_d;
+       protected final int field_208474_i;
+-      @Nullable
+-      protected ArbitraryBitLengthIntArray field_208470_e;
++         protected ArbitraryBitLengthIntArray field_208470_e;
+ 
+       public Section(Typed<?> p_i49850_1_, Schema p_i49850_2_) {
+          if (!Objects.equals(p_i49850_2_.getType(TypeReferences.field_211296_l), this.field_208466_a)) {

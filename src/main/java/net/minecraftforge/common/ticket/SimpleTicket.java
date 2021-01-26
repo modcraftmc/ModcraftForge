@@ -31,8 +31,7 @@ import java.util.function.Consumer;
  */
 public abstract class SimpleTicket<T>
 {
-    @Nullable
-    private ITicketManager<T> masterManager;
+     private ITicketManager<T> masterManager;
     private ITicketManager<T>[] dummyManagers;
     protected boolean isValid = false;
 

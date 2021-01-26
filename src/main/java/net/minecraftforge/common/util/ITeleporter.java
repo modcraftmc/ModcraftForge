@@ -78,8 +78,7 @@ public interface ITeleporter
      * 
      * @return The location, rotation, and motion of the entity in the destWorld after the teleport
      */
-    @Nullable
-    default PortalInfo getPortalInfo(Entity entity, ServerWorld destWorld, Function<ServerWorld, PortalInfo> defaultPortalInfo)
+     default PortalInfo getPortalInfo(Entity entity, ServerWorld destWorld, Function<ServerWorld, PortalInfo> defaultPortalInfo)
     {
         return this.isVanilla() ? defaultPortalInfo.apply(destWorld) : new PortalInfo(entity.getPositionVec(), Vector3d.ZERO, entity.rotationYaw, entity.rotationPitch);
     }

@@ -1,0 +1,12 @@
+--- a/com/mojang/realmsclient/gui/RealmsServerSlotButton.java
++++ b/com/mojang/realmsclient/gui/RealmsServerSlotButton.java
+@@ -193,8 +193,7 @@
+       public final boolean field_225114_e;
+       public final boolean field_225115_f;
+       public final RealmsServerSlotButton.Action field_225116_g;
+-      @Nullable
+-      private final ITextComponent field_225117_h;
++         private final ITextComponent field_225117_h;
+ 
+       ServerData(boolean p_i232196_1_, String p_i232196_2_, long p_i232196_3_, @Nullable String p_i232196_5_, boolean p_i232196_6_, boolean p_i232196_7_, RealmsServerSlotButton.Action p_i232196_8_, @Nullable ITextComponent p_i232196_9_) {
+          this.field_225110_a = p_i232196_1_;

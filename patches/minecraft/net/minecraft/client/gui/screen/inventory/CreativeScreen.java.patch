@@ -253,7 +253,17 @@
        this.func_238474_b_(p_238808_1_, l, i1, j, k, 28, 32);
        this.field_230707_j_.field_77023_b = 100.0F;
        l = l + 6;
-@@ -884,6 +967,22 @@
+@@ -868,8 +951,7 @@
+          return this.field_148332_b.func_178170_b(p_178170_1_);
+       }
+ 
+-      @Nullable
+-      public Pair<ResourceLocation, ResourceLocation> func_225517_c_() {
++         public Pair<ResourceLocation, ResourceLocation> func_225517_c_() {
+          return this.field_148332_b.func_225517_c_();
+       }
+ 
+@@ -884,6 +966,22 @@
        public boolean func_82869_a(PlayerEntity p_82869_1_) {
           return this.field_148332_b.func_82869_a(p_82869_1_);
        }

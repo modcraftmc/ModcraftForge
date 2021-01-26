@@ -16,3 +16,13 @@
           return chunk;
        }
     }
+@@ -220,8 +222,7 @@
+          return Math.abs(p_217183_1_ - this.field_217198_e) <= this.field_217196_c && Math.abs(p_217183_2_ - this.field_217199_f) <= this.field_217196_c;
+       }
+ 
+-      @Nullable
+-      protected Chunk func_217192_a(int p_217192_1_) {
++         protected Chunk func_217192_a(int p_217192_1_) {
+          return this.field_217195_b.get(p_217192_1_);
+       }
+    }

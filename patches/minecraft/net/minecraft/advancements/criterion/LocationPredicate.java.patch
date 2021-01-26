@@ -1,0 +1,21 @@
+--- a/net/minecraft/advancements/criterion/LocationPredicate.java
++++ b/net/minecraft/advancements/criterion/LocationPredicate.java
+@@ -172,14 +172,10 @@
+       private MinMaxBounds.FloatBound field_218014_a = MinMaxBounds.FloatBound.field_211359_e;
+       private MinMaxBounds.FloatBound field_218015_b = MinMaxBounds.FloatBound.field_211359_e;
+       private MinMaxBounds.FloatBound field_218016_c = MinMaxBounds.FloatBound.field_211359_e;
+-      @Nullable
+-      private RegistryKey<Biome> field_218017_d;
+-      @Nullable
+-      private Structure<?> field_218018_e;
+-      @Nullable
+-      private RegistryKey<World> field_218019_f;
+-      @Nullable
+-      private Boolean field_235311_g_;
++         private RegistryKey<Biome> field_218017_d;
++         private Structure<?> field_218018_e;
++         private RegistryKey<World> field_218019_f;
++         private Boolean field_235311_g_;
+       private LightPredicate field_226867_g_ = LightPredicate.field_226854_a_;
+       private BlockPredicate field_226868_h_ = BlockPredicate.field_226231_a_;
+       private FluidPredicate field_226869_i_ = FluidPredicate.field_226643_a_;

@@ -9,3 +9,13 @@
        double d0 = p_82196_1_.func_226277_ct_() - this.func_226277_ct_();
        double d1 = p_82196_1_.func_226283_e_(0.3333333333333333D) - abstractarrowentity.func_226278_cu_();
        double d2 = p_82196_1_.func_226281_cx_() - this.func_226281_cx_();
+@@ -268,8 +270,7 @@
+          IllusionerEntity.this.func_195064_c(new EffectInstance(Effects.field_76441_p, 1200));
+       }
+ 
+-      @Nullable
+-      protected SoundEvent func_190871_k() {
++         protected SoundEvent func_190871_k() {
+          return SoundEvents.field_193790_di;
+       }
+ 

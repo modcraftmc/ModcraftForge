@@ -1,0 +1,22 @@
+--- a/net/minecraft/advancements/criterion/MinMaxBounds.java
++++ b/net/minecraft/advancements/criterion/MinMaxBounds.java
+@@ -158,8 +158,7 @@
+          }
+       }
+ 
+-      @Nullable
+-      private static Double func_211350_a(@Nullable Float p_211350_0_) {
++         private static Double func_211350_a(@Nullable Float p_211350_0_) {
+          return p_211350_0_ == null ? null : p_211350_0_.doubleValue() * p_211350_0_.doubleValue();
+       }
+ 
+@@ -227,8 +226,7 @@
+          }
+       }
+ 
+-      @Nullable
+-      private static Long func_211343_a(@Nullable Integer p_211343_0_) {
++         private static Long func_211343_a(@Nullable Integer p_211343_0_) {
+          return p_211343_0_ == null ? null : p_211343_0_.longValue() * p_211343_0_.longValue();
+       }
+ 

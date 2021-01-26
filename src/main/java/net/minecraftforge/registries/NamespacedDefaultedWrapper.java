@@ -90,22 +90,19 @@ class NamespacedDefaultedWrapper<T extends IForgeRegistryEntry<T>> extends Defau
     }
 
     @Override
-    @Nullable
-    public T getOrDefault(@Nullable ResourceLocation name)
+     public T getOrDefault(@Nullable ResourceLocation name)
     {
         return this.delegate.getValue(name); //getOrDefault
     }
 
     @Override
-    @Nullable
-    public T getValueForKey(@Nullable RegistryKey<T> name)
+     public T getValueForKey(@Nullable RegistryKey<T> name)
     {
         return name == null ? null : this.delegate.getRaw(name.getLocation()); //get without default
     }
 
     @Override
-    @Nullable
-    public ResourceLocation getKey(T value)
+     public ResourceLocation getKey(T value)
     {
         return this.delegate.getKey(value);
     }
@@ -123,8 +120,7 @@ class NamespacedDefaultedWrapper<T extends IForgeRegistryEntry<T>> extends Defau
     }
 
     @Override
-    @Nullable
-    public T getByValue(int id)
+     public T getByValue(int id)
     {
         return this.delegate.getValue(id);
     }
@@ -148,8 +144,7 @@ class NamespacedDefaultedWrapper<T extends IForgeRegistryEntry<T>> extends Defau
     }
 
     @Override
-    @Nullable
-    public T getRandom(Random random)
+     public T getRandom(Random random)
     {
         Collection<T> values = this.delegate.getValues();
         return values.stream().skip(random.nextInt(values.size())).findFirst().orElse(this.delegate.getDefault());

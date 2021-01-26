@@ -32,21 +32,18 @@ public interface IContext
     /**
      * World from where permission is requested. Can be null
      */
-    @Nullable
-    World getWorld();
+     World getWorld();
 
     /**
      * @return Player requesting permission. Can be null
      */
-    @Nullable
-    PlayerEntity getPlayer();
+     PlayerEntity getPlayer();
 
     /**
      * @param key Context key
      * @return Context object
      */
-    @Nullable
-    <T> T get(ContextKey<T> key);
+     <T> T get(ContextKey<T> key);
 
     /**
      * @param key Context key

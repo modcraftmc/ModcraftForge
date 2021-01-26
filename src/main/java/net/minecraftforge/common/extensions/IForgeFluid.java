@@ -69,8 +69,7 @@ public interface IForgeFluid
      * @param materialIn to check for.
      * @return null for default behavior, true if the box is within the material, false if it was not.
      */
-    @Nullable
-    default Boolean isAABBInsideMaterial(FluidState state, IWorldReader world, BlockPos pos, AxisAlignedBB boundingBox, Material materialIn)
+     default Boolean isAABBInsideMaterial(FluidState state, IWorldReader world, BlockPos pos, AxisAlignedBB boundingBox, Material materialIn)
     {
         return null;
     }
@@ -83,8 +82,7 @@ public interface IForgeFluid
      * @param boundingBox box to test, generally the bounds of an entity that are besting tested.
      * @return null for default behavior, true if the box is within the material, false if it was not.
      */
-    @Nullable
-    default Boolean isAABBInsideLiquid(FluidState state, IWorldReader world, BlockPos pos, AxisAlignedBB boundingBox)
+     default Boolean isAABBInsideLiquid(FluidState state, IWorldReader world, BlockPos pos, AxisAlignedBB boundingBox)
     {
         return null;
     }

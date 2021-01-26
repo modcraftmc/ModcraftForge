@@ -26,3 +26,13 @@
        public LootContext.Builder func_216023_a(Random p_216023_1_) {
           this.field_216027_d = p_216023_1_;
           return this;
+@@ -170,8 +182,7 @@
+          }
+       }
+ 
+-      @Nullable
+-      public <T> T func_216019_b(LootParameter<T> p_216019_1_) {
++         public <T> T func_216019_b(LootParameter<T> p_216019_1_) {
+          return (T)this.field_216025_b.get(p_216019_1_);
+       }
+ 

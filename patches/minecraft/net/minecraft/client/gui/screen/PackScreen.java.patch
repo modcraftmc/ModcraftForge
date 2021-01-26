@@ -9,3 +9,13 @@
           p_238899_1_.func_231039_at__().add(new net.minecraft.client.gui.widget.list.ResourcePackList.ResourcePackEntry(this.field_230706_i_, p_238899_1_, this, p_238898_2_));
        });
     }
+@@ -237,8 +237,7 @@
+          }
+       }
+ 
+-      @Nullable
+-      public static PackScreen.PackDirectoryWatcher func_243403_a(File p_243403_0_) {
++         public static PackScreen.PackDirectoryWatcher func_243403_a(File p_243403_0_) {
+          try {
+             return new PackScreen.PackDirectoryWatcher(p_243403_0_);
+          } catch (IOException ioexception) {

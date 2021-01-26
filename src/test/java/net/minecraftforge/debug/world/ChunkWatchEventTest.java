@@ -74,8 +74,7 @@ public class ChunkWatchEventTest
                 watched);
     }
 
-    @Nullable
-    private static ResourceLocation getDimensionName(World w)
+     private static ResourceLocation getDimensionName(World w)
     {
         return w.getDimensionKey().getLocation();
     }

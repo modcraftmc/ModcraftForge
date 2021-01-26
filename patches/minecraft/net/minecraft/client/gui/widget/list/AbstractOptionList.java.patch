@@ -1,0 +1,22 @@
+--- a/net/minecraft/client/gui/widget/list/AbstractOptionList.java
++++ b/net/minecraft/client/gui/widget/list/AbstractOptionList.java
+@@ -28,8 +28,7 @@
+ 
+    @OnlyIn(Dist.CLIENT)
+    public abstract static class Entry<E extends AbstractOptionList.Entry<E>> extends AbstractList.AbstractListEntry<E> implements INestedGuiEventHandler {
+-      @Nullable
+-      private IGuiEventListener field_214380_a;
++         private IGuiEventListener field_214380_a;
+       private boolean field_214381_b;
+ 
+       public boolean func_231041_ay__() {
+@@ -44,8 +43,7 @@
+          this.field_214380_a = p_231035_1_;
+       }
+ 
+-      @Nullable
+-      public IGuiEventListener func_241217_q_() {
++         public IGuiEventListener func_241217_q_() {
+          return this.field_214380_a;
+       }
+    }

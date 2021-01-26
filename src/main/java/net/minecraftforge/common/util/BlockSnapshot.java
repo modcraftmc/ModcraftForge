@@ -49,11 +49,9 @@ public class BlockSnapshot
     private final BlockPos pos;
     private final int flags;
     private final BlockState block;
-    @Nullable
-    private final CompoundNBT nbt;
+     private final CompoundNBT nbt;
 
-    @Nullable
-    private WeakReference<IWorld> world;
+     private WeakReference<IWorld> world;
     private String toString = null;
 
     private BlockSnapshot(RegistryKey<World> dim, IWorld world, BlockPos pos, BlockState state, @Nullable CompoundNBT nbt, int flags)
@@ -80,8 +78,7 @@ public class BlockSnapshot
         return new BlockSnapshot(dim, world, pos, world.getBlockState(pos), getTileNBT(world.getTileEntity(pos)), flag);
     }
 
-    @Nullable
-    private static CompoundNBT getTileNBT(@Nullable TileEntity te)
+     private static CompoundNBT getTileNBT(@Nullable TileEntity te)
     {
         return te == null ? null : te.write(new CompoundNBT());
     }
@@ -92,8 +89,7 @@ public class BlockSnapshot
         return world == null ? Blocks.AIR.getDefaultState() : world.getBlockState(this.pos);
     }
 
-    @Nullable
-    public IWorld getWorld()
+     public IWorld getWorld()
     {
         IWorld world = this.world != null ? this.world.get() : null;
         if (world == null)
@@ -109,8 +105,7 @@ public class BlockSnapshot
         return this.block;
     }
 
-    @Nullable
-    public TileEntity getTileEntity()
+     public TileEntity getTileEntity()
     {
         return getNbt() != null ? TileEntity.readTileEntity(getReplacedBlock(), getNbt()) : null;
     }
@@ -215,7 +210,6 @@ public class BlockSnapshot
 
     public int getFlag() { return flags; }
 
-    @Nullable
-    public CompoundNBT getNbt() { return nbt; }
+     public CompoundNBT getNbt() { return nbt; }
 
 }

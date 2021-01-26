@@ -1,0 +1,24 @@
+--- a/net/minecraft/util/text/ITextComponent.java
++++ b/net/minecraft/util/text/ITextComponent.java
+@@ -325,18 +325,15 @@
+          return field_150700_a.toJsonTree(p_200528_0_);
+       }
+ 
+-      @Nullable
+-      public static IFormattableTextComponent func_240643_a_(String p_240643_0_) {
++         public static IFormattableTextComponent func_240643_a_(String p_240643_0_) {
+          return JSONUtils.func_188176_a(field_150700_a, p_240643_0_, IFormattableTextComponent.class, false);
+       }
+ 
+-      @Nullable
+-      public static IFormattableTextComponent func_240641_a_(JsonElement p_240641_0_) {
++         public static IFormattableTextComponent func_240641_a_(JsonElement p_240641_0_) {
+          return field_150700_a.fromJson(p_240641_0_, IFormattableTextComponent.class);
+       }
+ 
+-      @Nullable
+-      public static IFormattableTextComponent func_240644_b_(String p_240644_0_) {
++         public static IFormattableTextComponent func_240644_b_(String p_240644_0_) {
+          return JSONUtils.func_188176_a(field_150700_a, p_240644_0_, IFormattableTextComponent.class, true);
+       }
+ 

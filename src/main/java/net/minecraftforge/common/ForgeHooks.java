@@ -359,8 +359,7 @@ public class ForgeHooks
         return MinecraftForge.EVENT_BUS.post(new LivingDropsEvent(entity, source, drops, lootingLevel, recentlyHit));
     }
 
-    @Nullable
-    public static float[] onLivingFall(LivingEntity entity, float distance, float damageMultiplier)
+     public static float[] onLivingFall(LivingEntity entity, float distance, float damageMultiplier)
     {
         LivingFallEvent event = new LivingFallEvent(entity, distance, damageMultiplier);
         return (MinecraftForge.EVENT_BUS.post(event) ? null : new float[]{event.getDistance(), event.getDamageMultiplier()});
@@ -429,8 +428,7 @@ public class ForgeHooks
         MinecraftForge.EVENT_BUS.post(new LivingJumpEvent(entity));
     }
 
-    @Nullable
-    public static ItemEntity onPlayerTossEvent(@Nonnull PlayerEntity player, @Nonnull ItemStack item, boolean includeName)
+     public static ItemEntity onPlayerTossEvent(@Nonnull PlayerEntity player, @Nonnull ItemStack item, boolean includeName)
     {
         player.captureDrops(Lists.newArrayList());
         ItemEntity ret = player.dropItem(item, false, includeName);
@@ -448,8 +446,7 @@ public class ForgeHooks
         return event.getEntityItem();
     }
 
-    @Nullable
-    public static ITextComponent onServerChatEvent(ServerPlayNetHandler net, String raw, ITextComponent comp)
+     public static ITextComponent onServerChatEvent(ServerPlayNetHandler net, String raw, ITextComponent comp)
     {
         ServerChatEvent event = new ServerChatEvent(net.player, raw, comp);
         if (MinecraftForge.EVENT_BUS.post(event))
@@ -836,8 +833,7 @@ public class ForgeHooks
         return ctx;
     }
 
-    @Nullable
-    public static LootTable loadLootTable(Gson gson, ResourceLocation name, JsonElement data, boolean custom, LootTableManager lootTableManager)
+     public static LootTable loadLootTable(Gson gson, ResourceLocation name, JsonElement data, boolean custom, LootTableManager lootTableManager)
     {
         Deque<LootTableContext> que = lootContext.get();
         if (que == null)
@@ -1014,8 +1010,7 @@ public class ForgeHooks
         MinecraftForge.EVENT_BUS.post(new BlockEvent.CropGrowEvent.Post(worldIn, pos, state, worldIn.getBlockState(pos)));
     }
 
-    @Nullable
-    public static CriticalHitEvent getCriticalHit(PlayerEntity player, Entity target, boolean vanillaCritical, float damageModifier)
+     public static CriticalHitEvent getCriticalHit(PlayerEntity player, Entity target, boolean vanillaCritical, float damageModifier)
     {
         CriticalHitEvent hitResult = new CriticalHitEvent(player, target, damageModifier, vanillaCritical);
         MinecraftForge.EVENT_BUS.post(hitResult);
@@ -1044,8 +1039,7 @@ public class ForgeHooks
     /**
      * Used as the default implementation of {@link Item#getCreatorModId}. Call that method instead.
      */
-    @Nullable
-    public static String getDefaultCreatorModId(@Nonnull ItemStack itemStack)
+     public static String getDefaultCreatorModId(@Nonnull ItemStack itemStack)
     {
         Item item = itemStack.getItem();
         ResourceLocation registryName = item.getRegistryName();
@@ -1185,8 +1179,7 @@ public class ForgeHooks
     //private static final ForgeRegistry<DataSerializerEntry> serializerRegistry = (ForgeRegistry<DataSerializerEntry>) ForgeRegistries.DATA_SERIALIZERS;
     // Do not reimplement this ^ it introduces a chicken-egg scenario by classloading registries during bootstrap
 
-    @Nullable
-    public static IDataSerializer<?> getSerializer(int id, IntIdentityHashBiMap<IDataSerializer<?>> vanilla)
+     public static IDataSerializer<?> getSerializer(int id, IntIdentityHashBiMap<IDataSerializer<?>> vanilla)
     {
         IDataSerializer<?> serializer = vanilla.getByValue(id);
         if (serializer == null)

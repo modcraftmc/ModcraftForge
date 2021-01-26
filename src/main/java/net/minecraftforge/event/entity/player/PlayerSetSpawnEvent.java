@@ -36,8 +36,7 @@ public class PlayerSetSpawnEvent extends PlayerEvent
 {
     private final RegistryKey<World> spawnWorld;
     private final boolean forced;
-    @Nullable
-    private final BlockPos newSpawn;
+     private final BlockPos newSpawn;
     
     public PlayerSetSpawnEvent(PlayerEntity player, RegistryKey<World> spawnWorld, @Nullable BlockPos newSpawn, boolean forced)
     {
@@ -55,8 +54,7 @@ public class PlayerSetSpawnEvent extends PlayerEvent
     /**
      * The new spawn position, or null if the spawn position is being reset.
      */
-    @Nullable
-    public BlockPos getNewSpawn()
+     public BlockPos getNewSpawn()
     {
         return newSpawn;
     }

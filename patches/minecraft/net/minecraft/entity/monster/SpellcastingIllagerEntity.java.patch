@@ -1,0 +1,12 @@
+--- a/net/minecraft/entity/monster/SpellcastingIllagerEntity.java
++++ b/net/minecraft/entity/monster/SpellcastingIllagerEntity.java
+@@ -206,8 +206,7 @@
+ 
+       protected abstract int func_190872_i();
+ 
+-      @Nullable
+-      protected abstract SoundEvent func_190871_k();
++         protected abstract SoundEvent func_190871_k();
+ 
+       protected abstract SpellcastingIllagerEntity.SpellType func_193320_l();
+    }

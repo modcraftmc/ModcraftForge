@@ -1,0 +1,18 @@
+--- a/net/minecraft/nbt/NBTDynamicOps.java
++++ b/net/minecraft/nbt/NBTDynamicOps.java
+@@ -242,13 +242,11 @@
+       } else {
+          final CompoundNBT compoundnbt = (CompoundNBT)p_getMap_1_;
+          return DataResult.success(new MapLike<INBT>() {
+-            @Nullable
+-            public INBT get(INBT p_get_1_) {
++                     public INBT get(INBT p_get_1_) {
+                return compoundnbt.func_74781_a(p_get_1_.func_150285_a_());
+             }
+ 
+-            @Nullable
+-            public INBT get(String p_get_1_) {
++                     public INBT get(String p_get_1_) {
+                return compoundnbt.func_74781_a(p_get_1_);
+             }
+ 

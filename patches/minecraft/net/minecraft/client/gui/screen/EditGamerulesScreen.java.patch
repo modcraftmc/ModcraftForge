@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/screen/EditGamerulesScreen.java
++++ b/net/minecraft/client/gui/screen/EditGamerulesScreen.java
+@@ -125,8 +125,7 @@
+ 
+    @OnlyIn(Dist.CLIENT)
+    public abstract class Gamerule extends AbstractOptionList.Entry<EditGamerulesScreen.Gamerule> {
+-      @Nullable
+-      private final List<IReorderingProcessor> field_239000_a_;
++         private final List<IReorderingProcessor> field_239000_a_;
+ 
+       public Gamerule(@Nullable List<IReorderingProcessor> p_i232315_2_) {
+          this.field_239000_a_ = p_i232315_2_;

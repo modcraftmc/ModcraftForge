@@ -301,8 +301,7 @@ public final class AnimationStateMachine implements IAnimationStateMachine
 
         @Override
         @SuppressWarnings("unchecked")
-        @Nullable
-        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type)
+             public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type)
         {
             if(type.getRawType() != ImmutableMultimap.class || !(type.getType() instanceof ParameterizedType))
             {

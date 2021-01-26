@@ -29,3 +29,38 @@
                 return true;
              }
           }
+@@ -425,25 +427,16 @@
+    }
+ 
+    public static class Builder {
+-      @Nullable
+-      private Biome.RainType field_205423_b;
+-      @Nullable
+-      private Biome.Category field_205424_c;
+-      @Nullable
+-      private Float field_205425_d;
+-      @Nullable
+-      private Float field_205426_e;
+-      @Nullable
+-      private Float field_205427_f;
++         private Biome.RainType field_205423_b;
++         private Biome.Category field_205424_c;
++         private Float field_205425_d;
++         private Float field_205426_e;
++         private Float field_205427_f;
+       private Biome.TemperatureModifier field_242452_f = Biome.TemperatureModifier.NONE;
+-      @Nullable
+-      private Float field_205428_g;
+-      @Nullable
+-      private BiomeAmbience field_235096_j_;
+-      @Nullable
+-      private MobSpawnInfo field_242453_i;
+-      @Nullable
+-      private BiomeGenerationSettings field_242454_j;
++         private Float field_205428_g;
++         private BiomeAmbience field_235096_j_;
++         private MobSpawnInfo field_242453_i;
++         private BiomeGenerationSettings field_242454_j;
+ 
+       public Biome.Builder func_205415_a(Biome.RainType p_205415_1_) {
+          this.field_205423_b = p_205415_1_;

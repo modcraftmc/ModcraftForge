@@ -19,6 +19,7 @@
 
 package net.minecraftforge.common;
 
+import fr.modcraftmc.forge.config.ModcraftConfig;
 import net.minecraft.command.arguments.ArgumentSerializer;
 import net.minecraft.command.arguments.ArgumentTypes;
 import net.minecraft.command.arguments.IArgumentSerializer;
@@ -148,6 +149,7 @@ public class ForgeMod implements WorldPersistenceHooks.WorldPersistenceHook
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ForgeConfig.clientSpec);
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ForgeConfig.serverSpec);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ForgeConfig.commonSpec);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ModcraftConfig.serverSpec, "modcraftforge.toml");
         modEventBus.register(ForgeConfig.class);
         // Forge does not display problems when the remote is not matching.
         ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, ()-> Pair.of(()->"ANY", (remote, isServer)-> true));

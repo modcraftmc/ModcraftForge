@@ -1,0 +1,22 @@
+--- a/net/minecraft/command/FunctionObject.java
++++ b/net/minecraft/command/FunctionObject.java
+@@ -65,8 +65,7 @@
+ 
+    public static class CacheableFunction {
+       public static final FunctionObject.CacheableFunction field_193519_a = new FunctionObject.CacheableFunction((ResourceLocation)null);
+-      @Nullable
+-      private final ResourceLocation field_193520_b;
++         private final ResourceLocation field_193520_b;
+       private boolean field_193521_c;
+       private Optional<FunctionObject> field_193522_d = Optional.empty();
+ 
+@@ -92,8 +91,7 @@
+          return this.field_193522_d;
+       }
+ 
+-      @Nullable
+-      public ResourceLocation func_200376_a() {
++         public ResourceLocation func_200376_a() {
+          return this.field_193522_d.map((p_218040_0_) -> {
+             return p_218040_0_.field_197002_b;
+          }).orElse(this.field_193520_b);

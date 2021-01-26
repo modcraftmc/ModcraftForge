@@ -159,8 +159,7 @@ public class BlockEvent extends Event
             }
         }
 
-        @Nullable
-        public Entity getEntity() { return entity; }
+             public Entity getEntity() { return entity; }
         public BlockSnapshot getBlockSnapshot() { return blockSnapshot; }
         public BlockState getPlacedBlock() { return placedBlock; }
         public BlockState getPlacedAgainst() { return placedAgainst; }

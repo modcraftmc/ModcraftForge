@@ -65,8 +65,7 @@ public class FluidAttributes
     private final ResourceLocation stillTexture;
     private final ResourceLocation flowingTexture;
 
-    @Nullable
-    private final ResourceLocation overlayTexture;
+     private final ResourceLocation overlayTexture;
 
     private final SoundEvent fillSound;
     private final SoundEvent emptySound;
@@ -284,8 +283,7 @@ public class FluidAttributes
         return flowingTexture;
     }
 
-    @Nullable
-    public ResourceLocation getOverlayTexture()
+     public ResourceLocation getOverlayTexture()
     {
         return overlayTexture;
     }

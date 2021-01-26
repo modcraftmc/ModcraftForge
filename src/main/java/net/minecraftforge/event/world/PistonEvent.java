@@ -76,8 +76,7 @@ public abstract class PistonEvent extends BlockEvent
     /**
      * @return A piston structure helper for this movement. Returns null if the world stored is not a {@link World}
      */
-    @Nullable
-    public PistonBlockStructureHelper getStructureHelper()
+     public PistonBlockStructureHelper getStructureHelper()
     {
         if(this.getWorld() instanceof World) {
             return new PistonBlockStructureHelper((World) this.getWorld(), this.getPos(), this.getDirection(), this.getPistonMoveType().isExtend);

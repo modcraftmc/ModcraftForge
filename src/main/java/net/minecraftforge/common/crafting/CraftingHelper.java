@@ -80,8 +80,7 @@ public class CraftingHelper
         ingredients.put(key, serializer);
         return serializer;
     }
-    @Nullable
-    public static ResourceLocation getID(IIngredientSerializer<?> serializer)
+     public static ResourceLocation getID(IIngredientSerializer<?> serializer)
     {
         return ingredients.inverse().get(serializer);
     }

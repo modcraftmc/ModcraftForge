@@ -211,8 +211,7 @@ public class FMLHandshakeMessages
 
     public static class S2CRegistry extends LoginIndexedMessage {
         private ResourceLocation registryName;
-        @Nullable
-        private ForgeRegistry.Snapshot snapshot;
+             private ForgeRegistry.Snapshot snapshot;
 
         public S2CRegistry(final ResourceLocation name, @Nullable ForgeRegistry.Snapshot snapshot) {
             this.registryName = name;
@@ -242,8 +241,7 @@ public class FMLHandshakeMessages
             return snapshot != null;
         }
 
-        @Nullable
-        public ForgeRegistry.Snapshot getSnapshot() {
+             public ForgeRegistry.Snapshot getSnapshot() {
             return snapshot;
         }
     }

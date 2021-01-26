@@ -74,7 +74,7 @@
     public ITagCollection<T> func_232939_b_() {
        return this.field_232930_b_;
     }
-@@ -56,7 +108,7 @@
+@@ -56,14 +108,13 @@
  
     public Set<ResourceLocation> func_242189_b(ITagCollectionSupplier p_242189_1_) {
        ITagCollection<T> itagcollection = this.field_242184_c.apply(p_242189_1_);
@@ -83,7 +83,15 @@
        ImmutableSet<ResourceLocation> immutableset = ImmutableSet.copyOf(itagcollection.func_199908_a());
        return Sets.difference(set, immutableset);
     }
-@@ -93,5 +145,40 @@
+ 
+    static class NamedTag<T> implements ITag.INamedTag<T> {
+-      @Nullable
+-      protected ITag<T> field_232942_b_;
++         protected ITag<T> field_232942_b_;
+       protected final ResourceLocation field_232941_a_;
+ 
+       private NamedTag(ResourceLocation p_i231430_1_) {
+@@ -93,5 +144,39 @@
        public List<T> func_230236_b_() {
           return this.func_232944_c_().func_230236_b_();
        }
@@ -97,8 +105,7 @@
     }
 +
 +   private static class OptionalNamedTag<T> extends NamedTag<T> implements net.minecraftforge.common.Tags.IOptionalNamedTag<T> {
-+      @Nullable
-+      private final Set<java.util.function.Supplier<T>> defaults;
++         private final Set<java.util.function.Supplier<T>> defaults;
 +      private boolean defaulted = false;
 +
 +      private OptionalNamedTag(ResourceLocation name, @Nullable Set<java.util.function.Supplier<T>> defaults) {

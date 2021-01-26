@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/renderer/model/BlockPartFace.java
++++ b/net/minecraft/client/renderer/model/BlockPartFace.java
+@@ -45,8 +45,7 @@
+          return JSONUtils.func_151200_h(p_178340_1_, "texture");
+       }
+ 
+-      @Nullable
+-      private Direction func_178339_c(JsonObject p_178339_1_) {
++         private Direction func_178339_c(JsonObject p_178339_1_) {
+          String s = JSONUtils.func_151219_a(p_178339_1_, "cullface", "");
+          return Direction.func_176739_a(s);
+       }

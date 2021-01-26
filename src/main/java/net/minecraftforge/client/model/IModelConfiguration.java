@@ -36,8 +36,7 @@ public interface IModelConfiguration {
     /**
      * If available, gets the owning model (usually BlockModel) of this configuration
      */
-    @Nullable
-    IUnbakedModel getOwnerModel();
+     IUnbakedModel getOwnerModel();
 
     /**
      * @return The name of the model being baked, for logging and cache purposes.

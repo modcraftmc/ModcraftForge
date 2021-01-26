@@ -1,0 +1,28 @@
+--- a/net/minecraft/util/datafix/fixes/ChunkPaletteFormat.java
++++ b/net/minecraft/util/datafix/fixes/ChunkPaletteFormat.java
+@@ -752,13 +752,11 @@
+ 
+       }
+ 
+-      @Nullable
+-      private Dynamic<?> func_210066_b(int p_210066_1_) {
++         private Dynamic<?> func_210066_b(int p_210066_1_) {
+          return this.field_199232_f.get(p_210066_1_);
+       }
+ 
+-      @Nullable
+-      private Dynamic<?> func_210059_c(int p_210059_1_) {
++         private Dynamic<?> func_210059_c(int p_210059_1_) {
+          return this.field_199232_f.remove(p_210059_1_);
+       }
+ 
+@@ -787,8 +785,7 @@
+          }
+       }
+ 
+-      @Nullable
+-      private ChunkPaletteFormat.Section func_199221_d(int p_199221_1_) {
++         private ChunkPaletteFormat.Section func_199221_d(int p_199221_1_) {
+          int i = p_199221_1_ >> 12;
+          return i < this.field_199228_b.length ? this.field_199228_b[i] : null;
+       }

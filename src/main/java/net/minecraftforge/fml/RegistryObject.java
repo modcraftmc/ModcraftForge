@@ -39,8 +39,7 @@ import java.util.stream.Stream;
 public final class RegistryObject<T extends IForgeRegistryEntry<? super T>> implements Supplier<T>
 {
     private final ResourceLocation name;
-    @Nullable
-    private T value;
+     private T value;
 
     public static <T extends IForgeRegistryEntry<T>, U extends T> RegistryObject<U> of(final ResourceLocation name, Supplier<Class<? super T>> registryType) {
         return new RegistryObject<>(name, registryType);

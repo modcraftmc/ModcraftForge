@@ -49,8 +49,7 @@ public class ItemModelMesherForge extends ItemModelMesher
     }
 
     @Override
-    @Nullable
-    public IBakedModel getItemModel(Item item)
+     public IBakedModel getItemModel(Item item)
     {
         return models.get(item.delegate);
     }

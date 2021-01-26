@@ -107,12 +107,9 @@ public class VersionChecker
     {
         @Nonnull
         public final Status status;
-        @Nullable
-        public final ComparableVersion target;
-        @Nullable
-        public final Map<ComparableVersion, String> changes;
-        @Nullable
-        public final String url;
+             public final ComparableVersion target;
+             public final Map<ComparableVersion, String> changes;
+             public final String url;
 
         private CheckResult(@Nonnull Status status, @Nullable ComparableVersion target, @Nullable Map<ComparableVersion, String> changes, @Nullable String url)
         {

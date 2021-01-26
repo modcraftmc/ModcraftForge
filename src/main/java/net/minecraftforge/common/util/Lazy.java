@@ -60,8 +60,7 @@ public interface Lazy<T> extends Supplier<T>
             this.supplier = supplier;
         }
 
-        @Nullable
-        @Override
+             @Override
         public final T get()
         {
             if (supplier != null)
@@ -87,8 +86,7 @@ public interface Lazy<T> extends Supplier<T>
             this.supplier = supplier;
         }
 
-        @Nullable
-        @Override
+             @Override
         public final T get()
         {
             // Copy the lock to a local variable to prevent NPEs if the lock field is set to null between the

@@ -64,8 +64,7 @@ public interface IForgeEntity extends ICapabilitySerializable<CompoundNBT>
     boolean canUpdate();
     void canUpdate(boolean value);
 
-    @Nullable
-    Collection<ItemEntity> captureDrops();
+     Collection<ItemEntity> captureDrops();
     Collection<ItemEntity> captureDrops(@Nullable Collection<ItemEntity> captureDrops);
 
 

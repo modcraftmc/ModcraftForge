@@ -9,3 +9,23 @@
        MutableRegistry<E> mutableregistry = p_243607_0_.func_243612_b(registrykey);
  
        for(Entry<RegistryKey<E>, E> entry : registry.func_239659_c_()) {
+@@ -148,8 +150,7 @@
+    static final class CodecHolder<E> {
+       private final RegistryKey<? extends Registry<E>> field_243619_a;
+       private final Codec<E> field_243620_b;
+-      @Nullable
+-      private final Codec<E> field_243621_c;
++         private final Codec<E> field_243621_c;
+ 
+       public CodecHolder(RegistryKey<? extends Registry<E>> p_i242073_1_, Codec<E> p_i242073_2_, @Nullable Codec<E> p_i242073_3_) {
+          this.field_243619_a = p_i242073_1_;
+@@ -165,8 +166,7 @@
+          return this.field_243620_b;
+       }
+ 
+-      @Nullable
+-      public Codec<E> func_243624_c() {
++         public Codec<E> func_243624_c() {
+          return this.field_243621_c;
+       }
+ 

@@ -49,8 +49,7 @@ public class RegistryBuilder<T extends IForgeRegistryEntry<T>>
     private boolean allowOverrides = true;
     private boolean allowModifications = false;
     private boolean hasWrapper = false;
-    @Nullable
-    private String tagFolder;
+     private String tagFolder;
     private DummyFactory<T> dummyFactory;
     private MissingFactory<T> missingFactory;
     private Set<ResourceLocation> legacyNames = new HashSet<>();
@@ -244,8 +243,7 @@ public class RegistryBuilder<T extends IForgeRegistryEntry<T>>
         return RegistryManager.ACTIVE.createRegistry(registryName, this);
     }
 
-    @Nullable
-    public AddCallback<T> getAdd()
+     public AddCallback<T> getAdd()
     {
         if (addCallback.isEmpty())
             return null;
@@ -259,8 +257,7 @@ public class RegistryBuilder<T extends IForgeRegistryEntry<T>>
         };
     }
 
-    @Nullable
-    public ClearCallback<T> getClear()
+     public ClearCallback<T> getClear()
     {
         if (clearCallback.isEmpty())
             return null;
@@ -274,8 +271,7 @@ public class RegistryBuilder<T extends IForgeRegistryEntry<T>>
         };
     }
 
-    @Nullable
-    public CreateCallback<T> getCreate()
+     public CreateCallback<T> getCreate()
     {
         if (createCallback.isEmpty())
             return null;
@@ -289,8 +285,7 @@ public class RegistryBuilder<T extends IForgeRegistryEntry<T>>
         };
     }
 
-    @Nullable
-    public ValidateCallback<T> getValidate()
+     public ValidateCallback<T> getValidate()
     {
         if (validateCallback.isEmpty())
             return null;
@@ -304,8 +299,7 @@ public class RegistryBuilder<T extends IForgeRegistryEntry<T>>
         };
     }
 
-    @Nullable
-    public BakeCallback<T> getBake()
+     public BakeCallback<T> getBake()
     {
         if (bakeCallback.isEmpty())
             return null;
@@ -324,8 +318,7 @@ public class RegistryBuilder<T extends IForgeRegistryEntry<T>>
         return registryType;
     }
 
-    @Nullable
-    public ResourceLocation getDefault()
+     public ResourceLocation getDefault()
     {
         return this.optionalDefaultKey;
     }
@@ -350,20 +343,17 @@ public class RegistryBuilder<T extends IForgeRegistryEntry<T>>
         return allowModifications;
     }
 
-    @Nullable
-    public String getTagFolder()
+     public String getTagFolder()
     {
         return tagFolder;
     }
 
-    @Nullable
-    public DummyFactory<T> getDummyFactory()
+     public DummyFactory<T> getDummyFactory()
     {
         return dummyFactory;
     }
 
-    @Nullable
-    public MissingFactory<T> getMissingFactory()
+     public MissingFactory<T> getMissingFactory()
     {
         return missingFactory;
     }

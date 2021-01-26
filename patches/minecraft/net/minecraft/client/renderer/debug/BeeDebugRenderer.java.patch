@@ -1,0 +1,18 @@
+--- a/net/minecraft/client/renderer/debug/BeeDebugRenderer.java
++++ b/net/minecraft/client/renderer/debug/BeeDebugRenderer.java
+@@ -303,12 +303,9 @@
+       public final UUID field_228998_a_;
+       public final int field_228999_b_;
+       public final IPosition field_229000_c_;
+-      @Nullable
+-      public final Path field_229001_d_;
+-      @Nullable
+-      public final BlockPos field_229002_e_;
+-      @Nullable
+-      public final BlockPos field_229003_f_;
++         public final Path field_229001_d_;
++         public final BlockPos field_229002_e_;
++         public final BlockPos field_229003_f_;
+       public final int field_229004_g_;
+       public final List<String> field_229005_h_ = Lists.newArrayList();
+       public final Set<BlockPos> field_229006_i_ = Sets.newHashSet();

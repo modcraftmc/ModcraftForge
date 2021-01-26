@@ -69,8 +69,7 @@ public class BasicTrade implements ITrade
     }
 
     @Override
-    @Nullable
-    public MerchantOffer getOffer(Entity merchant, Random rand)
+     public MerchantOffer getOffer(Entity merchant, Random rand)
     {
         return new MerchantOffer(price, price2, forSale, maxTrades, xp, priceMult);
     }

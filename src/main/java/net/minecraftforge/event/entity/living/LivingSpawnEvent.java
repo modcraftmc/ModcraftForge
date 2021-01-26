@@ -75,8 +75,7 @@ public class LivingSpawnEvent extends LivingEvent
     @HasResult
     public static class CheckSpawn extends LivingSpawnEvent
     {
-        @Nullable
-        private final AbstractSpawner spawner;
+             private final AbstractSpawner spawner;
         private final SpawnReason spawnReason;
 
         /**
@@ -101,8 +100,7 @@ public class LivingSpawnEvent extends LivingEvent
             return spawner != null;
         }
 
-        @Nullable
-        public AbstractSpawner getSpawner()
+             public AbstractSpawner getSpawner()
         {
             return spawner;
         }
@@ -129,8 +127,7 @@ public class LivingSpawnEvent extends LivingEvent
     @net.minecraftforge.eventbus.api.Cancelable
     public static class SpecialSpawn extends LivingSpawnEvent
     {
-        @Nullable
-        private final AbstractSpawner spawner;
+             private final AbstractSpawner spawner;
         private final SpawnReason spawnReason;
 
         /**
@@ -143,8 +140,7 @@ public class LivingSpawnEvent extends LivingEvent
             this.spawnReason = spawnReason;
         }
 
-        @Nullable
-        public AbstractSpawner getSpawner()
+             public AbstractSpawner getSpawner()
         {
             return spawner;
         }

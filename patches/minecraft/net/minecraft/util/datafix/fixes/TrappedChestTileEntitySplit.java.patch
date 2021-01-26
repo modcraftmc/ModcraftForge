@@ -1,0 +1,12 @@
+--- a/net/minecraft/util/datafix/fixes/TrappedChestTileEntitySplit.java
++++ b/net/minecraft/util/datafix/fixes/TrappedChestTileEntitySplit.java
+@@ -95,8 +95,7 @@
+    }
+ 
+    public static final class Section extends LeavesFix.Section {
+-      @Nullable
+-      private IntSet field_212512_f;
++         private IntSet field_212512_f;
+ 
+       public Section(Typed<?> p_i49831_1_, Schema p_i49831_2_) {
+          super(p_i49831_1_, p_i49831_2_);

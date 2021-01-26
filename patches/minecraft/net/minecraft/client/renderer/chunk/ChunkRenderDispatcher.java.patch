@@ -17,16 +17,23 @@
        this.field_228890_g_ = p_i226020_5_;
        List<RegionRenderCacheBuilder> list = Lists.newArrayListWithExpectedSize(l);
  
-@@ -206,7 +209,7 @@
+@@ -206,12 +209,10 @@
     }
  
     @OnlyIn(Dist.CLIENT)
 -   public class ChunkRender {
 +   public class ChunkRender implements net.minecraftforge.client.extensions.IForgeRenderChunk {
        public final AtomicReference<ChunkRenderDispatcher.CompiledChunk> field_178590_b = new AtomicReference<>(ChunkRenderDispatcher.CompiledChunk.field_178502_a);
-       @Nullable
-       private ChunkRenderDispatcher.ChunkRender.RebuildTask field_228921_d_;
-@@ -332,7 +335,7 @@
+-      @Nullable
+-      private ChunkRenderDispatcher.ChunkRender.RebuildTask field_228921_d_;
+-      @Nullable
+-      private ChunkRenderDispatcher.ChunkRender.SortTransparencyTask field_228922_e_;
++         private ChunkRenderDispatcher.ChunkRender.RebuildTask field_228921_d_;
++         private ChunkRenderDispatcher.ChunkRender.SortTransparencyTask field_228922_e_;
+       private final Set<TileEntity> field_181056_j = Sets.newHashSet();
+       private final Map<RenderType, VertexBuffer> field_178594_l = RenderType.func_228661_n_().stream().collect(Collectors.toMap((p_228934_0_) -> {
+          return p_228934_0_;
+@@ -332,7 +333,7 @@
           if (!chunkrenderdispatcher$compiledchunk.field_178501_c.contains(p_228925_1_)) {
              return false;
           } else {
@@ -35,7 +42,7 @@
              p_228925_2_.func_228900_a_(this.field_228922_e_);
              return true;
           }
-@@ -355,8 +358,8 @@
+@@ -355,8 +356,8 @@
           this.func_228935_i_();
           BlockPos blockpos = this.field_178586_f.func_185334_h();
           int i = 1;
@@ -46,7 +53,7 @@
           return this.field_228921_d_;
        }
  
-@@ -384,9 +387,19 @@
+@@ -384,9 +385,19 @@
        abstract class ChunkRenderTask implements Comparable<ChunkRenderDispatcher.ChunkRender.ChunkRenderTask> {
           protected final double field_188229_e;
           protected final AtomicBoolean field_178554_h = new AtomicBoolean(false);
@@ -66,7 +73,7 @@
           }
  
           public abstract CompletableFuture<ChunkRenderDispatcher.ChunkTaskResult> func_225618_a_(RegionRenderCacheBuilder p_225618_1_);
-@@ -396,6 +409,10 @@
+@@ -396,15 +407,23 @@
           public int compareTo(ChunkRenderDispatcher.ChunkRender.ChunkRenderTask p_compareTo_1_) {
              return Doubles.compare(this.field_188229_e, p_compareTo_1_.field_188229_e);
           }
@@ -77,9 +84,10 @@
        }
  
        @OnlyIn(Dist.CLIENT)
-@@ -403,8 +420,13 @@
-          @Nullable
-          protected ChunkRenderCache field_228938_d_;
+       class RebuildTask extends ChunkRenderDispatcher.ChunkRender.ChunkRenderTask {
+-         @Nullable
+-         protected ChunkRenderCache field_228938_d_;
++               protected ChunkRenderCache field_228938_d_;
  
 +         @Deprecated
           public RebuildTask(double p_i226024_2_, @Nullable ChunkRenderCache p_i226024_4_) {
@@ -92,7 +100,7 @@
              this.field_228938_d_ = p_i226024_4_;
           }
  
-@@ -470,7 +492,7 @@
+@@ -470,7 +489,7 @@
                       visgraph.func_178606_a(blockpos2);
                    }
  
@@ -101,7 +109,7 @@
                       TileEntity tileentity = chunkrendercache.func_212399_a(blockpos2, Chunk.CreateEntityType.CHECK);
                       if (tileentity != null) {
                          this.func_228942_a_(p_228940_4_, set, tileentity);
-@@ -478,8 +500,10 @@
+@@ -478,8 +497,10 @@
                    }
  
                    FluidState fluidstate = chunkrendercache.func_204610_c(blockpos2);
@@ -114,7 +122,7 @@
                       BufferBuilder bufferbuilder = p_228940_5_.func_228366_a_(rendertype);
                       if (p_228940_4_.field_178501_c.add(rendertype)) {
                          ChunkRender.this.func_228923_a_(bufferbuilder);
-@@ -491,8 +515,8 @@
+@@ -491,8 +512,8 @@
                       }
                    }
  
@@ -125,7 +133,7 @@
                       BufferBuilder bufferbuilder2 = p_228940_5_.func_228366_a_(rendertype1);
                       if (p_228940_4_.field_178501_c.add(rendertype1)) {
                          ChunkRender.this.func_228923_a_(bufferbuilder2);
-@@ -500,14 +524,16 @@
+@@ -500,14 +521,16 @@
  
                       matrixstack.func_227860_a_();
                       matrixstack.func_227861_a_((double)(blockpos2.func_177958_n() & 15), (double)(blockpos2.func_177956_o() & 15), (double)(blockpos2.func_177952_p() & 15));
@@ -143,7 +151,7 @@
  
                 if (p_228940_4_.field_178500_b.contains(RenderType.func_228645_f_())) {
                    BufferBuilder bufferbuilder1 = p_228940_5_.func_228366_a_(RenderType.func_228645_f_());
-@@ -526,10 +552,10 @@
+@@ -526,10 +549,10 @@
           private <E extends TileEntity> void func_228942_a_(ChunkRenderDispatcher.CompiledChunk p_228942_1_, Set<TileEntity> p_228942_2_, E p_228942_3_) {
              TileEntityRenderer<E> tileentityrenderer = TileEntityRendererDispatcher.field_147556_a.func_147547_b(p_228942_3_);
              if (tileentityrenderer != null) {
@@ -155,7 +163,7 @@
              }
  
           }
-@@ -547,8 +573,13 @@
+@@ -547,8 +570,13 @@
        class SortTransparencyTask extends ChunkRenderDispatcher.ChunkRender.ChunkRenderTask {
           private final ChunkRenderDispatcher.CompiledChunk field_228945_e_;
  
@@ -170,3 +178,13 @@
              this.field_228945_e_ = p_i226025_4_;
           }
  
+@@ -617,8 +645,7 @@
+       private boolean field_178498_d = true;
+       private final List<TileEntity> field_178499_e = Lists.newArrayList();
+       private SetVisibility field_178496_f = new SetVisibility();
+-      @Nullable
+-      private BufferBuilder.State field_178497_g;
++         private BufferBuilder.State field_178497_g;
+ 
+       public boolean func_178489_a() {
+          return this.field_178498_d;

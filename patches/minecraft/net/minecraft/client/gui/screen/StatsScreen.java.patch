@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/screen/StatsScreen.java
++++ b/net/minecraft/client/gui/screen/StatsScreen.java
+@@ -254,8 +254,7 @@
+       protected int field_195115_x = -1;
+       protected final List<Item> field_195116_y;
+       protected final java.util.Comparator<Item> field_195117_z = new StatsScreen.StatsList.Comparator();
+-      @Nullable
+-      protected StatType<?> field_195110_A;
++         protected StatType<?> field_195110_A;
+       protected int field_195111_B;
+ 
+       public StatsList(Minecraft p_i47552_2_) {

@@ -47,3 +47,13 @@
     @OnlyIn(Dist.CLIENT)
     public static class End extends DimensionRenderInfo {
        public End() {
+@@ -96,8 +129,7 @@
+          return false;
+       }
+ 
+-      @Nullable
+-      public float[] func_230492_a_(float p_230492_1_, float p_230492_2_) {
++         public float[] func_230492_a_(float p_230492_1_, float p_230492_2_) {
+          return null;
+       }
+    }

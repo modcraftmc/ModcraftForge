@@ -1,0 +1,52 @@
+--- a/net/minecraft/util/text/NBTTextComponent.java
++++ b/net/minecraft/util/text/NBTTextComponent.java
+@@ -86,8 +86,7 @@
+ 
+    public static class Block extends NBTTextComponent {
+       private final String field_218684_e;
+-      @Nullable
+-      private final ILocationArgument field_218685_f;
++         private final ILocationArgument field_218685_f;
+ 
+       public Block(String p_i51294_1_, boolean p_i51294_2_, String p_i51294_3_) {
+          super(p_i51294_1_, p_i51294_2_);
+@@ -95,8 +94,7 @@
+          this.field_218685_f = this.func_218682_b(this.field_218684_e);
+       }
+ 
+-      @Nullable
+-      private ILocationArgument func_218682_b(String p_218682_1_) {
++         private ILocationArgument func_218682_b(String p_218682_1_) {
+          try {
+             return BlockPosArgument.func_197276_a().parse(new StringReader(p_218682_1_));
+          } catch (CommandSyntaxException commandsyntaxexception) {
+@@ -110,8 +108,7 @@
+          this.field_218685_f = p_i51295_5_;
+       }
+ 
+-      @Nullable
+-      public String func_218683_k() {
++         public String func_218683_k() {
+          return this.field_218684_e;
+       }
+ 
+@@ -152,8 +149,7 @@
+ 
+    public static class Entity extends NBTTextComponent {
+       private final String field_218688_e;
+-      @Nullable
+-      private final EntitySelector field_218689_f;
++         private final EntitySelector field_218689_f;
+ 
+       public Entity(String p_i51292_1_, boolean p_i51292_2_, String p_i51292_3_) {
+          super(p_i51292_1_, p_i51292_2_);
+@@ -161,8 +157,7 @@
+          this.field_218689_f = func_218686_b(p_i51292_3_);
+       }
+ 
+-      @Nullable
+-      private static EntitySelector func_218686_b(String p_218686_0_) {
++         private static EntitySelector func_218686_b(String p_218686_0_) {
+          try {
+             EntitySelectorParser entityselectorparser = new EntitySelectorParser(new StringReader(p_218686_0_));
+             return entityselectorparser.func_201345_m();

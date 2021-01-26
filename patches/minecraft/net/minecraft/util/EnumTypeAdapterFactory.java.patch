@@ -1,0 +1,12 @@
+--- a/net/minecraft/util/EnumTypeAdapterFactory.java
++++ b/net/minecraft/util/EnumTypeAdapterFactory.java
+@@ -36,8 +36,7 @@
+ 
+             }
+ 
+-            @Nullable
+-            public T read(JsonReader p_read_1_) throws IOException {
++                     public T read(JsonReader p_read_1_) throws IOException {
+                if (p_read_1_.peek() == JsonToken.NULL) {
+                   p_read_1_.nextNull();
+                   return (T)null;

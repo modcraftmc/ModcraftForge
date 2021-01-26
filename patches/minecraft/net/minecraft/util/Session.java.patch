@@ -49,3 +49,13 @@
     @OnlyIn(Dist.CLIENT)
     public static enum Type {
        LEGACY("legacy"),
+@@ -65,8 +91,7 @@
+          this.field_152426_d = p_i1096_3_;
+       }
+ 
+-      @Nullable
+-      public static Session.Type func_152421_a(String p_152421_0_) {
++         public static Session.Type func_152421_a(String p_152421_0_) {
+          return field_152425_c.get(p_152421_0_.toLowerCase(Locale.ROOT));
+       }
+    }

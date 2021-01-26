@@ -1,0 +1,12 @@
+--- a/net/minecraft/world/gen/feature/structure/OceanRuinStructure.java
++++ b/net/minecraft/world/gen/feature/structure/OceanRuinStructure.java
+@@ -56,8 +56,7 @@
+          return this.field_215138_d;
+       }
+ 
+-      @Nullable
+-      public static OceanRuinStructure.Type func_215136_a(String p_215136_0_) {
++         public static OceanRuinStructure.Type func_215136_a(String p_215136_0_) {
+          return field_215137_c.get(p_215136_0_);
+       }
+ 

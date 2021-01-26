@@ -101,3 +101,13 @@
                    ((MobEntity)p_242927_6_).func_213386_a(p_237143_1_, p_237143_1_.func_175649_E(new BlockPos(vector3d1)), SpawnReason.STRUCTURE, (ILivingEntityData)null, compoundnbt);
                 }
  
+@@ -744,8 +770,7 @@
+          return i;
+       }
+ 
+-      @Nullable
+-      public BlockState func_189955_a(int p_189955_1_) {
++         public BlockState func_189955_a(int p_189955_1_) {
+          BlockState blockstate = this.field_189958_b.func_148745_a(p_189955_1_);
+          return blockstate == null ? field_189957_a : blockstate;
+       }

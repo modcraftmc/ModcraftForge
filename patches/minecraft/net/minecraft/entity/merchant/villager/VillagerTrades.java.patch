@@ -1,0 +1,52 @@
+--- a/net/minecraft/entity/merchant/villager/VillagerTrades.java
++++ b/net/minecraft/entity/merchant/villager/VillagerTrades.java
+@@ -146,8 +146,7 @@
+          this.field_221231_e = p_i231575_5_;
+       }
+ 
+-      @Nullable
+-      public MerchantOffer func_221182_a(Entity p_221182_1_, Random p_221182_2_) {
++         public MerchantOffer func_221182_a(Entity p_221182_1_, Random p_221182_2_) {
+          if (!(p_221182_1_.field_70170_p instanceof ServerWorld)) {
+             return null;
+          } else {
+@@ -184,8 +183,7 @@
+          this.field_221193_d = p_i50538_3_;
+       }
+ 
+-      @Nullable
+-      public MerchantOffer func_221182_a(Entity p_221182_1_, Random p_221182_2_) {
++         public MerchantOffer func_221182_a(Entity p_221182_1_, Random p_221182_2_) {
+          if (p_221182_1_ instanceof IVillagerDataHolder) {
+             ItemStack itemstack = new ItemStack(this.field_221190_a.get(((IVillagerDataHolder)p_221182_1_).func_213700_eh().func_221129_a()), this.field_221191_b);
+             return new MerchantOffer(itemstack, new ItemStack(Items.field_151166_bC), this.field_221192_c, this.field_221193_d, 0.05F);
+@@ -249,8 +247,7 @@
+    }
+ 
+    public interface ITrade {
+-      @Nullable
+-      MerchantOffer func_221182_a(Entity p_221182_1_, Random p_221182_2_);
++         MerchantOffer func_221182_a(Entity p_221182_1_, Random p_221182_2_);
+    }
+ 
+    static class ItemWithPotionForEmeraldsAndItemsTrade implements VillagerTrades.ITrade {
+@@ -310,8 +307,7 @@
+          this.field_221207_h = 0.05F;
+       }
+ 
+-      @Nullable
+-      public MerchantOffer func_221182_a(Entity p_221182_1_, Random p_221182_2_) {
++         public MerchantOffer func_221182_a(Entity p_221182_1_, Random p_221182_2_) {
+          return new MerchantOffer(new ItemStack(Items.field_151166_bC, this.field_221202_c), new ItemStack(this.field_221200_a.func_77973_b(), this.field_221201_b), new ItemStack(this.field_221203_d.func_77973_b(), this.field_221204_e), this.field_221205_f, this.field_221206_g, this.field_221207_h);
+       }
+    }
+@@ -367,8 +363,7 @@
+          this.field_221217_d = 0.05F;
+       }
+ 
+-      @Nullable
+-      public MerchantOffer func_221182_a(Entity p_221182_1_, Random p_221182_2_) {
++         public MerchantOffer func_221182_a(Entity p_221182_1_, Random p_221182_2_) {
+          ItemStack itemstack = new ItemStack(Items.field_222115_pz, 1);
+          SuspiciousStewItem.func_220037_a(itemstack, this.field_221214_a, this.field_221215_b);
+          return new MerchantOffer(new ItemStack(Items.field_151166_bC, 1), itemstack, 12, this.field_221216_c, this.field_221217_d);

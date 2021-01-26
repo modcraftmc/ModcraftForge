@@ -36,9 +36,7 @@ public interface IModelData
      */
     boolean hasProperty(ModelProperty<?> prop);
 
-    @Nullable
-    <T> T getData(ModelProperty<T> prop);
+     <T> T getData(ModelProperty<T> prop);
     
-    @Nullable
-    <T> T setData(ModelProperty<T> prop, T data);
+     <T> T setData(ModelProperty<T> prop, T data);
 }

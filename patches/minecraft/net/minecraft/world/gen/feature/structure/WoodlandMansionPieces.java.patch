@@ -1,0 +1,12 @@
+--- a/net/minecraft/world/gen/feature/structure/WoodlandMansionPieces.java
++++ b/net/minecraft/world/gen/feature/structure/WoodlandMansionPieces.java
+@@ -120,8 +120,7 @@
+          return (this.field_191120_d[p_191114_4_].func_191145_a(p_191114_2_, p_191114_3_) & '\uffff') == p_191114_5_;
+       }
+ 
+-      @Nullable
+-      public Direction func_191113_b(WoodlandMansionPieces.SimpleGrid p_191113_1_, int p_191113_2_, int p_191113_3_, int p_191113_4_, int p_191113_5_) {
++         public Direction func_191113_b(WoodlandMansionPieces.SimpleGrid p_191113_1_, int p_191113_2_, int p_191113_3_, int p_191113_4_, int p_191113_5_) {
+          for(Direction direction : Direction.Plane.HORIZONTAL) {
+             if (this.func_191114_a(p_191113_1_, p_191113_2_ + direction.func_82601_c(), p_191113_3_ + direction.func_82599_e(), p_191113_4_, p_191113_5_)) {
+                return direction;

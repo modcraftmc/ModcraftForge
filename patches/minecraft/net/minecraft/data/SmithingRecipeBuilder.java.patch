@@ -1,0 +1,18 @@
+--- a/net/minecraft/data/SmithingRecipeBuilder.java
++++ b/net/minecraft/data/SmithingRecipeBuilder.java
+@@ -88,13 +88,11 @@
+          return this.field_240513_g_;
+       }
+ 
+-      @Nullable
+-      public JsonObject func_200440_c() {
++         public JsonObject func_200440_c() {
+          return this.field_240511_e_.func_200273_b();
+       }
+ 
+-      @Nullable
+-      public ResourceLocation func_200443_d() {
++         public ResourceLocation func_200443_d() {
+          return this.field_240512_f_;
+       }
+    }

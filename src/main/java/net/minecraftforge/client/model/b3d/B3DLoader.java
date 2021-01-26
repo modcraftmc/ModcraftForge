@@ -157,13 +157,11 @@ public enum B3DLoader implements ISelectiveResourceReloadListener
 
     public static final class B3DState implements IModelTransform
     {
-        @Nullable
-        private final Animation animation;
+             private final Animation animation;
         private final int frame;
         private final int nextFrame;
         private final float progress;
-        @Nullable
-        private final IModelTransform parent;
+             private final IModelTransform parent;
 
         public B3DState(@Nullable Animation animation, int frame)
         {
@@ -189,16 +187,14 @@ public enum B3DLoader implements ISelectiveResourceReloadListener
             this.parent = getParent(parent);
         }
 
-        @Nullable
-        private IModelTransform getParent(@Nullable IModelTransform parent)
+             private IModelTransform getParent(@Nullable IModelTransform parent)
         {
             if (parent == null) return null;
             else if (parent instanceof B3DState) return ((B3DState)parent).parent;
             return parent;
         }
 
-        @Nullable
-        public Animation getAnimation()
+             public Animation getAnimation()
         {
             return animation;
         }
@@ -218,8 +214,7 @@ public enum B3DLoader implements ISelectiveResourceReloadListener
             return progress;
         }
 
-        @Nullable
-        public IModelTransform getParent()
+             public IModelTransform getParent()
         {
             return parent;
         }
@@ -461,8 +456,7 @@ public enum B3DLoader implements ISelectiveResourceReloadListener
         }
 
         @SuppressWarnings("deprecation")
-        @Nullable
-        @Override
+             @Override
         public IBakedModel bakeModel(ModelBakery bakery, Function<RenderMaterial, TextureAtlasSprite> spriteGetter, IModelTransform modelTransform, ResourceLocation modelLocation)
         {
             ImmutableMap.Builder<String, TextureAtlasSprite> builder = ImmutableMap.builder();

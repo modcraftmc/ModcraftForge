@@ -169,8 +169,7 @@ public interface IForgeItem
      * @param stack The stack to send the NBT tag for
      * @return The NBT tag
      */
-    @Nullable
-    default CompoundNBT getShareTag(ItemStack stack)
+     default CompoundNBT getShareTag(ItemStack stack)
     {
         return stack.getTag();
     }
@@ -298,8 +297,7 @@ public interface IForgeItem
      * @param itemstack The current item stack
      * @return A new Entity object to spawn or null
      */
-    @Nullable
-    default Entity createEntity(World world, Entity location, ItemStack itemstack)
+     default Entity createEntity(World world, Entity location, ItemStack itemstack)
     {
         return null;
     }
@@ -388,8 +386,7 @@ public interface IForgeItem
      *         vanilla logic as per {@code EntityLiving.getSlotForItemStack(stack)}
      *         decide
      */
-    @Nullable
-    default EquipmentSlotType getEquipmentSlot(ItemStack stack)
+     default EquipmentSlotType getEquipmentSlot(ItemStack stack)
     {
         return null;
     }
@@ -419,8 +416,7 @@ public interface IForgeItem
      * @param type   The subtype, can be null or "overlay"
      * @return Path of texture to bind, or null to use default
      */
-    @Nullable
-    default String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlotType slot, String type)
+     default String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlotType slot, String type)
     {
         return null;
     }
@@ -433,8 +429,7 @@ public interface IForgeItem
      * @return A instance of FontRenderer or null to use default
      */
     @OnlyIn(Dist.CLIENT)
-    @Nullable
-    default net.minecraft.client.gui.FontRenderer getFontRenderer(ItemStack stack)
+     default net.minecraft.client.gui.FontRenderer getFontRenderer(ItemStack stack)
     {
         return null;
     }
@@ -449,8 +444,7 @@ public interface IForgeItem
      * @return A ModelBiped to render instead of the default
      */
     @OnlyIn(Dist.CLIENT)
-    @Nullable
-    default <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, A _default)
+     default <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, A _default)
     {
         return null;
     }
@@ -694,8 +688,7 @@ public interface IForgeItem
      * @return the Mod ID for the ItemStack, or null when there is no specially
      *         associated mod and {@link #getRegistryName()} would return null.
      */
-    @Nullable
-    default String getCreatorModId(ItemStack itemStack)
+     default String getCreatorModId(ItemStack itemStack)
     {
         return net.minecraftforge.common.ForgeHooks.getDefaultCreatorModId(itemStack);
     }
@@ -714,8 +707,7 @@ public interface IForgeItem
      * @return A holder instance associated with this ItemStack where you can hold
      *         capabilities for the life of this item.
      */
-    @Nullable
-    default net.minecraftforge.common.capabilities.ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt)
+     default net.minecraftforge.common.capabilities.ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt)
     {
         return null;
     }

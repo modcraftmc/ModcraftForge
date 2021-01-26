@@ -1,0 +1,12 @@
+--- a/net/minecraft/advancements/criterion/BeeNestDestroyedTrigger.java
++++ b/net/minecraft/advancements/criterion/BeeNestDestroyedTrigger.java
+@@ -45,8 +45,7 @@
+    }
+ 
+    public static class Instance extends CriterionInstance {
+-      @Nullable
+-      private final Block field_226225_a_;
++         private final Block field_226225_a_;
+       private final ItemPredicate field_226226_b_;
+       private final MinMaxBounds.IntBound field_226227_c_;
+ 

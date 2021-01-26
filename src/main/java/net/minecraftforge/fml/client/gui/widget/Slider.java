@@ -47,8 +47,7 @@ public class Slider extends ExtendedButton
     public double maxValue = 5.0D;
     public int precision = 1;
 
-    @Nullable
-    public ISlider parent = null;
+     public ISlider parent = null;
 
     public ITextComponent suffix;
 

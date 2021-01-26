@@ -56,7 +56,17 @@
                 } else {
                    ServerLoginNetHandler.this.func_194026_b(new TranslationTextComponent("multiplayer.disconnect.authservers_down"));
                    ServerLoginNetHandler.field_147332_c.error("Couldn't verify username because servers are unavailable");
-@@ -196,6 +202,7 @@
+@@ -185,8 +191,7 @@
+ 
+          }
+ 
+-         @Nullable
+-         private InetAddress func_191235_a() {
++               private InetAddress func_191235_a() {
+             SocketAddress socketaddress = ServerLoginNetHandler.this.field_147333_a.func_74430_c();
+             return ServerLoginNetHandler.this.field_147327_f.func_190518_ac() && socketaddress instanceof InetSocketAddress ? ((InetSocketAddress)socketaddress).getAddress() : null;
+          }
+@@ -196,6 +201,7 @@
     }
  
     public void func_209526_a(CCustomPayloadLoginPacket p_209526_1_) {

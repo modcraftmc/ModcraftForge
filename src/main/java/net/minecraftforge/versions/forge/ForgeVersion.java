@@ -67,8 +67,7 @@ public class ForgeVersion
         return VersionChecker.getResult(ModList.get().getModFileById(MOD_ID).getMods().get(0)).status;
     }
 
-    @Nullable
-    public static String getTarget()
+     public static String getTarget()
     {
         VersionChecker.CheckResult res = VersionChecker.getResult(ModList.get().getModFileById(MOD_ID).getMods().get(0));
         return res.target == null ? "" : res.target.toString();

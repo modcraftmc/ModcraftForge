@@ -54,8 +54,7 @@ public final class ModelLoader extends ModelBakery
 
     private static ModelLoader instance;
 
-    @Nullable
-    public static ModelLoader instance()
+     public static ModelLoader instance()
     {
         return instance;
     }

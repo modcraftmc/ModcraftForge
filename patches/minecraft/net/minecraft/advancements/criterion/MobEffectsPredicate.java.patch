@@ -1,0 +1,15 @@
+--- a/net/minecraft/advancements/criterion/MobEffectsPredicate.java
++++ b/net/minecraft/advancements/criterion/MobEffectsPredicate.java
+@@ -98,10 +98,8 @@
+    public static class InstancePredicate {
+       private final MinMaxBounds.IntBound field_193465_a;
+       private final MinMaxBounds.IntBound field_193466_b;
+-      @Nullable
+-      private final Boolean field_193467_c;
+-      @Nullable
+-      private final Boolean field_193468_d;
++         private final Boolean field_193467_c;
++         private final Boolean field_193468_d;
+ 
+       public InstancePredicate(MinMaxBounds.IntBound p_i49709_1_, MinMaxBounds.IntBound p_i49709_2_, @Nullable Boolean p_i49709_3_, @Nullable Boolean p_i49709_4_) {
+          this.field_193465_a = p_i49709_1_;

@@ -42,8 +42,7 @@ public class LineReader implements AutoCloseable
         this.lineReader = new BufferedReader(lineStream);
     }
 
-    @Nullable
-    public String[] readAndSplitLine(boolean ignoreEmptyLines) throws IOException
+     public String[] readAndSplitLine(boolean ignoreEmptyLines) throws IOException
     {
         //noinspection LoopConditionNotUpdatedInsideLoop
         do

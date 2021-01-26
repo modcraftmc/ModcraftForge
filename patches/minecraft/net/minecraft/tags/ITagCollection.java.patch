@@ -1,0 +1,12 @@
+--- a/net/minecraft/tags/ITagCollection.java
++++ b/net/minecraft/tags/ITagCollection.java
+@@ -101,8 +101,7 @@
+             return bimap.getOrDefault(p_241834_1_, this.field_242207_b);
+          }
+ 
+-         @Nullable
+-         public ResourceLocation func_232973_a_(ITag<T> p_232973_1_) {
++               public ResourceLocation func_232973_a_(ITag<T> p_232973_1_) {
+             return p_232973_1_ instanceof ITag.INamedTag ? ((ITag.INamedTag)p_232973_1_).func_230234_a_() : bimap.inverse().get(p_232973_1_);
+          }
+ 

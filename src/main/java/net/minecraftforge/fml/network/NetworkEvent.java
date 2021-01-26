@@ -220,8 +220,7 @@ public class NetworkEvent extends Event
         /**
          * When available, gets the sender for packets that are sent from a client to the server.
          */
-        @Nullable
-        public ServerPlayerEntity getSender()
+             public ServerPlayerEntity getSender()
         {
             INetHandler netHandler = networkManager.getNetHandler();
             if (netHandler instanceof ServerPlayNetHandler)

@@ -1,0 +1,18 @@
+--- a/net/minecraft/network/play/server/SCommandListPacket.java
++++ b/net/minecraft/network/play/server/SCommandListPacket.java
+@@ -189,13 +189,11 @@
+    }
+ 
+    static class Entry {
+-      @Nullable
+-      private final ArgumentBuilder<ISuggestionProvider, ?> field_197726_a;
++         private final ArgumentBuilder<ISuggestionProvider, ?> field_197726_a;
+       private final byte field_197727_b;
+       private final int field_197728_c;
+       private final int[] field_197729_d;
+-      @Nullable
+-      private CommandNode<ISuggestionProvider> field_197730_e;
++         private CommandNode<ISuggestionProvider> field_197730_e;
+ 
+       private Entry(@Nullable ArgumentBuilder<ISuggestionProvider, ?> p_i48139_1_, byte p_i48139_2_, int p_i48139_3_, int[] p_i48139_4_) {
+          this.field_197726_a = p_i48139_1_;

@@ -37,24 +37,21 @@ public class ClientPlayerNetworkEvent extends Event {
     /**
      * @return the player controller for the client side
      */
-    @Nullable
-    public PlayerController getController() {
+     public PlayerController getController() {
         return controller;
     }
 
     /**
      * @return the player instance (if present - may be null)
      */
-    @Nullable
-    public ClientPlayerEntity getPlayer() {
+     public ClientPlayerEntity getPlayer() {
         return player;
     }
 
     /**
      * @return the network connection (if present - may be null)
      */
-    @Nullable
-    public NetworkManager getNetworkManager() {
+     public NetworkManager getNetworkManager() {
         return networkManager;
     }
 

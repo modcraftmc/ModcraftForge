@@ -79,8 +79,7 @@ public class ObfuscationReflectionHelper
      * @throws UnableToAccessFieldException If there was a problem getting the field.
      * @throws UnableToAccessFieldException If there was a problem getting the value.
      */
-    @Nullable
-    public static <T, E> T getPrivateValue(Class<? super E> classToAccess, E instance, String fieldName)
+     public static <T, E> T getPrivateValue(Class<? super E> classToAccess, E instance, String fieldName)
     {
         try
         {

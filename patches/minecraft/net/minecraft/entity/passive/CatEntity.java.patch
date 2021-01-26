@@ -9,3 +9,13 @@
                 this.func_193101_c(p_230254_1_);
                 this.func_233687_w_(true);
                 this.field_70170_p.func_72960_a(this, (byte)7);
+@@ -578,8 +578,7 @@
+    }
+ 
+    static class TemptGoal extends net.minecraft.entity.ai.goal.TemptGoal {
+-      @Nullable
+-      private PlayerEntity field_220763_c;
++         private PlayerEntity field_220763_c;
+       private final CatEntity field_220764_d;
+ 
+       public TemptGoal(CatEntity p_i50438_1_, double p_i50438_2_, Ingredient p_i50438_4_, boolean p_i50438_5_) {

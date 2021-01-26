@@ -48,8 +48,7 @@ public class BlockPosContext extends PlayerContext
     }
 
     @Override
-    @Nullable
-    public <T> T get(ContextKey<T> key)
+     public <T> T get(ContextKey<T> key)
     {
         if(key.equals(ContextKeys.POS))
         {

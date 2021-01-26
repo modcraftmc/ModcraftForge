@@ -1,0 +1,12 @@
+--- a/net/minecraft/world/gen/GenerationStage.java
++++ b/net/minecraft/world/gen/GenerationStage.java
+@@ -26,8 +26,7 @@
+          return this.field_222674_d;
+       }
+ 
+-      @Nullable
+-      public static GenerationStage.Carving func_236075_a_(String p_236075_0_) {
++         public static GenerationStage.Carving func_236075_a_(String p_236075_0_) {
+          return field_222673_c.get(p_236075_0_);
+       }
+ 

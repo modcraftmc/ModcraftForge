@@ -1,0 +1,12 @@
+--- a/net/minecraft/data/BlockModelProvider.java
++++ b/net/minecraft/data/BlockModelProvider.java
+@@ -1568,8 +1568,7 @@
+ 
+    class BlockTextureCombiner {
+       private final ModelTextures field_240054_b_;
+-      @Nullable
+-      private ResourceLocation field_240055_c_;
++         private ResourceLocation field_240055_c_;
+ 
+       public BlockTextureCombiner(ModelTextures p_i232516_2_) {
+          this.field_240054_b_ = p_i232516_2_;

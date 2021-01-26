@@ -1,0 +1,32 @@
+--- a/net/minecraft/client/audio/SoundSystem.java
++++ b/net/minecraft/client/audio/SoundSystem.java
+@@ -24,8 +24,7 @@
+    private long field_216411_b;
+    private long field_216412_c;
+    private static final SoundSystem.IHandler field_216413_d = new SoundSystem.IHandler() {
+-      @Nullable
+-      public SoundSource func_216398_a() {
++         public SoundSource func_216398_a() {
+          return null;
+       }
+ 
+@@ -165,8 +164,7 @@
+          this.field_216400_a = p_i50804_1_;
+       }
+ 
+-      @Nullable
+-      public SoundSource func_216398_a() {
++         public SoundSource func_216398_a() {
+          if (this.field_216401_b.size() >= this.field_216400_a) {
+             SoundSystem.field_216410_a.warn("Maximum sound pool size {} reached", (int)this.field_216400_a);
+             return null;
+@@ -205,8 +203,7 @@
+ 
+    @OnlyIn(Dist.CLIENT)
+    interface IHandler {
+-      @Nullable
+-      SoundSource func_216398_a();
++         SoundSource func_216398_a();
+ 
+       boolean func_216396_a(SoundSource p_216396_1_);
+ 

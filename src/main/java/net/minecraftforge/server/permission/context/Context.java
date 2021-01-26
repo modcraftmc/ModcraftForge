@@ -31,22 +31,19 @@ public class Context implements IContext
     private Map<ContextKey<?>, Object> map;
 
     @Override
-    @Nullable
-    public World getWorld()
+     public World getWorld()
     {
         return null;
     }
 
     @Override
-    @Nullable
-    public PlayerEntity getPlayer()
+     public PlayerEntity getPlayer()
     {
         return null;
     }
 
     @Override
-    @Nullable
-    public <T> T get(ContextKey<T> key)
+     public <T> T get(ContextKey<T> key)
     {
         return map == null || map.isEmpty() ? null : (T) map.get(key);
     }

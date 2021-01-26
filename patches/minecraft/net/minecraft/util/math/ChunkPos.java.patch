@@ -1,0 +1,12 @@
+--- a/net/minecraft/util/math/ChunkPos.java
++++ b/net/minecraft/util/math/ChunkPos.java
+@@ -113,8 +113,7 @@
+       final int k = p_222239_0_.field_77276_a < p_222239_1_.field_77276_a ? 1 : -1;
+       final int l = p_222239_0_.field_77275_b < p_222239_1_.field_77275_b ? 1 : -1;
+       return StreamSupport.stream(new AbstractSpliterator<ChunkPos>((long)(i * j), 64) {
+-         @Nullable
+-         private ChunkPos field_222237_e;
++               private ChunkPos field_222237_e;
+ 
+          public boolean tryAdvance(Consumer<? super ChunkPos> p_tryAdvance_1_) {
+             if (this.field_222237_e == null) {

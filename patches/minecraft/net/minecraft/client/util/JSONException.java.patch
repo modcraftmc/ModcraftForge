@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/util/JSONException.java
++++ b/net/minecraft/client/util/JSONException.java
+@@ -53,8 +53,7 @@
+ 
+    @OnlyIn(Dist.CLIENT)
+    public static class Entry {
+-      @Nullable
+-      private String field_151376_a;
++         private String field_151376_a;
+       private final List<String> field_151375_b = Lists.newArrayList();
+ 
+       private Entry() {

@@ -1,0 +1,12 @@
+--- a/net/minecraft/command/arguments/EntityAnchorArgument.java
++++ b/net/minecraft/command/arguments/EntityAnchorArgument.java
+@@ -77,8 +77,7 @@
+          this.field_201022_e = p_i48597_4_;
+       }
+ 
+-      @Nullable
+-      public static EntityAnchorArgument.Type func_201016_a(String p_201016_0_) {
++         public static EntityAnchorArgument.Type func_201016_a(String p_201016_0_) {
+          return field_201020_c.get(p_201016_0_);
+       }
+ 

@@ -235,8 +235,7 @@ public class ForgeEventFactory
        return event.getDroppedExperience();
     }
 
-    @Nullable
-    public static List<MobSpawnInfo.Spawners> getPotentialSpawns(IWorld world, EntityClassification type, BlockPos pos, List<MobSpawnInfo.Spawners> oldList)
+     public static List<MobSpawnInfo.Spawners> getPotentialSpawns(IWorld world, EntityClassification type, BlockPos pos, List<MobSpawnInfo.Spawners> oldList)
     {
         WorldEvent.PotentialSpawns event = new WorldEvent.PotentialSpawns(world, type, pos, oldList);
         if (MinecraftForge.EVENT_BUS.post(event))
@@ -333,8 +332,7 @@ public class ForgeEventFactory
         MinecraftForge.EVENT_BUS.post(new PlayerEvent.LoadFromFile(player, playerFileData.getPlayerDataFolder(), uuidString));
     }
 
-    @Nullable
-    public static ITextComponent onClientChat(ChatType type, ITextComponent message, @Nullable UUID senderUUID)
+     public static ITextComponent onClientChat(ChatType type, ITextComponent message, @Nullable UUID senderUUID)
     {
         ClientChatReceivedEvent event = new ClientChatReceivedEvent(type, message, senderUUID);
         return MinecraftForge.EVENT_BUS.post(event) ? null : event.getMessage();
@@ -361,8 +359,7 @@ public class ForgeEventFactory
         return 0;
     }
 
-    @Nullable
-    public static BlockState onToolUse(BlockState originalState, World world, BlockPos pos, PlayerEntity player, ItemStack stack, ToolType toolType)
+     public static BlockState onToolUse(BlockState originalState, World world, BlockPos pos, PlayerEntity player, ItemStack stack, ToolType toolType)
     {
         BlockToolInteractEvent event = new BlockToolInteractEvent(world, pos, originalState, player, stack, toolType);
         return MinecraftForge.EVENT_BUS.post(event) ? null : event.getFinalState();
@@ -381,8 +378,7 @@ public class ForgeEventFactory
         return 0;
     }
 
-    @Nullable
-    public static ActionResult<ItemStack> onBucketUse(@Nonnull PlayerEntity player, @Nonnull World world, @Nonnull ItemStack stack, @Nullable RayTraceResult target)
+     public static ActionResult<ItemStack> onBucketUse(@Nonnull PlayerEntity player, @Nonnull World world, @Nonnull ItemStack stack, @Nullable RayTraceResult target)
     {
         FillBucketEvent event = new FillBucketEvent(player, stack, world, target);
         if (MinecraftForge.EVENT_BUS.post(event)) return new ActionResult<ItemStack>(ActionResultType.FAIL, stack);
@@ -560,21 +556,18 @@ public class ForgeEventFactory
         return MinecraftForge.EVENT_BUS.post(new RenderBlockOverlayEvent(player, mat, type, block, pos));
     }
 
-    @Nullable
-    public static <T extends ICapabilityProvider> CapabilityDispatcher gatherCapabilities(Class<? extends T> type, T provider)
+     public static <T extends ICapabilityProvider> CapabilityDispatcher gatherCapabilities(Class<? extends T> type, T provider)
     {
         return gatherCapabilities(type, provider, null);
     }
 
     @SuppressWarnings("unchecked")
-    @Nullable
-    public static <T extends ICapabilityProvider> CapabilityDispatcher gatherCapabilities(Class<? extends T> type, T provider, @Nullable ICapabilityProvider parent)
+     public static <T extends ICapabilityProvider> CapabilityDispatcher gatherCapabilities(Class<? extends T> type, T provider, @Nullable ICapabilityProvider parent)
     {
         return gatherCapabilities(new AttachCapabilitiesEvent<T>((Class<T>) type, provider), parent);
     }
 
-    @Nullable
-    private static CapabilityDispatcher gatherCapabilities(AttachCapabilitiesEvent<?> event, @Nullable ICapabilityProvider parent)
+     private static CapabilityDispatcher gatherCapabilities(AttachCapabilitiesEvent<?> event, @Nullable ICapabilityProvider parent)
     {
         MinecraftForge.EVENT_BUS.post(event);
         return event.getCapabilities().size() > 0 || parent != null ? new CapabilityDispatcher(event.getCapabilities(), event.getListeners(), parent) : null;

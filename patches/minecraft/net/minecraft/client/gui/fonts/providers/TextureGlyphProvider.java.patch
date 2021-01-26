@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/fonts/providers/TextureGlyphProvider.java
++++ b/net/minecraft/client/gui/fonts/providers/TextureGlyphProvider.java
+@@ -90,8 +90,7 @@
+          }
+       }
+ 
+-      @Nullable
+-      public IGlyphProvider func_211246_a(IResourceManager p_211246_1_) {
++         public IGlyphProvider func_211246_a(IResourceManager p_211246_1_) {
+          try (IResource iresource = p_211246_1_.func_199002_a(this.field_211252_a)) {
+             NativeImage nativeimage = NativeImage.func_211679_a(NativeImage.PixelFormat.RGBA, iresource.func_199027_b());
+             int i = nativeimage.func_195702_a();

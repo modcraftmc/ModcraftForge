@@ -92,8 +92,7 @@ public class ForgeRegistry<V extends IForgeRegistryEntry<V>> implements IForgeRe
     private final int max;
     private final boolean allowOverrides;
     private final boolean isModifiable;
-    @Nullable
-    private final String tagFolder;
+     private final String tagFolder;
 
     private V defaultValue = null;
     boolean isFrozen = false;
@@ -179,8 +178,7 @@ public class ForgeRegistry<V extends IForgeRegistryEntry<V>> implements IForgeRe
         return superType;
     }
 
-    @Nullable
-    public String getTagFolder()
+     public String getTagFolder()
     {
         return tagFolder;
     }
@@ -297,8 +295,7 @@ public class ForgeRegistry<V extends IForgeRegistryEntry<V>> implements IForgeRe
         return ret == null ? this.defaultValue : ret;
     }
 
-    @Nullable
-    public RegistryKey<V> getKey(int id)
+     public RegistryKey<V> getKey(int id)
     {
         V value = getValue(id);
         return this.keys.inverse().get(value);
@@ -310,8 +307,7 @@ public class ForgeRegistry<V extends IForgeRegistryEntry<V>> implements IForgeRe
             Validate.notNull(this.defaultValue, "Missing default of ForgeRegistry: " + this.defaultKey + " Type: " + this.superType);
     }
 
-    @Nullable
-    public ResourceLocation getDefaultKey()
+     public ResourceLocation getDefaultKey()
     {
         return this.defaultKey;
     }

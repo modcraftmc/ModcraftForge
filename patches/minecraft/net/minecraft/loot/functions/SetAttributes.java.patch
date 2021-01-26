@@ -1,0 +1,12 @@
+--- a/net/minecraft/loot/functions/SetAttributes.java
++++ b/net/minecraft/loot/functions/SetAttributes.java
+@@ -60,8 +60,7 @@
+       private final Attribute field_186597_b;
+       private final AttributeModifier.Operation field_186598_c;
+       private final RandomValueRange field_186599_d;
+-      @Nullable
+-      private final UUID field_186600_e;
++         private final UUID field_186600_e;
+       private final EquipmentSlotType[] field_186601_f;
+ 
+       private Modifier(String p_i232172_1_, Attribute p_i232172_2_, AttributeModifier.Operation p_i232172_3_, RandomValueRange p_i232172_4_, EquipmentSlotType[] p_i232172_5_, @Nullable UUID p_i232172_6_) {

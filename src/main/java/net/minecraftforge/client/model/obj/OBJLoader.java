@@ -63,8 +63,7 @@ public class OBJLoader implements IModelLoader<OBJModel>
         boolean diffuseLighting = JSONUtils.getBoolean(modelContents, "diffuseLighting", false);
         boolean flipV = JSONUtils.getBoolean(modelContents, "flip-v", false);
         boolean ambientToFullbright = JSONUtils.getBoolean(modelContents, "ambientToFullbright", true);
-        @Nullable
-        String materialLibraryOverrideLocation = modelContents.has("materialLibraryOverride") ? JSONUtils.getString(modelContents, "materialLibraryOverride") : null;
+             String materialLibraryOverrideLocation = modelContents.has("materialLibraryOverride") ? JSONUtils.getString(modelContents, "materialLibraryOverride") : null;
 
         return loadModel(new OBJModel.ModelSettings(new ResourceLocation(modelLocation), detectCullableFaces, diffuseLighting, flipV, ambientToFullbright, materialLibraryOverrideLocation));
     }

@@ -41,8 +41,7 @@ public class WorldContext extends Context
     }
 
     @Override
-    @Nullable
-    public PlayerEntity getPlayer()
+     public PlayerEntity getPlayer()
     {
         return null;
     }

@@ -91,8 +91,7 @@ public class StructureSpawnManager
      * @param classification   Entity classification
      * @param pos              Position to get entity spawns of
      */
-    @Nullable
-    public static List<MobSpawnInfo.Spawners> getStructureSpawns(StructureManager structureManager, EntityClassification classification, BlockPos pos)
+     public static List<MobSpawnInfo.Spawners> getStructureSpawns(StructureManager structureManager, EntityClassification classification, BlockPos pos)
     {
         for (Entry<Structure<?>, StructureSpawnInfo> entry : structuresWithSpawns.entrySet())
         {

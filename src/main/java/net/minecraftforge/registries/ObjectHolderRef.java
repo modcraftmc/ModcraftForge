@@ -104,8 +104,7 @@ public class ObjectHolderRef implements Consumer<Predicate<ResourceLocation>>
     }
 
     @SuppressWarnings("unchecked")
-    @Nullable
-    private ForgeRegistry<?> getRegistryForType(Field field)
+     private ForgeRegistry<?> getRegistryForType(Field field)
     {
         Queue<Class<?>> typesToExamine = new LinkedList<Class<?>>();
         typesToExamine.add(field.getType());

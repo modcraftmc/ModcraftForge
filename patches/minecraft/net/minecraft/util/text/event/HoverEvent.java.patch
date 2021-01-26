@@ -1,0 +1,85 @@
+--- a/net/minecraft/util/text/event/HoverEvent.java
++++ b/net/minecraft/util/text/event/HoverEvent.java
+@@ -131,8 +131,7 @@
+          return this.field_150688_f;
+       }
+ 
+-      @Nullable
+-      public static HoverEvent.Action func_150684_a(String p_150684_0_) {
++         public static HoverEvent.Action func_150684_a(String p_150684_0_) {
+          return field_150690_d.get(p_150684_0_);
+       }
+ 
+@@ -140,14 +139,12 @@
+          return (T)p_240674_1_;
+       }
+ 
+-      @Nullable
+-      public HoverEvent func_240668_a_(JsonElement p_240668_1_) {
++         public HoverEvent func_240668_a_(JsonElement p_240668_1_) {
+          T t = this.field_240665_g_.apply(p_240668_1_);
+          return t == null ? null : new HoverEvent(this, t);
+       }
+ 
+-      @Nullable
+-      public HoverEvent func_240670_a_(ITextComponent p_240670_1_) {
++         public HoverEvent func_240670_a_(ITextComponent p_240670_1_) {
+          T t = this.field_240667_i_.apply(p_240670_1_);
+          return t == null ? null : new HoverEvent(this, t);
+       }
+@@ -164,10 +161,8 @@
+    public static class EntityHover {
+       public final EntityType<?> field_240677_a_;
+       public final UUID field_240678_b_;
+-      @Nullable
+-      public final ITextComponent field_240679_c_;
+-      @Nullable
+-      @OnlyIn(Dist.CLIENT)
++         public final ITextComponent field_240679_c_;
++         @OnlyIn(Dist.CLIENT)
+       private List<ITextComponent> field_240680_d_;
+ 
+       public EntityHover(EntityType<?> p_i232566_1_, UUID p_i232566_2_, @Nullable ITextComponent p_i232566_3_) {
+@@ -176,8 +171,7 @@
+          this.field_240679_c_ = p_i232566_3_;
+       }
+ 
+-      @Nullable
+-      public static HoverEvent.EntityHover func_240682_a_(JsonElement p_240682_0_) {
++         public static HoverEvent.EntityHover func_240682_a_(JsonElement p_240682_0_) {
+          if (!p_240682_0_.isJsonObject()) {
+             return null;
+          } else {
+@@ -189,8 +183,7 @@
+          }
+       }
+ 
+-      @Nullable
+-      public static HoverEvent.EntityHover func_240683_a_(ITextComponent p_240683_0_) {
++         public static HoverEvent.EntityHover func_240683_a_(ITextComponent p_240683_0_) {
+          try {
+             CompoundNBT compoundnbt = JsonToNBT.func_180713_a(p_240683_0_.getString());
+             ITextComponent itextcomponent = ITextComponent.Serializer.func_240643_a_(compoundnbt.func_74779_i("name"));
+@@ -249,10 +242,8 @@
+    public static class ItemHover {
+       private final Item field_240685_a_;
+       private final int field_240686_b_;
+-      @Nullable
+-      private final CompoundNBT field_240687_c_;
+-      @Nullable
+-      @OnlyIn(Dist.CLIENT)
++         private final CompoundNBT field_240687_c_;
++         @OnlyIn(Dist.CLIENT)
+       private ItemStack field_240688_d_;
+ 
+       ItemHover(Item p_i232567_1_, int p_i232567_2_, @Nullable CompoundNBT p_i232567_3_) {
+@@ -316,8 +307,7 @@
+          }
+       }
+ 
+-      @Nullable
+-      private static HoverEvent.ItemHover func_240695_b_(ITextComponent p_240695_0_) {
++         private static HoverEvent.ItemHover func_240695_b_(ITextComponent p_240695_0_) {
+          try {
+             CompoundNBT compoundnbt = JsonToNBT.func_180713_a(p_240695_0_.getString());
+             return new HoverEvent.ItemHover(ItemStack.func_199557_a(compoundnbt));

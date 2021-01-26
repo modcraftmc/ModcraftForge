@@ -1,0 +1,12 @@
+--- a/net/minecraft/util/Direction.java
++++ b/net/minecraft/util/Direction.java
+@@ -341,8 +341,7 @@
+          this.field_176726_e = p_i49394_3_;
+       }
+ 
+-      @Nullable
+-      public static Direction.Axis func_176717_a(String p_176717_0_) {
++         public static Direction.Axis func_176717_a(String p_176717_0_) {
+          return field_176725_d.get(p_176717_0_.toLowerCase(Locale.ROOT));
+       }
+ 

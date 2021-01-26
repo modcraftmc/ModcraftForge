@@ -1,0 +1,22 @@
+--- a/net/minecraft/command/arguments/BlockPredicateArgument.java
++++ b/net/minecraft/command/arguments/BlockPredicateArgument.java
+@@ -83,8 +83,7 @@
+    static class BlockPredicate implements Predicate<CachedBlockInfo> {
+       private final BlockState field_199817_a;
+       private final Set<Property<?>> field_199818_b;
+-      @Nullable
+-      private final CompoundNBT field_199819_c;
++         private final CompoundNBT field_199819_c;
+ 
+       public BlockPredicate(BlockState p_i48210_1_, Set<Property<?>> p_i48210_2_, @Nullable CompoundNBT p_i48210_3_) {
+          this.field_199817_a = p_i48210_1_;
+@@ -119,8 +118,7 @@
+ 
+    static class TagPredicate implements Predicate<CachedBlockInfo> {
+       private final ITag<Block> field_199820_a;
+-      @Nullable
+-      private final CompoundNBT field_199821_b;
++         private final CompoundNBT field_199821_b;
+       private final Map<String, String> field_200133_c;
+ 
+       private TagPredicate(ITag<Block> p_i48238_1_, Map<String, String> p_i48238_2_, @Nullable CompoundNBT p_i48238_3_) {

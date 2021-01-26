@@ -38,6 +38,7 @@ plugins {
     id 'com.github.ben-manes.versions' version '0.22.0'
 }
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 
 Util.init() //Init all our extension methods!
 
@@ -224,7 +225,7 @@ project(':forge') {
         return "${MC_VERSION}-${tag}.${offset}${t -> if (branch != null) t << '-' + branch}".toString() //Bake the response instead of making it dynamic
     }
 
-    version = getVersion()
+    version = /*getVersion() */ "1.16.5-36.0.4-dev"
     println('Forge Version: ' + version)
 
     patcher {
@@ -542,7 +543,7 @@ project(':forge') {
         patchDir = file("$rootDir/patches")
         autoFix = false
     }
-    project(':forge').getTasks().getByName('genPatches').finalizedBy(checkPatches)
+    //project(':forge').getTasks().getByName('genPatches').finalizedBy(checkPatches)
 
     task launcherJson(dependsOn: ['signUniversalJar', 'signLauncherJar']) {
         inputs.file universalJar.archivePath

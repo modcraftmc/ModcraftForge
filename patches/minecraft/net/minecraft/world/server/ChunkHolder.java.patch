@@ -1,6 +1,49 @@
 --- a/net/minecraft/world/server/ChunkHolder.java
 +++ b/net/minecraft/world/server/ChunkHolder.java
-@@ -204,7 +204,7 @@
+@@ -51,7 +51,7 @@
+    private int field_219316_k;
+    private int field_219317_l;
+    private int field_219318_m;
+-   private final ChunkPos field_219319_n;
++   public final ChunkPos field_219319_n;
+    private boolean field_244382_p;
+    private final ShortSet[] field_244383_q = new ShortSet[16];
+    private int field_219324_s;
+@@ -62,6 +62,9 @@
+    private boolean field_219329_x;
+    private boolean field_244384_x;
+ 
++   long lastAutoSaveTime; // Paper - incremental autosave
++   long inactiveTimeStart; // Paper - incremental autosave
++
+    public ChunkHolder(ChunkPos p_i50716_1_, int p_i50716_2_, WorldLightManager p_i50716_3_, ChunkHolder.IListener p_i50716_4_, ChunkHolder.IPlayerProvider p_i50716_5_) {
+       this.field_219319_n = p_i50716_1_;
+       this.field_219326_u = p_i50716_3_;
+@@ -101,6 +104,14 @@
+       return either == null ? null : either.left().orElse((Chunk)null);
+    }
+ 
++   // Paper start - incremental autosave
++   public boolean setHasBeenLoaded() {
++      this.field_219329_x = func_219286_c(this.field_219317_l).func_219065_a(ChunkHolder.LocationType.BORDER);
++      return this.field_219329_x;
++   }
++   // Paper end
++
++
+    @Nullable
+    @OnlyIn(Dist.CLIENT)
+    public ChunkStatus func_219285_d() {
+@@ -131,7 +142,7 @@
+       return null;
+    }
+ 
+-   public CompletableFuture<IChunk> func_219302_f() {
++   public final CompletableFuture<IChunk> func_219302_f() {
+       return this.field_219315_j;
+    }
+ 
+@@ -204,7 +215,7 @@
     }
  
     private void func_244385_a(World p_244385_1_, BlockPos p_244385_2_, BlockState p_244385_3_) {

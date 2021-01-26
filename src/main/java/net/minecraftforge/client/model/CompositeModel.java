@@ -135,8 +135,7 @@ public class CompositeModel implements IDynamicBakedModel
         return PerspectiveMapWrapper.handlePerspective(this, transforms, cameraTransformType, mat);
     }
 
-    @Nullable
-    public IBakedModel getPart(String name)
+     public IBakedModel getPart(String name)
     {
         return bakedParts.get(name);
     }
@@ -312,8 +311,7 @@ public class CompositeModel implements IDynamicBakedModel
         }
 
         @SuppressWarnings("unchecked")
-        @Nullable
-        @Override
+             @Override
         public <T> T getData(ModelProperty<T> prop)
         {
             if (prop == SUBMODEL_DATA)
@@ -322,8 +320,7 @@ public class CompositeModel implements IDynamicBakedModel
         }
 
         @SuppressWarnings("unchecked")
-        @Nullable
-        @Override
+             @Override
         public <T> T setData(ModelProperty<T> prop, T data)
         {
             if (prop == SUBMODEL_DATA)
@@ -356,15 +353,13 @@ public class CompositeModel implements IDynamicBakedModel
             return super.hasProperty(prop) || parent.hasProperty(prop);
         }
 
-        @Nullable
-        @Override
+             @Override
         public <T> T getData(ModelProperty<T> prop)
         {
             return super.hasProperty(prop) ? super.getData(prop) : parent.getData(prop);
         }
 
-        @Nullable
-        @Override
+             @Override
         public <T> T setData(ModelProperty<T> prop, T data)
         {
             // We do not want to delegate setting to the parent

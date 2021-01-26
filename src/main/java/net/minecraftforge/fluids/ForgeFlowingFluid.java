@@ -44,10 +44,8 @@ public abstract class ForgeFlowingFluid extends FlowingFluid
 {
     private final Supplier<? extends Fluid> flowing;
     private final Supplier<? extends Fluid> still;
-    @Nullable
-    private final Supplier<? extends Item> bucket;
-    @Nullable
-    private final Supplier<? extends FlowingFluidBlock> block;
+     private final Supplier<? extends Item> bucket;
+     private final Supplier<? extends FlowingFluidBlock> block;
     private final FluidAttributes.Builder builder;
     private final boolean canMultiply;
     private final int slopeFindDistance;

@@ -1,0 +1,19 @@
+--- a/net/minecraft/network/ProtocolType.java
++++ b/net/minecraft/network/ProtocolType.java
+@@ -252,14 +252,12 @@
+          }
+       }
+ 
+-      @Nullable
+-      public Integer func_229720_a_(Class<?> p_229720_1_) {
++         public Integer func_229720_a_(Class<?> p_229720_1_) {
+          int i = this.field_229715_a_.getInt(p_229720_1_);
+          return i == -1 ? null : i;
+       }
+ 
+-      @Nullable
+-      public IPacket<?> func_229718_a_(int p_229718_1_) {
++         public IPacket<?> func_229718_a_(int p_229718_1_) {
+          Supplier<? extends IPacket<T>> supplier = this.field_229716_b_.get(p_229718_1_);
+          return supplier != null ? supplier.get() : null;
+       }

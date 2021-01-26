@@ -1,0 +1,12 @@
+--- a/net/minecraft/command/impl/CloneCommand.java
++++ b/net/minecraft/command/impl/CloneCommand.java
+@@ -186,8 +186,7 @@
+    static class BlockInfo {
+       public final BlockPos field_198251_a;
+       public final BlockState field_198252_b;
+-      @Nullable
+-      public final CompoundNBT field_198253_c;
++         public final CompoundNBT field_198253_c;
+ 
+       public BlockInfo(BlockPos p_i47708_1_, BlockState p_i47708_2_, @Nullable CompoundNBT p_i47708_3_) {
+          this.field_198251_a = p_i47708_1_;

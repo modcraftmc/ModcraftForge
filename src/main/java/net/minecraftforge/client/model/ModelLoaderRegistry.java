@@ -127,8 +127,7 @@ public class ModelLoaderRegistry
         }
     }
 
-    @Nullable
-    public static IModelGeometry<?> deserializeGeometry(JsonDeserializationContext deserializationContext, JsonObject object) {
+     public static IModelGeometry<?> deserializeGeometry(JsonDeserializationContext deserializationContext, JsonObject object) {
         if (!object.has("loader")) {
             return null;
         }
@@ -187,8 +186,7 @@ public class ModelLoaderRegistry
         return new RenderMaterial(AtlasTexture.LOCATION_BLOCKS_TEXTURE, location);
     }
 
-    @Nullable
-    public static IModelTransform deserializeModelTransforms(JsonDeserializationContext deserializationContext, JsonObject modelData)
+     public static IModelTransform deserializeModelTransforms(JsonDeserializationContext deserializationContext, JsonObject modelData)
     {
         if (!modelData.has("transform"))
             return null;

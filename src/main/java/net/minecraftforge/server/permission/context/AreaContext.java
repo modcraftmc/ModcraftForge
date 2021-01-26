@@ -37,8 +37,7 @@ public class AreaContext extends PlayerContext
 
     @SuppressWarnings("unchecked")
     @Override
-    @Nullable
-    public <T> T get(ContextKey<T> key)
+     public <T> T get(ContextKey<T> key)
     {
         return key.equals(ContextKeys.AREA) ? (T) area : super.get(key);
     }

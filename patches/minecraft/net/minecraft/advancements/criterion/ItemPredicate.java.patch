@@ -21,7 +21,7 @@
           MinMaxBounds.IntBound minmaxbounds$intbound = MinMaxBounds.IntBound.func_211344_a(jsonobject.get("count"));
           MinMaxBounds.IntBound minmaxbounds$intbound1 = MinMaxBounds.IntBound.func_211344_a(jsonobject.get("durability"));
           if (jsonobject.has("data")) {
-@@ -204,6 +211,14 @@
+@@ -204,17 +211,22 @@
        }
     }
  
@@ -36,3 +36,17 @@
     public static class Builder {
        private final List<EnchantmentPredicate> field_200312_a = Lists.newArrayList();
        private final List<EnchantmentPredicate> field_226657_b_ = Lists.newArrayList();
+-      @Nullable
+-      private Item field_200313_b;
+-      @Nullable
+-      private ITag<Item> field_200314_c;
++         private Item field_200313_b;
++         private ITag<Item> field_200314_c;
+       private MinMaxBounds.IntBound field_200315_d = MinMaxBounds.IntBound.field_211347_e;
+       private MinMaxBounds.IntBound field_200316_e = MinMaxBounds.IntBound.field_211347_e;
+-      @Nullable
+-      private Potion field_200317_f;
++         private Potion field_200317_f;
+       private NBTPredicate field_200318_g = NBTPredicate.field_193479_a;
+ 
+       private Builder() {

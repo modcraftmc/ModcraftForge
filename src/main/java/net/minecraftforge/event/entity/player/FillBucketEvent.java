@@ -45,8 +45,7 @@ public class FillBucketEvent extends PlayerEvent
 
     private final ItemStack current;
     private final World world;
-    @Nullable
-    private final RayTraceResult target;
+     private final RayTraceResult target;
 
     private ItemStack result;
 
@@ -61,8 +60,7 @@ public class FillBucketEvent extends PlayerEvent
     @Nonnull
     public ItemStack getEmptyBucket() { return this.current; }
     public World getWorld(){ return this.world; }
-    @Nullable
-    public RayTraceResult getTarget() { return this.target; }
+     public RayTraceResult getTarget() { return this.target; }
     @Nonnull
     public ItemStack getFilledBucket() { return this.result; }
     public void setFilledBucket(@Nonnull ItemStack bucket) { this.result = bucket; }

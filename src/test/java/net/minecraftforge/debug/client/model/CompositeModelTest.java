@@ -60,8 +60,7 @@ public class CompositeModelTest
                     builder.add(BlockStateProperties.HORIZONTAL_FACING);
                 }
 
-                @Nullable
-                @Override
+                             @Override
                 public BlockState getStateForPlacement(BlockItemUseContext context)
                 {
                     return getDefaultState().with(

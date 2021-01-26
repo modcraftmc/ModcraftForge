@@ -1,0 +1,12 @@
+--- a/net/minecraft/network/play/server/SPlayerListItemPacket.java
++++ b/net/minecraft/network/play/server/SPlayerListItemPacket.java
+@@ -201,8 +201,7 @@
+          return this.field_179967_c;
+       }
+ 
+-      @Nullable
+-      public ITextComponent func_179961_d() {
++         public ITextComponent func_179961_d() {
+          return this.field_179965_e;
+       }
+ 

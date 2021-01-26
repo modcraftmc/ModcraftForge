@@ -1,0 +1,12 @@
+--- a/net/minecraft/world/gen/Heightmap.java
++++ b/net/minecraft/world/gen/Heightmap.java
+@@ -168,8 +168,7 @@
+          return this.field_207513_i != Heightmap.Usage.WORLDGEN;
+       }
+ 
+-      @Nullable
+-      public static Heightmap.Type func_203501_a(String p_203501_0_) {
++         public static Heightmap.Type func_203501_a(String p_203501_0_) {
+          return field_203503_g.get(p_203501_0_);
+       }
+ 

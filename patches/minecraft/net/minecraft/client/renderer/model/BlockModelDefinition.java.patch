@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/renderer/model/BlockModelDefinition.java
++++ b/net/minecraft/client/renderer/model/BlockModelDefinition.java
+@@ -127,8 +127,7 @@
+          return map;
+       }
+ 
+-      @Nullable
+-      protected Multipart func_187998_b(JsonDeserializationContext p_187998_1_, JsonObject p_187998_2_) {
++         protected Multipart func_187998_b(JsonDeserializationContext p_187998_1_, JsonObject p_187998_2_) {
+          if (!p_187998_2_.has("multipart")) {
+             return null;
+          } else {

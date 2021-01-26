@@ -46,8 +46,7 @@ public class VanillaInventoryCodeHooks
      * Copied from TileEntityHopper#captureDroppedItems and added capability support
      * @return Null if we did nothing {no IItemHandler}, True if we moved an item, False if we moved no items
      */
-    @Nullable
-    public static Boolean extractHook(IHopper dest)
+     public static Boolean extractHook(IHopper dest)
     {
         return getItemHandler(dest, Direction.UP)
                 .map(itemHandlerResult -> {

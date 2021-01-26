@@ -1,0 +1,18 @@
+--- a/net/minecraft/data/CookingRecipeBuilder.java
++++ b/net/minecraft/data/CookingRecipeBuilder.java
+@@ -119,13 +119,11 @@
+          return this.field_218611_a;
+       }
+ 
+-      @Nullable
+-      public JsonObject func_200440_c() {
++         public JsonObject func_200440_c() {
+          return this.field_218617_g.func_200273_b();
+       }
+ 
+-      @Nullable
+-      public ResourceLocation func_200443_d() {
++         public ResourceLocation func_200443_d() {
+          return this.field_218618_h;
+       }
+    }

@@ -1,0 +1,15 @@
+--- a/net/minecraft/advancements/criterion/ChangeDimensionTrigger.java
++++ b/net/minecraft/advancements/criterion/ChangeDimensionTrigger.java
+@@ -31,10 +31,8 @@
+    }
+ 
+    public static class Instance extends CriterionInstance {
+-      @Nullable
+-      private final RegistryKey<World> field_193191_a;
+-      @Nullable
+-      private final RegistryKey<World> field_193192_b;
++         private final RegistryKey<World> field_193191_a;
++         private final RegistryKey<World> field_193192_b;
+ 
+       public Instance(EntityPredicate.AndPredicate p_i231488_1_, @Nullable RegistryKey<World> p_i231488_2_, @Nullable RegistryKey<World> p_i231488_3_) {
+          super(ChangeDimensionTrigger.field_193144_a, p_i231488_1_);

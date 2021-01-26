@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/particle/FallingDustParticle.java
++++ b/net/minecraft/client/particle/FallingDustParticle.java
+@@ -68,8 +68,7 @@
+          this.field_217526_a = p_i51109_1_;
+       }
+ 
+-      @Nullable
+-      public Particle func_199234_a(BlockParticleData p_199234_1_, ClientWorld p_199234_2_, double p_199234_3_, double p_199234_5_, double p_199234_7_, double p_199234_9_, double p_199234_11_, double p_199234_13_) {
++         public Particle func_199234_a(BlockParticleData p_199234_1_, ClientWorld p_199234_2_, double p_199234_3_, double p_199234_5_, double p_199234_7_, double p_199234_9_, double p_199234_11_, double p_199234_13_) {
+          BlockState blockstate = p_199234_1_.func_197584_c();
+          if (!blockstate.func_196958_f() && blockstate.func_185901_i() == BlockRenderType.INVISIBLE) {
+             return null;

@@ -46,8 +46,7 @@ public class ItemAttributeModifierEvent extends Event
     private final EquipmentSlotType slotType;
     private final Multimap<Attribute, AttributeModifier> originalModifiers;
     private Multimap<Attribute, AttributeModifier> unmodifiableModifiers;
-    @Nullable
-    private Multimap<Attribute, AttributeModifier> modifiableModifiers;
+     private Multimap<Attribute, AttributeModifier> modifiableModifiers;
 
     public ItemAttributeModifierEvent(ItemStack stack, EquipmentSlotType slotType, Multimap<Attribute, AttributeModifier> modifiers)
     {

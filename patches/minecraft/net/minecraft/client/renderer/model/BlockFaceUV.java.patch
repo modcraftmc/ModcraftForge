@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/renderer/model/BlockFaceUV.java
++++ b/net/minecraft/client/renderer/model/BlockFaceUV.java
+@@ -73,8 +73,7 @@
+          }
+       }
+ 
+-      @Nullable
+-      private float[] func_178292_b(JsonObject p_178292_1_) {
++         private float[] func_178292_b(JsonObject p_178292_1_) {
+          if (!p_178292_1_.has("uv")) {
+             return null;
+          } else {

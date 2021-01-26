@@ -1,0 +1,12 @@
+--- a/net/minecraft/block/ChestBlock.java
++++ b/net/minecraft/block/ChestBlock.java
+@@ -80,8 +80,7 @@
+       public Optional<INamedContainerProvider> func_225539_a_(final ChestTileEntity p_225539_1_, final ChestTileEntity p_225539_2_) {
+          final IInventory iinventory = new DoubleSidedInventory(p_225539_1_, p_225539_2_);
+          return Optional.of(new INamedContainerProvider() {
+-            @Nullable
+-            public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
++                     public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
+                if (p_225539_1_.func_213904_e(p_createMenu_3_) && p_225539_2_.func_213904_e(p_createMenu_3_)) {
+                   p_225539_1_.func_184281_d(p_createMenu_2_.field_70458_d);
+                   p_225539_2_.func_184281_d(p_createMenu_2_.field_70458_d);

@@ -78,8 +78,7 @@ public class ItemTooltipEvent extends PlayerEvent
      * This event is fired with a null player during startup when populating search trees for tooltips.
      */
     @Override
-    @Nullable
-    public PlayerEntity getPlayer()
+     public PlayerEntity getPlayer()
     {
         return super.getPlayer();
     }

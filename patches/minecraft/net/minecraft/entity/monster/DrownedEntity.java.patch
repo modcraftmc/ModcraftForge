@@ -1,0 +1,12 @@
+--- a/net/minecraft/entity/monster/DrownedEntity.java
++++ b/net/minecraft/entity/monster/DrownedEntity.java
+@@ -333,8 +333,7 @@
+          this.field_204730_a.func_70661_as().func_75492_a(this.field_204731_b, this.field_204732_c, this.field_204733_d, this.field_204734_e);
+       }
+ 
+-      @Nullable
+-      private Vector3d func_204729_f() {
++         private Vector3d func_204729_f() {
+          Random random = this.field_204730_a.func_70681_au();
+          BlockPos blockpos = this.field_204730_a.func_233580_cy_();
+ 

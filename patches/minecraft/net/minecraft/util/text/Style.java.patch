@@ -19,3 +19,75 @@
     public Style func_240715_a_(@Nullable ClickEvent p_240715_1_) {
        return new Style(this.field_150247_b, this.field_150248_c, this.field_150245_d, this.field_150246_e, this.field_150243_f, this.field_150244_g, p_240715_1_, this.field_150252_i, this.field_179990_j, this.field_240710_l_);
     }
+@@ -273,8 +285,7 @@
+    }
+ 
+    public static class Serializer implements JsonDeserializer<Style>, JsonSerializer<Style> {
+-      @Nullable
+-      public Style deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException {
++         public Style deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException {
+          if (p_deserialize_1_.isJsonObject()) {
+             JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
+             if (jsonobject == null) {
+@@ -297,8 +308,7 @@
+          }
+       }
+ 
+-      @Nullable
+-      private static ResourceLocation func_240732_a_(JsonObject p_240732_0_) {
++         private static ResourceLocation func_240732_a_(JsonObject p_240732_0_) {
+          if (p_240732_0_.has("font")) {
+             String s = JSONUtils.func_151200_h(p_240732_0_, "font");
+ 
+@@ -312,8 +322,7 @@
+          }
+       }
+ 
+-      @Nullable
+-      private static HoverEvent func_240734_b_(JsonObject p_240734_0_) {
++         private static HoverEvent func_240734_b_(JsonObject p_240734_0_) {
+          if (p_240734_0_.has("hoverEvent")) {
+             JsonObject jsonobject = JSONUtils.func_152754_s(p_240734_0_, "hoverEvent");
+             HoverEvent hoverevent = HoverEvent.func_240661_a_(jsonobject);
+@@ -325,8 +334,7 @@
+          return null;
+       }
+ 
+-      @Nullable
+-      private static ClickEvent func_240735_c_(JsonObject p_240735_0_) {
++         private static ClickEvent func_240735_c_(JsonObject p_240735_0_) {
+          if (p_240735_0_.has("clickEvent")) {
+             JsonObject jsonobject = JSONUtils.func_152754_s(p_240735_0_, "clickEvent");
+             String s = JSONUtils.func_151219_a(jsonobject, "action", (String)null);
+@@ -340,13 +348,11 @@
+          return null;
+       }
+ 
+-      @Nullable
+-      private static String func_240736_d_(JsonObject p_240736_0_) {
++         private static String func_240736_d_(JsonObject p_240736_0_) {
+          return JSONUtils.func_151219_a(p_240736_0_, "insertion", (String)null);
+       }
+ 
+-      @Nullable
+-      private static Color func_240737_e_(JsonObject p_240737_0_) {
++         private static Color func_240737_e_(JsonObject p_240737_0_) {
+          if (p_240737_0_.has("color")) {
+             String s = JSONUtils.func_151200_h(p_240737_0_, "color");
+             return Color.func_240745_a_(s);
+@@ -355,13 +361,11 @@
+          }
+       }
+ 
+-      @Nullable
+-      private static Boolean func_240733_a_(JsonObject p_240733_0_, String p_240733_1_) {
++         private static Boolean func_240733_a_(JsonObject p_240733_0_, String p_240733_1_) {
+          return p_240733_0_.has(p_240733_1_) ? p_240733_0_.get(p_240733_1_).getAsBoolean() : null;
+       }
+ 
+-      @Nullable
+-      public JsonElement serialize(Style p_serialize_1_, Type p_serialize_2_, JsonSerializationContext p_serialize_3_) {
++         public JsonElement serialize(Style p_serialize_1_, Type p_serialize_2_, JsonSerializationContext p_serialize_3_) {
+          if (p_serialize_1_.func_150229_g()) {
+             return null;
+          } else {

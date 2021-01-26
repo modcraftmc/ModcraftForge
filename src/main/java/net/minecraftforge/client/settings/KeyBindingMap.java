@@ -41,8 +41,7 @@ public class KeyBindingMap
         }
     }
 
-    @Nullable
-    public KeyBinding lookupActive(InputMappings.Input keyCode)
+     public KeyBinding lookupActive(InputMappings.Input keyCode)
     {
         KeyModifier activeModifier = KeyModifier.getActiveModifier();
         if (!activeModifier.matches(keyCode))
@@ -56,8 +55,7 @@ public class KeyBindingMap
         return getBinding(keyCode, KeyModifier.NONE);
     }
 
-    @Nullable
-    private KeyBinding getBinding(InputMappings.Input keyCode, KeyModifier keyModifier)
+     private KeyBinding getBinding(InputMappings.Input keyCode, KeyModifier keyModifier)
     {
         Collection<KeyBinding> bindings = map.get(keyModifier).get(keyCode);
         if (bindings != null)

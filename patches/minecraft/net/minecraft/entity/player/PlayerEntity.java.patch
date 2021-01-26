@@ -322,7 +322,23 @@
        return this.func_208016_c(iformattabletextcomponent);
     }
  
-@@ -1987,4 +2037,62 @@
+@@ -1971,8 +2021,7 @@
+       OTHER_PROBLEM,
+       NOT_SAFE(new TranslationTextComponent("block.minecraft.bed.not_safe"));
+ 
+-      @Nullable
+-      private final ITextComponent field_221260_g;
++         private final ITextComponent field_221260_g;
+ 
+       private SleepResult() {
+          this.field_221260_g = null;
+@@ -1982,9 +2031,66 @@
+          this.field_221260_g = p_i50668_3_;
+       }
+ 
+-      @Nullable
+-      public ITextComponent func_221259_a() {
++         public ITextComponent func_221259_a() {
           return this.field_221260_g;
        }
     }

@@ -1,0 +1,32 @@
+--- a/net/minecraft/world/gen/feature/structure/FortressPieces.java
++++ b/net/minecraft/world/gen/feature/structure/FortressPieces.java
+@@ -875,8 +875,7 @@
+          }
+       }
+ 
+-      @Nullable
+-      protected StructurePiece func_74963_a(FortressPieces.Start p_74963_1_, List<StructurePiece> p_74963_2_, Random p_74963_3_, int p_74963_4_, int p_74963_5_, boolean p_74963_6_) {
++         protected StructurePiece func_74963_a(FortressPieces.Start p_74963_1_, List<StructurePiece> p_74963_2_, Random p_74963_3_, int p_74963_4_, int p_74963_5_, boolean p_74963_6_) {
+          Direction direction = this.func_186165_e();
+          if (direction != null) {
+             switch(direction) {
+@@ -894,8 +893,7 @@
+          return null;
+       }
+ 
+-      @Nullable
+-      protected StructurePiece func_74961_b(FortressPieces.Start p_74961_1_, List<StructurePiece> p_74961_2_, Random p_74961_3_, int p_74961_4_, int p_74961_5_, boolean p_74961_6_) {
++         protected StructurePiece func_74961_b(FortressPieces.Start p_74961_1_, List<StructurePiece> p_74961_2_, Random p_74961_3_, int p_74961_4_, int p_74961_5_, boolean p_74961_6_) {
+          Direction direction = this.func_186165_e();
+          if (direction != null) {
+             switch(direction) {
+@@ -913,8 +911,7 @@
+          return null;
+       }
+ 
+-      @Nullable
+-      protected StructurePiece func_74965_c(FortressPieces.Start p_74965_1_, List<StructurePiece> p_74965_2_, Random p_74965_3_, int p_74965_4_, int p_74965_5_, boolean p_74965_6_) {
++         protected StructurePiece func_74965_c(FortressPieces.Start p_74965_1_, List<StructurePiece> p_74965_2_, Random p_74965_3_, int p_74965_4_, int p_74965_5_, boolean p_74965_6_) {
+          Direction direction = this.func_186165_e();
+          if (direction != null) {
+             switch(direction) {

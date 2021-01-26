@@ -1,0 +1,28 @@
+--- a/net/minecraft/client/renderer/texture/SimpleTexture.java
++++ b/net/minecraft/client/renderer/texture/SimpleTexture.java
+@@ -58,12 +58,9 @@
+ 
+    @OnlyIn(Dist.CLIENT)
+    public static class TextureData implements Closeable {
+-      @Nullable
+-      private final TextureMetadataSection field_217802_a;
+-      @Nullable
+-      private final NativeImage field_217803_b;
+-      @Nullable
+-      private final IOException field_217804_c;
++         private final TextureMetadataSection field_217802_a;
++         private final NativeImage field_217803_b;
++         private final IOException field_217804_c;
+ 
+       public TextureData(IOException p_i50473_1_) {
+          this.field_217804_c = p_i50473_1_;
+@@ -94,8 +91,7 @@
+          }
+       }
+ 
+-      @Nullable
+-      public TextureMetadataSection func_217798_a() {
++         public TextureMetadataSection func_217798_a() {
+          return this.field_217802_a;
+       }
+ 

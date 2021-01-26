@@ -23,16 +23,32 @@
           } catch (Exception exception) {
              field_215785_a.error("Exception reading {}", p_242976_2_, exception);
              return null;
-@@ -314,7 +321,7 @@
-       @Nullable
-       public IServerConfiguration func_237284_a_(DynamicOps<INBT> p_237284_1_, DatapackCodec p_237284_2_) {
+@@ -305,20 +312,17 @@
+          return AnvilSaveConverter.func_237330_a_(this, p_237283_1_);
+       }
+ 
+-      @Nullable
+-      public WorldSummary func_237296_d_() {
++         public WorldSummary func_237296_d_() {
+          this.func_237301_i_();
+          return SaveFormat.this.func_237266_a_(this.field_237279_c_.toFile(), SaveFormat.this.func_237267_a_(this.field_237279_c_.toFile(), false));
+       }
+ 
+-      @Nullable
+-      public IServerConfiguration func_237284_a_(DynamicOps<INBT> p_237284_1_, DatapackCodec p_237284_2_) {
++         public IServerConfiguration func_237284_a_(DynamicOps<INBT> p_237284_1_, DatapackCodec p_237284_2_) {
           this.func_237301_i_();
 -         return SaveFormat.this.func_237266_a_(this.field_237279_c_.toFile(), SaveFormat.func_237270_b_(p_237284_1_, p_237284_2_));
 +         return SaveFormat.this.func_237266_a_(this.field_237279_c_.toFile(), SaveFormat.getReader(p_237284_1_, p_237284_2_, this));
        }
  
-       @Nullable
-@@ -335,6 +342,8 @@
+-      @Nullable
+-      public DatapackCodec func_237297_e_() {
++         public DatapackCodec func_237297_e_() {
+          this.func_237301_i_();
+          return SaveFormat.this.func_237266_a_(this.field_237279_c_.toFile(), (p_237289_0_, p_237289_1_) -> {
+             return SaveFormat.func_237272_b_(p_237289_0_, p_237289_1_);
+@@ -335,6 +339,8 @@
           CompoundNBT compoundnbt1 = new CompoundNBT();
           compoundnbt1.func_218657_a("Data", compoundnbt);
  
@@ -41,7 +57,7 @@
           try {
              File file2 = File.createTempFile("level", ".dat", file1);
              CompressedStreamTools.func_244264_a(compoundnbt1, file2);
-@@ -352,6 +361,10 @@
+@@ -352,6 +358,10 @@
           return this.field_237279_c_.resolve("icon.png").toFile();
        }
  

@@ -1,0 +1,22 @@
+--- a/net/minecraft/loot/LootTypesManager.java
++++ b/net/minecraft/loot/LootTypesManager.java
+@@ -32,8 +32,7 @@
+       private final String field_237391_b_;
+       private final String field_237392_c_;
+       private final Function<E, T> field_237393_d_;
+-      @Nullable
+-      private Pair<T, LootTypesManager.ISerializer<? extends E>> field_237394_e_;
++         private Pair<T, LootTypesManager.ISerializer<? extends E>> field_237394_e_;
+ 
+       private LootTypeRegistryWrapper(Registry<T> p_i232160_1_, String p_i232160_2_, String p_i232160_3_, Function<E, T> p_i232160_4_) {
+          this.field_237390_a_ = p_i232160_1_;
+@@ -52,8 +51,7 @@
+       private final String field_237399_b_;
+       private final String field_237400_c_;
+       private final Function<E, T> field_237401_d_;
+-      @Nullable
+-      private final Pair<T, LootTypesManager.ISerializer<? extends E>> field_237402_e_;
++         private final Pair<T, LootTypesManager.ISerializer<? extends E>> field_237402_e_;
+ 
+       private Serializer(Registry<T> p_i232162_1_, String p_i232162_2_, String p_i232162_3_, Function<E, T> p_i232162_4_, @Nullable Pair<T, LootTypesManager.ISerializer<? extends E>> p_i232162_5_) {
+          this.field_237398_a_ = p_i232162_1_;

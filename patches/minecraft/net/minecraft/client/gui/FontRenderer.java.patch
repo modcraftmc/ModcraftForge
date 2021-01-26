@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/FontRenderer.java
++++ b/net/minecraft/client/gui/FontRenderer.java
+@@ -247,8 +247,7 @@
+       private final int field_238437_k_;
+       private float field_238438_l_;
+       private float field_238439_m_;
+-      @Nullable
+-      private List<TexturedGlyph.Effect> field_238440_n_;
++         private List<TexturedGlyph.Effect> field_238440_n_;
+ 
+       private void func_238442_a_(TexturedGlyph.Effect p_238442_1_) {
+          if (this.field_238440_n_ == null) {

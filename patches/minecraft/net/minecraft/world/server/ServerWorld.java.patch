@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/server/ServerWorld.java
 +++ b/net/minecraft/world/server/ServerWorld.java
-@@ -143,7 +143,7 @@
+@@ -143,10 +143,11 @@
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
  
@@ -9,7 +9,11 @@
     public static final BlockPos field_241108_a_ = new BlockPos(100, 50, 0);
     private static final Logger field_147491_a = LogManager.getLogger();
     private final Int2ObjectMap<Entity> field_217498_x = new Int2ObjectLinkedOpenHashMap<>();
-@@ -173,6 +173,7 @@
++   final com.tuinity.tuinity.util.maplist.IteratorSafeOrderedReferenceSet<Entity> entitiesForIteration = new com.tuinity.tuinity.util.maplist.IteratorSafeOrderedReferenceSet<>(2048, 0.5f, 2048, 0.2, true); // Tuinity - make removing entities while ticking safe
+    private final Map<UUID, Entity> field_175741_N = Maps.newHashMap();
+    private final Queue<Entity> field_217499_z = Queues.newArrayDeque();
+    private final List<ServerPlayerEntity> field_217491_A = Lists.newArrayList();
+@@ -173,6 +174,7 @@
     private final DragonFightManager field_241105_O_;
     private final StructureManager field_241106_P_;
     private final boolean field_241107_Q_;
@@ -17,7 +21,7 @@
  
     public ServerWorld(MinecraftServer p_i241885_1_, Executor p_i241885_2_, SaveFormat.LevelSave p_i241885_3_, IServerWorldInfo p_i241885_4_, RegistryKey<World> p_i241885_5_, DimensionType p_i241885_6_, IChunkStatusListener p_i241885_7_, ChunkGenerator p_i241885_8_, boolean p_i241885_9_, long p_i241885_10_, List<ISpecialSpawner> p_i241885_12_, boolean p_i241885_13_) {
        super(p_i241885_4_, p_i241885_5_, p_i241885_6_, p_i241885_1_::func_213185_aS, false, p_i241885_9_, p_i241885_10_);
-@@ -200,7 +201,7 @@
+@@ -200,7 +202,7 @@
        } else {
           this.field_241105_O_ = null;
        }
@@ -26,7 +30,29 @@
     }
  
     public void func_241113_a_(int p_241113_1_, int p_241113_2_, boolean p_241113_3_, boolean p_241113_4_) {
-@@ -296,15 +297,19 @@
+@@ -272,17 +274,17 @@
+ 
+          this.field_73018_p = this.field_73017_q;
+          if (this.field_72986_A.func_76061_m()) {
+-            this.field_73017_q = (float)((double)this.field_73017_q + 0.01D);
++            this.field_73017_q = (float) ((double) this.field_73017_q + 0.01D);
+          } else {
+-            this.field_73017_q = (float)((double)this.field_73017_q - 0.01D);
++            this.field_73017_q = (float) ((double) this.field_73017_q - 0.01D);
+          }
+ 
+          this.field_73017_q = MathHelper.func_76131_a(this.field_73017_q, 0.0F, 1.0F);
+          this.field_73003_n = this.field_73004_o;
+          if (this.field_72986_A.func_76059_o()) {
+-            this.field_73004_o = (float)((double)this.field_73004_o + 0.01D);
++            this.field_73004_o = (float) ((double) this.field_73004_o + 0.01D);
+          } else {
+-            this.field_73004_o = (float)((double)this.field_73004_o - 0.01D);
++            this.field_73004_o = (float) ((double) this.field_73004_o - 0.01D);
+          }
+ 
+          this.field_73004_o = MathHelper.func_76131_a(this.field_73004_o, 0.0F, 1.0F);
+@@ -296,15 +298,19 @@
           this.field_73061_a.func_184103_al().func_232642_a_(new SChangeGameStatePacket(SChangeGameStatePacket.field_241772_i_, this.field_73017_q), this.func_234923_W_());
        }
  
@@ -50,7 +76,7 @@
        }
  
        if (this.field_73068_P && this.field_217491_A.stream().noneMatch((p_241132_0_) -> {
-@@ -312,8 +317,8 @@
+@@ -312,8 +318,8 @@
        })) {
           this.field_73068_P = false;
           if (this.func_82736_K().func_223586_b(GameRules.field_223607_j)) {
@@ -61,16 +87,109 @@
           }
  
           this.func_229856_ab_();
-@@ -404,7 +409,7 @@
-             if (entity1.field_70128_L) {
-                this.func_217454_n(entity1);
-                objectiterator.remove();
--               this.func_217484_g(entity1);
-+               this.removeEntityComplete(entity1, entity1 instanceof ServerPlayerEntity); //Forge: Keep cap data until revive. Every other entity removes directly.
+@@ -349,66 +355,57 @@
+          }
+ 
+          this.field_217492_a = true;
+-         ObjectIterator<Entry<Entity>> objectiterator = this.field_217498_x.int2ObjectEntrySet().iterator();
++         //ObjectIterator<Entry<Entity>> objectiterator = this.entitiesById.int2ObjectEntrySet().iterator();
+ 
+-         label164:
+-         while(true) {
+-            Entity entity1;
+-            while(true) {
+-               if (!objectiterator.hasNext()) {
+-                  this.field_217492_a = false;
+ 
+-                  Entity entity;
+-                  while((entity = this.field_217499_z.poll()) != null) {
+-                     this.func_217465_m(entity);
+-                  }
++         com.tuinity.tuinity.util.maplist.IteratorSafeOrderedReferenceSet.Iterator<Entity> objectiterator = this.entitiesForIteration.iterator(); // Tuinity
+ 
+-                  this.func_217391_K();
+-                  break label164;
+-               }
++         while (objectiterator.hasNext()) {
++            Entity entity = (Entity) objectiterator.next(); // Tuinity
++            Entity entity1 = entity.func_184187_bx();
+ 
+-               Entry<Entity> entry = objectiterator.next();
+-               entity1 = entry.getValue();
+-               Entity entity2 = entity1.func_184187_bx();
+-               if (!this.field_73061_a.func_230537_U_() && (entity1 instanceof AnimalEntity || entity1 instanceof WaterMobEntity)) {
+-                  entity1.func_70106_y();
+-               }
++            iprofiler.func_76320_a("checkDespawn");
++            if (!entity.field_70128_L) {
++               entity.func_70623_bb();
++            }
++            iprofiler.func_76319_b();
+ 
+-               if (!this.field_73061_a.func_230538_V_() && entity1 instanceof INPC) {
+-                  entity1.func_70106_y();
++            if (entity1 != null) {
++               if (!entity1.field_70128_L && entity1.func_184196_w(entity)) {
++                  continue;
+                }
+ 
+-               iprofiler.func_76320_a("checkDespawn");
+-               if (!entity1.field_70128_L) {
+-                  entity1.func_70623_bb();
+-               }
+-
+-               iprofiler.func_76319_b();
+-               if (entity2 == null) {
+-                  break;
+-               }
+-
+-               if (entity2.field_70128_L || !entity2.func_184196_w(entity1)) {
+-                  entity1.func_184210_p();
+-                  break;
+-               }
++               entity.func_184210_p();
              }
  
+             iprofiler.func_76320_a("tick");
+-            if (!entity1.field_70128_L && !(entity1 instanceof EnderDragonPartEntity)) {
+-               this.func_217390_a(this::func_217479_a, entity1);
++            if (!entity.field_70128_L && !(entity instanceof EnderDragonPartEntity)) {
++               this.func_217390_a(this::func_217479_a, entity);
+             }
+-
              iprofiler.func_76319_b();
-@@ -475,6 +480,7 @@
++
+             iprofiler.func_76320_a("remove");
+-            if (entity1.field_70128_L) {
+-               this.func_217454_n(entity1);
+-               objectiterator.remove();
+-               this.func_217484_g(entity1);
++            if (entity.field_70128_L) {
++               this.func_217454_n(entity);
++               this.field_217498_x.remove(entity.func_145782_y());
++               this.removeEntityComplete(entity, entity instanceof ServerPlayerEntity); //Forge: Keep cap data until revive. Every other entity removes directly.
+             }
+-
+             iprofiler.func_76319_b();
++
+          }
++
++
++         objectiterator.finishedIterating(); // Tuinity
++         this.field_217492_a = false;
++         Entity entity2;
++
++         while ((entity2 = (Entity) this.field_217499_z.poll()) != null) {
++            if (!entity2.isQueuedForRegister) continue; // Paper - ignore cancelled registers
++            this.func_217465_m(entity2);
++         }
++
++         this.func_217391_K();
++         iprofiler.func_76319_b();
+       }
+ 
+       iprofiler.func_76319_b();
+@@ -475,6 +472,7 @@
           BlockPos blockpos2 = this.func_205770_a(Heightmap.Type.MOTION_BLOCKING, this.func_217383_a(i, 0, j, 15));
           BlockPos blockpos3 = blockpos2.func_177977_b();
           Biome biome = this.func_226691_t_(blockpos2);
@@ -78,7 +197,7 @@
           if (biome.func_201848_a(this, blockpos3)) {
              this.func_175656_a(blockpos3, Blocks.field_150432_aD.func_176223_P());
           }
-@@ -598,9 +604,10 @@
+@@ -598,9 +596,10 @@
              ++p_217479_1_.field_70173_aa;
              IProfiler iprofiler = this.func_217381_Z();
              iprofiler.func_194340_a(() -> {
@@ -90,7 +209,46 @@
              p_217479_1_.func_70071_h_();
              iprofiler.func_76319_b();
           }
-@@ -687,6 +694,7 @@
+@@ -675,6 +674,38 @@
+       return !this.field_73061_a.func_175579_a(this, p_175660_2_, p_175660_1_) && this.func_175723_af().func_177746_a(p_175660_2_);
+    }
+ 
++   // Paper start - derived from below
++   public void saveIncrementally(boolean doFull) {
++      ServerChunkProvider chunkproviderserver = this.func_72863_F();
++
++      if (doFull) {
++         net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.world.WorldEvent.Save(this));
++      }
++
++      try  {
++         if (doFull) {
++            this.func_73042_a();
++         }
++
++         if (!this.func_217402_u()) chunkproviderserver.saveIncrementally();
++
++
++         // Copied from save()
++         // CraftBukkit start - moved from MinecraftServer.saveChunks
++         if (doFull) { // Paper
++            ServerWorld worldserver1 = this;
++
++            field_241103_E_.func_230393_a_(worldserver1.func_175723_af().func_235927_t_());
++            field_73061_a.field_240768_i_.func_230414_b_(this.field_73061_a.func_201300_aS().func_201380_c());
++            field_73061_a.field_71310_m.func_237288_a_(this.field_73061_a.field_240767_f_, this.field_73061_a.field_240768_i_, this.field_73061_a.func_184103_al().func_72378_q());
++         }
++         // CraftBukkit end
++      } catch (Exception e) {
++         e.printStackTrace();
++      }
++   }
++   // Paper end
++
+    public void func_217445_a(@Nullable IProgressUpdate p_217445_1_, boolean p_217445_2_, boolean p_217445_3_) {
+       ServerChunkProvider serverchunkprovider = this.func_72863_F();
+       if (!p_217445_3_) {
+@@ -687,6 +718,7 @@
              p_217445_1_.func_200209_c(new TranslationTextComponent("menu.savingChunks"));
           }
  
@@ -98,7 +256,7 @@
           serverchunkprovider.func_217210_a(p_217445_2_);
        }
     }
-@@ -777,6 +785,7 @@
+@@ -777,6 +809,7 @@
     }
  
     private void func_217448_f(ServerPlayerEntity p_217448_1_) {
@@ -106,7 +264,7 @@
        Entity entity = this.field_175741_N.get(p_217448_1_.func_110124_au());
        if (entity != null) {
           field_147491_a.warn("Force-added player with duplicate UUID {}", (Object)p_217448_1_.func_110124_au().toString());
-@@ -801,6 +810,7 @@
+@@ -801,6 +834,7 @@
        } else if (this.func_217478_l(p_72838_1_)) {
           return false;
        } else {
@@ -114,7 +272,7 @@
           IChunk ichunk = this.func_217353_a(MathHelper.func_76128_c(p_72838_1_.func_226277_ct_() / 16.0D), MathHelper.func_76128_c(p_72838_1_.func_226281_cx_() / 16.0D), ChunkStatus.field_222617_m, p_72838_1_.field_98038_p);
           if (!(ichunk instanceof Chunk)) {
              return false;
-@@ -816,6 +826,7 @@
+@@ -816,6 +850,7 @@
        if (this.func_217478_l(p_217440_1_)) {
           return false;
        } else {
@@ -122,7 +280,7 @@
           this.func_217465_m(p_217440_1_);
           return true;
        }
-@@ -879,12 +890,17 @@
+@@ -879,12 +914,17 @@
  
     }
  
@@ -141,7 +299,7 @@
  
        this.field_175741_N.remove(p_217484_1_.func_110124_au());
        this.func_72863_F().func_217226_b(p_217484_1_);
-@@ -898,6 +914,8 @@
+@@ -898,35 +938,47 @@
           this.field_217495_I.remove(((MobEntity)p_217484_1_).func_70661_as());
        }
  
@@ -150,7 +308,25 @@
     }
  
     private void func_217465_m(Entity p_217465_1_) {
-@@ -918,15 +936,19 @@
+       if (this.field_217492_a) {
+          this.field_217499_z.add(p_217465_1_);
++         p_217465_1_.isQueuedForRegister = true; // Paper
+       } else {
++         p_217465_1_.isQueuedForRegister = false; // Paper
+          this.field_217498_x.put(p_217465_1_.func_145782_y(), p_217465_1_);
++         this.entitiesForIteration.add(p_217465_1_); // Tuinity
+          if (p_217465_1_ instanceof EnderDragonEntity) {
+             for(EnderDragonPartEntity enderdragonpartentity : ((EnderDragonEntity)p_217465_1_).func_213404_dT()) {
+                this.field_217498_x.put(enderdragonpartentity.func_145782_y(), enderdragonpartentity);
++               this.entitiesForIteration.add(enderdragonpartentity); // Tuinity
+             }
+          }
+ 
+          this.field_175741_N.put(p_217465_1_.func_110124_au(), p_217465_1_);
++         this.entitiesForIteration.add(p_217465_1_); // Tuinity
+          this.func_72863_F().func_217230_c(p_217465_1_);
+          if (p_217465_1_ instanceof MobEntity) {
+             this.field_217495_I.add(((MobEntity)p_217465_1_).func_70661_as());
           }
        }
  
@@ -158,20 +334,22 @@
     }
  
     public void func_217467_h(Entity p_217467_1_) {
+-      if (this.field_217492_a) {
 +      removeEntity(p_217467_1_, false);
 +   }
 +   public void removeEntity(Entity p_217467_1_, boolean keepData) {
-       if (this.field_217492_a) {
++      if (false && this.field_217492_a) {
           throw (IllegalStateException)Util.func_229757_c_(new IllegalStateException("Removing entity while ticking!"));
        } else {
           this.func_217454_n(p_217467_1_);
           this.field_217498_x.remove(p_217467_1_.func_145782_y());
 -         this.func_217484_g(p_217467_1_);
++         this.entitiesForIteration.remove(p_217467_1_); // Tuinity
 +         this.removeEntityComplete(p_217467_1_, keepData);
        }
     }
  
-@@ -939,8 +961,11 @@
+@@ -939,8 +991,11 @@
     }
  
     public void func_217434_e(ServerPlayerEntity p_217434_1_) {
@@ -185,7 +363,7 @@
        this.func_72854_c();
     }
  
-@@ -959,10 +984,20 @@
+@@ -959,10 +1014,20 @@
     }
  
     public void func_184148_a(@Nullable PlayerEntity p_184148_1_, double p_184148_2_, double p_184148_4_, double p_184148_6_, SoundEvent p_184148_8_, SoundCategory p_184148_9_, float p_184148_10_, float p_184148_11_) {
@@ -206,7 +384,7 @@
        this.field_73061_a.func_184103_al().func_148543_a(p_217384_1_, p_217384_2_.func_226277_ct_(), p_217384_2_.func_226278_cu_(), p_217384_2_.func_226281_cx_(), p_217384_5_ > 1.0F ? (double)(16.0F * p_217384_5_) : 16.0D, this.func_234923_W_(), new SSpawnMovingSoundEffectPacket(p_217384_3_, p_217384_4_, p_217384_2_, p_217384_5_, p_217384_6_));
     }
  
-@@ -998,6 +1033,7 @@
+@@ -998,6 +1063,7 @@
  
     public Explosion func_230546_a_(@Nullable Entity p_230546_1_, @Nullable DamageSource p_230546_2_, @Nullable ExplosionContext p_230546_3_, double p_230546_4_, double p_230546_6_, double p_230546_8_, float p_230546_10_, boolean p_230546_11_, Explosion.Mode p_230546_12_) {
        Explosion explosion = new Explosion(this, p_230546_1_, p_230546_2_, p_230546_3_, p_230546_4_, p_230546_6_, p_230546_8_, p_230546_10_, p_230546_11_, p_230546_12_);
@@ -214,7 +392,7 @@
        explosion.func_77278_a();
        explosion.func_77279_a(false);
        if (p_230546_12_ == Explosion.Mode.NONE) {
-@@ -1410,4 +1446,14 @@
+@@ -1410,4 +1476,14 @@
           p_241121_0_.func_175656_a(p_241122_1_, Blocks.field_150343_Z.func_176223_P());
        });
     }

@@ -1,0 +1,12 @@
+--- a/net/minecraft/command/arguments/MessageArgument.java
++++ b/net/minecraft/command/arguments/MessageArgument.java
+@@ -131,8 +131,7 @@
+          return this.field_197120_b;
+       }
+ 
+-      @Nullable
+-      public ITextComponent func_197116_a(CommandSource p_197116_1_) throws CommandSyntaxException {
++         public ITextComponent func_197116_a(CommandSource p_197116_1_) throws CommandSyntaxException {
+          return EntitySelector.func_197350_a(this.field_197121_c.func_197341_b(p_197116_1_));
+       }
+    }

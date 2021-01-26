@@ -35,8 +35,7 @@ public class TargetContext extends PlayerContext
     }
 
     @Override
-    @Nullable
-    public <T> T get(ContextKey<T> key)
+     public <T> T get(ContextKey<T> key)
     {
         return key.equals(ContextKeys.TARGET) ? (T) target : super.get(key);
     }

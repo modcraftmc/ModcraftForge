@@ -57,6 +57,9 @@ public class Util {
 			def url = "https://libraries.minecraft.net/${path}"
 			if (!checkExists(url)) {
 				url = "https://files.minecraftforge.net/maven/${path}"
+				if (!checkExists(url)) {
+					url = "https://repo1.maven.org/maven2/${path}"
+				}
 			}
 			//TODO remove when Mojang launcher is updated
 			if (!classifiers && art.classifier != null) { 

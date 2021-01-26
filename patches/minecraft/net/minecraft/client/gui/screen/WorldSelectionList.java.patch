@@ -1,0 +1,22 @@
+--- a/net/minecraft/client/gui/screen/WorldSelectionList.java
++++ b/net/minecraft/client/gui/screen/WorldSelectionList.java
+@@ -149,8 +149,7 @@
+       private final WorldSummary field_214451_d;
+       private final ResourceLocation field_214452_e;
+       private File field_214453_f;
+-      @Nullable
+-      private final DynamicTexture field_214454_g;
++         private final DynamicTexture field_214454_g;
+       private long field_214455_h;
+ 
+       public Entry(WorldSelectionList p_i242066_2_, WorldSummary p_i242066_3_) {
+@@ -370,8 +369,7 @@
+          this.field_214449_b.func_241562_c_(new DirtMessageScreen(new TranslationTextComponent("selectWorld.data_read")));
+       }
+ 
+-      @Nullable
+-      private DynamicTexture func_214446_f() {
++         private DynamicTexture func_214446_f() {
+          boolean flag = this.field_214453_f != null && this.field_214453_f.isFile();
+          if (flag) {
+             try (InputStream inputstream = new FileInputStream(this.field_214453_f)) {

@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/fonts/providers/UnicodeTextureGlyphProvider.java
++++ b/net/minecraft/client/gui/fonts/providers/UnicodeTextureGlyphProvider.java
+@@ -129,8 +129,7 @@
+          return new UnicodeTextureGlyphProvider.Factory(new ResourceLocation(JSONUtils.func_151200_h(p_211629_0_, "sizes")), JSONUtils.func_151200_h(p_211629_0_, "template"));
+       }
+ 
+-      @Nullable
+-      public IGlyphProvider func_211246_a(IResourceManager p_211246_1_) {
++         public IGlyphProvider func_211246_a(IResourceManager p_211246_1_) {
+          try (IResource iresource = Minecraft.func_71410_x().func_195551_G().func_199002_a(this.field_211247_a)) {
+             byte[] abyte = new byte[65536];
+             iresource.func_199027_b().read(abyte);

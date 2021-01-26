@@ -35,8 +35,7 @@ import net.minecraftforge.eventbus.api.Event.HasResult;
  */
 public class PotionEvent extends LivingEvent
 {
-    @Nullable
-    protected final EffectInstance effect;
+     protected final EffectInstance effect;
     
     public PotionEvent(LivingEntity living, EffectInstance effect)
     {
@@ -46,8 +45,7 @@ public class PotionEvent extends LivingEvent
     /**
      * Retuns the PotionEffect.
      */
-    @Nullable
-    public EffectInstance getPotionEffect()
+     public EffectInstance getPotionEffect()
     {
         return effect;
     }
@@ -86,8 +84,7 @@ public class PotionEvent extends LivingEvent
          * @return the PotionEffect. In the remove event this can be null if the Entity does not have a {@link Potion} of the right type active.
          */
         @Override
-        @Nullable
-        public EffectInstance getPotionEffect()
+             public EffectInstance getPotionEffect()
         {
             return super.getPotionEffect();
         }
@@ -148,8 +145,7 @@ public class PotionEvent extends LivingEvent
         /**
          * @return the old PotionEffect. THis can be null if the entity did not have an effect of this kind before.
          */
-        @Nullable
-        public EffectInstance getOldPotionEffect()
+             public EffectInstance getOldPotionEffect()
         {
             return oldEffect;
         }

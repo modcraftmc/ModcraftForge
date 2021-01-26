@@ -1,0 +1,12 @@
+--- a/net/minecraft/command/impl/SetBlockCommand.java
++++ b/net/minecraft/command/impl/SetBlockCommand.java
+@@ -63,8 +63,7 @@
+    }
+ 
+    public interface IFilter {
+-      @Nullable
+-      BlockStateInput filter(MutableBoundingBox p_filter_1_, BlockPos p_filter_2_, BlockStateInput p_filter_3_, ServerWorld p_filter_4_);
++         BlockStateInput filter(MutableBoundingBox p_filter_1_, BlockPos p_filter_2_, BlockStateInput p_filter_3_, ServerWorld p_filter_4_);
+    }
+ 
+    public static enum Mode {

@@ -178,8 +178,7 @@ public class VariantBlockStateBuilder implements IGeneratedBlockstate {
     public static class PartialBlockstate implements Predicate<BlockState> {
         private final Block owner;
         private final SortedMap<Property<?>, Comparable<?>> setStates;
-        @Nullable
-        private final VariantBlockStateBuilder outerBuilder;
+             private final VariantBlockStateBuilder outerBuilder;
 
         PartialBlockstate(Block owner, @Nullable VariantBlockStateBuilder outerBuilder) {
             this(owner, ImmutableMap.of(), outerBuilder);

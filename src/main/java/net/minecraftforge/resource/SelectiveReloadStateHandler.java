@@ -32,8 +32,7 @@ public enum SelectiveReloadStateHandler
 {
     INSTANCE;
 
-    @Nullable
-    private Predicate<IResourceType> currentPredicate = null;
+     private Predicate<IResourceType> currentPredicate = null;
 
     /***
      * Pushes a resource type predicate for the current reload.

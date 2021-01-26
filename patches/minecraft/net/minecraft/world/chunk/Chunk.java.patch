@@ -9,6 +9,15 @@
     private static final Logger field_150817_t = LogManager.getLogger();
     @Nullable
     public static final ChunkSection field_186036_a = null;
+@@ -77,7 +77,7 @@
+    private ITickList<Block> field_201621_s;
+    private ITickList<Fluid> field_205325_u;
+    private boolean field_76644_m;
+-   private long field_76641_n;
++   public long field_76641_n; //Paper
+    private volatile boolean field_76643_l;
+    private long field_111204_q;
+    @Nullable
 @@ -92,6 +92,7 @@
     }
  

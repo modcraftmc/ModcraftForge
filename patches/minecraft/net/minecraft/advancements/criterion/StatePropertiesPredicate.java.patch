@@ -1,0 +1,15 @@
+--- a/net/minecraft/advancements/criterion/StatePropertiesPredicate.java
++++ b/net/minecraft/advancements/criterion/StatePropertiesPredicate.java
+@@ -179,10 +179,8 @@
+    }
+ 
+    static class RangedMacher extends StatePropertiesPredicate.Matcher {
+-      @Nullable
+-      private final String field_227202_a_;
+-      @Nullable
+-      private final String field_227203_b_;
++         private final String field_227202_a_;
++         private final String field_227203_b_;
+ 
+       public RangedMacher(String p_i225794_1_, @Nullable String p_i225794_2_, @Nullable String p_i225794_3_) {
+          super(p_i225794_1_);

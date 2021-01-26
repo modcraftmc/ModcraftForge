@@ -1,0 +1,18 @@
+--- a/net/minecraft/item/ItemModelsProperties.java
++++ b/net/minecraft/item/ItemModelsProperties.java
+@@ -184,13 +184,11 @@
+             }
+          }
+ 
+-         @Nullable
+-         private BlockPos func_239444_a_(ClientWorld p_239444_1_) {
++               private BlockPos func_239444_a_(ClientWorld p_239444_1_) {
+             return p_239444_1_.func_230315_m_().func_236043_f_() ? p_239444_1_.func_239140_u_() : null;
+          }
+ 
+-         @Nullable
+-         private BlockPos func_239442_a_(World p_239442_1_, CompoundNBT p_239442_2_) {
++               private BlockPos func_239442_a_(World p_239442_1_, CompoundNBT p_239442_2_) {
+             boolean flag = p_239442_2_.func_74764_b("LodestonePos");
+             boolean flag1 = p_239442_2_.func_74764_b("LodestoneDimension");
+             if (flag && flag1) {

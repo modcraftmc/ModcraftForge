@@ -9,3 +9,23 @@
        }
     }
  
+@@ -672,8 +672,7 @@
+    public class FindBeehiveGoal extends BeeEntity.PassiveGoal {
+       private int field_226468_c_ = BeeEntity.this.field_70170_p.field_73012_v.nextInt(10);
+       private List<BlockPos> field_226469_d_ = Lists.newArrayList();
+-      @Nullable
+-      private Path field_226470_e_ = null;
++         private Path field_226470_e_ = null;
+       private int field_234183_f_;
+ 
+       FindBeehiveGoal() {
+@@ -1146,8 +1145,7 @@
+ 
+       }
+ 
+-      @Nullable
+-      private Vector3d func_226509_g_() {
++         private Vector3d func_226509_g_() {
+          Vector3d vector3d;
+          if (BeeEntity.this.func_226422_eP_() && !BeeEntity.this.func_226401_b_(BeeEntity.this.field_226369_bI_, 22)) {
+             Vector3d vector3d1 = Vector3d.func_237489_a_(BeeEntity.this.field_226369_bI_);

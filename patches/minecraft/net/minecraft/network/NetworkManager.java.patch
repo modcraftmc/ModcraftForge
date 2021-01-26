@@ -43,7 +43,7 @@
        (new Bootstrap()).group(field_179296_e.func_179281_c()).handler(new ChannelInitializer<Channel>() {
           protected void initChannel(Channel p_initChannel_1_) throws Exception {
              p_initChannel_1_.pipeline().addLast("packet_handler", networkmanager);
-@@ -376,6 +381,14 @@
+@@ -376,10 +381,17 @@
        return this.field_211397_t;
     }
  
@@ -57,4 +57,9 @@
 +
     static class QueuedPacket {
        private final IPacket<?> field_150774_a;
-       @Nullable
+-      @Nullable
+-      private final GenericFutureListener<? extends Future<? super Void>> field_201049_b;
++         private final GenericFutureListener<? extends Future<? super Void>> field_201049_b;
+ 
+       public QueuedPacket(IPacket<?> p_i48604_1_, @Nullable GenericFutureListener<? extends Future<? super Void>> p_i48604_2_) {
+          this.field_150774_a = p_i48604_1_;

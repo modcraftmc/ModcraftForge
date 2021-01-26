@@ -64,8 +64,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 @SuppressWarnings("deprecation")
 public class ModelBuilder<T extends ModelBuilder<T>> extends ModelFile {
 
-    @Nullable
-    protected ModelFile parent;
+     protected ModelFile parent;
     protected final Map<String, String> textures = new LinkedHashMap<>();
     protected final TransformsBuilder transforms = new TransformsBuilder();
     protected final ExistingFileHelper existingFileHelper;
