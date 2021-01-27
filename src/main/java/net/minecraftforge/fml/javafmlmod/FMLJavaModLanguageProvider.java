@@ -20,6 +20,7 @@
 package net.minecraftforge.fml.javafmlmod;
 
 import cpw.mods.modlauncher.api.LamdbaExceptionUtils;
+import fr.modcraftforge.forge.loading.LoadingStage;
 import net.minecraftforge.fml.ModLoadingException;
 import net.minecraftforge.fml.ModLoadingStage;
 import net.minecraftforge.fml.common.Mod;
@@ -61,6 +62,7 @@ public class FMLJavaModLanguageProvider implements IModLanguageProvider
             return modId;
         }
 
+        int currentindex;
         @SuppressWarnings("unchecked")
         @Override
         public <T> T loadMod(final IModInfo info, final ClassLoader modClassLoader, final ModFileScanData modFileScanResults)
@@ -70,9 +72,11 @@ public class FMLJavaModLanguageProvider implements IModLanguageProvider
             // in the classloader of the game - the context classloader is appropriate here.
             try
             {
+                currentindex++;
                 final Class<?> fmlContainer = Class.forName("net.minecraftforge.fml.javafmlmod.FMLModContainer", true, Thread.currentThread().getContextClassLoader());
                 LOGGER.debug(LOADING, "Loading FMLModContainer from classloader {} - got {}", Thread.currentThread().getContextClassLoader(), fmlContainer.getClassLoader());
                 final Constructor<?> constructor = fmlContainer.getConstructor(IModInfo.class, String.class, ClassLoader.class, ModFileScanData.class);
+                LoadingStage.push(info.getModId(), currentindex, 50);
                 return (T)constructor.newInstance(info, className, modClassLoader, modFileScanResults);
             }
             // ALL exception handling has to be done through the classloader, because we're loaded in the wrong context, so any classes we just blind load will be in the wrong

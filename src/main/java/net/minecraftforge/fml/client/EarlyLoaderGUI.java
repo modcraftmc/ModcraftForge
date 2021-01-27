@@ -23,6 +23,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import fr.modcraftforge.forge.ModcraftForge;
+import fr.modcraftforge.forge.loading.LoadingStage;
 import fr.modcraftmc.forge.utils.ColorUtils;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
@@ -128,10 +129,36 @@ public class EarlyLoaderGUI {
         memorycolour[0] = ((i >> 16 ) & 0xFF) / 255.0f;
         renderMessage(memory, memorycolour, 1, 1.0f);
         renderMessage(ModcraftForge.getFormatedStartTime(), memorycolour, 2, 1.0f);
+        renderMessageCustom(String.format("[%s/%s] Chargement du mod %s" , LoadingStage.getCurrentIndex(), LoadingStage.getIndexSize(), LoadingStage.getCurrentModLoading()), memorycolour, 5, 1.0f);
     }
 
     @SuppressWarnings("deprecation")
     void renderMessage(final String message, final float[] colour, int line, float alpha) {
+        GlStateManager.enableClientState(GL11.GL_VERTEX_ARRAY);
+        ByteBuffer charBuffer = MemoryUtil.memAlloc(message.length() * 270);
+        int quads = STBEasyFont.stb_easy_font_print(0, 0, message, null, charBuffer);
+        GL14.glVertexPointer(2, GL11.GL_FLOAT, 16, charBuffer);
+
+        RenderSystem.enableBlend();
+        RenderSystem.disableTexture();
+        // STBEasyFont's quads are in reverse order or what OGGL expects, so it gets culled for facing the wrong way.
+        // So Disable culling https://github.com/MinecraftForge/MinecraftForge/pull/6824
+        RenderSystem.disableCull();
+        GL14.glBlendColor(0,0,0, alpha);
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA, GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA);
+        RenderSystem.color3f(colour[0],colour[1],colour[2]);
+        RenderSystem.pushMatrix();
+        RenderSystem.translatef(10, line * 10, 0);
+        RenderSystem.scalef(1, 1, 0);
+        RenderSystem.drawArrays(GL11.GL_QUADS, 0, quads * 4);
+        RenderSystem.popMatrix();
+
+        RenderSystem.enableCull();
+        GlStateManager.disableClientState(GL11.GL_VERTEX_ARRAY);
+        MemoryUtil.memFree(charBuffer);
+    }
+
+    void renderMessageCustom(final String message, final float[] colour, int line, float alpha) {
         GlStateManager.enableClientState(GL11.GL_VERTEX_ARRAY);
         ByteBuffer charBuffer = MemoryUtil.memAlloc(message.length() * 270);
         int quads = STBEasyFont.stb_easy_font_print(0, 0, message, null, charBuffer);
