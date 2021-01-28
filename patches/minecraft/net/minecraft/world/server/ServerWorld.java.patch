@@ -307,7 +307,7 @@
 +
 +      for (int sectionIndex = 0; sectionIndex < 16; ++sectionIndex) {
 +         ChunkSection section = sections[sectionIndex];
-+         if (section == null || section.tickingList.size() == 0) {
++         if (section == null || section.tickingList.size() == 0 || !section.func_76675_b()) {
 +            continue;
 +         }
 +
