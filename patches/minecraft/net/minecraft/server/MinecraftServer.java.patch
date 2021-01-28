@@ -251,12 +251,11 @@
  
        if (this.field_71307_n.func_76468_d()) {
           this.field_71307_n.func_76470_e();
-@@ -613,27 +717,58 @@
- 
+@@ -614,26 +718,57 @@
     protected void func_240802_v_() {
        try {
-+         long serverStartTime = System.nanoTime(); // Paper
           if (this.func_71197_b()) {
++            this.field_211151_aa = Util.func_211177_b(); //update serverTime before handleServerStarted to prevent ServerWatchdogs crash.
 +            net.minecraftforge.fml.server.ServerLifecycleHooks.handleServerStarted(this);
              this.field_211151_aa = Util.func_211177_b();
              this.field_147147_p.func_151315_a(new StringTextComponent(this.field_71286_C));
