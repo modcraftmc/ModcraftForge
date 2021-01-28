@@ -33,16 +33,15 @@
  import java.util.Map.Entry;
  import java.util.concurrent.CompletableFuture;
  import java.util.concurrent.Executor;
-@@ -50,6 +40,8 @@
+@@ -50,6 +40,7 @@
  import java.util.function.Function;
  import javax.annotation.Nullable;
  import javax.imageio.ImageIO;
 +
-+import joptsimple.OptionSet;
  import net.minecraft.advancements.AdvancementManager;
  import net.minecraft.advancements.FunctionManager;
  import net.minecraft.block.Block;
-@@ -155,12 +147,13 @@
+@@ -155,6 +146,7 @@
  import org.apache.commons.lang3.Validate;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
@@ -50,23 +49,7 @@
  
  public abstract class MinecraftServer extends RecursiveEventLoop<TickDelayedTask> implements ISnooperInfo, ICommandSource, AutoCloseable {
     private static final Logger field_147145_h = LogManager.getLogger();
-    public static final File field_152367_a = new File("usercache.json");
-    public static final WorldSettings field_213219_c = new WorldSettings("Demo World", GameType.SURVIVAL, false, Difficulty.NORMAL, false, new GameRules(), DatapackCodec.field_234880_a_);
--   protected final SaveFormat.LevelSave field_71310_m;
-+   public final SaveFormat.LevelSave field_71310_m;
-    protected final PlayerData field_240766_e_;
-    private final Snooper field_71307_n = new Snooper("server", this, Util.func_211177_b());
-    private final List<Runnable> field_71322_p = Lists.newArrayList();
-@@ -173,7 +166,7 @@
-    private final DataFixer field_184112_s;
-    private String field_71320_r;
-    private int field_71319_s = -1;
--   protected final DynamicRegistries.Impl field_240767_f_;
-+   public final DynamicRegistries.Impl field_240767_f_;
-    private final Map<RegistryKey<World>, ServerWorld> field_71305_c = Maps.newLinkedHashMap();
-    private PlayerList field_71318_t;
-    private volatile boolean field_71317_u = true;
-@@ -204,7 +197,7 @@
+@@ -204,7 +196,7 @@
     private final GameProfileRepository field_152365_W;
     private final PlayerProfileCache field_152366_X;
     private long field_147142_T;
@@ -75,7 +58,7 @@
     protected long field_211151_aa = Util.func_211177_b();
     private long field_213213_ab;
     private boolean field_213214_ac;
-@@ -224,11 +217,80 @@
+@@ -224,11 +216,80 @@
     private String field_213218_av;
     private DataPackRegistries field_195576_ac;
     private final TemplateManager field_240765_ak_;
@@ -158,7 +141,7 @@
           atomicreference.get().func_240802_v_();
        }, "Server thread");
        thread.setUncaughtExceptionHandler((p_240779_0_, p_240779_1_) -> {
-@@ -376,6 +438,7 @@
+@@ -376,6 +437,7 @@
              worldborder.func_177737_a(new IBorderListener.Impl(serverworld1.func_175723_af()));
              this.field_71305_c.put(registrykey1, serverworld1);
           }
@@ -166,7 +149,7 @@
        }
  
     }
-@@ -387,6 +450,7 @@
+@@ -387,6 +449,7 @@
        } else if (p_240786_3_) {
           p_240786_1_.func_176143_a(BlockPos.field_177992_a.func_177984_a(), 0.0F);
        } else {
@@ -174,7 +157,7 @@
           BiomeProvider biomeprovider = chunkgenerator.func_202090_b();
           Random random = new Random(p_240786_0_.func_72905_C());
           BlockPos blockpos = biomeprovider.func_225531_a_(0, p_240786_0_.func_181545_F(), 0, 256, (p_244265_0_) -> {
-@@ -452,6 +516,7 @@
+@@ -452,6 +515,7 @@
     }
  
     private void func_213186_a(IChunkStatusListener p_213186_1_) {
@@ -182,7 +165,7 @@
        ServerWorld serverworld = this.func_241755_D_();
        field_147145_h.info("Preparing start region for dimension {}", (Object)serverworld.func_234923_W_().func_240901_a_());
        BlockPos blockpos = serverworld.func_241135_u_();
-@@ -520,14 +585,26 @@
+@@ -520,14 +584,26 @@
     public boolean func_213211_a(boolean p_213211_1_, boolean p_213211_2_, boolean p_213211_3_) {
        boolean flag = false;
  
@@ -212,7 +195,7 @@
  
        ServerWorld serverworld1 = this.func_241755_D_();
        IServerWorldInfo iserverworldinfo = this.field_240768_i_.func_230407_G_();
-@@ -555,23 +632,51 @@
+@@ -555,23 +631,51 @@
  
        field_147145_h.info("Saving worlds");
  
@@ -268,7 +251,7 @@
  
        if (this.field_71307_n.func_76468_d()) {
           this.field_71307_n.func_76470_e();
-@@ -613,27 +718,58 @@
+@@ -613,27 +717,58 @@
  
     protected void func_240802_v_() {
        try {
@@ -329,7 +312,7 @@
                 this.field_71304_b.func_219895_b("nextTickWait");
                 this.field_213214_ac = true;
                 this.field_213213_ab = Math.max(Util.func_211177_b() + 50L, this.field_211151_aa);
-@@ -643,11 +779,26 @@
+@@ -643,11 +778,26 @@
                 this.func_240795_b_(longtickdetector);
                 this.field_71296_Q = true;
              }
@@ -356,7 +339,7 @@
           CrashReport crashreport;
           if (throwable1 instanceof ReportedException) {
              crashreport = this.func_71230_b(((ReportedException)throwable1).func_71575_a());
-@@ -662,6 +813,7 @@
+@@ -662,6 +812,7 @@
              field_147145_h.error("We were unable to save this crash report to disk.");
           }
  
@@ -364,7 +347,7 @@
           this.func_71228_a(crashreport);
        } finally {
           try {
-@@ -670,6 +822,7 @@
+@@ -670,6 +821,7 @@
           } catch (Throwable throwable) {
              field_147145_h.error("Exception stopping the server", throwable);
           } finally {
@@ -372,7 +355,7 @@
              this.func_71240_o();
           }
  
-@@ -770,7 +923,9 @@
+@@ -770,7 +922,9 @@
     }
  
     protected void func_71217_p(BooleanSupplier p_71217_1_) {
@@ -382,7 +365,7 @@
        ++this.field_71315_w;
        this.func_71190_q(p_71217_1_);
        if (i - this.field_147142_T >= 5000000000L) {
-@@ -785,25 +940,44 @@
+@@ -785,25 +939,44 @@
  
           Collections.shuffle(Arrays.asList(agameprofile));
           this.field_147147_p.func_151318_b().func_151330_a(agameprofile);
@@ -440,7 +423,7 @@
  
        this.field_71304_b.func_76319_b();
        this.field_71304_b.func_76320_a("tallying");
-@@ -812,24 +986,44 @@
+@@ -812,24 +985,44 @@
        long i1 = Util.func_211178_c();
        this.field_213215_ap.func_181747_a(i1 - i);
        this.field_71304_b.func_76319_b();
@@ -491,7 +474,7 @@
  
           try {
              serverworld.func_72835_b(p_71190_1_);
-@@ -838,11 +1032,45 @@
+@@ -838,11 +1031,45 @@
              serverworld.func_72914_a(crashreport);
              throw new ReportedException(crashreport);
           }
@@ -537,7 +520,7 @@
        this.field_71304_b.func_219895_b("connection");
        this.func_147137_ag().func_151269_c();
        this.field_71304_b.func_219895_b("players");
-@@ -915,7 +1143,7 @@
+@@ -915,7 +1142,7 @@
     }
  
     public String getServerModName() {
@@ -546,7 +529,7 @@
     }
  
     public CrashReport func_71230_b(CrashReport p_71230_1_) {
-@@ -928,6 +1156,7 @@
+@@ -928,6 +1155,7 @@
        p_71230_1_.func_85056_g().func_189529_a("Data Packs", () -> {
           StringBuilder stringbuilder = new StringBuilder();
  
@@ -554,7 +537,7 @@
           for(ResourcePackInfo resourcepackinfo : this.field_195577_ad.func_198980_d()) {
              if (stringbuilder.length() > 0) {
                 stringbuilder.append(", ");
-@@ -1280,6 +1509,7 @@
+@@ -1280,6 +1508,7 @@
           this.func_184103_al().func_193244_w();
           this.field_200258_al.func_240946_a_(this.field_195576_ac.func_240960_a_());
           this.field_240765_ak_.func_195410_a(this.field_195576_ac.func_240970_h_());
@@ -562,7 +545,7 @@
        }, this);
        if (this.func_213162_bc()) {
           this.func_213161_c(completablefuture::isDone);
-@@ -1289,10 +1519,13 @@
+@@ -1289,10 +1518,13 @@
     }
  
     public static DatapackCodec func_240772_a_(ResourcePackList p_240772_0_, DatapackCodec p_240772_1_, boolean p_240772_2_) {
@@ -578,7 +561,7 @@
        } else {
           Set<String> set = Sets.newLinkedHashSet();
  
-@@ -1442,6 +1675,31 @@
+@@ -1442,6 +1674,31 @@
  
     public abstract boolean func_213199_b(GameProfile p_213199_1_);
  
@@ -610,7 +593,7 @@
     public void func_223711_a(Path p_223711_1_) throws IOException {
        Path path = p_223711_1_.resolve("levels");
  
-@@ -1570,6 +1828,10 @@
+@@ -1570,6 +1827,10 @@
        return this.field_240768_i_;
     }
  
@@ -621,3 +604,16 @@
     public DynamicRegistries func_244267_aX() {
        return this.field_240767_f_;
     }
+@@ -1578,4 +1839,12 @@
+    public IChatFilter func_244435_a(ServerPlayerEntity p_244435_1_) {
+       return null;
+    }
++
++   public SaveFormat.LevelSave getAnvilConverterForAnvilFile() {
++      return field_71310_m;
++   }
++
++   public DynamicRegistries.Impl getDynRegistry() {
++      return field_240767_f_;
++   }
+ }

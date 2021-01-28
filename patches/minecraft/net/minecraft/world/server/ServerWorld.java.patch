@@ -189,15 +189,200 @@
        }
  
        iprofiler.func_76319_b();
-@@ -475,6 +472,7 @@
-          BlockPos blockpos2 = this.func_205770_a(Heightmap.Type.MOTION_BLOCKING, this.func_217383_a(i, 0, j, 15));
-          BlockPos blockpos3 = blockpos2.func_177977_b();
-          Biome biome = this.func_226691_t_(blockpos2);
-+         if (this.isAreaLoaded(blockpos2, 1)) // Forge: check area to avoid loading neighbors in unloaded chunks
-          if (biome.func_201848_a(this, blockpos3)) {
-             this.func_175656_a(blockpos3, Blocks.field_150432_aD.func_176223_P());
+@@ -438,11 +435,23 @@
+    }
+ 
+    private void func_229856_ab_() {
+-      this.field_217491_A.stream().filter(LivingEntity::func_70608_bn).collect(Collectors.toList()).forEach((p_241131_0_) -> {
+-         p_241131_0_.func_225652_a_(false, false);
++      /*
++      this.players.stream().filter(LivingEntity::isSleeping).collect(Collectors.toList()).forEach((p_241131_0_) -> {
++         p_241131_0_.stopSleepInBed(false, false);
+       });
++       */
++      for (ServerPlayerEntity entityplayer : field_217491_A) { if (entityplayer.func_70608_bn()) { // Yatopia
++         entityplayer.func_225652_a_(false, false);
++      }} // Yatopia
+    }
+ 
++   // Paper start - optimise random block ticking
++   private final BlockPos.Mutable chunkTickMutablePosition = new BlockPos.Mutable();
++   private final com.destroystokyo.paper.util.math.ThreadUnsafeRandom randomTickRandom = new com.destroystokyo.paper.util.math.ThreadUnsafeRandom();
++   // Paper end
++   private int currentIceAndSnowTick = 0; protected void resetIceAndSnowTick() { this.currentIceAndSnowTick = this.randomTickRandom.nextInt(16); } // AirplaneL
++
++
+    public void func_217441_a(Chunk p_217441_1_, int p_217441_2_) {
+       ChunkPos chunkpos = p_217441_1_.func_76632_l();
+       boolean flag = this.func_72896_J();
+@@ -450,69 +459,136 @@
+       int j = chunkpos.func_180333_d();
+       IProfiler iprofiler = this.func_217381_Z();
+       iprofiler.func_76320_a("thunder");
+-      if (flag && this.func_72911_I() && this.field_73012_v.nextInt(100000) == 0) {
+-         BlockPos blockpos = this.func_175736_a(this.func_217383_a(i, 0, j, 15));
+-         if (this.func_175727_C(blockpos)) {
+-            DifficultyInstance difficultyinstance = this.func_175649_E(blockpos);
++      final BlockPos.Mutable blockposition = this.chunkTickMutablePosition; // Paper - use mutable to reduce allocation rate, final to force compile fail on change
++      if (flag && this.func_72911_I() && p_217441_1_.shouldDoLightning()) {
++         //BlockPos blockpos = this.adjustPosToNearbyEntity(this.getBlockRandomPos(i, 0, j, 15));
++         blockposition.func_189533_g(this.func_175736_a(this.func_217383_a(i, 0, j, 15)));
++         if (this.func_175727_C(blockposition)) {
++            DifficultyInstance difficultyinstance = this.func_175649_E(blockposition);
+             boolean flag1 = this.func_82736_K().func_223586_b(GameRules.field_223601_d) && this.field_73012_v.nextDouble() < (double)difficultyinstance.func_180168_b() * 0.01D;
+             if (flag1) {
+                SkeletonHorseEntity skeletonhorseentity = EntityType.field_200742_ah.func_200721_a(this);
+                skeletonhorseentity.func_190691_p(true);
+                skeletonhorseentity.func_70873_a(0);
+-               skeletonhorseentity.func_70107_b((double)blockpos.func_177958_n(), (double)blockpos.func_177956_o(), (double)blockpos.func_177952_p());
++               skeletonhorseentity.func_70107_b((double)blockposition.func_177958_n(), (double)blockposition.func_177956_o(), (double)blockposition.func_177952_p());
+                this.func_217376_c(skeletonhorseentity);
+             }
+ 
+             LightningBoltEntity lightningboltentity = EntityType.field_200728_aG.func_200721_a(this);
+-            lightningboltentity.func_233576_c_(Vector3d.func_237492_c_(blockpos));
++            lightningboltentity.func_233576_c_(Vector3d.func_237492_c_(blockposition));
+             lightningboltentity.func_233623_a_(flag1);
+             this.func_217376_c(lightningboltentity);
           }
-@@ -598,9 +596,10 @@
+       }
+ 
+       iprofiler.func_219895_b("iceandsnow");
+-      if (this.field_73012_v.nextInt(16) == 0) {
+-         BlockPos blockpos2 = this.func_205770_a(Heightmap.Type.MOTION_BLOCKING, this.func_217383_a(i, 0, j, 15));
+-         BlockPos blockpos3 = blockpos2.func_177977_b();
+-         Biome biome = this.func_226691_t_(blockpos2);
+-         if (biome.func_201848_a(this, blockpos3)) {
+-            this.func_175656_a(blockpos3, Blocks.field_150432_aD.func_176223_P());
++      if (/* this.rand.nextInt(16) == 0*/ (this.currentIceAndSnowTick++ & 15) == 0) {
++         /*
++         BlockPos blockpos2 = this.getHeight(Heightmap.Type.MOTION_BLOCKING, this.getBlockRandomPos(i, 0, j, 15));
++         BlockPos blockpos3 = blockpos2.down();
++
++          */
++
++         // Paper start - optimise chunk ticking
++         this.getRandomBlockPosition(i, 0, j, 15, blockposition);
++         int normalY = p_217441_1_.func_201576_a(Heightmap.Type.MOTION_BLOCKING, blockposition.func_177958_n() & 15, blockposition.func_177952_p() & 15);
++         int downY = normalY - 1;
++         blockposition.func_185336_p(normalY);
++         // Paper end
++
++         Biome biome = this.func_226691_t_(blockposition);
++
++         blockposition.func_185336_p(downY);
++         if (this.isAreaLoaded(blockposition, 1)) // Forge: check area to avoid loading neighbors in unloaded chunks
++         if (biome.func_201848_a(this, blockposition)) {
++            this.func_175656_a(blockposition, Blocks.field_150432_aD.func_176223_P());
+          }
+ 
+-         if (flag && biome.func_201850_b(this, blockpos2)) {
+-            this.func_175656_a(blockpos2, Blocks.field_150433_aE.func_176223_P());
++         blockposition.func_185336_p(downY);
++         if (flag && biome.func_201850_b(this, blockposition)) {
++            this.func_175656_a(blockposition, Blocks.field_150433_aE.func_176223_P());
+          }
+ 
+-         if (flag && this.func_226691_t_(blockpos3).func_201851_b() == Biome.RainType.RAIN) {
+-            this.func_180495_p(blockpos3).func_177230_c().func_176224_k(this, blockpos3);
++         blockposition.func_185336_p(downY);
++         if (flag && this.func_226691_t_(blockposition).func_201851_b() == Biome.RainType.RAIN) {
++            this.func_180495_p(blockposition).func_177230_c().func_176224_k(this, blockposition);
+          }
+       }
+ 
+       iprofiler.func_219895_b("tickBlocks");
+-      if (p_217441_2_ > 0) {
+-         for(ChunkSection chunksection : p_217441_1_.func_76587_i()) {
+-            if (chunksection != Chunk.field_186036_a && chunksection.func_206915_b()) {
+-               int k = chunksection.func_222632_g();
+ 
+-               for(int l = 0; l < p_217441_2_; ++l) {
+-                  BlockPos blockpos1 = this.func_217383_a(i, k, j, 15);
+-                  iprofiler.func_76320_a("randomTick");
+-                  BlockState blockstate = chunksection.func_177485_a(blockpos1.func_177958_n() - i, blockpos1.func_177956_o() - k, blockpos1.func_177952_p() - j);
+-                  if (blockstate.func_204519_t()) {
+-                     blockstate.func_227034_b_(this, blockpos1, this.field_73012_v);
++      ChunkSection[] sections = p_217441_1_.func_76587_i();
++
++      for (int sectionIndex = 0; sectionIndex < 16; ++sectionIndex) {
++         ChunkSection section = sections[sectionIndex];
++         if (section == null || section.tickingList.size() == 0) {
++            continue;
++         }
++
++         int yPos = sectionIndex << 4;
++
++         for (int a = 0; a < p_217441_2_; ++a) {
++            iprofiler.func_76320_a("randomTick");
++            int tickingBlocks = section.tickingList.size();
++            int index = this.randomTickRandom.nextInt(16 * 16 * 16);
++            if (index >= tickingBlocks) {
++               continue;
++            }
++
++            long raw = section.tickingList.getRaw(index);
++            int location = com.destroystokyo.paper.util.maplist.IBlockDataList.getLocationFromRaw(raw);
++            int randomX = location & 15;
++            int randomY = ((location >>> (4 + 4)) & 255) | yPos;
++            int randomZ = (location >>> 4) & 15;
++
++            BlockState iblockdata = com.destroystokyo.paper.util.maplist.IBlockDataList.getBlockDataFromRaw(raw);
++            BlockPos blockposition2 = blockposition.func_181079_c(i + randomX, randomY, j + randomZ);
++
++            if (iblockdata.func_204519_t()) {
++               iblockdata.func_227034_b_(this, blockposition2, this.field_73012_v);
++            }
++
++            FluidState fluidstate = iblockdata.func_204520_s();
++            if (fluidstate.func_206890_h()) {
++               fluidstate.func_206891_b(this, blockposition2, this.field_73012_v);
++            }
++            /*
++
++            iblockdata.tick(this, blockposition2, this.randomTickRandom);
++
++             */
++
++            // We drop the fluid tick since LAVA is ALREADY TICKED by the above method.
++            // TODO CHECK ON UPDATE
++            iprofiler.func_76319_b();
++         }
++      }
++      /*
++      if (randomTickSpeed > 0) {
++         for(ChunkSection chunksection : chunkIn.getSections()) {
++            if (chunksection != Chunk.EMPTY_SECTION && chunksection.needsRandomTickAny()) {
++               int k = chunksection.getYLocation();
++
++               for(int l = 0; l < randomTickSpeed; ++l) {
++                  BlockPos blockpos1 = this.getBlockRandomPos(i, k, j, 15);
++                  iprofiler.startSection("randomTick");
++                  BlockState blockstate = chunksection.getBlockState(blockpos1.getX() - i, blockpos1.getY() - k, blockpos1.getZ() - j);
++                  if (blockstate.ticksRandomly()) {
++                     blockstate.randomTick(this, blockpos1, this.rand);
+                   }
+ 
+-                  FluidState fluidstate = blockstate.func_204520_s();
+-                  if (fluidstate.func_206890_h()) {
+-                     fluidstate.func_206891_b(this, blockpos1, this.field_73012_v);
++                  FluidState fluidstate = blockstate.getFluidState();
++                  if (fluidstate.ticksRandomly()) {
++                     fluidstate.randomTick(this, blockpos1, this.rand);
+                   }
+ 
+-                  iprofiler.func_76319_b();
++                  iprofiler.endSection();
+                }
+             }
+          }
+       }
+ 
++       */
+       iprofiler.func_76319_b();
+    }
+ 
+@@ -598,9 +674,10 @@
              ++p_217479_1_.field_70173_aa;
              IProfiler iprofiler = this.func_217381_Z();
              iprofiler.func_194340_a(() -> {
@@ -209,7 +394,7 @@
              p_217479_1_.func_70071_h_();
              iprofiler.func_76319_b();
           }
-@@ -675,6 +674,38 @@
+@@ -675,6 +752,38 @@
        return !this.field_73061_a.func_175579_a(this, p_175660_2_, p_175660_1_) && this.func_175723_af().func_177746_a(p_175660_2_);
     }
  
@@ -236,7 +421,7 @@
 +
 +            field_241103_E_.func_230393_a_(worldserver1.func_175723_af().func_235927_t_());
 +            field_73061_a.field_240768_i_.func_230414_b_(this.field_73061_a.func_201300_aS().func_201380_c());
-+            field_73061_a.field_71310_m.func_237288_a_(this.field_73061_a.field_240767_f_, this.field_73061_a.field_240768_i_, this.field_73061_a.func_184103_al().func_72378_q());
++            field_73061_a.getAnvilConverterForAnvilFile().func_237288_a_(this.field_73061_a.getDynRegistry(), this.field_73061_a.field_240768_i_, this.field_73061_a.func_184103_al().func_72378_q());
 +         }
 +         // CraftBukkit end
 +      } catch (Exception e) {
@@ -248,7 +433,7 @@
     public void func_217445_a(@Nullable IProgressUpdate p_217445_1_, boolean p_217445_2_, boolean p_217445_3_) {
        ServerChunkProvider serverchunkprovider = this.func_72863_F();
        if (!p_217445_3_) {
-@@ -687,6 +718,7 @@
+@@ -687,6 +796,7 @@
              p_217445_1_.func_200209_c(new TranslationTextComponent("menu.savingChunks"));
           }
  
@@ -256,7 +441,7 @@
           serverchunkprovider.func_217210_a(p_217445_2_);
        }
     }
-@@ -777,6 +809,7 @@
+@@ -777,6 +887,7 @@
     }
  
     private void func_217448_f(ServerPlayerEntity p_217448_1_) {
@@ -264,7 +449,7 @@
        Entity entity = this.field_175741_N.get(p_217448_1_.func_110124_au());
        if (entity != null) {
           field_147491_a.warn("Force-added player with duplicate UUID {}", (Object)p_217448_1_.func_110124_au().toString());
-@@ -801,6 +834,7 @@
+@@ -801,6 +912,7 @@
        } else if (this.func_217478_l(p_72838_1_)) {
           return false;
        } else {
@@ -272,7 +457,7 @@
           IChunk ichunk = this.func_217353_a(MathHelper.func_76128_c(p_72838_1_.func_226277_ct_() / 16.0D), MathHelper.func_76128_c(p_72838_1_.func_226281_cx_() / 16.0D), ChunkStatus.field_222617_m, p_72838_1_.field_98038_p);
           if (!(ichunk instanceof Chunk)) {
              return false;
-@@ -816,6 +850,7 @@
+@@ -816,6 +928,7 @@
        if (this.func_217478_l(p_217440_1_)) {
           return false;
        } else {
@@ -280,7 +465,7 @@
           this.func_217465_m(p_217440_1_);
           return true;
        }
-@@ -879,12 +914,17 @@
+@@ -879,12 +992,17 @@
  
     }
  
@@ -299,7 +484,7 @@
  
        this.field_175741_N.remove(p_217484_1_.func_110124_au());
        this.func_72863_F().func_217226_b(p_217484_1_);
-@@ -898,35 +938,47 @@
+@@ -898,35 +1016,47 @@
           this.field_217495_I.remove(((MobEntity)p_217484_1_).func_70661_as());
        }
  
@@ -349,7 +534,7 @@
        }
     }
  
-@@ -939,8 +991,11 @@
+@@ -939,8 +1069,11 @@
     }
  
     public void func_217434_e(ServerPlayerEntity p_217434_1_) {
@@ -363,7 +548,7 @@
        this.func_72854_c();
     }
  
-@@ -959,10 +1014,20 @@
+@@ -959,10 +1092,20 @@
     }
  
     public void func_184148_a(@Nullable PlayerEntity p_184148_1_, double p_184148_2_, double p_184148_4_, double p_184148_6_, SoundEvent p_184148_8_, SoundCategory p_184148_9_, float p_184148_10_, float p_184148_11_) {
@@ -384,7 +569,7 @@
        this.field_73061_a.func_184103_al().func_148543_a(p_217384_1_, p_217384_2_.func_226277_ct_(), p_217384_2_.func_226278_cu_(), p_217384_2_.func_226281_cx_(), p_217384_5_ > 1.0F ? (double)(16.0F * p_217384_5_) : 16.0D, this.func_234923_W_(), new SSpawnMovingSoundEffectPacket(p_217384_3_, p_217384_4_, p_217384_2_, p_217384_5_, p_217384_6_));
     }
  
-@@ -998,6 +1063,7 @@
+@@ -998,6 +1141,7 @@
  
     public Explosion func_230546_a_(@Nullable Entity p_230546_1_, @Nullable DamageSource p_230546_2_, @Nullable ExplosionContext p_230546_3_, double p_230546_4_, double p_230546_6_, double p_230546_8_, float p_230546_10_, boolean p_230546_11_, Explosion.Mode p_230546_12_) {
        Explosion explosion = new Explosion(this, p_230546_1_, p_230546_2_, p_230546_3_, p_230546_4_, p_230546_6_, p_230546_8_, p_230546_10_, p_230546_11_, p_230546_12_);
@@ -392,7 +577,7 @@
        explosion.func_77278_a();
        explosion.func_77279_a(false);
        if (p_230546_12_ == Explosion.Mode.NONE) {
-@@ -1410,4 +1476,14 @@
+@@ -1410,4 +1554,14 @@
           p_241121_0_.func_175656_a(p_241122_1_, Blocks.field_150343_Z.func_176223_P());
        });
     }

@@ -4,7 +4,7 @@
  
  public class NetworkSystem {
     private static final Logger field_151275_b = LogManager.getLogger();
-+   private static final int READ_TIMEOUT = Integer.parseInt(System.getProperty("forge.readTimeout", "30"));
++   private static final int READ_TIMEOUT = Integer.parseInt(System.getProperty("forge.readTimeout", "120"));
     public static final LazyValue<NioEventLoopGroup> field_151276_c = new LazyValue<>(() -> {
 -      return new NioEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Server IO #%d").setDaemon(true).build());
 +      return new NioEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Server IO #%d").setDaemon(true).setThreadFactory(net.minecraftforge.fml.common.thread.SidedThreadGroups.SERVER).build());

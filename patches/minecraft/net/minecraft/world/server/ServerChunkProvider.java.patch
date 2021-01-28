@@ -14,7 +14,15 @@
     public void func_217207_a(BooleanSupplier p_217207_1_) {
        this.field_73251_h.func_217381_Z().func_76320_a("purge");
        this.field_217240_d.func_219340_a();
-@@ -353,7 +360,7 @@
+@@ -334,6 +341,7 @@
+       boolean flag1 = this.field_73251_h.func_82736_K().func_223586_b(GameRules.field_223601_d);
+       if (!flag) {
+          this.field_73251_h.func_217381_Z().func_76320_a("pollingChunks");
++         this.field_73251_h.resetIceAndSnowTick();
+          int k = this.field_73251_h.func_82736_K().func_223592_c(GameRules.field_223610_m);
+          boolean flag2 = iworldinfo.func_82573_f() % 400L == 0L;
+          this.field_73251_h.func_217381_Z().func_76320_a("naturalSpawnCount");
+@@ -353,7 +361,7 @@
                 if (optional1.isPresent()) {
                    Chunk chunk = optional1.get();
                    ChunkPos chunkpos = p_241099_7_.func_219277_h();

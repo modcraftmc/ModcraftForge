@@ -1,20 +1,65 @@
 --- a/net/minecraft/tileentity/TileEntity.java
 +++ b/net/minecraft/tileentity/TileEntity.java
-@@ -16,7 +16,7 @@
+@@ -1,6 +1,8 @@
+ package net.minecraft.tileentity;
+ 
+ import javax.annotation.Nullable;
++
++import fr.modcraftmc.forge.utils.KeyedObject;
+ import net.minecraft.block.BlockState;
+ import net.minecraft.crash.CrashReportCategory;
+ import net.minecraft.nbt.CompoundNBT;
+@@ -11,12 +13,13 @@
+ import net.minecraft.util.math.BlockPos;
+ import net.minecraft.util.registry.Registry;
+ import net.minecraft.world.World;
++import net.minecraft.world.chunk.Chunk;
+ import net.minecraftforge.api.distmarker.Dist;
+ import net.minecraftforge.api.distmarker.OnlyIn;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
  
 -public abstract class TileEntity {
-+public abstract class TileEntity extends net.minecraftforge.common.capabilities.CapabilityProvider<TileEntity> implements net.minecraftforge.common.extensions.IForgeTileEntity {
++public abstract class TileEntity extends net.minecraftforge.common.capabilities.CapabilityProvider<TileEntity> implements net.minecraftforge.common.extensions.IForgeTileEntity, KeyedObject {
     private static final Logger field_145852_a = LogManager.getLogger();
     private final TileEntityType<?> field_200663_e;
     @Nullable
-@@ -26,9 +26,12 @@
+@@ -26,9 +29,42 @@
     @Nullable
     private BlockState field_195045_e;
     private boolean field_222816_g;
 +   private CompoundNBT customTileData;
  
++   // Paper start
++   private String tileEntityKeyString = null;
++   private ResourceLocation tileEntityKey = null;
++
++   @Override
++   public ResourceLocation getMinecraftKey() {
++      if (tileEntityKey == null) {
++         tileEntityKey = TileEntityType.func_200969_a(this.func_200662_C());
++         tileEntityKeyString = tileEntityKey != null ? tileEntityKey.toString() : null;
++      }
++      return tileEntityKey;
++   }
++
++   @Override
++   public String getMinecraftKeyString() {
++      getMinecraftKey(); // Try to load if it doesn't exists.
++      return tileEntityKeyString;
++   }
++
++   private java.lang.ref.WeakReference<Chunk> currentChunk = null;
++   public Chunk getCurrentChunk() {
++      final Chunk chunk = currentChunk != null ? currentChunk.get() : null;
++      return chunk != null && chunk.field_76636_d ? chunk : null;
++   }
++   public void setCurrentChunk(Chunk chunk) {
++      this.currentChunk = chunk != null ? new java.lang.ref.WeakReference<>(chunk) : null;
++   }
++   static boolean IGNORE_TILE_UPDATES = false;
++   // Paper end
++
     public TileEntity(TileEntityType<?> p_i48289_1_) {
 +      super(TileEntity.class);
        this.field_200663_e = p_i48289_1_;
@@ -22,7 +67,7 @@
     }
  
     @Nullable
-@@ -47,6 +50,8 @@
+@@ -47,6 +83,8 @@
  
     public void func_230337_a_(BlockState p_230337_1_, CompoundNBT p_230337_2_) {
        this.field_174879_c = new BlockPos(p_230337_2_.func_74762_e("x"), p_230337_2_.func_74762_e("y"), p_230337_2_.func_74762_e("z"));
@@ -31,7 +76,7 @@
     }
  
     public CompoundNBT func_189515_b(CompoundNBT p_189515_1_) {
-@@ -62,6 +67,8 @@
+@@ -62,6 +100,8 @@
           p_189516_1_.func_74768_a("x", this.field_174879_c.func_177958_n());
           p_189516_1_.func_74768_a("y", this.field_174879_c.func_177956_o());
           p_189516_1_.func_74768_a("z", this.field_174879_c.func_177952_p());
@@ -40,7 +85,7 @@
           return p_189516_1_;
        }
     }
-@@ -94,7 +101,7 @@
+@@ -94,7 +134,7 @@
        if (this.field_145850_b != null) {
           this.field_195045_e = this.field_145850_b.func_180495_p(this.field_174879_c);
           this.field_145850_b.func_175646_b(this.field_174879_c, this);
@@ -49,7 +94,7 @@
              this.field_145850_b.func_175666_e(this.field_174879_c, this.field_195045_e.func_177230_c());
           }
        }
-@@ -133,8 +140,15 @@
+@@ -133,8 +173,15 @@
  
     public void func_145843_s() {
        this.field_145846_f = true;
@@ -65,7 +110,7 @@
     public void func_145829_t() {
        this.field_145846_f = false;
     }
-@@ -175,6 +189,13 @@
+@@ -175,6 +222,13 @@
        return this.field_200663_e;
     }
  

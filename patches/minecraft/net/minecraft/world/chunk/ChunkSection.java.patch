@@ -1,0 +1,60 @@
+--- a/net/minecraft/world/chunk/ChunkSection.java
++++ b/net/minecraft/world/chunk/ChunkSection.java
+@@ -15,13 +15,16 @@
+ import net.minecraftforge.api.distmarker.OnlyIn;
+ 
+ public class ChunkSection {
+-   private static final IPalette<BlockState> field_205512_a = new IdentityPalette<>(Block.field_176229_d, Blocks.field_150350_a.func_176223_P());
++   public static final IPalette<BlockState> field_205512_a = new IdentityPalette<>(Block.field_176229_d, Blocks.field_150350_a.func_176223_P());
+    private final int field_76684_a;
+    private short field_76682_b;
+    private short field_76683_c;
+    private short field_206918_e;
++
+    private final PalettedContainer<BlockState> field_177488_d;
++   public final com.destroystokyo.paper.util.maplist.IBlockDataList tickingList = new com.destroystokyo.paper.util.maplist.IBlockDataList(); // Paper
+ 
++
+    public ChunkSection(int p_i49943_1_) {
+       this(p_i49943_1_, (short)0, (short)0, (short)0);
+    }
+@@ -68,6 +71,9 @@
+          --this.field_76682_b;
+          if (blockstate.func_204519_t()) {
+             --this.field_76683_c;
++            // Paper start
++            this.tickingList.remove(p_177484_1_, p_177484_2_, p_177484_3_);
++            // Paper end
+          }
+       }
+ 
+@@ -79,6 +85,9 @@
+          ++this.field_76682_b;
+          if (p_177484_4_.func_204519_t()) {
+             ++this.field_76683_c;
++            // Paper start
++            this.tickingList.add(p_177484_1_, p_177484_2_, p_177484_3_, p_177484_4_);
++            // Paper end
+          }
+       }
+ 
+@@ -114,6 +123,9 @@
+    }
+ 
+    public void func_76672_e() {
++      // Paper start
++      this.tickingList.clear();
++      // Paper end
+       this.field_76682_b = 0;
+       this.field_76683_c = 0;
+       this.field_206918_e = 0;
+@@ -123,6 +135,9 @@
+             this.field_76682_b = (short)(this.field_76682_b + p_225496_2_);
+             if (p_225496_1_.func_204519_t()) {
+                this.field_76683_c = (short)(this.field_76683_c + p_225496_2_);
++               // Paper start
++               this.tickingList.add(p_225496_2_, p_225496_1_);
++               // Paper end
+             }
+          }
+ 
