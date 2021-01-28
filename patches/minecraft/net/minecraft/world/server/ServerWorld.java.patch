@@ -331,12 +331,12 @@
 +            BlockPos blockposition2 = blockposition.func_181079_c(i + randomX, randomY, j + randomZ);
 +
 +            if (iblockdata.func_204519_t()) {
-+               iblockdata.func_227034_b_(this, blockposition2, this.field_73012_v);
++               iblockdata.func_227034_b_(this, blockposition2, this.randomTickRandom);
 +            }
 +
 +            FluidState fluidstate = iblockdata.func_204520_s();
 +            if (fluidstate.func_206890_h()) {
-+               fluidstate.func_206891_b(this, blockposition2, this.field_73012_v);
++               fluidstate.func_206891_b(this, blockposition2, this.randomTickRandom);
 +            }
 +            /*
 +
