@@ -61,6 +61,7 @@ public class Util {
 					url = "https://repo1.maven.org/maven2/${path}"
 				}
 			}
+			println(url)
 			//TODO remove when Mojang launcher is updated
 			if (!classifiers && art.classifier != null) { 
 				//Mojang launcher doesn't currently support classifiers, so... move it to part of the version, and force the extension to 'jar'
