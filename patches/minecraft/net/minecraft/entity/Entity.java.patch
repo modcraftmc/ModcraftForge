@@ -23,6 +23,15 @@
     public boolean field_70128_L;
     public float field_70141_P;
     public float field_70140_Q;
+@@ -156,7 +158,7 @@
+    protected final Random field_70146_Z = new Random();
+    public int field_70173_aa;
+    private int field_190534_ay = -this.func_190531_bD();
+-   protected boolean field_70171_ac;
++   public boolean field_70171_ac;
+    protected Object2DoubleMap<ITag<Fluid>> field_233554_M_ = new Object2DoubleArrayMap<>(2);
+    protected boolean field_205013_W;
+    @Nullable
 @@ -194,7 +196,12 @@
     private EntitySize field_213325_aI;
     private float field_213326_aJ;
