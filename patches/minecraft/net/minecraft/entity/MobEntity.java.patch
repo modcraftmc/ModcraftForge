@@ -1,6 +1,14 @@
 --- a/net/minecraft/entity/MobEntity.java
 +++ b/net/minecraft/entity/MobEntity.java
-@@ -104,6 +104,19 @@
+@@ -97,13 +97,26 @@
+    private ResourceLocation field_184659_bA;
+    private long field_184653_bB;
+    @Nullable
+-   private Entity field_110168_bw;
++   public Entity field_110168_bw;
+    private int field_213400_bI;
+    @Nullable
+    private CompoundNBT field_110170_bx;
     private BlockPos field_213401_bK = BlockPos.field_177992_a;
     private float field_213402_bL = -1.0F;
  

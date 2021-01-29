@@ -86,7 +86,21 @@ public class SpigotWorldConfig {
     public int flyingMonsterActivationRange = 32;
     public int waterActivationRange = 16;
     public int villagerActivationRange = 32;
-
+    public int wakeUpInactiveAnimals = 4;
+    public int wakeUpInactiveAnimalsEvery = 60*20;
+    public int wakeUpInactiveAnimalsFor = 5*20;
+    public int wakeUpInactiveMonsters = 8;
+    public int wakeUpInactiveMonstersEvery = 20*20;
+    public int wakeUpInactiveMonstersFor = 5*20;
+    public int wakeUpInactiveVillagers = 4;
+    public int wakeUpInactiveVillagersEvery = 30*20;
+    public int wakeUpInactiveVillagersFor = 5*20;
+    public int wakeUpInactiveFlying = 8;
+    public int wakeUpInactiveFlyingEvery = 10*20;
+    public int wakeUpInactiveFlyingFor = 5*20;
+    public int villagersWorkImmunityAfter = 5*20;
+    public int villagersWorkImmunityFor = 20;
+    public boolean villagersActiveForPanic = true;
     public boolean tickInactiveVillagers = true;
 
     private void activationRange()
@@ -101,6 +115,26 @@ public class SpigotWorldConfig {
         villagerActivationRange = getInt( "entity-activation-range.villagers", hasAnimalsConfig ? animalActivationRange : villagerActivationRange );
         flyingMonsterActivationRange = getInt( "entity-activation-range.flying-monsters", flyingMonsterActivationRange );
 
+        wakeUpInactiveAnimals = getInt("entity-activation-range.wake-up-inactive.animals-max-per-tick", wakeUpInactiveAnimals);
+        wakeUpInactiveAnimalsEvery = getInt("entity-activation-range.wake-up-inactive.animals-every", wakeUpInactiveAnimalsEvery);
+        wakeUpInactiveAnimalsFor = getInt("entity-activation-range.wake-up-inactive.animals-for", wakeUpInactiveAnimalsFor);
+
+        wakeUpInactiveMonsters = getInt("entity-activation-range.wake-up-inactive.monsters-max-per-tick", wakeUpInactiveMonsters);
+        wakeUpInactiveMonstersEvery = getInt("entity-activation-range.wake-up-inactive.monsters-every", wakeUpInactiveMonstersEvery);
+        wakeUpInactiveMonstersFor = getInt("entity-activation-range.wake-up-inactive.monsters-for", wakeUpInactiveMonstersFor);
+
+        wakeUpInactiveVillagers = getInt("entity-activation-range.wake-up-inactive.villagers-max-per-tick", wakeUpInactiveVillagers);
+        wakeUpInactiveVillagersEvery = getInt("entity-activation-range.wake-up-inactive.villagers-every", wakeUpInactiveVillagersEvery);
+        wakeUpInactiveVillagersFor = getInt("entity-activation-range.wake-up-inactive.villagers-for", wakeUpInactiveVillagersFor);
+
+        wakeUpInactiveFlying = getInt("entity-activation-range.wake-up-inactive.flying-monsters-max-per-tick", wakeUpInactiveFlying);
+        wakeUpInactiveFlyingEvery = getInt("entity-activation-range.wake-up-inactive.flying-monsters-every", wakeUpInactiveFlyingEvery);
+        wakeUpInactiveFlyingFor = getInt("entity-activation-range.wake-up-inactive.flying-monsters-for", wakeUpInactiveFlyingFor);
+
+        villagersWorkImmunityAfter = getInt( "entity-activation-range.villagers-work-immunity-after", villagersWorkImmunityAfter );
+        villagersWorkImmunityFor = getInt( "entity-activation-range.villagers-work-immunity-for", villagersWorkImmunityFor );
+        villagersActiveForPanic = getBoolean( "entity-activation-range.villagers-active-for-panic", villagersActiveForPanic );
+        // Paper end
         tickInactiveVillagers = getBoolean( "entity-activation-range.tick-inactive-villagers", tickInactiveVillagers );
 
         ModcraftForge.LOGGER.info( "Entity Activation Range: An " + animalActivationRange + " / Mo " + monsterActivationRange + " / Ra " + raiderActivationRange + " / Mi " + miscActivationRange + " / Tiv " + tickInactiveVillagers );
@@ -120,4 +154,7 @@ public class SpigotWorldConfig {
         otherTrackingRange = getInt( "entity-tracking-range.other", otherTrackingRange );
         ModcraftForge.LOGGER.info( "Entity Tracking Range: Pl " + playerTrackingRange + " / An " + animalTrackingRange + " / Mo " + monsterTrackingRange + " / Mi " + miscTrackingRange + " / Other " + otherTrackingRange );
     }
+
+
+
 }

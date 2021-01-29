@@ -1,0 +1,11 @@
+--- a/net/minecraft/entity/CreatureEntity.java
++++ b/net/minecraft/entity/CreatureEntity.java
+@@ -13,6 +13,8 @@
+       super(p_i48575_1_, p_i48575_2_);
+    }
+ 
++   public BlockPos movingTarget = null; public BlockPos getMovingTarget() { return movingTarget; } // Paper
++
+    public float func_180484_a(BlockPos p_180484_1_) {
+       return this.func_205022_a(p_180484_1_, this.field_70170_p);
+    }

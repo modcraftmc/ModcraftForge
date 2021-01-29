@@ -1,0 +1,20 @@
+--- a/net/minecraft/entity/AreaEffectCloudEntity.java
++++ b/net/minecraft/entity/AreaEffectCloudEntity.java
+@@ -51,6 +51,17 @@
+    private LivingEntity field_184512_ay;
+    private UUID field_184513_az;
+ 
++   // Spigot start - copied from below
++   @Override
++   public void inactiveTick() {
++      super.inactiveTick();
++
++      if (this.field_70173_aa >= this.field_184506_as + this.field_184505_h) {
++         this.func_70106_y();
++      }
++   }
++   // Spigot end
++
+    public AreaEffectCloudEntity(EntityType<? extends AreaEffectCloudEntity> p_i50389_1_, World p_i50389_2_) {
+       super(p_i50389_1_, p_i50389_2_);
+       this.field_70145_X = true;

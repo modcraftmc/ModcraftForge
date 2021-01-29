@@ -1,0 +1,34 @@
+--- a/net/minecraft/entity/AgeableEntity.java
++++ b/net/minecraft/entity/AgeableEntity.java
+@@ -21,6 +21,31 @@
+       super(p_i48581_1_, p_i48581_2_);
+    }
+ 
++   // Spigot start
++   @Override
++   public void inactiveTick()
++   {
++      super.inactiveTick();
++      if ( this.field_70170_p.field_72995_K )
++      { // CraftBukkit
++         this.func_213323_x_();
++      } else
++      {
++         int i = this.func_70874_b();
++
++         if ( i < 0 )
++         {
++            ++i;
++            this.func_70873_a( i );
++         } else if ( i > 0 )
++         {
++            --i;
++            this.func_70873_a( i );
++         }
++      }
++   }
++   // Spigot end
++
+    public ILivingEntityData func_213386_a(IServerWorld p_213386_1_, DifficultyInstance p_213386_2_, SpawnReason p_213386_3_, @Nullable ILivingEntityData p_213386_4_, @Nullable CompoundNBT p_213386_5_) {
+       if (p_213386_4_ == null) {
+          p_213386_4_ = new AgeableEntity.AgeableData(true);

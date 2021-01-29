@@ -23,7 +23,22 @@
  import net.minecraft.crash.CrashReport;
  import net.minecraft.crash.CrashReportCategory;
  import net.minecraft.crash.ReportedException;
-@@ -317,6 +314,68 @@
+@@ -121,6 +118,14 @@
+    private final Queue<Runnable> field_223181_A = Queues.newConcurrentLinkedQueue();
+    private int field_219247_A;
+ 
++   // Paper start
++   public final int getEffectiveViewDistance() {
++      // TODO this needs to be checked on update
++      // Mojang currently sets it to +1 of the configured view distance. So subtract one to get the one we really want.
++      return this.field_219247_A - 1;
++   }
++   // Paper end
++
+    public ChunkManager(ServerWorld p_i232602_1_, SaveFormat.LevelSave p_i232602_2_, DataFixer p_i232602_3_, TemplateManager p_i232602_4_, Executor p_i232602_5_, ThreadTaskExecutor<Runnable> p_i232602_6_, IChunkLightProvider p_i232602_7_, ChunkGenerator p_i232602_8_, IChunkStatusListener p_i232602_9_, Supplier<DimensionSavedDataManager> p_i232602_10_, int p_i232602_11_, boolean p_i232602_12_) {
+       super(new File(p_i232602_2_.func_237291_a_(p_i232602_1_.func_234923_W_()), "region"), p_i232602_3_, p_i232602_12_);
+       this.field_219269_w = p_i232602_4_;
+@@ -317,6 +322,68 @@
  
     }
  
@@ -92,7 +107,7 @@
     protected void func_219177_a(boolean p_219177_1_) {
        if (p_219177_1_) {
           List<ChunkHolder> list = this.field_219252_f.values().stream().filter(ChunkHolder::func_219289_k).peek(ChunkHolder::func_219303_l).collect(Collectors.toList());
-@@ -400,6 +459,7 @@
+@@ -400,6 +467,7 @@
              if (this.field_219253_g.remove(p_219212_1_, p_219212_3_) && p_219185_5_ != null) {
                 if (p_219185_5_ instanceof Chunk) {
                    ((Chunk)p_219185_5_).func_177417_c(false);
@@ -100,7 +115,7 @@
                 }
  
                 this.func_219229_a(p_219185_5_);
-@@ -601,6 +661,7 @@
+@@ -601,6 +669,7 @@
                 if (list != null) {
                    list.forEach(chunk::func_76622_b);
                 }
@@ -108,7 +123,7 @@
              }
  
              return chunk;
-@@ -678,6 +739,7 @@
+@@ -678,6 +747,7 @@
  
              this.field_219255_i.func_217381_Z().func_230035_c_("chunkSave");
              CompoundNBT compoundnbt = ChunkSerializer.func_222645_a(this.field_219255_i, p_219229_1_);
@@ -116,7 +131,7 @@
              this.func_219100_a(chunkpos, compoundnbt);
              this.func_241088_a_(chunkpos, chunkstatus.func_202129_d());
              return true;
-@@ -734,6 +796,7 @@
+@@ -734,6 +804,7 @@
  
     protected void func_219199_a(ServerPlayerEntity p_219199_1_, ChunkPos p_219199_2_, IPacket<?>[] p_219199_3_, boolean p_219199_4_, boolean p_219199_5_) {
        if (p_219199_1_.field_70170_p == this.field_219255_i) {
@@ -124,7 +139,7 @@
           if (p_219199_5_ && !p_219199_4_) {
              ChunkHolder chunkholder = this.func_219219_b(p_219199_2_.func_201841_a());
              if (chunkholder != null) {
-@@ -1192,13 +1255,11 @@
+@@ -1192,13 +1263,11 @@
           return ChunkManager.this.field_219261_o.contains(p_219371_1_);
        }
  

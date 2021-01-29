@@ -1,0 +1,31 @@
+--- a/net/minecraft/entity/ai/goal/MoveToBlockGoal.java
++++ b/net/minecraft/entity/ai/goal/MoveToBlockGoal.java
+@@ -12,6 +12,7 @@
+    protected int field_179493_e;
+    private int field_179490_f;
+    protected BlockPos field_179494_b = BlockPos.field_177992_a;
++   public final BlockPos getTargetPosition() { return this.field_179494_b; } public void setTargetPosition(BlockPos pos) { this.field_179494_b = pos; field_179495_c.movingTarget = pos != BlockPos.field_177992_a ? pos : null; } // Paper - OBFHELPER
+    private boolean field_179491_g;
+    private final int field_179497_h;
+    private final int field_203113_j;
+@@ -30,6 +31,12 @@
+       this.func_220684_a(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.JUMP));
+    }
+ 
++   @Override
++   public void func_75251_c() {
++      super.func_75251_c();
++      setTargetPosition(BlockPos.field_177992_a);
++   }
++
+    public boolean func_75250_a() {
+       if (this.field_179496_a > 0) {
+          --this.field_179496_a;
+@@ -102,6 +109,7 @@
+                   blockpos$mutable.func_239621_a_(blockpos, i1, k - 1, j1);
+                   if (this.field_179495_c.func_213389_a(blockpos$mutable) && this.func_179488_a(this.field_179495_c.field_70170_p, blockpos$mutable)) {
+                      this.field_179494_b = blockpos$mutable;
++                     setTargetPosition(blockpos$mutable.func_185334_h());
+                      return true;
+                   }
+                }
