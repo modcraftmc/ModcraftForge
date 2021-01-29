@@ -1,6 +1,22 @@
 --- a/net/minecraft/entity/projectile/FireworkRocketEntity.java
 +++ b/net/minecraft/entity/projectile/FireworkRocketEntity.java
-@@ -156,6 +156,13 @@
+@@ -43,6 +43,15 @@
+    private int field_92055_b;
+    private LivingEntity field_191513_e;
+ 
++   // Spigot Start - copied from tick
++   @Override
++   public void inactiveTick() {
++      this.field_92056_a += 1;
++
++      super.inactiveTick();
++   }
++   // Spigot End
++
+    public FireworkRocketEntity(EntityType<? extends FireworkRocketEntity> p_i50164_1_, World p_i50164_2_) {
+       super(p_i50164_1_, p_i50164_2_);
+    }
+@@ -156,6 +165,13 @@
  
     }
  
