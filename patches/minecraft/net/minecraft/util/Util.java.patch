@@ -1,5 +1,6 @@
 --- a/net/minecraft/util/Util.java
 +++ b/net/minecraft/util/Util.java
+<<<<<<< HEAD
 @@ -7,6 +7,7 @@
  import com.mojang.datafixers.DSL.TypeReference;
  import com.mojang.datafixers.types.Type;
@@ -96,3 +97,14 @@
        func_229757_c_(p_240983_1_);
        if (p_240983_1_ instanceof CompletionException) {
           p_240983_1_ = p_240983_1_.getCause();
+=======
+@@ -200,7 +200,7 @@
+       try {
+          type = DataFixesManager.func_210901_a().getSchema(DataFixUtils.makeKey(SharedConstants.func_215069_a().getWorldVersion())).getChoiceType(p_240990_0_, p_240990_1_);
+       } catch (IllegalArgumentException illegalargumentexception) {
+-         field_195650_a.error("No data fixer registered for {}", (Object)p_240990_1_);
++         field_195650_a.debug("No data fixer registered for {}", (Object)p_240990_1_);
+          if (SharedConstants.field_206244_b) {
+             throw illegalargumentexception;
+          }
+>>>>>>> origin/1.16.x
