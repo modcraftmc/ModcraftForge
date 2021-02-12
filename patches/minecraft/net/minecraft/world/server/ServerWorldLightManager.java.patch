@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/server/ServerWorldLightManager.java
++++ b/net/minecraft/world/server/ServerWorldLightManager.java
+@@ -206,7 +206,7 @@
+       this.field_215609_f = p_215598_1_;
+    }
+ 
+-   static enum Phase {
++   public static enum Phase {
+       PRE_UPDATE,
+       POST_UPDATE;
+    }

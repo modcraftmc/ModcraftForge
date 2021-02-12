@@ -30,6 +30,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import fr.modcraftmc.forge.commands.EntityBarTask;
+import fr.modcraftmc.forge.commands.TPSBarTask;
 import net.minecraft.resources.IPackNameDecorator;
 import net.minecraft.world.storage.FolderName;
 import net.minecraftforge.fml.DistExecutor;
@@ -104,6 +106,7 @@ public class ServerLifecycleHooks
 
     public static void handleServerStarted(final MinecraftServer server)
     {
+        TPSBarTask.onServerStartedEvent();
         MinecraftForge.EVENT_BUS.post(new FMLServerStartedEvent(server));
         allowLogins.set(true);
     }

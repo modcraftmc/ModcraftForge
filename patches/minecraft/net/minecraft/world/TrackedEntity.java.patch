@@ -1,5 +1,16 @@
 --- a/net/minecraft/world/TrackedEntity.java
 +++ b/net/minecraft/world/TrackedEntity.java
+@@ -40,8 +40,8 @@
+ 
+ public class TrackedEntity {
+    private static final Logger field_219459_a = LogManager.getLogger();
+-   private final ServerWorld field_219460_b;
+-   private final Entity field_219461_c;
++   public final ServerWorld field_219460_b;
++   public final Entity field_219461_c;
+    private final int field_219462_d;
+    private final boolean field_219463_e;
+    private final Consumer<IPacket<?>> field_219464_f;
 @@ -81,9 +81,8 @@
        if (this.field_219461_c instanceof ItemFrameEntity && this.field_219472_n % 10 == 0) {
           ItemFrameEntity itemframeentity = (ItemFrameEntity)this.field_219461_c;

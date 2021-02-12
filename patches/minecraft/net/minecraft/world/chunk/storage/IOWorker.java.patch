@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/chunk/storage/IOWorker.java
++++ b/net/minecraft/world/chunk/storage/IOWorker.java
+@@ -160,8 +160,8 @@
+       }
+    }
+ 
+-   static class Entry {
+-      private CompoundNBT field_227113_a_;
++   public static class Entry {
++      public CompoundNBT field_227113_a_;
+       private final CompletableFuture<Void> field_227114_b_ = new CompletableFuture<>();
+ 
+       public Entry(CompoundNBT p_i231891_1_) {

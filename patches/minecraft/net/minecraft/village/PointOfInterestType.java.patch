@@ -18,6 +18,15 @@
     public static final PointOfInterestType field_221054_b = func_226360_a_("unemployed", ImmutableSet.of(), 1, field_221071_s, 1);
     public static final PointOfInterestType field_221055_c = func_226359_a_("armorer", func_221042_a(Blocks.field_222424_lM), 1, 1);
     public static final PointOfInterestType field_221056_d = func_226359_a_("butcher", func_221042_a(Blocks.field_222423_lL), 1, 1);
+@@ -58,7 +58,7 @@
+    public static final PointOfInterestType field_226357_t_ = func_226359_a_("bee_nest", func_221042_a(Blocks.field_226905_ma_), 0, 1);
+    public static final PointOfInterestType field_226358_u_ = func_226359_a_("nether_portal", func_221042_a(Blocks.field_150427_aO), 0, 1);
+    public static final PointOfInterestType field_234166_w_ = func_226359_a_("lodestone", func_221042_a(Blocks.field_235405_no_), 0, 1);
+-   protected static final Set<BlockState> field_234167_x_ = new ObjectOpenHashSet<>(field_221073_u.keySet());
++   public static final Set<BlockState> field_234167_x_ = new ObjectOpenHashSet<>(field_221073_u.keySet());
+    private final String field_221074_v;
+    private final Set<BlockState> field_221075_w;
+    private final int field_221076_x;
 @@ -112,16 +112,14 @@
     }
  

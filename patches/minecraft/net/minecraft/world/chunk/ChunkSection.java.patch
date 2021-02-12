@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/chunk/ChunkSection.java
++++ b/net/minecraft/world/chunk/ChunkSection.java
+@@ -20,7 +20,7 @@
+    private short field_76682_b;
+    private short field_76683_c;
+    private short field_206918_e;
+-   private final PalettedContainer<BlockState> field_177488_d;
++   public final PalettedContainer<BlockState> field_177488_d;
+ 
+    public ChunkSection(int p_i49943_1_) {
+       this(p_i49943_1_, (short)0, (short)0, (short)0);

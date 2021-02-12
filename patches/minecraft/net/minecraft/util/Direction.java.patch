@@ -1,0 +1,32 @@
+--- a/net/minecraft/util/Direction.java
++++ b/net/minecraft/util/Direction.java
+@@ -152,8 +152,13 @@
+       return this.field_176755_l;
+    }
+ 
++   /**
++    * @reason Avoid the modulo/abs operations
++    * @author JellySquid
++    */
+    public Direction func_176734_d() {
+-      return func_82600_a(this.field_176759_h);
++      return field_199792_n[this.field_176759_h];
++      //return byIndex(this.opposite);
+    }
+ 
+    public Direction func_176746_e() {
+@@ -249,8 +254,13 @@
+       return (float)((this.field_176760_i & 3) * 90);
+    }
+ 
++   /**
++    * @reason Do not allocate an excessive number of Direction arrays
++    * @author JellySquid
++    */
+    public static Direction func_239631_a_(Random p_239631_0_) {
+-      return Util.func_240989_a_(field_199792_n, p_239631_0_);
++      return field_199792_n[p_239631_0_.nextInt(field_199792_n.length)];
++      //return Util.getRandomObject(VALUES, rand);
+    }
+ 
+    public static Direction func_210769_a(double p_210769_0_, double p_210769_2_, double p_210769_4_) {

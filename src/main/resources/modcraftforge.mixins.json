@@ -1,0 +1,30 @@
+{
+  "required": true,
+  "plugin": "common.mixins.MixinPlugin",
+  "minVersion": "0.8",
+  "package": "common.mixins",
+  "refmap": "mixin.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+
+
+    "starlight.common.blockstate.AbstractBlockStateMixin",
+    "starlight.common.chunk.ChunkMixin",
+    "starlight.common.chunk.ChunkSectionMixin",
+    "starlight.common.chunk.EmptyChunkMixin",
+    "starlight.common.chunk.ChunkPrimerMixin",
+    "starlight.common.chunk.ChunkPrimerWrapperMixin",
+    "starlight.common.chunk.WorldChunkMixin",
+    "starlight.common.lightengine.WorldLightManagerMixin",
+    "starlight.common.lightengine.ServerWorldLightManagerMixin",
+    "starlight.common.world.ChunkSerializerMixin",
+    "starlight.common.world.ServerWorldMixin",
+    "starlight.common.world.WorldMixin"
+  ],
+  "client": [
+    "starlight.client.world.ClientWorldMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

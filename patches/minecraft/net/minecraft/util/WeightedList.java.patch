@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/WeightedList.java
++++ b/net/minecraft/util/WeightedList.java
+@@ -66,7 +66,7 @@
+ 
+    public static class Entry<T> {
+       private final T field_220651_b;
+-      private final int field_220652_c;
++      public final int field_220652_c;
+       private double field_220653_d;
+ 
+       private Entry(T p_i231542_1_, int p_i231542_2_) {

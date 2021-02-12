@@ -57,21 +57,21 @@
     public int func_233602_m_() {
 +      return trackingRangeSupplier.applyAsInt(this);
 +   }
-+   private int defaultTrackingRangeSupplier() {
++   public int defaultTrackingRangeSupplier() {
        return this.field_233594_bl_;
     }
  
     public int func_220332_l() {
 +      return updateIntervalSupplier.applyAsInt(this);
 +   }
-+   private int defaultUpdateIntervalSupplier() {
++   public int defaultUpdateIntervalSupplier() {
        return this.field_233595_bm_;
     }
  
     public boolean func_220340_m() {
 +      return velocityUpdateSupplier.test(this);
 +   }
-+   private boolean defaultVelocitySupplier() {
++   public boolean defaultVelocitySupplier() {
        return this != field_200729_aH && this != field_200770_J && this != field_200760_az && this != field_200791_e && this != field_200766_F && this != field_200768_H && this != field_200782_V && this != field_200801_o && this != field_200805_s;
     }
  

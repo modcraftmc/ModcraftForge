@@ -9,3 +9,12 @@
                       chunk.func_177415_c(chunk.func_177416_w() + j);
                       if (flag1 && (this.field_217246_l || this.field_217247_m) && this.field_73251_h.func_175723_af().func_177730_a(chunk.func_76632_l())) {
                          WorldEntitySpawner.func_234979_a_(this.field_73251_h, chunk, worldentityspawner$entitydensitymanager, this.field_217247_m, this.field_217246_l, flag2);
+@@ -480,7 +480,7 @@
+       return this.field_241097_p_;
+    }
+ 
+-   final class ChunkExecutor extends ThreadTaskExecutor<Runnable> {
++   public final class ChunkExecutor extends ThreadTaskExecutor<Runnable> {
+       private ChunkExecutor(World p_i50985_2_) {
+          super("Chunk source main thread executor for " + p_i50985_2_.func_234923_W_().func_240901_a_());
+       }

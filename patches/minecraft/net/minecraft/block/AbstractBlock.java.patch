@@ -100,6 +100,21 @@
        public BlockState func_185907_a(Rotation p_185907_1_) {
           return this.func_177230_c().func_185499_a(this.func_230340_p_(), p_185907_1_);
        }
+@@ -716,12 +731,12 @@
+          return this.field_235706_j_;
+       }
+ 
+-      static final class Cache {
++      public static final class Cache {
+          private static final Direction[] field_222497_a = Direction.values();
+          private static final int field_242699_f = BlockVoxelShape.values().length;
+          protected final boolean field_222499_c;
+          private final boolean field_222500_d;
+-         private final int field_222501_e;
++         public final int field_222501_e;
+          @Nullable
+          private final VoxelShape[] field_222502_f;
+          protected final VoxelShape field_230026_g;
 @@ -802,6 +817,9 @@
        private ResourceLocation field_222381_j;
        private boolean field_226895_m_ = true;

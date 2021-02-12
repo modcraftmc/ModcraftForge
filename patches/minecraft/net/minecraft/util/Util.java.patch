@@ -1,0 +1,98 @@
+--- a/net/minecraft/util/Util.java
++++ b/net/minecraft/util/Util.java
+@@ -7,6 +7,7 @@
+ import com.mojang.datafixers.DSL.TypeReference;
+ import com.mojang.datafixers.types.Type;
+ import com.mojang.serialization.DataResult;
++import fr.modcraftmc.forge.threading.threads.ServerWorkerThread;
+ import it.unimi.dsi.fastutil.Hash.Strategy;
+ import java.io.File;
+ import java.io.IOException;
+@@ -31,14 +32,7 @@
+ import java.util.Random;
+ import java.util.UUID;
+ import java.util.Map.Entry;
+-import java.util.concurrent.CompletableFuture;
+-import java.util.concurrent.CompletionException;
+-import java.util.concurrent.Executor;
+-import java.util.concurrent.ExecutorService;
+-import java.util.concurrent.Executors;
+-import java.util.concurrent.ForkJoinPool;
+-import java.util.concurrent.ForkJoinWorkerThread;
+-import java.util.concurrent.TimeUnit;
++import java.util.concurrent.*;
+ import java.util.concurrent.atomic.AtomicInteger;
+ import java.util.function.BooleanSupplier;
+ import java.util.function.Consumer;
+@@ -63,8 +57,8 @@
+ 
+ public class Util {
+    private static final AtomicInteger field_215090_b = new AtomicInteger(1);
+-   private static final ExecutorService field_240974_d_ = func_240979_a_("Bootstrap");
+-   private static final ExecutorService field_215091_c = func_240979_a_("Main");
++   private static final ExecutorService field_240974_d_ = createNamedService("Bootstrap", -2);
++   private static final ExecutorService field_215091_c = createNamedService("Main", -1);
+    private static final ExecutorService field_240975_f_ = func_240995_n_();
+    public static LongSupplier field_211180_a = System::nanoTime;
+    public static final UUID field_240973_b_ = new UUID(0L, 0L);
+@@ -94,8 +88,22 @@
+       return Instant.now().toEpochMilli();
+    }
+ 
+-   private static ExecutorService func_240979_a_(String p_240979_0_) {
+-      int i = MathHelper.func_76125_a(Runtime.getRuntime().availableProcessors() - 1, 1, 7);
++   private static ExecutorService createNamedService(String serviceName, int priorityModifier) { // Paper - add priority
++
++      // Paper start - use simpler thread pool that allows 1 thread
++      int i = Math.min(8, Math.max(Runtime.getRuntime().availableProcessors() - 2, 1));
++      ExecutorService object;
++
++      if (i <= 0) {
++         object = MoreExecutors.newDirectExecutorService();
++      } else {
++         object = new ThreadPoolExecutor(i, i, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingDeque<Runnable>(), target -> new ServerWorkerThread(target, serviceName, priorityModifier));
++      }
++
++      return object;
++      /*
++
++      int i = MathHelper.clamp(Runtime.getRuntime().availableProcessors() - 1, 1, 7);
+       ExecutorService executorservice;
+       if (i <= 0) {
+          executorservice = MoreExecutors.newDirectExecutorService();
+@@ -104,20 +112,22 @@
+             ForkJoinWorkerThread forkjoinworkerthread = new ForkJoinWorkerThread(p_240981_1_) {
+                protected void onTermination(Throwable p_onTermination_1_) {
+                   if (p_onTermination_1_ != null) {
+-                     Util.field_195650_a.warn("{} died", this.getName(), p_onTermination_1_);
++                     Util.LOGGER.warn("{} died", this.getName(), p_onTermination_1_);
+                   } else {
+-                     Util.field_195650_a.debug("{} shutdown", (Object)this.getName());
++                     Util.LOGGER.debug("{} shutdown", (Object)this.getName());
+                   }
+ 
+                   super.onTermination(p_onTermination_1_);
+                }
+             };
+-            forkjoinworkerthread.setName("Worker-" + p_240979_0_ + "-" + field_215090_b.getAndIncrement());
++            forkjoinworkerthread.setName("Worker-" + serviceName + "-" + NEXT_SERVER_WORKER_ID.getAndIncrement());
+             return forkjoinworkerthread;
+-         }, Util::func_240983_a_, true);
++         }, Util::printException, true);
+       }
+ 
+       return executorservice;
++             */
++
+    }
+ 
+    public static Executor func_240991_e_() {
+@@ -174,7 +184,7 @@
+       throw p_229756_0_ instanceof RuntimeException ? (RuntimeException)p_229756_0_ : new RuntimeException(p_229756_0_);
+    }
+ 
+-   private static void func_240983_a_(Thread p_240983_0_, Throwable p_240983_1_) {
++   public static void func_240983_a_(Thread p_240983_0_, Throwable p_240983_1_) {
+       func_229757_c_(p_240983_1_);
+       if (p_240983_1_ instanceof CompletionException) {
+          p_240983_1_ = p_240983_1_.getCause();
