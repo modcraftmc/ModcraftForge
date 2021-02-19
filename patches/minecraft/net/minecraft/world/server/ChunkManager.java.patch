@@ -1,5 +1,37 @@
 --- a/net/minecraft/world/server/ChunkManager.java
 +++ b/net/minecraft/world/server/ChunkManager.java
+@@ -97,17 +97,17 @@
+    public static final int field_219249_a = 33 + ChunkStatus.func_222600_b();
+    private final Long2ObjectLinkedOpenHashMap<ChunkHolder> field_219251_e = new Long2ObjectLinkedOpenHashMap<>();
+    private volatile Long2ObjectLinkedOpenHashMap<ChunkHolder> field_219252_f = this.field_219251_e.clone();
+-   private final Long2ObjectLinkedOpenHashMap<ChunkHolder> field_219253_g = new Long2ObjectLinkedOpenHashMap<>();
+-   private final LongSet field_219254_h = new LongOpenHashSet();
++   public final Long2ObjectLinkedOpenHashMap<ChunkHolder> field_219253_g = new Long2ObjectLinkedOpenHashMap<>();
++   public final LongSet field_219254_h = new LongOpenHashSet();
+    private final ServerWorld field_219255_i;
+    private final ServerWorldLightManager field_219256_j;
+-   private final ThreadTaskExecutor<Runnable> field_219257_k;
++   public final ThreadTaskExecutor<Runnable> field_219257_k;
+    private final ChunkGenerator field_219258_l;
+    private final Supplier<DimensionSavedDataManager> field_219259_m;
+    private final PointOfInterestManager field_219260_n;
+-   private final LongSet field_219261_o = new LongOpenHashSet();
++   public final LongSet field_219261_o = new LongOpenHashSet();
+    private boolean field_219262_p;
+-   private final ChunkTaskPriorityQueueSorter field_219263_q;
++   public final ChunkTaskPriorityQueueSorter field_219263_q;
+    private final ITaskExecutor<ChunkTaskPriorityQueueSorter.FunctionEntry<Runnable>> field_219264_r;
+    private final ITaskExecutor<ChunkTaskPriorityQueueSorter.FunctionEntry<Runnable>> field_219265_s;
+    private final IChunkStatusListener field_219266_t;
+@@ -181,7 +181,7 @@
+    }
+ 
+    @Nullable
+-   protected ChunkHolder func_219219_b(long p_219219_1_) {
++   public ChunkHolder func_219219_b(long p_219219_1_) {
+       return this.field_219252_f.get(p_219219_1_);
+    }
+ 
 @@ -400,6 +400,7 @@
              if (this.field_219253_g.remove(p_219212_1_, p_219212_3_) && p_219185_5_ != null) {
                 if (p_219185_5_ instanceof Chunk) {
@@ -8,6 +40,15 @@
                 }
  
                 this.func_219229_a(p_219185_5_);
+@@ -542,7 +543,7 @@
+       });
+    }
+ 
+-   protected void func_219209_c(ChunkPos p_219209_1_) {
++   public void func_219209_c(ChunkPos p_219209_1_) {
+       this.field_219257_k.func_212871_a_(Util.func_215075_a(() -> {
+          this.field_219267_u.func_219345_b(TicketType.field_219492_e, p_219209_1_, 33 + ChunkStatus.func_222599_a(ChunkStatus.field_222613_i), p_219209_1_);
+       }, () -> {
 @@ -601,6 +602,7 @@
                 if (list != null) {
                    list.forEach(chunk::func_76622_b);
@@ -32,3 +73,33 @@
           if (p_219199_5_ && !p_219199_4_) {
              ChunkHolder chunkholder = this.func_219219_b(p_219199_2_.func_201841_a());
              if (chunkholder != null) {
+@@ -984,7 +988,7 @@
+ 
+    }
+ 
+-   protected void func_219169_g() {
++   public void func_219169_g() {
+       List<ServerPlayerEntity> list = Lists.newArrayList();
+       List<ServerPlayerEntity> list1 = this.field_219255_i.func_217369_A();
+ 
+@@ -1077,9 +1081,9 @@
+       });
+    }
+ 
+-   class EntityTracker {
++   public class EntityTracker {
+       private final TrackedEntity field_219402_b;
+-      private final Entity field_219403_c;
++      public final Entity field_219403_c;
+       private final int field_219404_d;
+       private SectionPos field_219405_e;
+       private final Set<ServerPlayerEntity> field_219406_f = Sets.newHashSet();
+@@ -1183,7 +1187,7 @@
+       }
+    }
+ 
+-   class ProxyTicketManager extends TicketManager {
++   public class ProxyTicketManager extends TicketManager {
+       protected ProxyTicketManager(Executor p_i50469_2_, Executor p_i50469_3_) {
+          super(p_i50469_2_, p_i50469_3_);
+       }

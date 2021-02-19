@@ -1,5 +1,14 @@
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
+@@ -204,7 +204,7 @@
+    private final GameProfileRepository field_152365_W;
+    private final PlayerProfileCache field_152366_X;
+    private long field_147142_T;
+-   private final Thread field_175590_aa;
++   public final Thread field_175590_aa;
+    protected long field_211151_aa = Util.func_211177_b();
+    private long field_213213_ab;
+    private boolean field_213214_ac;
 @@ -228,7 +228,7 @@
  
     public static <S extends MinecraftServer> S func_240784_a_(Function<Thread, S> p_240784_0_) {

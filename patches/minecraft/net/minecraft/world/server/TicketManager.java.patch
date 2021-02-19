@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/server/TicketManager.java
 +++ b/net/minecraft/world/server/TicketManager.java
+@@ -37,7 +37,7 @@
+    private static final Logger field_219373_a = LogManager.getLogger();
+    private static final int field_219374_b = 33 + ChunkStatus.func_222599_a(ChunkStatus.field_222617_m) - 2;
+    private final Long2ObjectMap<ObjectSet<ServerPlayerEntity>> field_219375_c = new Long2ObjectOpenHashMap<>();
+-   private final Long2ObjectOpenHashMap<SortedArraySet<Ticket<?>>> field_219377_e = new Long2ObjectOpenHashMap<>();
++   public final Long2ObjectOpenHashMap<SortedArraySet<Ticket<?>>> field_219377_e = new Long2ObjectOpenHashMap<>();
+    private final TicketManager.ChunkTicketTracker field_219378_f = new TicketManager.ChunkTicketTracker();
+    private final TicketManager.PlayerChunkTracker field_219381_i = new TicketManager.PlayerChunkTracker(8);
+    private final TicketManager.PlayerTicketTracker field_219382_j = new TicketManager.PlayerTicketTracker(33);
 @@ -49,6 +49,8 @@
     private final Executor field_219388_p;
     private long field_219389_q;
@@ -34,15 +43,35 @@
     }
  
     public <T> void func_219356_a(TicketType<T> p_219356_1_, ChunkPos p_219356_2_, int p_219356_3_, T p_219356_4_) {
-@@ -242,6 +255,11 @@
+@@ -242,7 +255,12 @@
        return this.field_219384_l.func_225396_a();
     }
  
+-   class ChunkTicketTracker extends ChunkDistanceGraph {
 +   public boolean shouldForceTicks(long chunkPos) {
 +       SortedArraySet<Ticket<?>> tickets = forcedTickets.get(chunkPos);
 +       return tickets != null && !tickets.isEmpty();
 +   }
 +
-    class ChunkTicketTracker extends ChunkDistanceGraph {
++   public class ChunkTicketTracker extends ChunkDistanceGraph {
        public ChunkTicketTracker() {
           super(ChunkManager.field_219249_a + 2, 16, 256);
+       }
+@@ -284,7 +302,7 @@
+       }
+    }
+ 
+-   class PlayerChunkTracker extends ChunkDistanceGraph {
++   public class PlayerChunkTracker extends ChunkDistanceGraph {
+       protected final Long2ByteMap field_215498_a = new Long2ByteOpenHashMap();
+       protected final int field_215499_b;
+ 
+@@ -326,7 +344,7 @@
+       }
+    }
+ 
+-   class PlayerTicketTracker extends TicketManager.PlayerChunkTracker {
++   public class PlayerTicketTracker extends TicketManager.PlayerChunkTracker {
+       private int field_215512_e;
+       private final Long2IntMap field_215513_f = Long2IntMaps.synchronize(new Long2IntOpenHashMap());
+       private final LongSet field_215514_g = new LongOpenHashSet();

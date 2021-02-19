@@ -6,8 +6,6 @@
   "refmap": "mixin.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-
-
     "starlight.common.blockstate.AbstractBlockStateMixin",
     "starlight.common.chunk.ChunkMixin",
     "starlight.common.chunk.ChunkSectionMixin",
@@ -19,7 +17,17 @@
     "starlight.common.lightengine.ServerWorldLightManagerMixin",
     "starlight.common.world.ChunkSerializerMixin",
     "starlight.common.world.ServerWorldMixin",
-    "starlight.common.world.WorldMixin"
+    "starlight.common.world.WorldMixin",
+
+    "krypton.flushconsolidation.ClientConnectionMixin",
+    "krypton.flushconsolidation.EntityTrackerMixin",
+    "krypton.flushconsolidation.ThreadedAnvilChunkStorageMixin",
+    "krypton.misc.PacketByteBufMixin",
+    "krypton.pipeline.LegacyQueryHandlerMixin",
+    "krypton.pipeline.SplitterHandlerMixin",
+    "krypton.pipeline.compression.ClientConnectionMixin",
+    "krypton.pipeline.encryption.ClientConnectionMixin",
+    "krypton.pipeline.encryption.ServerLoginNetworkHandlerMixin"
   ],
   "client": [
     "starlight.client.world.ClientWorldMixin"

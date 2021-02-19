@@ -169,12 +169,12 @@ public class ForgeChunkManager
         if (add)
         {
             if (ticking)
-                world.getChunkProvider().registerTickingTicket(type, pos, 2, owner);
+                world.getChunkProvider().registerTicket(type, pos, 2, owner);
             else
                 world.getChunkProvider().registerTicket(type, pos, 2, owner);
         }
         else if (ticking)
-            world.getChunkProvider().releaseTickingTicket(type, pos, 2, owner);
+            world.getChunkProvider().releaseTicket(type, pos, 2, owner);
         else
             world.getChunkProvider().releaseTicket(type, pos, 2, owner);
     }
