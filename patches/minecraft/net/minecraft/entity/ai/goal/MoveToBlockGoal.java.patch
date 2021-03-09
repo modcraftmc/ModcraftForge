@@ -1,0 +1,34 @@
+--- a/net/minecraft/entity/ai/goal/MoveToBlockGoal.java
++++ b/net/minecraft/entity/ai/goal/MoveToBlockGoal.java
+@@ -11,7 +11,7 @@
+    protected int field_179496_a;
+    protected int field_179493_e;
+    private int field_179490_f;
+-   protected BlockPos field_179494_b = BlockPos.field_177992_a;
++   protected BlockPos field_179494_b = BlockPos.field_177992_a; public final BlockPos getTargetPosition() { return this.field_179494_b; } public void setTargetPosition(BlockPos pos) { this.field_179494_b = pos; field_179495_c.movingTarget = pos != BlockPos.field_177992_a ? pos : null; } // Paper - OBFHELPER
+    private boolean field_179491_g;
+    private final int field_179497_h;
+    private final int field_203113_j;
+@@ -21,6 +21,14 @@
+       this(p_i45888_1_, p_i45888_2_, p_i45888_4_, 1);
+    }
+ 
++
++   // Paper start - activation range improvements
++   @Override
++   public void onTaskReset() {
++      super.onTaskReset();
++      setTargetPosition(BlockPos.field_177992_a);
++   }
++   // Paper end
+    public MoveToBlockGoal(CreatureEntity p_i48796_1_, double p_i48796_2_, int p_i48796_4_, int p_i48796_5_) {
+       this.field_179495_c = p_i48796_1_;
+       this.field_179492_d = p_i48796_2_;
+@@ -102,6 +110,7 @@
+                   blockpos$mutable.func_239621_a_(blockpos, i1, k - 1, j1);
+                   if (this.field_179495_c.func_213389_a(blockpos$mutable) && this.func_179488_a(this.field_179495_c.field_70170_p, blockpos$mutable)) {
+                      this.field_179494_b = blockpos$mutable;
++                     setTargetPosition(blockpos$mutable.func_185334_h());
+                      return true;
+                   }
+                }

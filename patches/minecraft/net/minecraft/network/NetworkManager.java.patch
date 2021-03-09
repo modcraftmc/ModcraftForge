@@ -1,14 +1,67 @@
 --- a/net/minecraft/network/NetworkManager.java
 +++ b/net/minecraft/network/NetworkManager.java
-@@ -74,6 +74,7 @@
+@@ -2,6 +2,7 @@
+ 
+ import com.google.common.collect.Queues;
+ import com.google.common.util.concurrent.ThreadFactoryBuilder;
++import com.mojang.authlib.properties.Property;
+ import io.netty.bootstrap.Bootstrap;
+ import io.netty.channel.Channel;
+ import io.netty.channel.ChannelException;
+@@ -29,6 +30,7 @@
+ import java.net.InetAddress;
+ import java.net.SocketAddress;
+ import java.util.Queue;
++import java.util.UUID;
+ import javax.annotation.Nullable;
+ import javax.crypto.Cipher;
+ import net.minecraft.network.login.ServerLoginNetHandler;
+@@ -63,7 +65,7 @@
+    private final PacketDirection field_179294_g;
+    private final Queue<NetworkManager.QueuedPacket> field_150745_j = Queues.newConcurrentLinkedQueue();
+    private Channel field_150746_k;
+-   private SocketAddress field_150743_l;
++   public SocketAddress field_150743_l;
+    private INetHandler field_150744_m;
+    private ITextComponent field_150742_o;
+    private boolean field_152463_r;
+@@ -74,7 +76,35 @@
     private float field_211397_t;
     private int field_211398_u;
     private boolean field_211399_v;
 +   private java.util.function.Consumer<NetworkManager> activationHandler;
  
++   public java.util.UUID spoofedUUID;
++   public com.mojang.authlib.properties.Property[] spoofedProfile;
++
++   public UUID bridge$getSpoofedUUID() {
++      return spoofedUUID;
++   }
++
++   public void bridge$setSpoofedUUID(UUID spoofedUUID) {
++      this.spoofedUUID = spoofedUUID;
++   }
++
++   public Property[] bridge$getSpoofedProfile() {
++      return spoofedProfile;
++   }
++
++   public void bridge$setSpoofedProfile(Property[] spoofedProfile) {
++      this.spoofedProfile = spoofedProfile;
++   }
++
++   public SocketAddress getRawAddress() {
++      return this.field_150746_k.remoteAddress();
++   }
++
++   public SocketAddress bridge$getRawAddress() {
++      return getRawAddress();
++   }
++
     public NetworkManager(PacketDirection p_i46004_1_) {
        this.field_179294_g = p_i46004_1_;
-@@ -83,6 +84,7 @@
+    }
+@@ -83,6 +113,7 @@
        super.channelActive(p_channelActive_1_);
        this.field_150746_k = p_channelActive_1_.channel();
        this.field_150743_l = this.field_150746_k.remoteAddress();
@@ -16,7 +69,7 @@
  
        try {
           this.func_150723_a(ProtocolType.HANDSHAKING);
-@@ -171,7 +173,7 @@
+@@ -171,7 +202,7 @@
        ++this.field_211395_r;
        if (protocoltype1 != protocoltype) {
           field_150735_g.debug("Disabled auto read");
@@ -25,7 +78,7 @@
        }
  
        if (this.field_150746_k.eventLoop().inEventLoop()) {
-@@ -259,7 +261,9 @@
+@@ -259,7 +290,9 @@
  
     @OnlyIn(Dist.CLIENT)
     public static NetworkManager func_181124_a(InetAddress p_181124_0_, int p_181124_1_, boolean p_181124_2_) {
@@ -35,7 +88,7 @@
        Class<? extends SocketChannel> oclass;
        LazyValue<? extends EventLoopGroup> lazyvalue;
        if (Epoll.isAvailable() && p_181124_2_) {
-@@ -286,6 +290,7 @@
+@@ -286,6 +319,7 @@
     @OnlyIn(Dist.CLIENT)
     public static NetworkManager func_150722_a(SocketAddress p_150722_0_) {
        final NetworkManager networkmanager = new NetworkManager(PacketDirection.CLIENTBOUND);
@@ -43,7 +96,7 @@
        (new Bootstrap()).group(field_179296_e.func_179281_c()).handler(new ChannelInitializer<Channel>() {
           protected void initChannel(Channel p_initChannel_1_) throws Exception {
              p_initChannel_1_.pipeline().addLast("packet_handler", networkmanager);
-@@ -376,10 +381,18 @@
+@@ -376,10 +410,18 @@
        return this.field_211397_t;
     }
  

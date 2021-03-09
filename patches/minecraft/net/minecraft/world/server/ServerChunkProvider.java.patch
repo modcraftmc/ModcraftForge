@@ -1,15 +1,405 @@
 --- a/net/minecraft/world/server/ServerChunkProvider.java
 +++ b/net/minecraft/world/server/ServerChunkProvider.java
-@@ -353,7 +353,7 @@
+@@ -1,26 +1,30 @@
+ package net.minecraft.world.server;
+ 
++import ca.spottedleaf.starlight.common.util.CoordinateUtils;
+ import com.google.common.annotations.VisibleForTesting;
+ import com.google.common.collect.Lists;
+ import com.mojang.datafixers.DataFixer;
+ import com.mojang.datafixers.util.Either;
+ import java.io.File;
+ import java.io.IOException;
++import java.sql.Time;
+ import java.util.Arrays;
+ import java.util.Collections;
+ import java.util.List;
+ import java.util.Optional;
+-import java.util.concurrent.CompletableFuture;
+-import java.util.concurrent.Executor;
++import java.util.concurrent.*;
+ import java.util.function.BooleanSupplier;
+ import java.util.function.Consumer;
+ import java.util.function.Function;
+ import java.util.function.Supplier;
+ import javax.annotation.Nullable;
++
++import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+ import net.minecraft.entity.Entity;
+ import net.minecraft.entity.player.ServerPlayerEntity;
+ import net.minecraft.network.IPacket;
+ import net.minecraft.profiler.IProfiler;
++import net.minecraft.server.MinecraftServer;
+ import net.minecraft.util.Util;
+ import net.minecraft.util.concurrent.ThreadTaskExecutor;
+ import net.minecraft.util.math.BlockPos;
+@@ -32,10 +36,7 @@
+ import net.minecraft.world.IBlockReader;
+ import net.minecraft.world.LightType;
+ import net.minecraft.world.World;
+-import net.minecraft.world.chunk.AbstractChunkProvider;
+-import net.minecraft.world.chunk.Chunk;
+-import net.minecraft.world.chunk.ChunkStatus;
+-import net.minecraft.world.chunk.IChunk;
++import net.minecraft.world.chunk.*;
+ import net.minecraft.world.chunk.listener.IChunkStatusListener;
+ import net.minecraft.world.gen.ChunkGenerator;
+ import net.minecraft.world.gen.feature.template.TemplateManager;
+@@ -51,9 +52,9 @@
+    private final TicketManager field_217240_d;
+    public final ChunkGenerator field_186029_c;
+    public final ServerWorld field_73251_h;
+-   private final Thread field_217241_g;
++   public final Thread field_217241_g;
+    private final ServerWorldLightManager field_217242_h;
+-   private final ServerChunkProvider.ChunkExecutor field_217243_i;
++   public final ServerChunkProvider.ChunkExecutor field_217243_i;
+    public final ChunkManager field_217237_a;
+    private final DimensionSavedDataManager field_217244_j;
+    private long field_217245_k;
+@@ -65,6 +66,97 @@
+    @Nullable
+    private WorldEntitySpawner.EntityDensityManager field_241097_p_;
+ 
++   final com.destroystokyo.paper.util.concurrent.WeakSeqLock loadedChunkMapSeqLock = new com.destroystokyo.paper.util.concurrent.WeakSeqLock();
++   final Long2ObjectOpenHashMap<Chunk> loadedChunkMap = new Long2ObjectOpenHashMap<>(8192, 0.5f);
++   private final Chunk[] lastLoadedChunks = new Chunk[4 * 4];
++
++   public final Chunk getChunkAtIfLoadedMainThreadNoCache(int x, int z) {
++      return this.loadedChunkMap.get(ChunkPos.func_77272_a(x, z));
++   }
++
++   public void clearPriorityTickets(ChunkPos coords) {
++      this.field_217240_d.clearPriorityTickets(coords);
++   }
++
++   private static int getChunkCacheKey(int x, int z) {
++      return x & 3 | ((z & 3) << 2);
++   }
++
++   public void addLoadedChunk(Chunk chunk) {
++      this.loadedChunkMapSeqLock.acquireWrite();
++      try {
++         this.loadedChunkMap.put(chunk.coordinateKey, chunk);
++      } finally {
++         this.loadedChunkMapSeqLock.releaseWrite();
++      }
++
++      // rewrite cache if we have to
++      // we do this since we also cache null chunks
++      int cacheKey = getChunkCacheKey(chunk.locX, chunk.locZ);
++
++      this.lastLoadedChunks[cacheKey] = chunk;
++   }
++
++   public void removeLoadedChunk(Chunk chunk) {
++      this.loadedChunkMapSeqLock.acquireWrite();
++      try {
++         this.loadedChunkMap.remove(chunk.coordinateKey);
++      } finally {
++         this.loadedChunkMapSeqLock.releaseWrite();
++      }
++
++      // rewrite cache if we have to
++      // we do this since we also cache null chunks
++      int cacheKey = getChunkCacheKey(chunk.locX, chunk.locZ);
++
++      Chunk cachedChunk = this.lastLoadedChunks[cacheKey];
++      if (cachedChunk != null && cachedChunk.coordinateKey == chunk.coordinateKey) {
++         this.lastLoadedChunks[cacheKey] = null;
++      }
++   }
++
++   @Nullable
++   public Chunk getChunkAtIfLoadedImmediately(int x, int z) {
++      long k = ChunkPos.func_77272_a(x, z);
++
++      if (Thread.currentThread() == this.field_217241_g) {
++         return this.getChunkAtIfLoadedMainThread(x, z);
++      }
++
++      Chunk ret = null;
++      long readlock;
++      do {
++         readlock = this.loadedChunkMapSeqLock.acquireRead();
++         try {
++            ret = this.loadedChunkMap.get(k);
++         } catch (Throwable thr) {
++            if (thr instanceof ThreadDeath) {
++               throw (ThreadDeath)thr;
++            }
++            // re-try, this means a CME occurred...
++            continue;
++         }
++      } while (!this.loadedChunkMapSeqLock.tryReleaseRead(readlock));
++
++      return ret;
++   }
++
++   public final Chunk getChunkAtIfLoadedMainThread(int x, int z) {
++      int cacheKey = getChunkCacheKey(x, z);
++
++      Chunk cachedChunk = this.lastLoadedChunks[cacheKey];
++      if (cachedChunk != null && cachedChunk.locX == x & cachedChunk.locZ == z) {
++         return this.lastLoadedChunks[cacheKey];
++      }
++
++      long chunkKey = ChunkPos.func_77272_a(x, z);
++
++      cachedChunk = this.loadedChunkMap.get(chunkKey);
++      // Skipping a null check to avoid extra instructions to improve inline capability
++      this.lastLoadedChunks[cacheKey] = cachedChunk;
++      return cachedChunk;
++   }
++
+    public ServerChunkProvider(ServerWorld p_i232603_1_, SaveFormat.LevelSave p_i232603_2_, DataFixer p_i232603_3_, TemplateManager p_i232603_4_, Executor p_i232603_5_, ChunkGenerator p_i232603_6_, int p_i232603_7_, boolean p_i232603_8_, IChunkStatusListener p_i232603_9_, Supplier<DimensionSavedDataManager> p_i232603_10_) {
+       this.field_73251_h = p_i232603_1_;
+       this.field_217243_i = new ServerChunkProvider.ChunkExecutor(p_i232603_1_);
+@@ -112,13 +204,20 @@
+             return this.func_212849_a_(p_212849_1_, p_212849_2_, p_212849_3_, p_212849_4_);
+          }, this.field_217243_i).join();
+       } else {
++         // Paper start - optimise for loaded chunks
++         Chunk ifLoaded = this.getChunkAtIfLoadedMainThread(p_212849_1_, p_212849_2_);
++         if (ifLoaded != null) {
++            return ifLoaded;
++         }
++         // Paper end
+          IProfiler iprofiler = this.field_73251_h.func_217381_Z();
+          iprofiler.func_230035_c_("getChunk");
+          long i = ChunkPos.func_77272_a(p_212849_1_, p_212849_2_);
+ 
++         IChunk ichunk;
+          for(int j = 0; j < 4; ++j) {
+             if (i == this.field_222875_n[j] && p_212849_3_ == this.field_222876_o[j]) {
+-               IChunk ichunk = this.field_222877_p[j];
++               ichunk = this.field_222877_p[j];
+                if (ichunk != null || !p_212849_4_) {
+                   return ichunk;
+                }
+@@ -126,7 +225,7 @@
+          }
+ 
+          iprofiler.func_230035_c_("getChunkCacheMiss");
+-         CompletableFuture<Either<IChunk, ChunkHolder.IChunkLoadingError>> completablefuture = this.func_217233_c(p_212849_1_, p_212849_2_, p_212849_3_, p_212849_4_);
++         CompletableFuture<Either<IChunk, ChunkHolder.IChunkLoadingError>> completablefuture = this.func_217233_c(p_212849_1_, p_212849_2_, p_212849_3_, true);
+          this.field_217243_i.func_213161_c(completablefuture::isDone);
+          IChunk ichunk1 = completablefuture.join().map((p_222874_0_) -> {
+             return p_222874_0_;
+@@ -147,12 +246,15 @@
+       if (Thread.currentThread() != this.field_217241_g) {
+          return null;
+       } else {
+-         this.field_73251_h.func_217381_Z().func_230035_c_("getChunkNow");
+-         long i = ChunkPos.func_77272_a(p_225313_1_, p_225313_2_);
+ 
++         return this.getChunkAtIfLoadedMainThread(p_225313_1_, p_225313_2_);
++         /*
++         this.world.getProfiler().func_230035_c_("getChunkNow");
++         long i = ChunkPos.asLong(chunkX, chunkZ);
++
+          for(int j = 0; j < 4; ++j) {
+-            if (i == this.field_222875_n[j] && this.field_222876_o[j] == ChunkStatus.field_222617_m) {
+-               IChunk ichunk = this.field_222877_p[j];
++            if (i == this.recentPositions[j] && this.recentStatuses[j] == ChunkStatus.FULL) {
++               IChunk ichunk = this.recentChunks[j];
+                return ichunk instanceof Chunk ? (Chunk)ichunk : null;
+             }
+          }
+@@ -161,13 +263,13 @@
+          if (chunkholder == null) {
+             return null;
+          } else {
+-            Either<IChunk, ChunkHolder.IChunkLoadingError> either = chunkholder.func_225410_b(ChunkStatus.field_222617_m).getNow((Either<IChunk, ChunkHolder.IChunkLoadingError>)null);
++            Either<IChunk, ChunkHolder.IChunkLoadingError> either = chunkholder.func_225410_b(ChunkStatus.FULL).getNow((Either<IChunk, ChunkHolder.IChunkLoadingError>)null);
+             if (either == null) {
+                return null;
+             } else {
+                IChunk ichunk1 = either.left().orElse((IChunk)null);
+                if (ichunk1 != null) {
+-                  this.func_225315_a(i, ichunk1, ChunkStatus.field_222617_m);
++                  this.func_225315_a(i, ichunk1, ChunkStatus.FULL);
+                   if (ichunk1 instanceof Chunk) {
+                      return (Chunk)ichunk1;
+                   }
+@@ -176,6 +278,8 @@
+                return null;
+             }
+          }
++
++          */
+       }
+    }
+ 
+@@ -203,13 +307,25 @@
+       return completablefuture;
+    }
+ 
++   private long syncLoadCounter; // Tuinity - prevent plugin unloads from removing our ticket
+    private CompletableFuture<Either<IChunk, ChunkHolder.IChunkLoadingError>> func_217233_c(int p_217233_1_, int p_217233_2_, ChunkStatus p_217233_3_, boolean p_217233_4_) {
+       ChunkPos chunkpos = new ChunkPos(p_217233_1_, p_217233_2_);
+       long i = chunkpos.func_201841_a();
+       int j = 33 + ChunkStatus.func_222599_a(p_217233_3_);
+       ChunkHolder chunkholder = this.func_217213_a(i);
+-      if (p_217233_4_) {
++      // CraftBukkit start - don't add new ticket for currently unloading chunk
++      boolean currentlyUnloading = false;
++      if (chunkholder != null) {
++         ChunkHolder.LocationType oldChunkState = ChunkHolder.func_219286_c(chunkholder.field_219316_k);
++         ChunkHolder.LocationType currentChunkState = ChunkHolder.func_219286_c(chunkholder.func_219299_i());
++         currentlyUnloading = (oldChunkState.func_219065_a(ChunkHolder.LocationType.BORDER) && !currentChunkState.func_219065_a(ChunkHolder.LocationType.BORDER));
++      }
++
++      final Long identifier; // Tuinity - prevent plugin unloads from removing our ticket
++      if (p_217233_4_ && !currentlyUnloading) {
+          this.field_217240_d.func_219356_a(TicketType.field_219494_g, chunkpos, j, chunkpos);
++         identifier = Long.valueOf(this.syncLoadCounter++); // Tuinity - prevent plugin unloads from removing our ticket
++         this.field_217240_d.func_219356_a(TicketType.REQUIRED_LOAD, chunkpos, j, identifier);
+          if (this.func_217224_a(chunkholder, j)) {
+             IProfiler iprofiler = this.field_73251_h.func_217381_Z();
+             iprofiler.func_76320_a("chunkLoad");
+@@ -220,9 +336,18 @@
+                throw (IllegalStateException)Util.func_229757_c_(new IllegalStateException("No chunk holder after ticket has been added"));
+             }
+          }
++      } else { identifier = null; }
++
++      CompletableFuture<Either<IChunk, ChunkHolder.IChunkLoadingError>> future = this.func_217224_a(chunkholder, j) ? ChunkHolder.field_219307_b : chunkholder.func_219276_a(p_217233_3_, this.field_217237_a);
++      if (p_217233_4_ && !currentlyUnloading) {
++         future.thenAcceptAsync((either) -> {
++            this.field_217240_d.releaseWithLevel(TicketType.REQUIRED_LOAD, chunkpos, j, identifier);
++         },this.field_217243_i);
+       }
+ 
+-      return this.func_217224_a(chunkholder, j) ? ChunkHolder.field_219307_b : chunkholder.func_219276_a(p_217233_3_, this.field_217237_a);
++      return future;
++
++      //return this.func_217224_a(chunkholder, j) ? ChunkHolder.MISSING_CHUNK_FUTURE : chunkholder.func_219276_a(requiredStatus, this.chunkManager);
+    }
+ 
+    private boolean func_217224_a(@Nullable ChunkHolder p_217224_1_, int p_217224_2_) {
+@@ -325,6 +450,9 @@
+       this.func_222869_l();
+    }
+ 
++   final com.tuinity.tuinity.util.maplist.IteratorSafeOrderedReferenceSet<Chunk> entityTickingChunks = new com.tuinity.tuinity.util.maplist.IteratorSafeOrderedReferenceSet<>(4096, 0.75f, 4096, 0.15, true);
++   // Tuinity end
++
+    private void func_217220_m() {
+       long i = this.field_73251_h.func_82737_E();
+       long j = i - this.field_217245_k;
+@@ -333,6 +461,25 @@
+       boolean flag = this.field_73251_h.func_234925_Z_();
+       boolean flag1 = this.field_73251_h.func_82736_K().func_223586_b(GameRules.field_223601_d);
+       if (!flag) {
++
++         int viewDistance = this.field_217237_a.getEffectiveViewDistance();
++         int chunkRange = 8; //TODO: spigot config
++         chunkRange = (chunkRange > viewDistance) ? (byte)viewDistance : chunkRange;
++         chunkRange = (chunkRange > TicketManager.MOB_SPAWN_RANGE) ? TicketManager.MOB_SPAWN_RANGE : chunkRange;
++
++         int range = Math.min(chunkRange , 32); // limit to max view distance
++         for (ServerPlayerEntity player : this.field_73251_h.func_217369_A()) {
++            if (!player.field_70156_m || player.func_175149_v()) {
++               field_217237_a.playerMobSpawnMap.remove(player);
++               continue;
++            }
++
++            int chunkX = CoordinateUtils.getChunkCoordinate(player.func_226277_ct_());
++            int chunkZ = CoordinateUtils.getChunkCoordinate(player.func_226281_cx_());
++            field_217237_a.playerMobSpawnMap.addOrUpdate(player, chunkX, chunkZ, range);
++            player.lastEntitySpawnRadiusSquared = (double)((range << 4) * (range << 4)); // used in isOutsideRange
++         }
++
+          this.field_73251_h.func_217381_Z().func_76320_a("pollingChunks");
+          int k = this.field_73251_h.func_82736_K().func_223592_c(GameRules.field_223610_m);
+          boolean flag2 = iworldinfo.func_82573_f() % 400L == 0L;
+@@ -341,29 +488,57 @@
+          WorldEntitySpawner.EntityDensityManager worldentityspawner$entitydensitymanager = WorldEntitySpawner.func_234964_a_(l, this.field_73251_h.func_241136_z_(), this::func_241098_a_);
+          this.field_241097_p_ = worldentityspawner$entitydensitymanager;
+          this.field_73251_h.func_217381_Z().func_76319_b();
+-         List<ChunkHolder> list = Lists.newArrayList(this.field_217237_a.func_223491_f());
++
++         com.tuinity.tuinity.util.maplist.IteratorSafeOrderedReferenceSet.Iterator<Chunk> iterator = this.entityTickingChunks.iterator();
++         try {
++            while (iterator.hasNext()) {
++               Chunk chunk = iterator.next();
++               ChunkHolder playerchunk = chunk.playerChunk;
++               if (playerchunk != null) { // make sure load event has been called along with the load logic we put there
++                  // Tuinity end - optimise chunk tick iteration
++                  this.field_73251_h.func_217381_Z().func_76320_a("broadcast");
++                  playerchunk.func_219274_a(chunk); // Tuinity
++                  this.field_73251_h.func_217381_Z().func_76319_b();
++                  ChunkPos chunkcoordintpair = playerchunk.func_219277_h();
++
++                  if (!this.field_217237_a.isOutsideSpawningRadius(playerchunk, chunkcoordintpair, false)) { // Paper - optimise isOutsideOfRange
++                     chunk.func_177415_c(chunk.func_177416_w() + j);
++                     if (flag1 && (this.field_217246_l || this.field_217247_m) && this.field_73251_h.func_175723_af().func_177730_a(chunk.func_76632_l()) && !this.field_217237_a.isOutsideSpawningRadius(playerchunk, chunkcoordintpair, true)) { // Spigot // Paper - optimise isOutsideOfRange
++                        WorldEntitySpawner.func_234979_a_(this.field_73251_h, chunk, worldentityspawner$entitydensitymanager, this.field_217247_m, this.field_217246_l, flag2);
++                     }
++
++                     this.field_73251_h.func_217441_a(chunk, k);
++                  }
++               }
++            } // Tuinity start - optimise chunk tick iteration
++         } finally {
++            iterator.finishedIterating();
++         }
++         /*
++         List<ChunkHolder> list = Lists.newArrayList(this.chunkManager.getLoadedChunksIterable());
+          Collections.shuffle(list);
+          list.forEach((p_241099_7_) -> {
+-            Optional<Chunk> optional = p_241099_7_.func_219296_a().getNow(ChunkHolder.field_219308_c).left();
++            Optional<Chunk> optional = p_241099_7_.getTickingFuture().getNow(ChunkHolder.UNLOADED_CHUNK).left();
+             if (optional.isPresent()) {
+-               this.field_73251_h.func_217381_Z().func_76320_a("broadcast");
+-               p_241099_7_.func_219274_a(optional.get());
+-               this.field_73251_h.func_217381_Z().func_76319_b();
+-               Optional<Chunk> optional1 = p_241099_7_.func_219297_b().getNow(ChunkHolder.field_219308_c).left();
++               this.world.getProfiler().startSection("broadcast");
++               p_241099_7_.sendChanges(optional.get());
++               this.world.getProfiler().endSection();
++               Optional<Chunk> optional1 = p_241099_7_.getEntityTickingFuture().isOutsideSpawningRadiusgetNow(ChunkHolder.UNLOADED_CHUNK).left();
                 if (optional1.isPresent()) {
                    Chunk chunk = optional1.get();
-                   ChunkPos chunkpos = p_241099_7_.func_219277_h();
+-                  ChunkPos chunkpos = p_241099_7_.func_219277_h();
 -                  if (!this.field_217237_a.func_219243_d(chunkpos)) {
-+                  if (!this.field_217237_a.func_219243_d(chunkpos) || field_217237_a.func_219246_e().shouldForceTicks(chunkpos.func_201841_a())) {
-                      chunk.func_177415_c(chunk.func_177416_w() + j);
-                      if (flag1 && (this.field_217246_l || this.field_217247_m) && this.field_73251_h.func_175723_af().func_177730_a(chunk.func_76632_l())) {
-                         WorldEntitySpawner.func_234979_a_(this.field_73251_h, chunk, worldentityspawner$entitydensitymanager, this.field_217247_m, this.field_217246_l, flag2);
-@@ -480,7 +480,7 @@
+-                     chunk.func_177415_c(chunk.func_177416_w() + j);
+-                     if (flag1 && (this.field_217246_l || this.field_217247_m) && this.field_73251_h.func_175723_af().func_177730_a(chunk.func_76632_l())) {
+-                        WorldEntitySpawner.func_234979_a_(this.field_73251_h, chunk, worldentityspawner$entitydensitymanager, this.field_217247_m, this.field_217246_l, flag2);
++                  ChunkPos chunkpos = p_241099_7_.getPosition();
++                  if (!this.chunkManager.isOutsideSpawningRadius(chunkpos) || chunkManager.getTicketManager().shouldForceTicks(chunkpos.asLong())) {
++                     chunk.setInhabitedTime(chunk.getInhabitedTime() + j);
++                     if (flag1 && (this.spawnHostiles || this.spawnPassives) && this.world.getWorldBorder().contains(chunk.getPos())) {
++                        WorldEntitySpawner.func_234979_a_(this.world, chunk, worldentityspawner$entitydensitymanager, this.spawnPassives, this.spawnHostiles, flag2);
+                      }
+ 
+-                     this.field_73251_h.func_217441_a(chunk, k);
++                     this.world.tickEnvironment(chunk, k);
+                   }
+                }
+             }
+          });
++          */
+          this.field_73251_h.func_217381_Z().func_76320_a("customSpawners");
+          if (flag1) {
+             this.field_73251_h.func_241123_a_(this.field_217246_l, this.field_217247_m);
+@@ -429,6 +604,14 @@
+       this.field_217240_d.func_219362_d(p_217222_1_, p_217222_2_, p_217222_3_, p_217222_4_);
+    }
+ 
++   public <T> void registerTickingTicket(TicketType<T> type, ChunkPos pos, int distance, T value) {
++      this.field_217240_d.registerTicking(type, pos, distance, value);
++   }
++
++   public <T> void releaseTickingTicket(TicketType<T> type, ChunkPos pos, int distance, T value) {
++      this.field_217240_d.releaseTicking(type, pos, distance, value);
++   }
++
+    public void func_217206_a(ChunkPos p_217206_1_, boolean p_217206_2_) {
+       this.field_217240_d.func_219364_a(p_217206_1_, p_217206_2_);
+    }
+@@ -480,7 +663,7 @@
        return this.field_241097_p_;
     }
  

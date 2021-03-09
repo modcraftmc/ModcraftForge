@@ -1,0 +1,29 @@
+--- a/net/minecraft/util/math/SectionPos.java
++++ b/net/minecraft/util/math/SectionPos.java
+@@ -7,6 +7,7 @@
+ import net.minecraft.entity.Entity;
+ import net.minecraft.util.Direction;
+ import net.minecraft.util.math.vector.Vector3i;
++import org.yatopia.server.YatopiaChunkSectionPos;
+ 
+ public class SectionPos extends Vector3i {
+    private SectionPos(int p_i50794_1_, int p_i50794_2_, int p_i50794_3_) {
+@@ -185,6 +186,18 @@
+       return func_218168_a(i - p_229421_1_, 0, j - p_229421_1_, i + p_229421_1_, 15, j + p_229421_1_);
+    }
+ 
++   // Yatopia start
++   public static java.util.List<SectionPos> getPosList(SectionPos pos, int i) {
++      return getPosList(pos.func_177958_n() - i, pos.func_177956_o() - i, pos.func_177952_p() - i, pos.func_177958_n() + i, pos.func_177956_o() + i, pos.func_177952_p() + i);
++   }
++   public static java.util.List<SectionPos> getPosList(ChunkPos chunkPos, int i) {
++      return getPosList(chunkPos.field_77276_a - i, 0, chunkPos.field_77275_b - i, chunkPos.field_77276_a + i, 15, chunkPos.field_77275_b + i);
++   }
++   public static java.util.List<SectionPos> getPosList(int i, int j, int k, int l, int i1, int j1) {
++      return YatopiaChunkSectionPos.getChunkSectionPosList(i, j, k, l,  i1, j1);
++   }
++   // Yatopia end
++
+    public static Stream<SectionPos> func_218168_a(final int p_218168_0_, final int p_218168_1_, final int p_218168_2_, final int p_218168_3_, final int p_218168_4_, final int p_218168_5_) {
+       return StreamSupport.stream(new AbstractSpliterator<SectionPos>((long)((p_218168_3_ - p_218168_0_ + 1) * (p_218168_4_ - p_218168_1_ + 1) * (p_218168_5_ - p_218168_2_ + 1)), 64) {
+          final CubeCoordinateIterator field_218394_a = new CubeCoordinateIterator(p_218168_0_, p_218168_1_, p_218168_2_, p_218168_3_, p_218168_4_, p_218168_5_);

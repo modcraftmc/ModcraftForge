@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/Region.java
++++ b/net/minecraft/world/Region.java
+@@ -25,6 +25,17 @@
+    protected boolean field_72814_d;
+    protected final World field_72815_e;
+ 
++   // Paper start - if loaded util
++   private IChunk getChunkIfLoaded(int x, int z) {
++      int k = x - this.field_72818_a;
++      int l = z - this.field_72816_b;
++
++      if (k >= 0 && k < this.field_72817_c.length && l >= 0 && l < this.field_72817_c[k].length) {
++         return this.field_72817_c[k][l];
++      }
++      return null;
++   }
++
+    public Region(World p_i50004_1_, BlockPos p_i50004_2_, BlockPos p_i50004_3_) {
+       this.field_72815_e = p_i50004_1_;
+       this.field_72818_a = p_i50004_2_.func_177958_n() >> 4;

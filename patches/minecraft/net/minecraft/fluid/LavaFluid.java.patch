@@ -1,24 +1,56 @@
 --- a/net/minecraft/fluid/LavaFluid.java
 +++ b/net/minecraft/fluid/LavaFluid.java
-@@ -71,7 +71,7 @@
-                BlockState blockstate = p_207186_1_.func_180495_p(blockpos);
+@@ -58,20 +58,25 @@
+ 
+    public void func_207186_b(World p_207186_1_, BlockPos p_207186_2_, FluidState p_207186_3_, Random p_207186_4_) {
+       if (p_207186_1_.func_82736_K().func_223586_b(GameRules.field_223598_a)) {
++
++         BlockPos.Mutable mutableBlockpos = new BlockPos.Mutable();
++         mutableBlockpos.func_189533_g(p_207186_2_);
++
+          int i = p_207186_4_.nextInt(3);
+          if (i > 0) {
+-            BlockPos blockpos = p_207186_2_;
++            //BlockPos blockpos = pos;
+ 
++
+             for(int j = 0; j < i; ++j) {
+-               blockpos = blockpos.func_177982_a(p_207186_4_.nextInt(3) - 1, 1, p_207186_4_.nextInt(3) - 1);
+-               if (!p_207186_1_.func_195588_v(blockpos)) {
++               mutableBlockpos.addValues(p_207186_4_.nextInt(3) - 1, 1, p_207186_4_.nextInt(3) - 1);
++               if (!p_207186_1_.func_195588_v(mutableBlockpos)) {
+                   return;
+                }
+ 
+-               BlockState blockstate = p_207186_1_.func_180495_p(blockpos);
++               BlockState blockstate = p_207186_1_.func_180495_p(mutableBlockpos);
                 if (blockstate.func_196958_f()) {
-                   if (this.func_176369_e(p_207186_1_, blockpos)) {
+-                  if (this.func_176369_e(p_207186_1_, blockpos)) {
 -                     p_207186_1_.func_175656_a(blockpos, AbstractFireBlock.func_235326_a_(p_207186_1_, blockpos));
-+                     p_207186_1_.func_175656_a(blockpos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(p_207186_1_, blockpos, p_207186_2_, Blocks.field_150480_ab.func_176223_P()));
++                  if (this.func_176369_e(p_207186_1_, mutableBlockpos)) {
++                     p_207186_1_.func_175656_a(mutableBlockpos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(p_207186_1_, mutableBlockpos, p_207186_2_, Blocks.field_150480_ab.func_176223_P()));
                       return;
                    }
                 } else if (blockstate.func_185904_a().func_76230_c()) {
-@@ -86,7 +86,7 @@
+@@ -80,13 +85,13 @@
+             }
+          } else {
+             for(int k = 0; k < 3; ++k) {
+-               BlockPos blockpos1 = p_207186_2_.func_177982_a(p_207186_4_.nextInt(3) - 1, 0, p_207186_4_.nextInt(3) - 1);
+-               if (!p_207186_1_.func_195588_v(blockpos1)) {
++               mutableBlockpos.func_177982_a(p_207186_4_.nextInt(3) - 1, 0, p_207186_4_.nextInt(3) - 1);
++               if (!p_207186_1_.func_195588_v(mutableBlockpos)) {
+                   return;
                 }
  
-                if (p_207186_1_.func_175623_d(blockpos1.func_177984_a()) && this.func_176368_m(p_207186_1_, blockpos1)) {
+-               if (p_207186_1_.func_175623_d(blockpos1.func_177984_a()) && this.func_176368_m(p_207186_1_, blockpos1)) {
 -                  p_207186_1_.func_175656_a(blockpos1.func_177984_a(), AbstractFireBlock.func_235326_a_(p_207186_1_, blockpos1));
-+                  p_207186_1_.func_175656_a(blockpos1.func_177984_a(), net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(p_207186_1_, blockpos1.func_177984_a(), p_207186_2_, Blocks.field_150480_ab.func_176223_P()));
++               if (p_207186_1_.func_175623_d(mutableBlockpos.func_177984_a()) && this.func_176368_m(p_207186_1_, mutableBlockpos)) {
++                  p_207186_1_.func_175656_a(mutableBlockpos.func_177984_a(), net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(p_207186_1_, mutableBlockpos.func_177984_a(), p_207186_2_, Blocks.field_150480_ab.func_176223_P()));
                 }
              }
           }
-@@ -164,7 +164,7 @@
+@@ -164,7 +169,7 @@
           FluidState fluidstate = p_205574_1_.func_204610_c(p_205574_2_);
           if (this.func_207185_a(FluidTags.field_206960_b) && fluidstate.func_206884_a(FluidTags.field_206959_a)) {
              if (p_205574_3_.func_177230_c() instanceof FlowingFluidBlock) {

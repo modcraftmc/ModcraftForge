@@ -1,6 +1,5 @@
 {
   "required": true,
-  "plugin": "common.mixins.MixinPlugin",
   "minVersion": "0.8",
   "package": "common.mixins",
   "refmap": "mixin.refmap.json",
@@ -19,15 +18,14 @@
     "starlight.common.world.ServerWorldMixin",
     "starlight.common.world.WorldMixin",
 
-    "krypton.flushconsolidation.ClientConnectionMixin",
-    "krypton.flushconsolidation.EntityTrackerMixin",
-    "krypton.flushconsolidation.ThreadedAnvilChunkStorageMixin",
+
     "krypton.misc.PacketByteBufMixin",
     "krypton.pipeline.LegacyQueryHandlerMixin",
     "krypton.pipeline.SplitterHandlerMixin",
     "krypton.pipeline.compression.ClientConnectionMixin",
     "krypton.pipeline.encryption.ClientConnectionMixin",
-    "krypton.pipeline.encryption.ServerLoginNetworkHandlerMixin"
+    "krypton.pipeline.encryption.ServerLoginNetworkHandlerMixin",
+
   ],
   "client": [
     "starlight.client.world.ClientWorldMixin"

@@ -1,0 +1,12 @@
+--- a/net/minecraft/world/server/TicketType.java
++++ b/net/minecraft/world/server/TicketType.java
+@@ -23,6 +23,9 @@
+    public static final TicketType<Integer> field_223185_g = func_223183_a("post_teleport", Integer::compareTo, 5);
+    public static final TicketType<ChunkPos> field_219494_g = func_223183_a("unknown", Comparator.comparingLong(ChunkPos::func_201841_a), 1);
+ 
++   public static final TicketType<ChunkPos> PRIORITY = func_223183_a("priority", Comparator.comparingLong(ChunkPos::func_201841_a), 300); // Paper
++   public static final TicketType<Long> REQUIRED_LOAD = func_219484_a("required_load", Long::compareTo); // Tuinity - make sure getChunkAt does not fail
++
+    public static <T> TicketType<T> func_219484_a(String p_219484_0_, Comparator<T> p_219484_1_) {
+       return new TicketType<>(p_219484_0_, p_219484_1_, 0L);
+    }

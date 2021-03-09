@@ -1,0 +1,9 @@
+--- a/net/minecraft/world/EmptyBlockReader.java
++++ b/net/minecraft/world/EmptyBlockReader.java
+@@ -23,4 +23,6 @@
+    public FluidState func_204610_c(BlockPos p_204610_1_) {
+       return Fluids.field_204541_a.func_207188_f();
+    }
++
++
+ }

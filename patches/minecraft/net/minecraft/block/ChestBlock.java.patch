@@ -1,0 +1,11 @@
+--- a/net/minecraft/block/ChestBlock.java
++++ b/net/minecraft/block/ChestBlock.java
+@@ -215,7 +215,7 @@
+ 
+    public void func_196243_a(BlockState p_196243_1_, World p_196243_2_, BlockPos p_196243_3_, BlockState p_196243_4_, boolean p_196243_5_) {
+       if (!p_196243_1_.func_203425_a(p_196243_4_.func_177230_c())) {
+-         TileEntity tileentity = p_196243_2_.func_175625_s(p_196243_3_);
++         TileEntity tileentity = p_196243_2_.getTileEntity(p_196243_3_, false); // Paper - Don't validate TE - Fix console spam when removing chests in water
+          if (tileentity instanceof IInventory) {
+             InventoryHelper.func_180175_a(p_196243_2_, p_196243_3_, (IInventory)tileentity);
+             p_196243_2_.func_175666_e(p_196243_3_, this);

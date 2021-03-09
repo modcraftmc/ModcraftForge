@@ -6,6 +6,8 @@ import io.netty.util.ResourceLeakDetector;
 
 public class ModcraftEntryPoint {
 
+    public static boolean bungee = true;
+
     public static void load() {
 
         ModcraftForge.LOGGER.info("Krypton is now accelerating your Minecraft's networking stack \uD83D\uDE80");

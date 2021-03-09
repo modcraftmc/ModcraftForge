@@ -1,0 +1,37 @@
+--- a/net/minecraft/util/math/BlockPos.java
++++ b/net/minecraft/util/math/BlockPos.java
+@@ -286,7 +286,17 @@
+    }
+ 
+    public static Optional<BlockPos> func_239584_a_(BlockPos p_239584_0_, int p_239584_1_, int p_239584_2_, Predicate<BlockPos> p_239584_3_) {
+-      return func_239588_b_(p_239584_0_, p_239584_1_, p_239584_2_, p_239584_1_).filter(p_239584_3_).findFirst();
++      // Yatopia start - avoid using stream
++      for (BlockPos bpos : func_239583_a_(p_239584_0_, p_239584_1_, p_239584_2_, p_239584_1_)) {
++         if (p_239584_3_.test(bpos)) {
++            return Optional.of(bpos);
++         }
++      }
++      return Optional.empty();
++      // Yatopia end
++      /*
++      return getProximitySortedBoxPositions(pos, width, height, width).filter(posFilter).findFirst();
++       */
+    }
+ 
+    public static Stream<BlockPos> func_239588_b_(BlockPos p_239588_0_, int p_239588_1_, int p_239588_2_, int p_239588_3_) {
+@@ -392,6 +402,15 @@
+          return super.func_177963_a(p_177963_1_, p_177963_3_, p_177963_5_).func_185334_h();
+       }
+ 
++      // Airplane start - version of b that doesn't copy
++      public BlockPos addValues(int x, int y, int z) {
++         ((BlockPos)this).field_177962_a += x;
++         ((BlockPos)this).field_177960_b += y;
++         ((BlockPos)this).field_177961_c += z;
++         return this;
++      }
++      // Airplane end
++
+       public BlockPos func_177982_a(int p_177982_1_, int p_177982_2_, int p_177982_3_) {
+          return super.func_177982_a(p_177982_1_, p_177982_2_, p_177982_3_).func_185334_h();
+       }

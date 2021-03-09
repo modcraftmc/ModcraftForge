@@ -1,34 +1,109 @@
 --- a/net/minecraft/world/server/ChunkHolder.java
 +++ b/net/minecraft/world/server/ChunkHolder.java
-@@ -43,22 +43,22 @@
-    private static final CompletableFuture<Either<Chunk, ChunkHolder.IChunkLoadingError>> field_219309_d = CompletableFuture.completedFuture(field_219308_c);
-    private static final List<ChunkStatus> field_219310_e = ChunkStatus.func_222582_a();
-    private static final ChunkHolder.LocationType[] field_219311_f = ChunkHolder.LocationType.values();
--   private final AtomicReferenceArray<CompletableFuture<Either<IChunk, ChunkHolder.IChunkLoadingError>>> field_219312_g = new AtomicReferenceArray<>(field_219310_e.size());
-+   public final AtomicReferenceArray<CompletableFuture<Either<IChunk, ChunkHolder.IChunkLoadingError>>> field_219312_g = new AtomicReferenceArray<>(field_219310_e.size());
-    private volatile CompletableFuture<Either<Chunk, ChunkHolder.IChunkLoadingError>> field_222983_h = field_219309_d;
+@@ -1,5 +1,6 @@
+ package net.minecraft.world.server;
+ 
++import ca.spottedleaf.starlight.common.util.CoordinateUtils;
+ import com.mojang.datafixers.util.Either;
+ import it.unimi.dsi.fastutil.shorts.ShortArraySet;
+ import it.unimi.dsi.fastutil.shorts.ShortSet;
+@@ -18,6 +19,7 @@
+ import net.minecraft.network.play.server.SMultiBlockChangePacket;
+ import net.minecraft.network.play.server.SUpdateLightPacket;
+ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
++import net.minecraft.server.MinecraftServer;
+ import net.minecraft.tileentity.TileEntity;
+ import net.minecraft.util.Util;
+ import net.minecraft.util.math.BlockPos;
+@@ -48,9 +50,9 @@
     private volatile CompletableFuture<Either<Chunk, ChunkHolder.IChunkLoadingError>> field_219313_h = field_219309_d;
     private volatile CompletableFuture<Either<Chunk, ChunkHolder.IChunkLoadingError>> field_219314_i = field_219309_d;
     private CompletableFuture<IChunk> field_219315_j = CompletableFuture.completedFuture((IChunk)null);
 -   private int field_219316_k;
--   private int field_219317_l;
 +   public int field_219316_k;
-+   public int field_219317_l;
-    private int field_219318_m;
--   private final ChunkPos field_219319_n;
-+   public final ChunkPos field_219319_n;
+    private int field_219317_l;
+-   private int field_219318_m;
++   private volatile int field_219318_m;
+    private final ChunkPos field_219319_n;
     private boolean field_244382_p;
     private final ShortSet[] field_244383_q = new ShortSet[16];
-    private int field_219324_s;
-    private int field_219325_t;
-    private final WorldLightManager field_219326_u;
-    private final ChunkHolder.IListener field_219327_v;
--   private final ChunkHolder.IPlayerProvider field_219328_w;
-+   public final ChunkHolder.IPlayerProvider field_219328_w;
+@@ -62,6 +64,50 @@
     private boolean field_219329_x;
     private boolean field_244384_x;
  
-@@ -204,7 +204,7 @@
++   // Paper start - optimise isOutsideOfRange
++   // cached here to avoid a map lookup
++   com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayerEntity> playersInMobSpawnRange;
++   com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayerEntity> playersInChunkTickRange;
++
++   private final ChunkManager chunkMap; // Paper
++
++   public ChunkStatus getChunkHolderStatus() {
++      for (ChunkStatus curr = ChunkStatus.field_222617_m, next = curr.func_222593_e(); curr != next; curr = next, next = next.func_222593_e()) {
++         CompletableFuture<Either<IChunk, ChunkHolder.IChunkLoadingError>> future = this.func_219301_a(curr);
++         Either<IChunk, ChunkHolder.IChunkLoadingError> either = future.getNow(null);
++         if (either == null || !either.left().isPresent()) {
++            continue;
++         }
++         return curr;
++      }
++      return null;
++   }
++
++   public void updateRanges() {
++      long key = CoordinateUtils.getChunkKey(this.field_219319_n);
++      this.playersInMobSpawnRange = this.chunkMap.playerMobSpawnMap.getObjectsInRange(key);
++      this.playersInChunkTickRange = this.chunkMap.playerChunkTickRangeMap.getObjectsInRange(key);
++      // Tuinity start - optimise checkDespawn
++      Chunk chunk = this.getFullChunkIfCached();
++      if (chunk != null) {
++         //chunk.updateGeneralAreaCache(); TODO: make this
++      }
++      // Tuinity end - optimise checkDespawn
++   }
++
++   // Paper start - no-tick view distance
++   public final Chunk getSendingChunk() {
++      // it's important that we use getChunkAtIfLoadedImmediately to mirror the chunk sending logic used
++      // in Chunk's neighbour callback
++      Chunk ret = this.chunkMap.field_219255_i.func_72863_F().getChunkAtIfLoadedImmediately(this.field_219319_n.field_77276_a, this.field_219319_n.field_77275_b);
++      if (ret != null && ret.areNeighboursLoaded(1)) {
++         return ret;
++      }
++      return null;
++   }
++   // Paper end - no-tick view distance
++
++
+    public ChunkHolder(ChunkPos p_i50716_1_, int p_i50716_2_, WorldLightManager p_i50716_3_, ChunkHolder.IListener p_i50716_4_, ChunkHolder.IPlayerProvider p_i50716_5_) {
+       this.field_219319_n = p_i50716_1_;
+       this.field_219326_u = p_i50716_3_;
+@@ -70,6 +116,8 @@
+       this.field_219316_k = ChunkManager.field_219249_a + 1;
+       this.field_219317_l = this.field_219316_k;
+       this.field_219318_m = this.field_219316_k;
++      this.chunkMap = (ChunkManager) p_i50716_5_;
++      updateRanges();
+       this.func_219292_a(p_i50716_2_);
+    }
+ 
+@@ -101,6 +149,15 @@
+       return either == null ? null : either.left().orElse((Chunk)null);
+    }
+ 
++   // CraftBukkit end
++   // Paper start - "real" get full chunk immediately
++   public final Chunk getFullChunkIfCached() {
++      // Note: Copied from above without ticket level check
++      CompletableFuture<Either<IChunk, ChunkHolder.IChunkLoadingError>> statusFuture = this.func_219301_a(ChunkStatus.field_222617_m);
++      Either<IChunk, ChunkHolder.IChunkLoadingError> either = (Either<IChunk, ChunkHolder.IChunkLoadingError>) statusFuture.getNow(null);
++      return either == null ? null : (Chunk) either.left().orElse(null);
++   }
++
+    @Nullable
+    @OnlyIn(Dist.CLIENT)
+    public ChunkStatus func_219285_d() {
+@@ -204,7 +261,7 @@
     }
  
     private void func_244385_a(World p_244385_1_, BlockPos p_244385_2_, BlockState p_244385_3_) {
@@ -37,29 +112,113 @@
           this.func_219305_a(p_244385_1_, p_244385_2_);
        }
  
-@@ -221,10 +221,13 @@
- 
+@@ -282,6 +339,12 @@
+       this.field_219317_l = p_219292_1_;
     }
  
--   private void func_219293_a(IPacket<?> p_219293_1_, boolean p_219293_2_) {
--      this.field_219328_w.func_219097_a(this.field_219319_n, p_219293_2_).forEach((p_219304_1_) -> {
--         p_219304_1_.field_71135_a.func_147359_a(p_219293_1_);
-+   protected void func_219293_a(IPacket<?> p_219293_1_, boolean p_219293_2_) {
-+      /*
-+      this.playerProvider.getTrackingPlayers(this.pos, boundaryOnly).forEach((p_219304_1_) -> {
-+         p_219304_1_.connection.sendPacket(packetIn);
-       });
++   private int fullChunkCreateCount; private volatile boolean isFullChunkReady; // Paper - cache chunk ticking stage
++   public final boolean isFullChunkReady() {
++      return this.isFullChunkReady;
++   }
++   // Paper end
 +
-+       */
-    }
- 
-    public CompletableFuture<Either<IChunk, ChunkHolder.IChunkLoadingError>> func_219276_a(ChunkStatus p_219276_1_, ChunkManager p_219276_2_) {
-@@ -247,7 +250,7 @@
+    protected void func_219291_a(ChunkManager p_219291_1_) {
+       ChunkStatus chunkstatus = func_219278_b(this.field_219316_k);
+       ChunkStatus chunkstatus1 = func_219278_b(this.field_219317_l);
+@@ -289,6 +352,32 @@
+       boolean flag1 = this.field_219317_l <= ChunkManager.field_219249_a;
+       ChunkHolder.LocationType chunkholder$locationtype = func_219286_c(this.field_219316_k);
+       ChunkHolder.LocationType chunkholder$locationtype1 = func_219286_c(this.field_219317_l);
++
++      // CraftBukkit start
++      // ChunkUnloadEvent: Called before the chunk is unloaded: isChunkLoaded is still true and chunk can still be modified by plugins.
++      if (chunkholder$locationtype.func_219065_a(ChunkHolder.LocationType.BORDER) && !chunkholder$locationtype1.func_219065_a(ChunkHolder.LocationType.BORDER)) {
++         this.func_219301_a(ChunkStatus.field_222617_m).thenAccept((either) -> { // Paper - ensure main // Tuinity - is always on main
++            Chunk chunk = (Chunk)either.left().orElse(null);
++            if (chunk != null) {
++               p_219291_1_.callbackExecutor.execute(() -> {
++                  // Minecraft will apply the chunks tick lists to the world once the chunk got loaded, and then store the tick
++                  // lists again inside the chunk once the chunk becomes inaccessible and set the chunk's needsSaving flag.
++                  // These actions may however happen deferred, so we manually set the needsSaving flag already here.
++                  chunk.func_177427_f(true);
++                  chunk.internal_OnUnload();
++               });
++            }
++         }).exceptionally((throwable) -> {
++            // ensure exceptions are printed, by default this is not the case
++            MinecraftServer.field_147145_h.fatal("Failed to schedule unload callback for chunk " + this.field_219319_n, throwable);
++            return null;
++         });
++
++         // Run callback right away if the future was already done
++         p_219291_1_.callbackExecutor.run();
++      }
++      // CraftBukkit end
++
+       if (flag) {
+          Either<IChunk, ChunkHolder.IChunkLoadingError> either = Either.right(new ChunkHolder.IChunkLoadingError() {
+             public String toString() {
+@@ -309,15 +398,31 @@
+       boolean flag5 = chunkholder$locationtype.func_219065_a(ChunkHolder.LocationType.BORDER);
+       boolean flag6 = chunkholder$locationtype1.func_219065_a(ChunkHolder.LocationType.BORDER);
+       this.field_219329_x |= flag6;
++
+       if (!flag5 && flag6) {
++         // Paper start - cache ticking ready status
++         int expectCreateCount = ++this.fullChunkCreateCount;
+          this.field_222983_h = p_219291_1_.func_222961_b(this);
++         this.field_222983_h.thenAccept((either) -> {
++            if (either.left().isPresent() && this.fullChunkCreateCount == expectCreateCount) {
++               // note: Here is a very good place to add callbacks to logic waiting on this.
++               Chunk fullChunk = either.left().get();
++               this.isFullChunkReady = true;
++               fullChunk.playerChunk = this;
++               //this.chunkMap.chunkDistanceManager.clearPriorityTickets(location);
++
++            }
++         });
+          this.func_219284_a(this.field_222983_h);
        }
-    }
  
--   private void func_219284_a(CompletableFuture<? extends Either<? extends IChunk, ChunkHolder.IChunkLoadingError>> p_219284_1_) {
-+   public void func_219284_a(CompletableFuture<? extends Either<? extends IChunk, ChunkHolder.IChunkLoadingError>> p_219284_1_) {
-       this.field_219315_j = this.field_219315_j.thenCombine(p_219284_1_, (p_219295_0_, p_219295_1_) -> {
-          return p_219295_1_.map((p_219283_0_) -> {
-             return p_219283_0_;
+       if (flag5 && !flag6) {
+          CompletableFuture<Either<Chunk, ChunkHolder.IChunkLoadingError>> completablefuture1 = this.field_222983_h;
+          this.field_222983_h = field_219309_d;
++         ++this.fullChunkCreateCount; // Paper - cache ticking ready status
++         this.isFullChunkReady = false; // Paper - cache ticking ready status
+          this.func_219284_a(completablefuture1.thenApply((p_222982_1_) -> {
++
+             return p_222982_1_.ifLeft(p_219291_1_::func_222973_a);
+          }));
+       }
+@@ -342,12 +447,31 @@
+          }
+ 
+          this.field_219314_i = p_219291_1_.func_219188_b(this.field_219319_n);
++         this.field_219314_i.thenAccept((either) -> {
++            if (either.left().isPresent()) {
++               // note: Here is a very good place to add callbacks to logic waiting on this.
++               Chunk entityTickingChunk = either.left().get();
++               //this.isEntityTickingReady = true;
++
++               // Tuinity start - entity ticking chunk set
++               this.chunkMap.field_219255_i.func_72863_F().entityTickingChunks.add(entityTickingChunk);
++               // Tuinity end - entity ticking chunk set
++
++
++            }
++         });
+          this.func_219284_a(this.field_219314_i);
+       }
+ 
+       if (flag3 && !flag4) {
+          this.field_219314_i.complete(field_219308_c);
+          this.field_219314_i = field_219309_d;
++         // Tuinity start - entity ticking chunk set
++         Chunk chunkIfCached = this.getFullChunkIfCached();
++         if (chunkIfCached != null) {
++            this.chunkMap.field_219255_i.func_72863_F().entityTickingChunks.remove(chunkIfCached);
++         }
++         // Tuinity end - entity ticking chunk set
+       }
+ 
+       this.field_219327_v.func_219066_a(this.field_219319_n, this::func_219281_j, this.field_219317_l, this::func_219275_d);

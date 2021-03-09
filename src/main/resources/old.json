@@ -29,3 +29,13 @@
 "tictacs.unblocking.WorldMixin",
 "tictacs.starlight.StarlightServerWorldMixin",
 */
+,
+
+"dimthread.EntityMixin",
+"dimthread.RedstoneWireBlockMixin",
+"dimthread.ServerChunkManagerMixin",
+"dimthread.WorldMixin"
+
+"krypton.flushconsolidation.ClientConnectionMixin",
+"krypton.flushconsolidation.EntityTrackerMixin",
+"krypton.flushconsolidation.ThreadedAnvilChunkStorageMixin",

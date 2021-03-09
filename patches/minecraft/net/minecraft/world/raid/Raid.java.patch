@@ -1,6 +1,34 @@
 --- a/net/minecraft/world/raid/Raid.java
 +++ b/net/minecraft/world/raid/Raid.java
-@@ -769,7 +769,7 @@
+@@ -356,10 +356,23 @@
+    }
+ 
+    private void func_223027_y() {
+-      Stream<SectionPos> stream = SectionPos.func_218158_a(SectionPos.func_218167_a(this.field_221347_k), 2);
+-      stream.filter(this.field_221348_l::func_222887_a).map(SectionPos::func_218160_t).min(Comparator.comparingDouble((p_223025_1_) -> {
+-         return p_223025_1_.func_177951_i(this.field_221347_k);
+-      })).ifPresent(this::func_223024_c);
++      // Yatopia start - replace impl
++      BlockPos best = null;
++      for (SectionPos pos : SectionPos.getPosList(SectionPos.func_218167_a(field_221347_k), 2)) {
++         if (field_221348_l.func_222887_a(pos)) {
++            BlockPos asBlockPos = pos.func_218147_s();
++            if (best == null || asBlockPos.func_177951_i(field_221347_k) < best.func_177951_i(field_221347_k)) {
++               best = asBlockPos;
++            }
++         }
++      }
++      if (best != null) this.func_223024_c(best);
++      /*
++      Stream<SectionPos> stream = SectionPos.getAllInBox(SectionPos.from(this.center), 2);
++      stream.filter(this.world::isVillage).map(SectionPos::getCenter).min(Comparator.comparingDouble((p_223025_1_) -> {
++         return p_223025_1_.distanceSq(this.center);
++      })).ifPresent(this::setCenter);
++       */ // Yatopia end
+    }
+ 
+    private Optional<BlockPos> func_221313_d(int p_221313_1_) {
+@@ -769,7 +782,7 @@
        }
     }
  
@@ -9,7 +37,7 @@
        VINDICATOR(EntityType.field_200758_ax, new int[]{0, 0, 2, 0, 1, 4, 2, 5}),
        EVOKER(EntityType.field_200806_t, new int[]{0, 0, 0, 0, 0, 1, 1, 2}),
        PILLAGER(EntityType.field_220350_aJ, new int[]{0, 4, 3, 3, 4, 4, 4, 2}),
-@@ -784,5 +784,19 @@
+@@ -784,5 +797,19 @@
           this.field_221285_g = p_i50602_3_;
           this.field_221286_h = p_i50602_4_;
        }

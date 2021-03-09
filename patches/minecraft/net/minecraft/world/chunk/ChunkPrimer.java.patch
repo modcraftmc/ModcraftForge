@@ -1,6 +1,37 @@
 --- a/net/minecraft/world/chunk/ChunkPrimer.java
 +++ b/net/minecraft/world/chunk/ChunkPrimer.java
-@@ -138,13 +138,13 @@
+@@ -87,13 +87,28 @@
+ 
+    }
+ 
++   @Override
+    public BlockState func_180495_p(BlockPos p_180495_1_) {
+-      int i = p_180495_1_.func_177956_o();
++      return getType(p_180495_1_.func_177958_n(), p_180495_1_.func_177956_o(), p_180495_1_.func_177952_p());
++   }
++   // Paper start
++   public BlockState getType(final int x, final int y, final int z) {
++      if (y < 0 || y >= 256) {
++         return Blocks.field_201940_ji.func_176223_P();
++      } else {
++         ChunkSection chunksection = this.func_76587_i()[y >> 4];
++         return chunksection == Chunk.field_186036_a || chunksection.func_76663_a() ? Blocks.field_150350_a.func_176223_P() : chunksection.func_177485_a(x & 15, y & 15, z & 15);
++      }
++   }
++   // Paper end
++
++   public BlockState getBlockState_old(BlockPos pos) {
++      int i = pos.func_177956_o();
+       if (World.func_217405_b(i)) {
+          return Blocks.field_201940_ji.func_176223_P();
+       } else {
+          ChunkSection chunksection = this.func_76587_i()[i >> 4];
+-         return ChunkSection.func_222628_a(chunksection) ? Blocks.field_150350_a.func_176223_P() : chunksection.func_177485_a(p_180495_1_.func_177958_n() & 15, i & 15, p_180495_1_.func_177952_p() & 15);
++         return ChunkSection.func_222628_a(chunksection) ? Blocks.field_150350_a.func_176223_P() : chunksection.func_177485_a(pos.func_177958_n() & 15, i & 15, pos.func_177952_p() & 15);
+       }
+    }
+ 
+@@ -138,13 +153,13 @@
           if (this.field_201661_i[j >> 4] == Chunk.field_186036_a && p_177436_2_.func_203425_a(Blocks.field_150350_a)) {
              return p_177436_2_;
           } else {
@@ -16,3 +47,11 @@
                 WorldLightManager worldlightmanager = this.func_217307_e();
                 worldlightmanager.func_215568_a(p_177436_1_);
              }
+@@ -202,6 +217,7 @@
+       return this.field_201659_g.get(p_175625_1_);
+    }
+ 
++
+    public Map<BlockPos, TileEntity> func_201627_k() {
+       return this.field_201659_g;
+    }

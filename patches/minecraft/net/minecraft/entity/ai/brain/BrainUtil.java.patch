@@ -1,0 +1,30 @@
+--- a/net/minecraft/entity/ai/brain/BrainUtil.java
++++ b/net/minecraft/entity/ai/brain/BrainUtil.java
+@@ -87,9 +87,24 @@
+ 
+    public static SectionPos func_220617_a(ServerWorld p_220617_0_, SectionPos p_220617_1_, int p_220617_2_) {
+       int i = p_220617_0_.func_217486_a(p_220617_1_);
+-      return SectionPos.func_218158_a(p_220617_1_, p_220617_2_).filter((p_220620_2_) -> {
+-         return p_220617_0_.func_217486_a(p_220620_2_) < i;
+-      }).min(Comparator.comparingInt(p_220617_0_::func_217486_a)).orElse(p_220617_1_);
++      // Yatopia start - replace stream
++
++      SectionPos best = null;
++      for (SectionPos pos : SectionPos.getPosList(p_220617_1_, p_220617_2_)) {
++         if (p_220617_0_.func_217486_a(pos) < i) {
++            if (best == null || p_220617_0_.func_217486_a(pos) < p_220617_0_.func_217486_a(best)) {
++               best = pos;
++            }
++         }
++      }
++      if (best == null) best = p_220617_1_;
++      return best;
++      /*
++      return SectionPos.getAllInBox(sectionPosIn, radius).filter((p_220620_2_) -> {
++         return serverWorldIn.sectionsToVillage(p_220620_2_) < i;
++      }).min(Comparator.comparingInt(serverWorldIn::sectionsToVillage)).orElse(sectionPosIn);
++
++       */ // Yatopia end
+    }
+ 
+    public static boolean func_233869_a_(MobEntity p_233869_0_, LivingEntity p_233869_1_, int p_233869_2_) {

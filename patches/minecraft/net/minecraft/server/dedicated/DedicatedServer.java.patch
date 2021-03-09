@@ -9,17 +9,22 @@
  import net.minecraft.command.CommandSource;
  import net.minecraft.crash.CrashReport;
  import net.minecraft.entity.player.PlayerEntity;
-@@ -79,8 +81,10 @@
-    }
- 
+@@ -81,6 +83,7 @@
     public boolean func_71197_b() throws IOException {
-+      ModcraftEntryPoint.load();
        Thread thread = new Thread("Server console handler") {
           public void run() {
 +            if (net.minecraftforge.server.console.TerminalHandler.handleCommands(DedicatedServer.this)) return;
              BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
  
              String s1;
+@@ -94,6 +97,7 @@
+ 
+          }
+       };
++      ModcraftEntryPoint.load();
+       thread.setDaemon(true);
+       thread.setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(field_155771_h));
+       thread.start();
 @@ -162,11 +166,13 @@
           SkullTileEntity.func_184293_a(this.func_152358_ax());
           SkullTileEntity.func_184294_a(this.func_147130_as());

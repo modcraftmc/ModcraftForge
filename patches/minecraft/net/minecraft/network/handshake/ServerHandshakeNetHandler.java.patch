@@ -1,10 +1,61 @@
 --- a/net/minecraft/network/handshake/ServerHandshakeNetHandler.java
 +++ b/net/minecraft/network/handshake/ServerHandshakeNetHandler.java
-@@ -23,6 +23,7 @@
+@@ -1,5 +1,9 @@
+ package net.minecraft.network.handshake;
+ 
++import com.google.gson.Gson;
++import com.mojang.authlib.properties.Property;
++import com.mojang.util.UUIDTypeAdapter;
++import fr.modcraftmc.forge.ModcraftEntryPoint;
+ import net.minecraft.network.NetworkManager;
+ import net.minecraft.network.ProtocolType;
+ import net.minecraft.network.handshake.client.CHandshakePacket;
+@@ -12,6 +16,9 @@
+ import net.minecraft.util.text.StringTextComponent;
+ import net.minecraft.util.text.TranslationTextComponent;
+ 
++import java.net.InetSocketAddress;
++import java.util.Arrays;
++
+ public class ServerHandshakeNetHandler implements IHandshakeNetHandler {
+    private static final ITextComponent field_241169_a_ = new StringTextComponent("Ignoring status request");
+    private final MinecraftServer field_147387_a;
+@@ -22,7 +29,9 @@
+       this.field_147386_b = p_i45295_2_;
     }
  
++   private static final Gson gson = new Gson();
     public void func_147383_a(CHandshakePacket p_147383_1_) {
 +      if (!net.minecraftforge.fml.server.ServerLifecycleHooks.handleServerLogin(p_147383_1_, this.field_147386_b)) return;
        switch(p_147383_1_.func_149594_c()) {
        case LOGIN:
           this.field_147386_b.func_150723_a(ProtocolType.LOGIN);
+@@ -37,7 +46,28 @@
+             this.field_147386_b.func_179290_a(new SDisconnectLoginPacket(itextcomponent));
+             this.field_147386_b.func_150718_a(itextcomponent);
+          } else {
++
+             this.field_147386_b.func_150719_a(new ServerLoginNetHandler(this.field_147387_a, this.field_147386_b));
++            if (ModcraftEntryPoint.bungee) {
++               String[] split = p_147383_1_.field_149598_b.split("\00");
++               if (split.length == 3 || split.length == 4) {
++                  p_147383_1_.field_149598_b = split[0];
++                  this.field_147386_b.field_150743_l = new InetSocketAddress(split[1], ((InetSocketAddress) this.field_147386_b.func_74430_c()).getPort());
++                  this.field_147386_b.bridge$setSpoofedUUID(UUIDTypeAdapter.fromString(split[2]));
++                  System.out.println(Arrays.toString(split));
++                  System.out.println(this.field_147386_b.bridge$getSpoofedUUID());
++               } else {
++                  TranslationTextComponent component = new TranslationTextComponent("If you wish to use IP forwarding, please enable it in your BungeeCord config as well!");
++                  this.field_147386_b.func_179290_a(new SDisconnectLoginPacket(component));
++                  this.field_147386_b.func_150718_a(component);
++                  return;
++               }
++               if (split.length == 4) {
++                  field_147386_b.bridge$setSpoofedProfile(gson.fromJson(split[3], Property[].class));
++               }
++            }
++            ((ServerLoginNetHandler)this.field_147386_b.func_150729_e()).bridge$setHostname(p_147383_1_.field_149598_b + ":" + p_147383_1_.field_149599_c);
++
+          }
+          break;
+       case STATUS:

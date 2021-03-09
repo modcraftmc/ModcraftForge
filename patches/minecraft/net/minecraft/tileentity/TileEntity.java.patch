@@ -1,6 +1,6 @@
 --- a/net/minecraft/tileentity/TileEntity.java
 +++ b/net/minecraft/tileentity/TileEntity.java
-@@ -16,7 +16,7 @@
+@@ -16,19 +16,22 @@
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
  
@@ -9,7 +9,10 @@
     private static final Logger field_145852_a = LogManager.getLogger();
     private final TileEntityType<?> field_200663_e;
     @Nullable
-@@ -26,9 +26,12 @@
+-   protected World field_145850_b;
++   public World field_145850_b;
+    protected BlockPos field_174879_c = BlockPos.field_177992_a;
+    protected boolean field_145846_f;
     @Nullable
     private BlockState field_195045_e;
     private boolean field_222816_g;

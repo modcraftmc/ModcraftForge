@@ -1,0 +1,14 @@
+--- a/net/minecraft/entity/ai/goal/Goal.java
++++ b/net/minecraft/entity/ai/goal/Goal.java
+@@ -19,8 +19,11 @@
+    }
+ 
+    public void func_75251_c() {
++      onTaskReset();
+    }
+ 
++   public void onTaskReset() {} // Paper
++
+    public void func_75246_d() {
+    }
+ 

@@ -1,0 +1,12 @@
+--- a/net/minecraft/server/integrated/IntegratedPlayerList.java
++++ b/net/minecraft/server/integrated/IntegratedPlayerList.java
+@@ -29,9 +29,6 @@
+       super.func_72391_b(p_72391_1_);
+    }
+ 
+-   public ITextComponent func_206258_a(SocketAddress p_206258_1_, GameProfile p_206258_2_) {
+-      return (ITextComponent)(p_206258_2_.getName().equalsIgnoreCase(this.func_72365_p().func_71214_G()) && this.func_152612_a(p_206258_2_.getName()) != null ? new TranslationTextComponent("multiplayer.disconnect.name_taken") : super.func_206258_a(p_206258_1_, p_206258_2_));
+-   }
+ 
+    public IntegratedServer func_72365_p() {
+       return (IntegratedServer)super.func_72365_p();

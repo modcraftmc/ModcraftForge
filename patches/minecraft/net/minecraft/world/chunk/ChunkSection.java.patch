@@ -1,7 +1,11 @@
 --- a/net/minecraft/world/chunk/ChunkSection.java
 +++ b/net/minecraft/world/chunk/ChunkSection.java
-@@ -20,7 +20,7 @@
-    private short field_76682_b;
+@@ -17,10 +17,10 @@
+ public class ChunkSection {
+    private static final IPalette<BlockState> field_205512_a = new IdentityPalette<>(Block.field_176229_d, Blocks.field_150350_a.func_176223_P());
+    private final int field_76684_a;
+-   private short field_76682_b;
++   public short field_76682_b;
     private short field_76683_c;
     private short field_206918_e;
 -   private final PalettedContainer<BlockState> field_177488_d;
@@ -9,3 +13,11 @@
  
     public ChunkSection(int p_i49943_1_) {
        this(p_i49943_1_, (short)0, (short)0, (short)0);
+@@ -34,6 +34,7 @@
+       this.field_177488_d = new PalettedContainer<>(field_205512_a, Block.field_176229_d, NBTUtil::func_190008_d, NBTUtil::func_190009_a, Blocks.field_150350_a.func_176223_P());
+    }
+ 
++
+    public BlockState func_177485_a(int p_177485_1_, int p_177485_2_, int p_177485_3_) {
+       return this.field_177488_d.func_186016_a(p_177485_1_, p_177485_2_, p_177485_3_);
+    }

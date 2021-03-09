@@ -1,6 +1,32 @@
 --- a/net/minecraft/world/server/TicketManager.java
 +++ b/net/minecraft/world/server/TicketManager.java
-@@ -37,7 +37,7 @@
+@@ -3,6 +3,7 @@
+ import com.google.common.collect.ImmutableList;
+ import com.google.common.collect.Sets;
+ import com.mojang.datafixers.util.Either;
++import fr.modcraftmc.forge.utils.ModcraftUtils;
+ import it.unimi.dsi.fastutil.longs.Long2ByteMap;
+ import it.unimi.dsi.fastutil.longs.Long2ByteOpenHashMap;
+ import it.unimi.dsi.fastutil.longs.Long2IntMap;
+@@ -22,14 +23,17 @@
+ import java.util.concurrent.Executor;
+ import javax.annotation.Nullable;
+ import net.minecraft.entity.player.ServerPlayerEntity;
++import net.minecraft.server.MinecraftServer;
+ import net.minecraft.util.SortedArraySet;
+ import net.minecraft.util.concurrent.ITaskExecutor;
++import net.minecraft.util.math.BlockPos;
+ import net.minecraft.util.math.ChunkPos;
+ import net.minecraft.util.math.SectionPos;
+ import net.minecraft.world.chunk.Chunk;
+ import net.minecraft.world.chunk.ChunkDistanceGraph;
+ import net.minecraft.world.chunk.ChunkStatus;
+ import net.minecraft.world.chunk.ChunkTaskPriorityQueueSorter;
++import net.minecraftforge.fml.server.ServerLifecycleHooks;
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
+ 
+@@ -37,9 +41,10 @@
     private static final Logger field_219373_a = LogManager.getLogger();
     private static final int field_219374_b = 33 + ChunkStatus.func_222599_a(ChunkStatus.field_222617_m) - 2;
     private final Long2ObjectMap<ObjectSet<ServerPlayerEntity>> field_219375_c = new Long2ObjectOpenHashMap<>();
@@ -8,17 +34,32 @@
 +   public final Long2ObjectOpenHashMap<SortedArraySet<Ticket<?>>> field_219377_e = new Long2ObjectOpenHashMap<>();
     private final TicketManager.ChunkTicketTracker field_219378_f = new TicketManager.ChunkTicketTracker();
     private final TicketManager.PlayerChunkTracker field_219381_i = new TicketManager.PlayerChunkTracker(8);
++   public static final int MOB_SPAWN_RANGE = 8;
     private final TicketManager.PlayerTicketTracker field_219382_j = new TicketManager.PlayerTicketTracker(33);
-@@ -49,6 +49,8 @@
+    private final Set<ChunkHolder> field_219383_k = Sets.newHashSet();
+    private final ChunkTaskPriorityQueueSorter field_219384_l;
+@@ -49,7 +54,19 @@
     private final Executor field_219388_p;
     private long field_219389_q;
  
+-   protected TicketManager(Executor p_i50707_1_, Executor p_i50707_2_) {
++   public static final int PRIORITY_TICKET_LEVEL = ChunkManager.field_219249_a;
++
++   ChunkManager chunkMap; // Paper
++
++   public void clearPriorityTickets(ChunkPos coords) {
++      this.release(coords.func_201841_a(), new Ticket<ChunkPos>(TicketType.PRIORITY, PRIORITY_TICKET_LEVEL, coords));
++   }
++
++
 +   private final Long2ObjectOpenHashMap<SortedArraySet<Ticket<?>>> forcedTickets = new Long2ObjectOpenHashMap<>();
 +
-    protected TicketManager(Executor p_i50707_1_, Executor p_i50707_2_) {
++   protected TicketManager(Executor p_i50707_1_, Executor p_i50707_2_, ChunkManager chunkManager) {
++      this.chunkMap = chunkManager;
        ITaskExecutor<Runnable> itaskexecutor = ITaskExecutor.func_213140_a("player ticket throttler", p_i50707_2_::execute);
        ChunkTaskPriorityQueueSorter chunktaskpriorityqueuesorter = new ChunkTaskPriorityQueueSorter(ImmutableList.of(itaskexecutor), p_i50707_1_, 4);
-@@ -143,6 +145,10 @@
+       this.field_219384_l = chunktaskpriorityqueuesorter;
+@@ -143,27 +160,41 @@
           this.field_219378_f.func_215491_b(p_219347_1_, p_219347_3_.func_219477_b(), true);
        }
  
@@ -28,22 +69,93 @@
 +      }
     }
  
-    private void func_219349_b(long p_219349_1_, Ticket<?> p_219349_3_) {
-@@ -155,6 +161,13 @@
+-   private void func_219349_b(long p_219349_1_, Ticket<?> p_219349_3_) {
+-      SortedArraySet<Ticket<?>> sortedarrayset = this.func_229848_e_(p_219349_1_);
+-      if (sortedarrayset.remove(p_219349_3_)) {
++   private boolean release(long chunkPosIn, Ticket<?> ticketIn) {
++      SortedArraySet<Ticket<?>> sortedarrayset = this.func_229848_e_(chunkPosIn);
++      boolean removed = false; // CraftBukkit
++      if (sortedarrayset.remove(ticketIn)) {
++         removed = true;
        }
  
-       this.field_219378_f.func_215491_b(p_219349_1_, func_229844_a_(sortedarrayset), false);
+       if (sortedarrayset.isEmpty()) {
+-         this.field_219377_e.remove(p_219349_1_);
++         this.field_219377_e.remove(chunkPosIn);
+       }
+ 
+-      this.field_219378_f.func_215491_b(p_219349_1_, func_229844_a_(sortedarrayset), false);
++      this.field_219378_f.func_215491_b(chunkPosIn, func_229844_a_(sortedarrayset), false);
 +
-+      if (p_219349_3_.isForceTicks()) {
-+          SortedArraySet<Ticket<?>> tickets = forcedTickets.get(p_219349_1_);
++      if (ticketIn.isForceTicks()) {
++          SortedArraySet<Ticket<?>> tickets = forcedTickets.get(chunkPosIn);
 +          if (tickets != null) {
-+              tickets.remove(p_219349_3_);
++              tickets.remove(ticketIn);
 +          }
 +      }
++      return removed; // CraftBukkit
     }
  
     public <T> void func_219356_a(TicketType<T> p_219356_1_, ChunkPos p_219356_2_, int p_219356_3_, T p_219356_4_) {
-@@ -242,7 +255,12 @@
+       this.func_219347_a(p_219356_2_.func_201841_a(), new Ticket<>(p_219356_1_, p_219356_3_, p_219356_4_));
+    }
+ 
+-   public <T> void func_219345_b(TicketType<T> p_219345_1_, ChunkPos p_219345_2_, int p_219345_3_, T p_219345_4_) {
+-      Ticket<T> ticket = new Ticket<>(p_219345_1_, p_219345_3_, p_219345_4_);
+-      this.func_219349_b(p_219345_2_.func_201841_a(), ticket);
++   public <T> boolean releaseWithLevel(TicketType<T> type, ChunkPos pos, int level, T value) {
++      Ticket<T> ticket = new Ticket<>(type, level, value);
++      return this.release(pos.func_201841_a(), ticket);
+    }
+ 
+    public <T> void func_219331_c(TicketType<T> p_219331_1_, ChunkPos p_219331_2_, int p_219331_3_, T p_219331_4_) {
+@@ -172,9 +203,17 @@
+ 
+    public <T> void func_219362_d(TicketType<T> p_219362_1_, ChunkPos p_219362_2_, int p_219362_3_, T p_219362_4_) {
+       Ticket<T> ticket = new Ticket<>(p_219362_1_, 33 - p_219362_3_, p_219362_4_);
+-      this.func_219349_b(p_219362_2_.func_201841_a(), ticket);
++      this.release(p_219362_2_.func_201841_a(), ticket);
+    }
+ 
++   public <T> void registerTicking(TicketType<T> type, ChunkPos pos, int distance, T value) {
++      this.func_219347_a(pos.func_201841_a(), new Ticket<>(type, 33 - distance, value, true));
++   }
++
++   public <T> void releaseTicking(TicketType<T> type, ChunkPos pos, int distance, T value) {
++      this.release(pos.func_201841_a(), new Ticket<>(type, 33 - distance, value, true));
++   }
++
+    private SortedArraySet<Ticket<?>> func_229848_e_(long p_229848_1_) {
+       return this.field_219377_e.computeIfAbsent(p_229848_1_, (p_229851_0_) -> {
+          return SortedArraySet.func_226172_a_(4);
+@@ -186,7 +225,7 @@
+       if (p_219364_2_) {
+          this.func_219347_a(p_219364_1_.func_201841_a(), ticket);
+       } else {
+-         this.func_219349_b(p_219364_1_.func_201841_a(), ticket);
++         this.release(p_219364_1_.func_201841_a(), ticket);
+       }
+ 
+    }
+@@ -229,8 +268,15 @@
+    }
+ 
+    public int func_219358_b() {
+-      this.field_219381_i.func_215497_a();
+-      return this.field_219381_i.field_215498_a.size();
++      // Paper start - use distance map to implement
++      // note: this is the spawn chunk count
++      return this.chunkMap.playerChunkTickRangeMap.size();
++      // Paper end - use distance map to implement
++      /*
++      this.playerChunkTracker.processAllUpdates();
++      return this.playerChunkTracker.chunksInRange.size();
++
++       */
+    }
+ 
+    public boolean func_223494_d(long p_223494_1_) {
+@@ -242,7 +288,12 @@
        return this.field_219384_l.func_225396_a();
     }
  
@@ -57,7 +169,7 @@
        public ChunkTicketTracker() {
           super(ChunkManager.field_219249_a + 2, 16, 256);
        }
-@@ -284,7 +302,7 @@
+@@ -284,7 +335,7 @@
        }
     }
  
@@ -66,7 +178,7 @@
        protected final Long2ByteMap field_215498_a = new Long2ByteOpenHashMap();
        protected final int field_215499_b;
  
-@@ -326,7 +344,7 @@
+@@ -326,7 +377,7 @@
        }
     }
  
@@ -75,3 +187,201 @@
        private int field_215512_e;
        private final Long2IntMap field_215513_f = Long2IntMaps.synchronize(new Long2IntOpenHashMap());
        private final LongSet field_215514_g = new LongOpenHashSet();
+@@ -353,26 +404,52 @@
+ 
+       private void func_215504_a(long p_215504_1_, int p_215504_3_, boolean p_215504_4_, boolean p_215504_5_) {
+          if (p_215504_4_ != p_215504_5_) {
+-            Ticket<?> ticket = new Ticket<>(TicketType.field_219490_c, TicketManager.field_219374_b, new ChunkPos(p_215504_1_));
++            ChunkPos coords = new ChunkPos(p_215504_1_); // Paper
++            Ticket<?> ticket = new Ticket<>(TicketType.field_219490_c, 33, coords); // Paper - no-tick view distance
+             if (p_215504_5_) {
+-               TicketManager.this.field_219385_m.func_212871_a_(ChunkTaskPriorityQueueSorter.func_219069_a(() -> {
+-                  TicketManager.this.field_219388_p.execute(() -> {
+-                     if (this.func_215505_c(this.func_215471_c(p_215504_1_))) {
+-                        TicketManager.this.func_219347_a(p_215504_1_, ticket);
+-                        TicketManager.this.field_219387_o.add(p_215504_1_);
+-                     } else {
+-                        TicketManager.this.field_219386_n.func_212871_a_(ChunkTaskPriorityQueueSorter.func_219073_a(() -> {
+-                        }, p_215504_1_, false));
+-                     }
+ 
+-                  });
+-               }, p_215504_1_, () -> {
+-                  return p_215504_3_;
+-               }));
++               scheduleChunkLoad(p_215504_1_, MinecraftServer.currentTick, p_215504_3_, (priority) -> {
++                  if (!isChunkInRange(p_215504_1_)) {
++                     TicketManager.this.field_219386_n.func_212871_a_(ChunkTaskPriorityQueueSorter.func_219073_a(() -> {
++                        TicketManager.this.field_219388_p.execute(() -> {
++                           TicketManager.this.release(p_215504_1_, ticket);
++                           TicketManager.this.clearPriorityTickets(coords);
++                        });
++                     }, p_215504_1_, false));
++                     return;
++                  }
++
++                  // abort early if we got a ticket already
++                  if (hasPlayerTicket(coords, 33)) return;
++                  // skip player ticket throttle for near chunks
++                  if (priority <= 3) {
++                     TicketManager.this.func_219347_a(p_215504_1_, ticket);
++                     TicketManager.this.field_219387_o.add(p_215504_1_);
++                     return;
++                  }
++                  // Paper end
++
++                  TicketManager.this.field_219385_m.func_212871_a_(ChunkTaskPriorityQueueSorter.func_219069_a(() -> {
++                     TicketManager.this.field_219388_p.execute(() -> {
++                        if (this.func_215505_c(this.func_215471_c(p_215504_1_))) {
++                           TicketManager.this.func_219347_a(p_215504_1_, ticket);
++                           TicketManager.this.field_219387_o.add(p_215504_1_);
++                        } else {
++                           TicketManager.this.field_219386_n.func_212871_a_(ChunkTaskPriorityQueueSorter.func_219073_a(() -> {
++                           }, p_215504_1_, false));
++                        }
++
++                     });
++                  }, p_215504_1_, () -> {
++                     return p_215504_3_;
++                  }));
++
++               });
+             } else {
+                TicketManager.this.field_219386_n.func_212871_a_(ChunkTaskPriorityQueueSorter.func_219073_a(() -> {
+                   TicketManager.this.field_219388_p.execute(() -> {
+-                     TicketManager.this.func_219349_b(p_215504_1_, ticket);
++                     TicketManager.this.release(p_215504_1_, ticket);
++                     TicketManager.this.clearPriorityTickets(coords); // Paper
+                   });
+                }, p_215504_1_, true));
+             }
+@@ -380,6 +457,129 @@
+ 
+       }
+ 
++      // Paper start - smart scheduling of player tickets
++      private boolean isChunkInRange(long i) {
++         return this.func_215505_c(this.func_215471_c(i));
++      }
++      public void scheduleChunkLoad(long i, long startTick, int initialDistance, java.util.function.Consumer<Integer> task) {
++         System.out.println("test");
++         long elapsed = MinecraftServer.currentTick - startTick;
++         ChunkPos chunkPos = new ChunkPos(i);
++         ChunkHolder updatingChunk = chunkMap.func_219220_a(i);
++         if ((updatingChunk != null && updatingChunk.isFullChunkReady()) || !isChunkInRange(i) || getChunkPriority(chunkPos) > 0) { // Copied from above
++            // no longer needed
++            task.accept(1);
++            return;
++         }
++
++         int desireDelay = 0;
++         double minDist = Double.MAX_VALUE;
++         com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayerEntity> players = chunkMap.playerViewDistanceNoTickMap.getObjectsInRange(i);
++         if (elapsed == 0 && initialDistance <= 4) {
++            // Aim for no delay on initial 6 chunk radius tickets save on performance of the below code to only > 6
++            minDist = initialDistance;
++         } else if (players != null) {
++            Object[] backingSet = players.getBackingSet();
++
++            BlockPos blockPos = chunkPos.func_206849_h();
++
++            boolean isFront = false;
++            BlockPos.Mutable pos = new BlockPos.Mutable();
++            for (int index = 0, len = backingSet.length; index < len; ++index) {
++               if (!(backingSet[index] instanceof ServerPlayerEntity)) {
++                  continue;
++               }
++               ServerPlayerEntity player = (ServerPlayerEntity) backingSet[index];
++
++               ChunkPos pointInFront = player.getChunkInFront(5);
++               pos.func_181079_c(pointInFront.field_77276_a << 4, 0, pointInFront.field_77275_b << 4);
++               double frontDist = ModcraftUtils.distanceSq(pos, blockPos);
++
++               pos.func_189532_c(player.func_226277_ct_(), 0, player.func_226281_cx_());
++               double center = ModcraftUtils.distanceSq(pos, blockPos);
++
++               double dist = Math.min(frontDist, center);
++               if (!isFront) {
++                  ChunkPos pointInBack = player.getChunkInFront(-7);
++                  pos.func_181079_c(pointInBack.field_77276_a << 4, 0, pointInBack.field_77275_b << 4);
++                  double backDist = ModcraftUtils.distanceSq(pos, blockPos);
++                  if (frontDist < backDist) {
++                     isFront = true;
++                  }
++               }
++               if (dist < minDist) {
++                  minDist = dist;
++               }
++            }
++            if (minDist == Double.MAX_VALUE) {
++               minDist = 15;
++            } else {
++               minDist = Math.sqrt(minDist) / 16;
++            }
++            if (minDist > 4) {
++               int desiredTimeDelayMax = isFront ?
++                       (minDist < 10 ? 7 : 15) : // Front
++                       (minDist < 10 ? 15 : 45); // Back
++               desireDelay += (desiredTimeDelayMax * 20) * (minDist / 32);
++            }
++         } else {
++            minDist = initialDistance;
++            desireDelay = 1;
++         }
++         long delay = desireDelay - elapsed;
++         if (delay <= 0 && minDist > 4 && minDist < Double.MAX_VALUE) {
++            boolean hasAnyNeighbor = false;
++            for (int x = -1; x <= 1; x++) {
++               for (int z = -1; z <= 1; z++) {
++                  if (x == 0 && z == 0) continue;
++                  long pair = ChunkPos.func_77272_a(chunkPos.field_77276_a + x, chunkPos.field_77275_b + z);
++                  ChunkHolder neighbor = chunkMap.func_219220_a(pair);
++                  ChunkStatus current = neighbor != null ? neighbor.getChunkHolderStatus() : null;
++                  if (current != null && current.func_209003_a(ChunkStatus.field_222614_j)) {
++                     hasAnyNeighbor = true;
++                  }
++               }
++            }
++            if (!hasAnyNeighbor) {
++               delay += 20;
++            }
++         }
++         if (delay <= 0) {
++            task.accept((int) minDist);
++         } else {
++            int taskDelay = (int) Math.min(delay, minDist >= 10 ? 40 : (minDist < 6 ? 5 : 20));
++            ServerLifecycleHooks.getCurrentServer().getScheduler().scheduleInternalTask(() -> scheduleChunkLoad(i, startTick, initialDistance, task), taskDelay,"Player Ticket Delayer");
++         }
++      }
++
++      public int getChunkPriority(ChunkPos coords) {
++         SortedArraySet<Ticket<?>> tickets = TicketManager.this.field_219377_e.get(coords.func_201841_a());
++         if (tickets == null) {
++            return 0;
++         }
++         for (Ticket<?> ticket : tickets) {
++            if (ticket.func_219479_a() == TicketType.PRIORITY && ticket.priority > 0) {
++               return ticket.priority;
++            }
++         }
++         return 0;
++      }
++
++      private boolean hasPlayerTicket(ChunkPos coords, int level) {
++         SortedArraySet<Ticket<?>> tickets = TicketManager.this.field_219377_e.get(coords.func_201841_a());
++         if (tickets == null || tickets.isEmpty()) {
++            return false;
++         }
++         for (Ticket<?> ticket : tickets) {
++            if (ticket.func_219479_a() == TicketType.field_219490_c && ticket.func_219477_b() == level) {
++               return true;
++            }
++         }
++
++         return false;
++      }
++      // Paper end
++
+       public void func_215497_a() {
+          super.func_215497_a();
+          if (!this.field_215514_g.isEmpty()) {

@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
  * Mixes into various methods in {@code ThreadedAnvilChunkStorage} to utilize flush consolidation for sending chunks
  * all at once to the client. Helpful for heavy server activity or flying very quickly.
  */
-@Mixin(ChunkManager.class)
+@Mixin(value = ChunkManager.class, priority = 1020)
 public abstract class ThreadedAnvilChunkStorageMixin {
     @Shadow @Final private Int2ObjectMap<ChunkManager.EntityTracker> entities;
     @Shadow @Final private PlayerGenerationTracker playerGenerationTracker;

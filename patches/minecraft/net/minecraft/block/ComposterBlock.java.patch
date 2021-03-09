@@ -1,0 +1,22 @@
+--- a/net/minecraft/block/ComposterBlock.java
++++ b/net/minecraft/block/ComposterBlock.java
+@@ -322,7 +322,8 @@
+       }
+ 
+       public int[] func_180463_a(Direction p_180463_1_) {
+-         return p_180463_1_ == Direction.DOWN ? new int[]{0} : new int[0];
++         //return side == Direction.DOWN ? new int[]{0} : new int[0];
++         return p_180463_1_ == Direction.UP ? org.yatopia.server.Constants.ZERO_ARRAY : org.yatopia.server.Constants.EMPTY_ARRAY; // Yatopia - avoid array allocation
+       }
+ 
+       public boolean func_180462_a(int p_180462_1_, ItemStack p_180462_2_, @Nullable Direction p_180462_3_) {
+@@ -357,7 +358,8 @@
+       }
+ 
+       public int[] func_180463_a(Direction p_180463_1_) {
+-         return p_180463_1_ == Direction.UP ? new int[]{0} : new int[0];
++         //return side == Direction.UP ? new int[]{0} : new int[0];
++         return p_180463_1_ == Direction.DOWN ? org.yatopia.server.Constants.ZERO_ARRAY : org.yatopia.server.Constants.EMPTY_ARRAY; // Yatopia - avoid array allocation
+       }
+ 
+       public boolean func_180462_a(int p_180462_1_, ItemStack p_180462_2_, @Nullable Direction p_180462_3_) {

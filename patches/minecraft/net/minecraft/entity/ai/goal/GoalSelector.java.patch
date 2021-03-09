@@ -1,0 +1,45 @@
+--- a/net/minecraft/entity/ai/goal/GoalSelector.java
++++ b/net/minecraft/entity/ai/goal/GoalSelector.java
+@@ -7,6 +7,8 @@
+ import java.util.Set;
+ import java.util.function.Supplier;
+ import java.util.stream.Stream;
++
++import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
+ import net.minecraft.profiler.IProfiler;
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
+@@ -23,11 +25,32 @@
+       }
+    };
+    private final Map<Goal.Flag, PrioritizedGoal> field_220891_c = new EnumMap<>(Goal.Flag.class);
+-   private final Set<PrioritizedGoal> field_220892_d = Sets.newLinkedHashSet();
++   private final Set<PrioritizedGoal> field_220892_d = new ObjectLinkedOpenHashSet<>();
+    private final Supplier<IProfiler> field_75781_c;
+    private final EnumSet<Goal.Flag> field_220893_f = EnumSet.noneOf(Goal.Flag.class);
+    private int field_75779_e = 3;
++   private int curRate;private int getCurRate() { return curRate; } private void incRate() { this.curRate++; } // Paper TODO
+ 
++   // Paper start
++   public boolean inactiveTick(int tickRate) { // Airplane - take tick rate
++      tickRate = Math.max(tickRate, tickRate); // Airplane
++      if (this.curRate++ % tickRate != 0) { // Airplane - use tick rate / increment curRate every tick
++         //incRate();
++         return false;
++      } else {
++         return true;
++      }
++   }
++   public boolean hasTasks() {
++      for (PrioritizedGoal task : field_220892_d) {
++         if (task.func_220773_g()) {
++            return true;
++         }
++      }
++      return false;
++   }
++   // Paper end
++
+    public GoalSelector(Supplier<IProfiler> p_i231546_1_) {
+       this.field_75781_c = p_i231546_1_;
+    }

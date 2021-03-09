@@ -1,0 +1,11 @@
+--- a/net/minecraft/block/LecternBlock.java
++++ b/net/minecraft/block/LecternBlock.java
+@@ -178,7 +178,7 @@
+    }
+ 
+    private void func_220150_d(BlockState p_220150_1_, World p_220150_2_, BlockPos p_220150_3_) {
+-      TileEntity tileentity = p_220150_2_.func_175625_s(p_220150_3_);
++      TileEntity tileentity = p_220150_2_.getTileEntity(p_220150_3_, false); // CraftBukkit - don't validate, type may be changed already
+       if (tileentity instanceof LecternTileEntity) {
+          LecternTileEntity lecterntileentity = (LecternTileEntity)tileentity;
+          Direction direction = p_220150_1_.func_177229_b(field_220156_a);

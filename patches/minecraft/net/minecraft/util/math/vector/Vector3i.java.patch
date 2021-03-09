@@ -1,0 +1,15 @@
+--- a/net/minecraft/util/math/vector/Vector3i.java
++++ b/net/minecraft/util/math/vector/Vector3i.java
+@@ -21,9 +21,9 @@
+       return IntStream.of(p_239782_0_.func_177958_n(), p_239782_0_.func_177956_o(), p_239782_0_.func_177952_p());
+    });
+    public static final Vector3i field_177959_e = new Vector3i(0, 0, 0);
+-   private int field_177962_a;
+-   private int field_177960_b;
+-   private int field_177961_c;
++   protected int field_177962_a;
++   protected int field_177960_b;
++   protected int field_177961_c;
+ 
+    public Vector3i(int p_i46007_1_, int p_i46007_2_, int p_i46007_3_) {
+       this.field_177962_a = p_i46007_1_;

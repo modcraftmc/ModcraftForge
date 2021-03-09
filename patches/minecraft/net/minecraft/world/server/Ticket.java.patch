@@ -1,7 +1,10 @@
 --- a/net/minecraft/world/server/Ticket.java
 +++ b/net/minecraft/world/server/Ticket.java
-@@ -9,9 +9,14 @@
+@@ -7,11 +7,17 @@
+    private final int field_219481_b;
+    private final T field_219482_c;
     private long field_219483_d;
++   public int priority = 0; // Paper
  
     protected Ticket(TicketType<T> p_i226095_1_, int p_i226095_2_, T p_i226095_3_) {
 +      this(p_i226095_1_, p_i226095_2_, p_i226095_3_, false);
@@ -15,7 +18,7 @@
     }
  
     public int compareTo(Ticket<?> p_compareTo_1_) {
-@@ -31,16 +36,16 @@
+@@ -31,16 +37,16 @@
           return false;
        } else {
           Ticket<?> ticket = (Ticket)p_equals_1_;
@@ -35,7 +38,7 @@
     }
  
     public TicketType<T> func_219479_a() {
-@@ -59,4 +64,11 @@
+@@ -59,4 +65,11 @@
        long i = this.field_219480_a.func_223184_b();
        return i != 0L && p_223182_1_ - this.field_219483_d > i;
     }

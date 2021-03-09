@@ -1,5 +1,14 @@
 --- a/net/minecraft/entity/MobEntity.java
 +++ b/net/minecraft/entity/MobEntity.java
+@@ -97,7 +97,7 @@
+    private ResourceLocation field_184659_bA;
+    private long field_184653_bB;
+    @Nullable
+-   private Entity field_110168_bw;
++   public Entity field_110168_bw;
+    private int field_213400_bI;
+    @Nullable
+    private CompoundNBT field_110170_bx;
 @@ -198,6 +198,7 @@
  
     public void func_70624_b(@Nullable LivingEntity p_70624_1_) {
