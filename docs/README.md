@@ -1,4 +1,4 @@
-⚠️ PROJECT HAS MOVED TO https://github.com/GoldenForge/GoldenForge ⚠️
+⚠️ **PROJECT HAS MOVED TO https://github.com/GoldenForge/GoldenForge** ⚠️
 ![Forge Logo](assets/Forge_logo.svg)
 
 MinecraftForge
